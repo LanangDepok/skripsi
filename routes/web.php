@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/1', function () {
+    return view('mahasiswa.index2');
+});
 
-Route::get('/', [AdminController::class, 'index']);
+//login
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
+
+//mahasiswa
+Route::controller(MahasiswaController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/pengajuan/judul', 'pengajuanJudul');
+    Route::get('/pengajuan/sempro', 'pengajuanSempro');
+    Route::get('/pengajuan/skripsi', 'pengajuanSkripsi');
+    Route::get('/logbook', 'logbook');
+    Route::get('/skripsi', 'skripsi');
+    Route::get('/informasi', 'informasi');
+    Route::get('/profile', 'profile');
+});

@@ -10,8 +10,5 @@ class AdminController extends Controller
     public function __construct(protected AdminService $adminService)
     {
     }
-    public function index()
-    {
-        return view('admin.index');
-    }
+
 }
