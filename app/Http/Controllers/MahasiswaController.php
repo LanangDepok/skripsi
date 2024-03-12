@@ -13,41 +13,61 @@ class MahasiswaController extends Controller
 
     public function index()
     {
-        return view('mahasiswa.index');
+        return view('mahasiswa.index', ['title' => 'index']);
     }
 
+    // pengajuan
     public function pengajuanJudul()
     {
-        return view('mahasiswa.pengajuanJudul');
+        return view('mahasiswa.pengajuan.pengajuanJudul', ['title' => 'pengajuan']);
     }
 
     public function pengajuanSempro()
     {
-        return view('mahasiswa.pengajuanSempro');
+        return view('mahasiswa.pengajuan.pengajuanSempro', ['title' => 'pengajuan']);
     }
 
     public function pengajuanSkripsi()
     {
-        return view('mahasiswa.pengajuanSkripsi');
+        return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
     }
 
-    public function logbook()
+    // logbook
+    public function getLogbooks()
     {
-        return view('mahasiswa.logbook');
+        return view('mahasiswa.logbook.index', ['title' => 'logbook']);
     }
 
-    public function skripsi()
+    public function createLogbook()
     {
-        return view('mahasiswa.skripsi');
+        return view('mahasiswa.logbook.logbookCreate', ['title' => 'logbook']);
     }
 
-    public function informasi()
+    // skripsi
+    public function getSkripsi()
     {
-        return view('mahasiswa.informasi');
+        return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
     }
 
-    public function profile()
+    public function editSkripsi()
     {
-        return view('mahasiswa.profile');
+        return view('mahasiswa.skripsi.skripsiEdit', ['title' => 'skripsi']);
+    }
+
+    // informasi
+    public function getInformations()
+    {
+        return view('mahasiswa.informasi.index', ['title' => 'informasi']);
+    }
+
+    // profile
+    public function getProfile()
+    {
+        return view('mahasiswa.profile.index', ['title' => 'profile']);
+    }
+
+    public function editProfile()
+    {
+        return view('mahasiswa.profile.profileEdit', ['title' => 'profile']);
     }
 }
