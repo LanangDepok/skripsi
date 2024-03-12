@@ -37,7 +37,7 @@
                     <th class="border-b border-slate-500 py-2">Nama</th>
                     <th class="border-b border-slate-500 py-2">NIM</th>
                     <th class="border-b border-slate-500 py-2">Kelas</th>
-                    <th class="border-b border-slate-500 py-2">Prodi</th>
+                    {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
                     <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
@@ -48,7 +48,7 @@
                     <td class="border-b border-slate-500 py-2 text-center">Bagas Rizkiyanto</td>
                     <td class="border-b border-slate-500 py-2 text-center">2007412006</td>
                     <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
+                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                     <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
                     <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                     <td class="text-center  border-b border-slate-500">
@@ -64,7 +64,7 @@
                     <td class="border-b border-slate-500 py-2 text-center">Bagas Rizkiyanto</td>
                     <td class="border-b border-slate-500 py-2 text-center">2007412006</td>
                     <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
+                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                     <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
                     <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                     <td class="text-center  border-b border-slate-500">
@@ -80,7 +80,7 @@
                     <td class="border-b border-slate-500 py-2 text-center">Bagas Rizkiyanto</td>
                     <td class="border-b border-slate-500 py-2 text-center">2007412006</td>
                     <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
+                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                     <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
                     <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                     <td class="text-center  border-b border-slate-500">

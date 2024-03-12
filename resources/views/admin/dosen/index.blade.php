@@ -42,8 +42,8 @@
                     <td class="border-b border-slate-500 py-2 text-center">Ketua Sidang</td>
                     <td class="border-b border-slate-500 py-2 text-center">3</td>
                     <td class="text-center  border-b border-slate-500">
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Detail</button>
+                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                href="/admin/dosen/1">Detail</a></button>
                         <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
                                 href="/admin/dosen/1/edit">Edit</a></button>
                         <button
@@ -70,8 +70,8 @@
                     <td class="border-b border-slate-500 py-2 text-center">Dosen Pembimbing</td>
                     <td class="border-b border-slate-500 py-2 text-center">3</td>
                     <td class="text-center  border-b border-slate-500">
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Detail</button>
+                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                href="/admin/dosen/1">Detail</a></button>
                         <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
                                 href="">Edit</a></button>
                         <button

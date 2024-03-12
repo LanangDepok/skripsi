@@ -19,28 +19,33 @@ class AdminController extends Controller
     // mahasiswa
     public function getStudents()
     {
-        return view('admin.mahasiswa.index', ['title' => 'student']);
+        return view('admin.mahasiswa.index', ['title' => 'mahasiswa']);
     }
 
     public function getStudent()
     {
-        return view('admin.mahasiswa.detailMahasiswa', ['title' => 'student']);
+        return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa']);
     }
 
     public function editStudent()
     {
-        return view('admin.mahasiswa.editMahasiswa', ['title' => 'student']);
+        return view('admin.mahasiswa.editMahasiswa', ['title' => 'mahasiswa']);
     }
 
     public function createStudent()
     {
-        return view('admin.mahasiswa.createMahasiswa', ['title' => 'student']);
+        return view('admin.mahasiswa.createMahasiswa', ['title' => 'mahasiswa']);
     }
 
     // dosen
     public function getLecturers()
     {
         return view('admin.dosen.index', ['title' => 'dosen']);
+    }
+
+    public function getLecturer()
+    {
+        return view('admin.dosen.detailDosen', ['title' => 'dosen']);
     }
 
     public function createLecturer()
@@ -53,9 +58,34 @@ class AdminController extends Controller
         return view('admin.dosen.editDosen', ['title' => 'dosen']);
     }
 
-    // komite
-    public function getCommittees()
+    //pengajuan
+    public function pengajuanJudul()
     {
-        return view('admin.komite.index', ['title' => 'komite']);
+        return view('admin.pengajuan.judul.index', ['title' => 'pengajuan']);
+    }
+
+    public function getPengajuanJudul()
+    {
+        return view('admin.pengajuan.judul.detailPengajuan', ['title' => 'pengajuan']);
+    }
+
+    public function pengajuanSempro()
+    {
+        return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan']);
+    }
+
+    public function getPengajuanSempro()
+    {
+        return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan']);
+    }
+
+    public function pengajuanSkripsi()
+    {
+        return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan']);
+    }
+
+    public function getPengajuanSkripsi()
+    {
+        return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan']);
     }
 }

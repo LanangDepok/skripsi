@@ -58,12 +58,15 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/dosen/create', 'createLecturer');
     Route::get('/admin/dosen/1/edit', 'editLecturer');
 
-    Route::get('/admin/komite', 'getCommittees');
-    Route::get('/admin/komite/1', 'getCommittee');
-    Route::get('/admin/komite/create', 'createCommittee');
-    Route::get('/admin/komite/1/edit', 'editCommittee');
+    // Route::get('/admin/komite', 'getCommittees');
+    // Route::get('/admin/komite/1', 'getCommittee');
+    // Route::get('/admin/komite/create', 'createCommittee');
+    // Route::get('/admin/komite/1/edit', 'editCommittee');
 
     Route::get('/admin/pengajuan/judul', 'pengajuanJudul');
+    Route::get('/admin/pengajuan/judul/1', 'getPengajuanJudul');
     Route::get('/admin/pengajuan/sempro', 'pengajuanSempro');
+    Route::get('/admin/pengajuan/sempro/1', 'getPengajuanSempro');
     Route::get('/admin/pengajuan/skripsi', 'pengajuanSkripsi');
+    Route::get('/admin/pengajuan/skripsi/1', 'getPengajuanSkripsi');
 });
