@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pengajuan Sidang Skripsi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Pelaksanaan Sidang</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
         <div class="flex justify-evenly items-center">
@@ -10,11 +10,10 @@
                 <input type="text" id="name" name="name" class="w-56">
             </div>
             <div>
-                <label for="program_studi">Program Studi:</label>
+                <label for="program_studi">Status:</label>
                 <select name="program_studi" id="program_studi" class="w-56">
-                    <option value="Teknik Informatika">Teknik Informatika</option>
-                    <option value="Teknik Multimedia Digital">Teknik Multimedia Digital</option>
-                    <option value="Teknik Multimedia dan Jaringan">Teknik Multimedia dan Jaringan</option>
+                    <option value="Teknik Informatika">Selesai</option>
+                    <option value="Teknik Multimedia Digital">Belum Selesai</option>
                 </select>
             </div>
             {{-- <div>
@@ -35,7 +34,9 @@
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
                     <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Action</th>
+                    <th class="border-b border-slate-500 py-2">Jenis</th>
+                    <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
+                    <th class="border-b border-slate-500 py-2">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,14 +50,9 @@
                         voluptatem nesciunt!</td>
                     {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                     <td class="border-b border-slate-500 py-2 text-center">Dosen 1</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/pengajuan/skripsi/1">Detail</a></button>
-                        <button id="terimaButton"
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
-                    </td>
+                    <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
+                    <td class="border-b border-slate-500 py-2 text-center">7 August 2024</td>
+                    <td class="border-b border-slate-500 py-2 text-center">Belum Selesai</td>
                 </tr>
             </tbody>
         </table>

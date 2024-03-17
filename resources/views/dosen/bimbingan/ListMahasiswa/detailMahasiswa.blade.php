@@ -1,10 +1,10 @@
-@extends('admin.template')
+@extends('dosen.template')
 
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
             <button class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 h-8 rounded-xl"><a
-                    href="/admin/mahasiswa">Back</a></button>
+                    href="/dosen/bimbingan/listMahasiswa">Back</a></button>
         </div>
         <div class="flex justify-center">
             <img src="/storage/assets/4x6.jpg" class="w-36 h-36 rounded-full">

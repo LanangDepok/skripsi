@@ -14,22 +14,22 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: Bagas Rizkiyanto</P>
-            <P>NIM: 2007412006</P>
-            <P>Kelas: TI-CCIT8</P>
-            <P>Prodi: Teknik Informatika</P>
-            <P>Tahun Ajaran: 2023-2024</P>
-            <P>Status: Seminar Proposal</P>
-            <P>No. Kontak Mahasiswa:</P>
-            <P>Nama Orang Tua/Wali:</P>
-            <P>No. Kontak Orang Tua/Wali:</P>
-            <P>Nama Anggota Tim (Jika ada): Kurniawan, Kurniadi</P>
+            <P>Email: Bagas Rizkiyanto</P><br>
+            <P>NIM: 2007412006</P><br>
+            <P>Kelas: TI-CCIT8</P><br>
+            <P>Prodi: Teknik Informatika</P><br>
+            <P>Tahun Ajaran: 2023-2024</P><br>
+            <P>Status: Seminar Proposal</P><br>
+            <P>No. Kontak Mahasiswa:</P><br>
+            <P>Nama Orang Tua/Wali:</P><br>
+            <P>No. Kontak Orang Tua/Wali:</P><br>
+            <P>Nama Anggota Tim (Jika ada): Kurniawan, Kurniadi</P><br>
             <P>Judul Skripsi: Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae nihil cupiditate error vel
                 eius impedit rerum. Quasi, harum. Nemo repellat nam omnis at ipsum reprehenderit voluptate maiores eum cum
                 est, consectetur tenetur corrupti, minus eos sint vero officia natus quibusdam modi porro doloribus! Error
-                ipsum dolor explicabo voluptates mollitia labore.</P>
-            <P>Sub Judul Skripsi (Jika ada):</P>
-            <p>Abstrak/Ringkasan Skripsi:</p>
+                ipsum dolor explicabo voluptates mollitia labore.</P><br>
+            <P>Sub Judul Skripsi (Jika ada):</P><br>
+            <p>Abstrak/Ringkasan Skripsi:</p><br>
             <p>Dosen Pembimbing:</p>
         </div>
     </div>

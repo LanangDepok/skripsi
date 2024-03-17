@@ -16,12 +16,12 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: mauldy.laya@tik.pnj.ac.id</P>
-            <P>NIP: 2007412006</P>
-            <P>Jabatan: Dosen</P>
-            <P>Fungsional: </P>
-            <P>Gol & Pangkat: </P>
-            <P>Role: </P>
+            <P>Email: mauldy.laya@tik.pnj.ac.id</P><br>
+            <P>NIP: 2007412006</P><br>
+            <P>Jabatan: Dosen</P><br>
+            <P>Fungsional: </P><br>
+            <P>Gol & Pangkat: </P><br>
+            <P>Role: </P><br>
             <P>Mahasiswa Bimbingan: </P>
             <div class="h-1 bg-primary"></div>
         </div>

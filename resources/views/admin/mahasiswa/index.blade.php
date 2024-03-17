@@ -22,9 +22,9 @@
                 </select>
             </div>
             <div>
-                <label for="tahun_ajaran">Tahun Ajaran:</label>
+                <label for="tahun_ajaran">Status:</label>
                 <select name="tahun_ajaran" id="tahun_ajaran" class="w-56">
-                    <option value="">2023-2024</option>
+                    <option value="">Seminar Proposal</option>
                 </select>
             </div>
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>

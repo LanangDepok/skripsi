@@ -1,31 +1,7 @@
-@extends('admin.template')
+@extends('dosen.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pengajuan Judul & Dosen Pembimbing</p>
-    <div class="container mx-auto px-10 bg-slate-200 mt-2">
-        <p class="font-semibold text-lg">Filter by:</p>
-        <div class="flex justify-evenly items-center">
-            <div>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" class="w-56">
-            </div>
-            <div>
-                <label for="program_studi">Program Studi:</label>
-                <select name="program_studi" id="program_studi" class="w-56">
-                    <option value="Teknik Informatika">Teknik Informatika</option>
-                    <option value="Teknik Multimedia Digital">Teknik Multimedia Digital</option>
-                    <option value="Teknik Multimedia dan Jaringan">Teknik Multimedia dan Jaringan</option>
-                </select>
-            </div>
-            {{-- <div>
-                <label for="tahun_ajaran">Tahun Ajaran:</label>
-                <select name="tahun_ajaran" id="tahun_ajaran" class="w-56">
-                    <option value="">2023-2024</option>
-                </select>
-            </div> --}}
-            <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
-        </div>
-    </div>
+    <p class="text-center font-semibold text-2xl text-primary">Nilai Akhir</p>
     <div class="container mx-auto mt-6">
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
@@ -34,7 +10,9 @@
                     <th class="border-b border-slate-500 py-2">NIM</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
-                    <th class="border-b border-slate-500 py-2">Dosen Pilihan</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Rata-rata Nilai Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -48,21 +26,25 @@
                         ipsam eius ad, quisquam beatae quaerat. Asperiores eos tempore unde corporis hic voluptate,
                         voluptatem nesciunt!</td>
                     {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
-                    <td class="border-b border-slate-500 py-2 text-center">Dosen 1, dosen 2, dosen 3</td>
+                    <td class="border-b border-slate-500 py-2 text-center">Dosen 1</td>
+                    <td id="nilaiPenguji" type="number" step="0.1" class="border-b border-slate-500 py-2 text-center">
+                        80</td>
+                    <td id="nilaiPembimbing" type="number" step="0.1"
+                        class="border-b border-slate-500 py-2 text-center">90</td>
                     <td class="text-center  border-b border-slate-500">
                         <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/pengajuan/judul/1">Detail</a></button>
-                        <button id="terimaButton" class="bg-primary border rounded-md w-16 text-white ">Terima</button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
+                                href="/dosen/rekapitulasi/1">Detail</a></button>
+                        <button id="terimaButton"
+                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Rekap</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+
     {{-- Modal --}}
-    <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 hidden z-[1]">
+    <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1]">
         <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
                 <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
@@ -70,13 +52,12 @@
             <div class="container w-1/2 mx-auto my-10">
                 <form method="POST" action="/admin/pengajuan/judul/store">
                     @csrf
-                    <p class="text-center mb-5 font-semibold text-xl">Pilih Dosen Pembimbing</p>
-                    <label for="dosen_pembimbing">Dosen Pilihan</label>
-                    <select name="dosen_pembimbing" id="dosen_pembimbing" class="w-full rounded-md border border-primary">
-                        <option value="volvo">Dosen 1</option>
-                        <option value="saab">Dosen 2</option>
-                        <option value="mercedes">Dosen 3</option>
-                    </select>
+                    <p class="text-center mb-5 font-semibold text-xl">Nilai Akhir</p>
+                    <p class="text-center mb-1 font-semibold text-sm underline underline-offset-8">(Nilai rata-rata penguji
+                        &times; 2) + Nilai
+                        pembimbing</p>
+                    <p class="text-sm text-center font-semibold">3</p>
+                    <input id="nilaiTotal" type="text" disabled class="border border-primary w-full rounded-md mt-5">
                     <div class="w-24 h-8 mx-auto mt-10">
                         <button type="submit"
                             class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
@@ -102,5 +83,13 @@
                 modal.classList.toggle('hidden');
             }
         }
+
+        function hitungNilaiTotal() {
+            var nilaiPenguji = parseFloat(document.getElementById('nilaiPenguji').innerText) || 0;
+            var nilaiPembimbing = parseFloat(document.getElementById('nilaiPembimbing').innerText) || 0;
+            var nilaiTotal = ((nilaiPenguji * 2) + nilaiPembimbing) / 3;
+            document.getElementById('nilaiTotal').value = nilaiTotal.toFixed(1);
+        }
+        hitungNilaiTotal();
     </script>
 @endsection

@@ -58,10 +58,15 @@ class AdminController extends Controller
         return view('admin.dosen.editDosen', ['title' => 'dosen']);
     }
 
-    //pengajuan
+    //pengajuan judul
     public function pengajuanJudul()
     {
         return view('admin.pengajuan.judul.index', ['title' => 'pengajuan']);
+    }
+
+    public function storePengajuanJudul(Request $request)
+    {
+        dd($request);
     }
 
     public function getPengajuanJudul()
@@ -69,6 +74,7 @@ class AdminController extends Controller
         return view('admin.pengajuan.judul.detailPengajuan', ['title' => 'pengajuan']);
     }
 
+    //pengajuan sempro
     public function pengajuanSempro()
     {
         return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan']);
@@ -79,6 +85,7 @@ class AdminController extends Controller
         return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan']);
     }
 
+    //pengajuan skripsi
     public function pengajuanSkripsi()
     {
         return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan']);
@@ -87,5 +94,11 @@ class AdminController extends Controller
     public function getPengajuanSkripsi()
     {
         return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan']);
+    }
+
+    //skripsi
+    public function getSkripsian()
+    {
+        return view('admin.skripsi.index', ['title' => 'skripsi']);
     }
 }

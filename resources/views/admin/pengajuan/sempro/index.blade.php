@@ -52,8 +52,8 @@
                     <td class="text-center  border-b border-slate-500">
                         <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
                                 href="/admin/pengajuan/sempro/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="">Terima</a></button>
+                        <button id="terimaButton"
+                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
                         <button
                             class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
                     </td>
@@ -61,4 +61,66 @@
             </tbody>
         </table>
     </div>
+
+    {{-- Modal --}}
+    <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
+        <div class="fixed bg-white top-36 bottom-36 left-96 right-96 z-10 rounded-lg">
+            <div class="w-7 ml-auto">
+                <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
+            </div>
+            <div class="container w-1/2 mx-auto">
+                <p class="text-center mb-5 font-semibold text-xl">Pilih Dosen Penguji</p>
+                <div>
+                    <label for="dosen_pembimbing1">Dosen Pilihan 1 (Ketua Penguji)</label>
+                    <select name="dosen_pembimbing1" id="dosen_pembimbing" class="w-full rounded-md border border-primary">
+                        <option value="volvo">Dosen 1</option>
+                        <option value="saab">Dosen 2</option>
+                        <option value="mercedes">Dosen 3</option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label for="dosen_pembimbing2">Dosen Pilihan 2</label>
+                    <select name="dosen_pembimbing2" id="dosen_pembimbing" class="w-full rounded-md border border-primary">
+                        <option value="saab">Dosen 2</option>
+                        <option value="volvo">Dosen 1</option>
+                        <option value="mercedes">Dosen 3</option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label for="dosen_pembimbing3">Dosen Pilihan 3</label>
+                    <select name="dosen_pembimbing3" id="dosen_pembimbing" class="w-full rounded-md border border-primary">
+                        <option value="mercedes">Dosen 3</option>
+                        <option value="volvo">Dosen 1</option>
+                        <option value="saab">Dosen 2</option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <label for="tanggal">Pilih Tanggal Sidang</label>
+                    <input id="tanggal" type="date" class="w-full rounded-md border border-primary">
+                </div>
+                <div class="w-24 h-8 mx-auto mt-10">
+                    <button type="submit"
+                        class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const terimaButton = document.getElementById('terimaButton');
+        const exitModal = document.getElementById('exitModal');
+        const modal = document.getElementById('modal');
+
+        terimaButton.addEventListener('click', function() {
+            modal.classList.toggle('hidden');
+        });
+        exitModal.addEventListener('click', function() {
+            modal.classList.toggle('hidden');
+        });
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+    </script>
 @endsection

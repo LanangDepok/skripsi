@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
@@ -65,8 +66,42 @@ Route::controller(AdminController::class)->group(function () {
 
     Route::get('/admin/pengajuan/judul', 'pengajuanJudul');
     Route::get('/admin/pengajuan/judul/1', 'getPengajuanJudul');
+    Route::post('/admin/pengajuan/judul/store', 'storePengajuanJudul');
     Route::get('/admin/pengajuan/sempro', 'pengajuanSempro');
     Route::get('/admin/pengajuan/sempro/1', 'getPengajuanSempro');
     Route::get('/admin/pengajuan/skripsi', 'pengajuanSkripsi');
     Route::get('/admin/pengajuan/skripsi/1', 'getPengajuanSkripsi');
+
+    Route::get('/admin/skripsi', 'getSkripsian');
+});
+
+Route::controller(DosenController::class)->group(function () {
+    Route::get('/dosen/index', 'index');
+
+    Route::get('/dosen/bimbingan/logbook', 'getLogbooks');
+    Route::get('/dosen/bimbingan/logbook/1', 'getLogbook');
+
+    Route::get('/dosen/bimbingan/persetujuanSidang', 'getAllPersetujuanSidang');
+    Route::get('/dosen/bimbingan/persetujuanSidang/1', 'getPersetujuanSidang');
+
+    Route::get('/dosen/bimbingan/listMahasiswa', 'getAllListMahasiswa');
+    Route::get('/dosen/bimbingan/listMahasiswa/1', 'getListMahasiswa');
+
+    Route::get('/dosen/pengujian/sempro', 'getAllPengujianSempro');
+    Route::get('/dosen/pengujian/sempro/1', 'getPengujianSempro');
+    Route::get('/dosen/pengujian/sempro/1/terima', 'penilaianSempro');
+
+    Route::get('/dosen/pengujian/skripsi', 'getAllPengujianSkripsi');
+    Route::get('/dosen/pengujian/skripsi/1', 'getPengujianSkripsi');
+    Route::get('/dosen/pengujian/skripsi/1/terima', 'penilaianSkripsi');
+
+    Route::get('/dosen/pengujian/terbimbing', 'getAllPengujianTerbimbing');
+    Route::get('/dosen/pengujian/terbimbing/1', 'getPengujianTerbimbing');
+    Route::get('/dosen/pengujian/terbimbing/1/terima', 'penilaianTerbimbing');
+
+    Route::get('dosen/rekapitulasi', 'getAllRekapitulasi');
+    Route::get('dosen/rekapitulasi/1', 'getRekapitulasi');
+
+    Route::get('/dosen/profile', 'getProfile');
+    Route::get('/dosen/profile/1/edit', 'editProfile');
 });

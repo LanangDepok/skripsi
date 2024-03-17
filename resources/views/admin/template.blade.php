@@ -18,13 +18,18 @@
 
     <header class="w-full">
         <div class="bg-primary px-8">
-            <div class="container mx-auto flex items-center">
-                <div>
-                    <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+            <div class="container mx-auto flex justify-between">
+                <div class="flex items-center">
+                    <div>
+                        <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
+                    </div>
                 </div>
-                <div class="ml-3">
-                    <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
-                </div>
+                <div class="flex items-center"><a href="/dosen/index"
+                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">Ganti Role
+                        Dosen</a></div>
             </div>
         </div>
         <div class="px-8">
@@ -90,6 +95,16 @@
                                     skripsi</a>
                             </div>
                         </li>
+                        <li>
+                            <a href="/admin/skripsi"
+                                class="hover:bg-slate-300  {{ $title == 'skripsi' ? 'bg-red-200' : '' }}">
+                                Skripsi
+                                <span>
+                                    <img src="/storage/icons/open-book.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="relative">
@@ -117,7 +132,7 @@
         @yield('content')
     </main>
 
-    <footer class="mt-8">
+    <footer class="fixed bottom-0 left-0 right-0">
         <div class="bg-slate-400 container text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
         </div>

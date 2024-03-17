@@ -1,10 +1,10 @@
-@extends('admin.template')
+@extends('dosen.template')
 
 @section('content')
     <div class="container text-center mx-auto w-3/4">
-        <button id="editButton"
+        {{-- <button id="editButton"
             class="bg-primary text-white w-40 h-8 my-auto rounded-2xl text-2xl hover:text-black hover:bg-red-300"
-            type="submit">Edit Konten</button>
+            type="submit">Edit Konten</button> --}}
         <div class="flex justify-between">
             <h2 class="text-2xl text-primary text-left font-semibold">Timeline Skripsi</h2>
             {{-- <button class="bg-primary text-white w-24 h-8 my-auto rounded-2xl text-2xl hover:text-black hover:bg-red-300"
