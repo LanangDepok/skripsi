@@ -29,7 +29,7 @@
         </div>
         <div class="px-8">
             <div class="container mx-auto flex justify-between">
-                <div class="w-5/12">
+                <div class="w-1/2">
                     <ul class="flex justify-between">
                         <li>
                             <a href="/mahasiswa/index"
@@ -70,6 +70,9 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/mahasiswa/pengajuan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     skripsi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/mahasiswa/pengajuan/alat" class="block px-4 py-2 hover:bg-slate-300">Serah
+                                    terima alat & skripsi</a>
                             </div>
                         </li>
                         <li>
@@ -88,6 +91,16 @@
                                 Skripsi
                                 <span>
                                     <img src="/storage/icons/pdf.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/mahasiswa/revisi"
+                                class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
+                                Revisi Sidang
+                                <span>
+                                    <img src="/storage/icons/logbook.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -120,6 +133,7 @@
         @yield('content')
     </main>
 
+    <div class="mb-20"></div>
     <footer class="fixed bottom-0 left-0 right-0">
         <div class="bg-slate-400 container text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>

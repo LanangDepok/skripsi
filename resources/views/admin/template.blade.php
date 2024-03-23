@@ -27,9 +27,18 @@
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
                     </div>
                 </div>
-                <div class="flex items-center"><a href="/dosen/index"
-                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">Ganti Role
-                        Dosen</a></div>
+                <div class="flex items-center">
+                    <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
+                    <select name="program_studi" id="program_studi" class="w-24 rounded-md"
+                        onchange="redirectToPage(this)">
+                        <option value="/dosen/index">Dosen</option>
+                        <option value="/admin/index" selected>Komite</option>
+                    </select>
+                    {{-- <a href="/dosen/index"
+                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">
+                        Ganti Role Dosen
+                    </a> --}}
+                </div>
             </div>
         </div>
         <div class="px-8">
@@ -93,14 +102,17 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/admin/pengajuan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     skripsi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/admin/pengajuan/alat" class="block px-4 py-2 hover:bg-slate-300">Serah
+                                    terima alat & skripsi</a>
                             </div>
                         </li>
                         <li>
                             <a href="/admin/skripsi"
                                 class="hover:bg-slate-300  {{ $title == 'skripsi' ? 'bg-red-200' : '' }}">
-                                Skripsi
+                                Pelaksanaan Sidang
                                 <span>
-                                    <img src="/storage/icons/open-book.png"
+                                    <img src="/storage/icons/meeting.png"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -132,6 +144,7 @@
         @yield('content')
     </main>
 
+    <div class="mb-20"></div>
     <footer class="fixed bottom-0 left-0 right-0">
         <div class="bg-slate-400 container text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
@@ -150,6 +163,13 @@
         userDropdownButton.addEventListener('click', function() {
             userDropdownContent.classList.toggle('hidden');
         });
+
+        //pindah role
+        function redirectToPage(select) {
+            var selectedOption = select.options[select.selectedIndex];
+            var url = selectedOption.value;
+            window.location.href = url;
+        }
     </script>
 
 </body>

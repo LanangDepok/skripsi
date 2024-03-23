@@ -10,18 +10,20 @@
                 <input type="text" id="name" name="name" class="w-56">
             </div>
             <div>
+                <label for="program_studi">Program Studi:</label>
+                <select name="program_studi" id="program_studi" class="w-56">
+                    <option value="Teknik Informatika">Teknik Informatika</option>
+                    <option value="Teknik Multimedia Digital">Teknik Multimedia dan Digital</option>
+                    <option value="Teknik Multimedia Digital">Teknik Multimedia dan Jaringan</option>
+                </select>
+            </div>
+            <div>
                 <label for="program_studi">Status:</label>
                 <select name="program_studi" id="program_studi" class="w-56">
                     <option value="Teknik Informatika">Selesai</option>
                     <option value="Teknik Multimedia Digital">Belum Selesai</option>
                 </select>
             </div>
-            {{-- <div>
-                <label for="tahun_ajaran">Tahun Ajaran:</label>
-                <select name="tahun_ajaran" id="tahun_ajaran" class="w-56">
-                    <option value="">2023-2024</option>
-                </select>
-            </div> --}}
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
         </div>
     </div>

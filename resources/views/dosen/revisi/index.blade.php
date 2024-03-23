@@ -1,7 +1,7 @@
 @extends('dosen.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Nilai Akhir</p>
+    <p class="text-center font-semibold text-2xl text-primary">Daftar Pengajuan Revisi</p>
     <div class="container mx-auto mt-6">
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
@@ -9,10 +9,9 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
+                    <th class="border-b border-slate-500 py-2">Program Studi</th>
                     <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Rata-Rata Nilai Penguji</th>
-                    <th class="border-b border-slate-500 py-2">Rata-Rata Nilai Pembimbing</th>
-                    {{-- <th class="border-b border-slate-500 py-2">Nilai Akhir</th> --}}
+                    <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -25,24 +24,20 @@
                         ipsam eius ad, quisquam beatae quaerat. Asperiores eos tempore unde corporis hic voluptate,
                         voluptatem nesciunt!</td>
                     {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
+                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
                     <td class="border-b border-slate-500 py-2 text-center">Dosen 1</td>
-                    <td id="nilaiPenguji" type="number" step="0.1" class="border-b border-slate-500 py-2 text-center">
-                        80</td>
                     <td id="nilaiPembimbing" type="number" step="0.1"
-                        class="border-b border-slate-500 py-2 text-center">90</td>
-                    {{-- <td id="nilaiPembimbing" type="number" step="0.1"
-                        class="border-b border-slate-500 py-2 text-center">menunggu</td> --}}
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/dosen/rekapitulasi/1">Detail</a></button>
-                        <button id="terimaButton"
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Nilai</button>
+                        class="border-b border-slate-500 py-2 text-center">83.3</td>
+                    <td class="border-b border-slate-500 text-center">
+                        <button class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300"><a
+                                href="/dosen/revisi/1">Detail</a></button>
+                        <button id="revisiButton"
+                            class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Terima</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
 
     {{-- Modal --}}
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
@@ -50,19 +45,15 @@
             <div class="w-7 ml-auto">
                 <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
-            <div class="w-10 ml-auto mr-16 border-4 border-black">
-                <p class="text-2xl font-semibold text-center">F8</p>
+            <div class="border-4 border-black w-12 ml-auto mr-16">
+                <p class="font-semibold text-2xl text-center">F10</p>
             </div>
-            <div class="container w-1/2 mx-auto mt-2">
+            <div class="container w-1/2 mx-auto">
                 <form method="POST" action="/admin/pengajuan/judul/store">
                     @csrf
-                    <p class="text-center mb-5 font-semibold text-xl">Nilai Akhir</p>
-                    <p class="text-center mb-1 font-semibold text-sm underline underline-offset-8">(Nilai rata-rata penguji
-                        &times; 2) + Nilai
-                        pembimbing</p>
-                    <p class="text-sm text-center font-semibold">3</p>
-                    <input id="nilaiTotal" type="text" disabled class="border border-primary w-full rounded-md mt-5">
-                    <div class="w-24 h-8 mx-auto mt-10">
+                    <p class="text-center mb-5 font-semibold text-xl">Hasil revisi</p>
+                    <textarea rows="5" class="w-full border-primary rounded-md border" disabled> Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi consectetur laborum ducimus repudiandae, perferendis suscipit maxime earum voluptatem iste? Sequi iste ducimus, neque asperiores aperiam ut perspiciatis enim reiciendis quo ab, nostrum ipsum expedita maxime beatae temporibus laboriosam deleniti odio rerum rem sapiente eius. Voluptatum molestias ut repellat qui earum magni suscipit quibusdam provident eius unde facilis velit maiores aut quae nihil enim, iusto cumque sint laborum consectetur? Quasi cum distinctio sunt, in, velit architecto deleniti ab veniam quo excepturi enim repellat nobis dignissimos assumenda! Molestias placeat illum eveniet possimus distinctio esse, ducimus eum, voluptatem dolores eius vero fuga totam!</textarea>
+                    <div class="w-24 h-8 mx-auto mt-4">
                         <button type="submit"
                             class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
                     </div>
@@ -72,11 +63,11 @@
     </div>
 
     <script>
-        const terimaButton = document.getElementById('terimaButton');
+        const revisiButton = document.getElementById('revisiButton');
         const exitModal = document.getElementById('exitModal');
         const modal = document.getElementById('modal');
 
-        terimaButton.addEventListener('click', function() {
+        revisiButton.addEventListener('click', function() {
             modal.classList.toggle('hidden');
         });
         exitModal.addEventListener('click', function() {
@@ -87,13 +78,5 @@
                 modal.classList.toggle('hidden');
             }
         }
-
-        function hitungNilaiTotal() {
-            var nilaiPenguji = parseFloat(document.getElementById('nilaiPenguji').innerText) || 0;
-            var nilaiPembimbing = parseFloat(document.getElementById('nilaiPembimbing').innerText) || 0;
-            var nilaiTotal = ((nilaiPenguji * 2) + nilaiPembimbing) / 3;
-            document.getElementById('nilaiTotal').value = nilaiTotal.toFixed(1);
-        }
-        hitungNilaiTotal();
     </script>
 @endsection

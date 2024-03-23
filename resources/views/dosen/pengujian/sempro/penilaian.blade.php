@@ -6,7 +6,8 @@
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Nilai Seminar Proposal</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
-                <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
+                <div class="container border-2 border-primary p-12 pt-5 rounded-lg shadow-slate-400 shadow-lg">
+                    <div class="container w-1/12 ml-auto border-4 text-center text-2xl border-black font-semibold">F2</div>
                     <div class="text-left mb-4">
                         <p>Nama: Bagas Rizkiyanto</p>
                     </div>
@@ -69,6 +70,11 @@
                         <li>Hasil Penilaian : Nilai <span class="text-red-700 font-bold">Total ≥ 400 ( Diterima )</span> ;
                             Nilai <span class="text-red-700 font-bold">Total < 400 ( Ditolak )</span>
                         </li>
+                    </div>
+                    <div class="text-left mb-4">
+                        <label for="keterangan">Keterangan Tambahan</label>
+                        <textarea id="keterangan" name="keterangan"
+                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100" rows="5"></textarea>
                     </div>
                     <div class="flex justify-evenly">
                         <div class="text-center mt-12">

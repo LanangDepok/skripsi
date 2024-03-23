@@ -27,14 +27,23 @@
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
                     </div>
                 </div>
-                <div class="flex items-center"><a href="/admin/index"
-                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">Ganti Role
-                        Komite</a></div>
+                <div class="flex items-center">
+                    <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
+                    <select name="program_studi" id="program_studi" class="w-24 rounded-md"
+                        onchange="redirectToPage(this)">
+                        <option value="/dosen/index" selected>Dosen</option>
+                        <option value="/admin/index">Komite</option>
+                    </select>
+                    {{-- <a href="/admin/index"
+                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">
+                        Ganti Role Komite
+                    </a> --}}
+                </div>
             </div>
         </div>
         <div class="px-8">
             <div class="container mx-auto flex justify-between">
-                <div class="w-5/12">
+                <div class="w-1/2">
                     <ul class="flex justify-between">
                         <li>
                             <a href="/dosen/index"
@@ -50,14 +59,14 @@
                                 class="hover:bg-slate-300 {{ $title == 'bimbingan' ? 'bg-red-200' : '' }}">
                                 Bimbingan
                                 <span>
-                                    <img src="/storage/icons/contract.png"
+                                    <img src="/storage/icons/presentation.png"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
                             <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
                                 id="bimbinganDropdownContent">
-                                <a href="/dosen/bimbingan/logbook"
-                                    class="block px-4 py-2 hover:bg-slate-300">Logbook</a>
+                                <a href="/dosen/bimbingan/logbook" class="block px-4 py-2 hover:bg-slate-300">Pengajuan
+                                    Logbook</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/dosen/bimbingan/persetujuanSidang"
                                     class="block px-4 py-2 hover:bg-slate-300">Persetujuan
@@ -95,7 +104,28 @@
                                 class="hover:bg-slate-300 {{ $title == 'rekapitulasi' ? 'bg-red-200' : '' }}">
                                 Rekapitulasi Nilai
                                 <span>
-                                    <img src="/storage/icons/home.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="/storage/icons/open-book.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/dosen/kelulusan"
+                                class="hover:bg-slate-300 {{ $title == 'kelulusan' ? 'bg-red-200' : '' }}">
+                                Kelulusan
+                                <span>
+                                    <img src="/storage/icons/mortarboard.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/dosen/revisi"
+                                class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
+                                Pengajuan Revisi
+                                <span>
+                                    <img src="/storage/icons/logbook.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -128,6 +158,7 @@
         @yield('content')
     </main>
 
+    <div class="mb-20"></div>
     <footer class="fixed bottom-0 left-0 right-0">
         <div class="bg-slate-400 container text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
@@ -160,6 +191,13 @@
     pengajuanDropdownButton.addEventListener('click', function() {
         pengajuanDropdownContent.classList.toggle('hidden');
     });
+
+    //pindah role
+    function redirectToPage(select) {
+        var selectedOption = select.options[select.selectedIndex];
+        var url = selectedOption.value;
+        window.location.href = url;
+    }
 </script>
 
 </html>

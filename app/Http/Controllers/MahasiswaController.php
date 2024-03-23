@@ -32,6 +32,11 @@ class MahasiswaController extends Controller
         return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
     }
 
+    public function pengajuanAlat()
+    {
+        return view('mahasiswa.pengajuan.pengajuanAlat', ['title' => 'pengajuan']);
+    }
+
     // logbook
     public function getLogbooks()
     {
@@ -58,6 +63,25 @@ class MahasiswaController extends Controller
     public function getInformations()
     {
         return view('mahasiswa.informasi.index', ['title' => 'informasi']);
+    }
+
+    public function getBeritaSempro()
+    {
+        return view('mahasiswa.informasi.beritaSempro', ['title' => 'informasi']);
+    }
+    public function getBeritaSkripsi()
+    {
+        return view('mahasiswa.informasi.beritaSkripsi', ['title' => 'informasi']);
+    }
+
+    //Revisi
+    public function getAllRevisi()
+    {
+        return view('mahasiswa.Revisi.index', ['title' => 'revisi']);
+    }
+    public function getRevisi()
+    {
+        return view('mahasiswa.Revisi.detail', ['title' => 'revisi']);
     }
 
     // profile

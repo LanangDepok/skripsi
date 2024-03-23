@@ -20,8 +20,10 @@
                             class="text-blue-500 underline font-semibold"><a href="/mahasiswa/skripsi">Skripsi</a></span>
                         yang
                         tertera pada navbar</li>
-                    <li>2. Untuk mengajukan seminar proposal, minimal melakukan 3x bimbingan</li>
-                    <li>3. Untuk mengajukan sidang skripsi, minimal melakukan 10x bimbingan</li>
+                    <li>2. Untuk mengajukan seminar proposal, minimal melakukan <span class="text-red-600">3x
+                            bimbingan</span></li>
+                    <li>3. Untuk mengajukan sidang skripsi, minimal melakukan <span class="text-red-600">10x
+                            bimbingan</span></li>
                     <li>4. Bimbingan dihitung berdasarkan jumlah logbook yang diterima oleh dosen pembimbing</li>
                 </ul>
             </div>

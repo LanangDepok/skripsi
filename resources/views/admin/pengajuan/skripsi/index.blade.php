@@ -30,8 +30,8 @@
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">Nama</th>
-                    <th class="border-b border-slate-500 py-2">NIM</th>
+                    <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
+                    <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
                     <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
@@ -40,8 +40,11 @@
             </thead>
             <tbody>
                 <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">Bagas Rizkiyanto</td>
-                    <td class="border-b border-slate-500 py-2 text-center">2007412006</td>
+                    <td class="border-b border-slate-500 py-2 text-center">
+                        <p>Bagas Rizkiyanto</p>
+                        <p>(2007412006)</p>
+                    </td>
+                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika </td>
                     <td class="border-b border-slate-500 py-2 text-center">Lorem, ipsum dolor sit amet consectetur
                         adipisicing elit. Animi ex temporibus odit quos omnis cum molestias in, tempora eius sit expedita
                         quaerat ullam hic soluta, repellendus sed. At laborum repellat fuga esse consequatur rem, minima

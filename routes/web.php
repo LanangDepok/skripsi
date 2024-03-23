@@ -32,6 +32,7 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/pengajuan/judul', 'pengajuanJudul');
     Route::get('/mahasiswa/pengajuan/sempro', 'pengajuanSempro');
     Route::get('/mahasiswa/pengajuan/skripsi', 'pengajuanSkripsi');
+    Route::get('/mahasiswa/pengajuan/alat', 'pengajuanAlat');
 
     Route::get('/mahasiswa/logbook', 'getLogbooks');
     Route::get('/mahasiswa/logbook/create', 'createLogbook');
@@ -40,6 +41,11 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/skripsi/1/edit', 'editSkripsi');
 
     Route::get('/mahasiswa/informasi', 'getInformations');
+    Route::get('/mahasiswa/informasi/1/berita_sempro', 'getBeritaSempro');
+    Route::get('/mahasiswa/informasi/1/berita_skripsi', 'getBeritaSkripsi');
+
+    Route::get('/mahasiswa/revisi', 'getAllRevisi');
+    Route::get('/mahasiswa/revisi/1', 'getRevisi');
 
     Route::get('/mahasiswa/profile', 'getProfile');
     Route::get('/mahasiswa/profile/1/edit', 'editProfile');
@@ -71,6 +77,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/pengajuan/sempro/1', 'getPengajuanSempro');
     Route::get('/admin/pengajuan/skripsi', 'pengajuanSkripsi');
     Route::get('/admin/pengajuan/skripsi/1', 'getPengajuanSkripsi');
+    Route::get('/admin/pengajuan/alat', 'getAllPengajuanAlat');
+    Route::get('/admin/pengajuan/alat/1', 'getPengajuanAlat');
 
     Route::get('/admin/skripsi', 'getSkripsian');
 });
@@ -101,6 +109,11 @@ Route::controller(DosenController::class)->group(function () {
 
     Route::get('dosen/rekapitulasi', 'getAllRekapitulasi');
     Route::get('dosen/rekapitulasi/1', 'getRekapitulasi');
+
+    Route::get('/dosen/kelulusan', 'getAllKelulusan');
+
+    Route::get('/dosen/revisi', 'getAllRevisi');
+    Route::get('dosen/revisi/1', 'getRevisi');
 
     Route::get('/dosen/profile', 'getProfile');
     Route::get('/dosen/profile/1/edit', 'editProfile');

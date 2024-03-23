@@ -96,6 +96,17 @@ class AdminController extends Controller
         return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan']);
     }
 
+    //pengajuan alat
+    public function getAllPengajuanAlat()
+    {
+        return view('admin.pengajuan.alat.index', ['title' => 'pengajuan']);
+    }
+
+    public function getPengajuanAlat()
+    {
+        return view('admin.pengajuan.alat.detail', ['title' => 'pengajuan']);
+    }
+
     //skripsi
     public function getSkripsian()
     {

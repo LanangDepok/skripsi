@@ -114,4 +114,21 @@ class DosenController extends Controller
     {
         return view('dosen.rekapitulasi.detail', ['title' => 'rekapitulasi']);
     }
+
+    //kelulusan
+    public function getAllKelulusan()
+    {
+        return view('dosen.kelulusan.index', ['title' => 'kelulusan']);
+    }
+
+    //kelulusan
+    public function getAllRevisi()
+    {
+        return view('dosen.revisi.index', ['title' => 'revisi']);
+    }
+
+    public function getRevisi()
+    {
+        return view('dosen.revisi.detail', ['title' => 'revisi']);
+    }
 }
