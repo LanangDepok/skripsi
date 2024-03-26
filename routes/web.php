@@ -58,17 +58,13 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/mahasiswa', 'getStudents');
     Route::get('/admin/mahasiswa/1', 'getStudent');
     Route::get('/admin/mahasiswa/create', 'createStudent');
+    Route::post('/admin/mahasiswa/insert', 'insertStudent');
     Route::get('/admin/mahasiswa/1/edit', 'editStudent');
 
     Route::get('/admin/dosen', 'getLecturers');
     Route::get('/admin/dosen/1', 'getLecturer');
     Route::get('/admin/dosen/create', 'createLecturer');
     Route::get('/admin/dosen/1/edit', 'editLecturer');
-
-    // Route::get('/admin/komite', 'getCommittees');
-    // Route::get('/admin/komite/1', 'getCommittee');
-    // Route::get('/admin/komite/create', 'createCommittee');
-    // Route::get('/admin/komite/1/edit', 'editCommittee');
 
     Route::get('/admin/pengajuan/judul', 'pengajuanJudul');
     Route::get('/admin/pengajuan/judul/1', 'getPengajuanJudul');
@@ -81,6 +77,9 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/pengajuan/alat/1', 'getPengajuanAlat');
 
     Route::get('/admin/skripsi', 'getSkripsian');
+
+    Route::get('/admin/revisi', 'getAllRevisi');
+    Route::get('/admin/revisi/1', 'getRevisi');
 });
 
 Route::controller(DosenController::class)->group(function () {

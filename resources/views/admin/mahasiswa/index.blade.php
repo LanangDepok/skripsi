@@ -24,17 +24,22 @@
             <div>
                 <label for="tahun_ajaran">Status:</label>
                 <select name="tahun_ajaran" id="tahun_ajaran" class="w-56">
-                    <option value="">Seminar Proposal</option>
+                    <option value="">Mengajukan judul</option>
+                    <option value="">Bimbingan sempro</option>
+                    <option value="">Sidang sempro</option>
+                    <option value="">Bimbingan skripsi</option>
+                    <option value="">Sidang skripsi</option>
                 </select>
             </div>
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
         </div>
     </div>
     <div class="container mx-auto mt-6">
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">Nama</th>
+                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Kelas</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
@@ -44,63 +49,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">
-                        <p>Bagas Rizkiyanto</p>
-                        <p>(2007412006)</p>
-                    </td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
-                    <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
-                    <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1/edit">Edit</a></button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">
-                        <p>Budi Pekerti</p>
-                        <p>(2007412006)</p>
-                    </td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
-                    <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
-                    <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Seminar Skripsi</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1/edit">Edit</a></button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">
-                        <p>Gondes Setia</p>
-                        <p>(2007412006)</p>
-                    </td>
-                    <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td>
-                    <td class="border-b border-slate-500 py-2 text-center">TI-CCIT</td>
-                    {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
-                    <td class="border-b border-slate-500 py-2 text-center">2023-2024</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Pengajuan Judul</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/mahasiswa/1/edit">Edit</a></button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
+                <?php $i = 1; ?>
+                @foreach ($data as $mahasiswa)
+                    <form method="POST" action="/mahasiswa/{{ $mahasiswa->id }}/delete">
+                        <tr class="even:bg-slate-300">
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                <p>{{ $mahasiswa->user->name }}</p>
+                                <p>({{ $mahasiswa->nim }})</p>
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->prodi }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->kelas }}</td>
+                            {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->tahun_ajaran }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ empty($mahasiswa->status) ? 'Belum mengajukan judul' : $mahasiswa->status }}</td>
+                            <td class="text-center  border-b border-slate-500">
+                                <button
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                        href="/admin/mahasiswa/{{ $mahasiswa->id }}">Detail</a></button>
+                                <button
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                        href="/admin/mahasiswa/{{ $mahasiswa->id }}/edit">Edit</a></button>
+                                <button
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                                    type="submit">Delete</button>
+                            </td>
+                        </tr>
+                    </form>
+                @endforeach
             </tbody>
         </table>
     </div>

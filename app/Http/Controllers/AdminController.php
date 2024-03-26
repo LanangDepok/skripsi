@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mahasiswa;
+use App\Models\User;
 use App\Services\AdminService;
 use Illuminate\Http\Request;
 
@@ -19,7 +21,9 @@ class AdminController extends Controller
     // mahasiswa
     public function getStudents()
     {
-        return view('admin.mahasiswa.index', ['title' => 'mahasiswa']);
+        $data = Mahasiswa::get();
+
+        return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
     }
 
     public function getStudent()
@@ -27,14 +31,35 @@ class AdminController extends Controller
         return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa']);
     }
 
-    public function editStudent()
-    {
-        return view('admin.mahasiswa.editMahasiswa', ['title' => 'mahasiswa']);
-    }
-
     public function createStudent()
     {
         return view('admin.mahasiswa.createMahasiswa', ['title' => 'mahasiswa']);
+
+    }
+    public function insertStudent(Request $request)
+    {
+        $validated_user = $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'name' => 'required',
+        ]);
+        $user = User::create($validated_user);
+
+        $validated_mahasiswa = $request->validate([
+            'nim' => 'required|integer',
+            'kelas' => 'required',
+            'prodi' => 'required',
+            'tahun_ajaran' => 'required',
+        ]);
+        $validated_mahasiswa['user_id'] = $user->id;
+        Mahasiswa::create($validated_mahasiswa);
+
+        return response()->redirectTo('/admin/mahasiswa/create');
+    }
+
+    public function editStudent()
+    {
+        return view('admin.mahasiswa.editMahasiswa', ['title' => 'mahasiswa']);
     }
 
     // dosen
@@ -111,5 +136,11 @@ class AdminController extends Controller
     public function getSkripsian()
     {
         return view('admin.skripsi.index', ['title' => 'skripsi']);
+    }
+
+    //revisi
+    public function getAllRevisi()
+    {
+        return view('admin.revisi.index', ['title' => 'revisi']);
     }
 }

@@ -51,18 +51,27 @@
 
     {{-- Modal --}}
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
-        <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
+        <div class="fixed bg-white top-10 bottom-10 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
                 <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
-            <div class="container w-1/2 mx-auto my-10">
+            <div class="w-10 font-semibold 2xl border-4 text-center border-black ml-auto mr-20">F10</div>
+            <div class="container w-3/4 mx-auto">
                 <form method="POST" action="/admin/pengajuan/judul/store">
                     @csrf
-                    <p class="text-center mb-5 font-semibold text-xl">Masukkan revisi</p>
-                    <textarea rows="5" class="w-full border-primary rounded-md border"></textarea>
+                    <p>Nama (NIM): Bagas Rizkiyanto (2007412006)</p>
+                    <p>Program Studi: Teknik Informatika</p>
+                    <p>Program Studi: Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nesciunt nostrum dolorem
+                        laudantium assumenda non, consectetur vero ea quibusdam ut numquam atque, autem et obcaecati odit
+                        recusandae impedit, velit dolores!</p>
+                    <p>Tanggal sidang: {{ now()->translatedFormat('l, d F Y') }}</p>
+                    <label for="pointA" class="font-bold">A. Revisi Alat/Program Aplikasi Skripsi</label>
+                    <textarea id="pointA" rows="5" class="w-full border-primary rounded-md border"></textarea>
+                    <label for="pointB" class="font-bold">A. Revisi Laporan Skripsi</label>
+                    <textarea id="pointB" rows="5" class="w-full border-primary rounded-md border"></textarea>
                     <div class="w-24 h-8 mx-auto mt-4">
                         <button type="submit"
-                            class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300">Kirim</button>
+                            class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300">Kirim</button>
                     </div>
                 </form>
             </div>
@@ -91,9 +100,9 @@
                     <p>Nilai akhir : 83.3</p>
                     <div class="w-full h-8 mx-auto mt-10 flex justify-evenly">
                         <button type="submit"
-                            class="bg-primary w-1/4 h-full rounded-md hover:text-black hover:bg-red-300">Luluskan</button>
+                            class="bg-primary w-1/4 h-full rounded-md text-white hover:text-black hover:bg-red-300">Luluskan</button>
                         <button type="submit"
-                            class="bg-primary w-1/4 h-full rounded-md hover:text-black hover:bg-red-300">Batal</button>
+                            class="bg-primary w-1/4 h-full rounded-md text-white hover:text-black hover:bg-red-300">Batal</button>
                     </div>
                 </form>
             </div>
@@ -111,11 +120,6 @@
         exitModal.addEventListener('click', function() {
             modal.classList.toggle('hidden');
         });
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.classList.toggle('hidden');
-            }
-        }
 
         const lulusButton = document.getElementById('lulusButton');
         const exitModal2 = document.getElementById('exitModal2');
@@ -127,10 +131,15 @@
         exitModal2.addEventListener('click', function() {
             modal2.classList.toggle('hidden');
         });
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.classList.toggle('hidden');
+
+        // Ubah penanganan klik di luar modal
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
             }
-        }
+            if (event.target === modal2) {
+                modal2.classList.add('hidden');
+            }
+        });
     </script>
 @endsection

@@ -43,7 +43,7 @@
         </div>
         <div class="px-8">
             <div class="container mx-auto flex justify-between">
-                <div class="w-5/12">
+                <div class="w-2/3">
                     <ul class="flex justify-between">
                         <li>
                             <a href="/admin/index"
@@ -73,16 +73,6 @@
                                 </span>
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="/admin/komite"
-                                class="hover:bg-slate-300  {{ $title == 'komite' ? 'bg-red-200' : '' }}">
-                                Komite
-                                <span>
-                                    <img src="/storage/icons/interview.png"
-                                        class="w-3 h-3 inline-block -translate-y-[10%]">
-                                </span>
-                            </a>
-                        </li> --}}
                         <li class="relative">
                             <button id="pengajuanDropdownButton"
                                 class="hover:bg-slate-300 {{ $title == 'pengajuan' ? 'bg-red-200' : '' }}">
@@ -117,6 +107,36 @@
                                 </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="/admin/revisi"
+                                class="hover:bg-slate-300  {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
+                                Penerimaan Revisi
+                                <span>
+                                    <img src="/storage/icons/revision.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
+                        {{-- <li class="relative">
+                            <button id="dataDropdownButton"
+                                class="hover:bg-slate-300 {{ $title == 'data' ? 'bg-red-200' : '' }}">
+                                Data
+                                <span>
+                                    <img src="/storage/icons/contract.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </button>
+                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                                id="dataDropdownContent">
+                                <a href="/admin/data/kelas" class="block px-4 py-2 hover:bg-slate-300">Kelas</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/admin/data/prodi" class="block px-4 py-2 hover:bg-slate-300">Program
+                                    Studi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/admin/data/tahun" class="block px-4 py-2 hover:bg-slate-300">Tahun
+                                    Ajaran</a>
+                            </div>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="relative">
