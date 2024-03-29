@@ -12,12 +12,13 @@ return new class extends Migration {
     {
         Schema::create('dosens', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('nip')->unique();
+            $table->bigInteger('user_id');
+            $table->bigInteger('nip')->unique();
             $table->string('jabatan');
             $table->string('fungsional');
             $table->string('gol_pangkat');
             $table->string('tanda_tangan')->nullable();
+            $table->json('role')->nullable();
             $table->timestamps();
         });
     }

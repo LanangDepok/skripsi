@@ -24,6 +24,12 @@
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
         </div>
     </div>
+    @if (session('success'))
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 text-center"
+            role="alert">
+            <span class="font-medium">Sukses!</span> {{ session('success') }}
+        </div>
+    @endif
     <div class="container mx-auto mt-6">
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
@@ -36,49 +42,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">Pak Anggi, S.T, M.T</td>
-                    <td class="border-b border-slate-500 py-2 text-center">01234567890</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Ketua Sidang</td>
-                    <td class="border-b border-slate-500 py-2 text-center">3</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/dosen/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/dosen/1/edit">Edit</a></button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">Pak Anggi, S.T, M.T</td>
-                    <td class="border-b border-slate-500 py-2 text-center">01234567890</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Dosen Penguji</td>
-                    <td class="border-b border-slate-500 py-2 text-center">3</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Detail</button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Edit</button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
-                <tr class="even:bg-slate-300">
-                    <td class="border-b border-slate-500 py-2 text-center">Pak Anggi, S.T, M.T</td>
-                    <td class="border-b border-slate-500 py-2 text-center">01234567890</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Dosen Pembimbing</td>
-                    <td class="border-b border-slate-500 py-2 text-center">3</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="/admin/dosen/1">Detail</a></button>
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                href="">Edit</a></button>
-                        <button
-                            class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
-                    </td>
-                </tr>
-
+                @foreach ($data as $dosen)
+                    <tr class="even:bg-slate-300">
+                        <form method="POST" action="/admin/dosen/{{ $dosen->id }}">
+                            @csrf
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->user->nama }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->nip }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center"> {{ implode(', ', $dosen->role) }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">-</td>
+                            <td class="text-center  border-b border-slate-500">
+                                <button type="button"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                        href="/admin/dosen/{{ $dosen->id }}">Detail</a></button>
+                                <button type="button"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
+                                        href="/admin/dosen/{{ $dosen->id }}/edit">Edit</a></button>
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
+                            </td>
+                        </form>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

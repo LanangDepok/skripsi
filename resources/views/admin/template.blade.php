@@ -29,7 +29,7 @@
                 </div>
                 <div class="flex items-center">
                     <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
-                    <select name="program_studi" id="program_studi" class="w-24 rounded-md"
+                    <select name="program_studi" id="program_studi" class="w-30 rounded-md"
                         onchange="redirectToPage(this)">
                         <option value="/dosen/index">Dosen</option>
                         <option value="/admin/index" selected>Komite</option>

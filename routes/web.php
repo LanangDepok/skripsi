@@ -56,15 +56,20 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/index', 'index');
 
     Route::get('/admin/mahasiswa', 'getStudents');
-    Route::get('/admin/mahasiswa/1', 'getStudent');
     Route::get('/admin/mahasiswa/create', 'createStudent');
-    Route::post('/admin/mahasiswa/insert', 'insertStudent');
-    Route::get('/admin/mahasiswa/1/edit', 'editStudent');
+    Route::post('/admin/mahasiswa', 'storeStudent');
+    Route::get('/admin/mahasiswa/{mahasiswa}', 'getStudent');
+    Route::get('/admin/mahasiswa/{mahasiswa}/edit', 'editStudent');
+    Route::put('/admin/mahasiswa/{mahasiswa}', 'updateStudent');
+    Route::delete('/admin/mahasiswa/{mahasiswa}', 'deleteStudent');
 
     Route::get('/admin/dosen', 'getLecturers');
-    Route::get('/admin/dosen/1', 'getLecturer');
     Route::get('/admin/dosen/create', 'createLecturer');
-    Route::get('/admin/dosen/1/edit', 'editLecturer');
+    Route::post('/admin/dosen', 'storeLecturer');
+    Route::get('/admin/dosen/{dosen}', 'getLecturer');
+    Route::get('/admin/dosen/{dosen}/edit', 'editLecturer');
+    Route::put('/admin/dosen/{dosen}', 'updateLecturer');
+    Route::delete('/admin/dosen/{dosen}', 'deleteLecturer');
 
     Route::get('/admin/pengajuan/judul', 'pengajuanJudul');
     Route::get('/admin/pengajuan/judul/1', 'getPengajuanJudul');

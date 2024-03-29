@@ -30,7 +30,7 @@ class MahasiswaSeeder extends Seeder
             'nim' => 207412007,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
-            'status' => '',
+            'status' => 'Belum mengajukan judul',
             'tanda_tangan' => '',
             'file_skripsi' => '',
             'tahun_ajaran' => '2023/2024'

@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('dospem_nip')->nullable();
-            $table->integer('nim')->unique();
+            $table->bigInteger('user_id');
+            $table->bigInteger('dospem_nip')->nullable();
+            $table->bigInteger('nim')->unique();
             $table->string('prodi');
             $table->string('kelas');
             $table->string('status')->nullable();

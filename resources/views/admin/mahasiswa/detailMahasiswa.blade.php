@@ -14,11 +14,11 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: Bagas Rizkiyanto</P><br>
-            <P>NIM: 2007412006</P><br>
-            <P>Kelas: TI-CCIT8</P><br>
-            <P>Prodi: Teknik Informatika</P><br>
-            <P>Tahun Ajaran: 2023-2024</P><br>
+            <P>Email: {{ $mahasiswa->user->email }}</P><br>
+            <P>NIM: {{ $mahasiswa->nim }}</P><br>
+            <P>Kelas: {{ $mahasiswa->kelas }}</P><br>
+            <P>Prodi: {{ $mahasiswa->prodi }}</P><br>
+            <P>Tahun Ajaran: {{ $mahasiswa->tahun_ajaran }}</P><br>
             <P>Status: Seminar Proposal</P><br>
             <P>No. Kontak Mahasiswa:</P><br>
             <P>Nama Orang Tua/Wali:</P><br>

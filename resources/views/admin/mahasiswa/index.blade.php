@@ -34,6 +34,12 @@
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
         </div>
     </div>
+    @if (session('success'))
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 text-center"
+            role="alert">
+            <span class="font-medium">Sukses!</span> {{ session('success') }}
+        </div>
+    @endif
     <div class="container mx-auto mt-6">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
@@ -51,11 +57,12 @@
             <tbody>
                 <?php $i = 1; ?>
                 @foreach ($data as $mahasiswa)
-                    <form method="POST" action="/mahasiswa/{{ $mahasiswa->id }}/delete">
-                        <tr class="even:bg-slate-300">
+                    <tr class="even:bg-slate-300">
+                        <form method="POST" action="/admin/mahasiswa/{{ $mahasiswa->id }}">
+                            @csrf
                             <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                <p>{{ $mahasiswa->user->name }}</p>
+                                <p>{{ $mahasiswa->user->nama }}</p>
                                 <p>({{ $mahasiswa->nim }})</p>
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->prodi }}</td>
@@ -65,20 +72,29 @@
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ empty($mahasiswa->status) ? 'Belum mengajukan judul' : $mahasiswa->status }}</td>
                             <td class="text-center  border-b border-slate-500">
-                                <button
+                                <button type="button"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
                                         href="/admin/mahasiswa/{{ $mahasiswa->id }}">Detail</a></button>
-                                <button
+                                <button type="button"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
                                         href="/admin/mahasiswa/{{ $mahasiswa->id }}/edit">Edit</a></button>
-                                <button
+                                @method('DELETE')
+                                <button type="submit"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
-                                    type="submit">Delete</button>
+                                    type="submit" onclick="confirmDelete(event)">Delete</button>
                             </td>
-                        </tr>
-                    </form>
+                        </form>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        function confirmDelete(event) {
+            if (!confirm('Apakah yakin ingin menghapus?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
 @endsection

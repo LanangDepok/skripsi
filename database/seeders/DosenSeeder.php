@@ -16,34 +16,48 @@ class DosenSeeder extends Seeder
         Dosen::create([
             'user_id' => '2',
             'nip' => '123',
-            'jabatan' => 'jabatan dosen',
-            'fungsional' => 'fungsional dosen',
-            'gol_pangkat' => 'gol dan pangkat dosen',
-            'tanda_tangan' => ''
+            'jabatan' => 'Jabatan 1',
+            'fungsional' => 'Fungsional 1',
+            'gol_pangkat' => 'gol_pangkat 1',
+            'tanda_tangan' => '',
+            'role' => [
+                'Komite',
+                'Dosen Penguji'
+            ]
         ]);
         Dosen::create([
             'user_id' => '3',
             'nip' => '234',
-            'jabatan' => 'jabatan dosen',
-            'fungsional' => 'fungsional dosen',
-            'gol_pangkat' => 'gol dan pangkat dosen',
-            'tanda_tangan' => ''
+            'jabatan' => 'Jabatan 2',
+            'fungsional' => 'Fungsional 2',
+            'gol_pangkat' => 'gol_pangkat 2',
+            'tanda_tangan' => '',
+            'role' => [
+                'Komite',
+                'Dosen Pembimbing'
+            ]
         ]);
         Dosen::create([
             'user_id' => '4',
             'nip' => '345',
-            'jabatan' => 'jabatan dosen',
-            'fungsional' => 'fungsional dosen',
-            'gol_pangkat' => 'gol dan pangkat dosen',
-            'tanda_tangan' => ''
+            'jabatan' => 'Jabatan 3',
+            'fungsional' => 'Fungsional 3',
+            'gol_pangkat' => 'gol_pangkat 3',
+            'tanda_tangan' => '',
+            'role' => [
+                'Dosen Penguji'
+            ]
         ]);
         Dosen::create([
             'user_id' => '5',
             'nip' => '456',
-            'jabatan' => 'jabatan dosen',
-            'fungsional' => 'fungsional dosen',
-            'gol_pangkat' => 'gol dan pangkat dosen',
-            'tanda_tangan' => ''
+            'jabatan' => 'Jabatan 1',
+            'fungsional' => 'Fungsional 1',
+            'gol_pangkat' => 'gol_pangkat 1',
+            'tanda_tangan' => '',
+            'role' => [
+                'Dosen Pembimbing'
+            ]
         ]);
     }
 }
