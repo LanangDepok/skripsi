@@ -20,10 +20,10 @@ class RoleSeeder extends Seeder
             'nama' => 'komite'
         ]);
         Role::create([
-            'nama' => 'dosen pembimbing'
+            'nama' => 'dosen penguji'
         ]);
         Role::create([
-            'nama' => 'dosen penguji'
+            'nama' => 'dosen pembimbing'
         ]);
         Role::create([
             'nama' => 'mahasiswa'

@@ -48,7 +48,12 @@
                             @csrf
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->user->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->nip }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center"> {{ implode(', ', $dosen->role) }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                @php
+                                    $roles = $dosen->user->roles->pluck('nama')->implode(', ');
+                                @endphp
+                                {{ $roles }}
+                            </td>
                             <td class="border-b border-slate-500 py-2 text-center">-</td>
                             <td class="text-center  border-b border-slate-500">
                                 <button type="button"
