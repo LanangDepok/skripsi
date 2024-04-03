@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
+use App\Models\Konten;
+use App\Models\User;
+use App\Services\DosenService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DosenController extends Controller
 {
+    public function __construct(protected DosenService $dosenService)
+    {
+    }
+
     public function index()
     {
-        return view('dosen.index', ['title' => 'index']);
+        $konten = Konten::get();
+
+        return view('dosen.index', ['title' => 'index', 'konten' => $konten]);
     }
 
     //logbook
@@ -48,12 +59,24 @@ class DosenController extends Controller
     //profile
     public function getProfile()
     {
-        return view('dosen.profile.index', ['title' => 'profile']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            return view('dosen.profile.index', ['title' => 'profile']);
+        }
+        abort(404);
     }
 
-    public function editProfile()
+    public function updateProfile(Request $request, User $user)
     {
-        return view('dosen.profile.edit', ['title' => 'profile']);
+
+        if (Gate::forUser($user)->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            $photo_profil = $request->photo_profil;
+            $tanda_tangan = $request->tanda_tangan;
+
+            $this->dosenService->updateProfile($user, $photo_profil, $tanda_tangan);
+
+            return back();
+        }
+        abort(404);
     }
 
     //pengujian sempro

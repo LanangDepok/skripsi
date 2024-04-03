@@ -22,11 +22,14 @@ Route::get('/1', function () {
 });
 
 //login
-Route::get('/', [LoginController::class, 'login'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/', 'login')->name('login');
+    Route::post('/login', 'authenticate')->middleware('guest');
+    Route::post('/logout', 'logout')->middleware('auth');
+});
 
 //mahasiswa
-Route::controller(MahasiswaController::class)->group(function () {
+Route::middleware('auth')->controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/index', 'index');
 
     Route::get('/mahasiswa/pengajuan/judul', 'pengajuanJudul');
@@ -38,7 +41,8 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/logbook/create', 'createLogbook');
 
     Route::get('/mahasiswa/skripsi', 'getSkripsi');
-    Route::get('/mahasiswa/skripsi/1/edit', 'editSkripsi');
+    Route::get('/mahasiswa/skripsi/edit', 'editSkripsi');
+    Route::put('/mahasiswa/skripsi/{user}', 'updateSkripsi');
 
     Route::get('/mahasiswa/informasi', 'getInformations');
     Route::get('/mahasiswa/informasi/1/berita_sempro', 'getBeritaSempro');
@@ -48,12 +52,14 @@ Route::controller(MahasiswaController::class)->group(function () {
     Route::get('/mahasiswa/revisi/1', 'getRevisi');
 
     Route::get('/mahasiswa/profile', 'getProfile');
-    Route::get('/mahasiswa/profile/1/edit', 'editProfile');
+    Route::get('/mahasiswa/profile/edit', 'editProfile');
+    Route::put('/mahasiswa/profile/{user}', 'updateProfile');
 });
 
 //Admin
-Route::controller(AdminController::class)->group(function () {
+Route::middleware('auth')->controller(AdminController::class)->group(function () {
     Route::get('/admin/index', 'index');
+    Route::post('/admin/index', 'updateKonten');
 
     Route::get('/admin/mahasiswa', 'getStudents');
     Route::get('/admin/mahasiswa/create', 'createStudent');
@@ -87,7 +93,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/revisi/1', 'getRevisi');
 });
 
-Route::controller(DosenController::class)->group(function () {
+Route::middleware('auth')->controller(DosenController::class)->group(function () {
     Route::get('/dosen/index', 'index');
 
     Route::get('/dosen/bimbingan/logbook', 'getLogbooks');
@@ -120,5 +126,5 @@ Route::controller(DosenController::class)->group(function () {
     Route::get('dosen/revisi/1', 'getRevisi');
 
     Route::get('/dosen/profile', 'getProfile');
-    Route::get('/dosen/profile/1/edit', 'editProfile');
+    Route::put('/dosen/profile/{user}', 'updateProfile');
 });

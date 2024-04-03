@@ -2,29 +2,30 @@
 
 @section('content')
     <div class="container mx-auto w-2/3 flex justify-end">
-        <a href="/mahasiswa/profile/1/edit"
+        <a href="/mahasiswa/profile/edit"
             class="rounded-lg bg-primary p-2 px-4 text-white hover:text-black hover:bg-red-300">Edit
             Biodata</a>
     </div>
     <div
         class="container mx-auto w-2/3 mt-2 flex rounded-lg border-2 border-primary p-6 shadow-slate-400 shadow-lg justify-around">
         {{-- <div class=""> --}}
-        <img src="/storage/assets/4x6.jpg" class="w-40 h-40 rounded-full my-auto">
+        <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
+            class="w-40 h-40 rounded-full my-auto">
         {{-- </div> --}}
         <div>
-            <p>Email : bagas.rizkiyanto.tik20@mhsw.pnj.ac.id</p>
-            <p>Nama : Bagas Rizkiyanto</p>
-            <p>NIM : 2007412006</p>
-            <p>Kelas : TI-CCIT 8</p>
-            <p>Prodi : Teknik Informatika</p>
-            <p>No. Kontak : 0895365145790</p>
-            <p>Nama Orang Tua/Wali : myFather</p>
-            <p>No. Kontak Orang Tua/Wali : 0895365145790</p>
+            <p>Email : {{ Auth::user()->email }}</p>
+            <p>Nama : {{ Auth::user()->nama }}</p>
+            <p>NIM : {{ Auth::user()->mahasiswa->nim }}</p>
+            <p>Kelas : {{ Auth::user()->mahasiswa->kelas }}</p>
+            <p>Prodi : {{ Auth::user()->mahasiswa->prodi }}</p>
+            <p>No. Kontak : {{ Auth::user()->mahasiswa->no_kontak }}</p>
+            <p>Nama Orang Tua/Wali : {{ Auth::user()->mahasiswa->nama_ortu }}</p>
+            <p>No. Kontak Orang Tua/Wali : {{ Auth::user()->mahasiswa->no_kontak_ortu }}</p>
             {{-- <div class="flex flex-wrap bg-pink-300 w-96">
                     <p>Anggota Tim : Ilham, kurniawan, Kurniadi</p>
                 </div> --}}
         </div>
-        <img src="/storage/assets/signature.png" class="max-h-24 max-w-56 my-auto">
+        <img src="/storage/{{ Auth::user()->mahasiswa->tanda_tangan }}" class="max-h-24 max-w-56 my-auto">
     </div>
     <div class="container mx-auto w-2/3 mt-12">
         <p class="text-center text-xl font-semibold">Progress</p>

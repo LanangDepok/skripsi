@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Konten;
+use App\Models\Mahasiswa;
+use App\Models\Skripsi;
+use App\Models\User;
 use App\Services\MahasiswaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class MahasiswaController extends Controller
 {
@@ -13,7 +19,8 @@ class MahasiswaController extends Controller
 
     public function index()
     {
-        return view('mahasiswa.index', ['title' => 'index']);
+        $konten = Konten::get();
+        return view('mahasiswa.index', ['title' => 'index', 'konten' => $konten]);
     }
 
     // pengajuan
@@ -51,12 +58,46 @@ class MahasiswaController extends Controller
     // skripsi
     public function getSkripsi()
     {
-        return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
+        }
+        abort(404);
+
     }
 
     public function editSkripsi()
     {
-        return view('mahasiswa.skripsi.skripsiEdit', ['title' => 'skripsi']);
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.skripsi.skripsiEdit', ['title' => 'skripsi']);
+        }
+        abort(404);
+    }
+
+    public function updateSkripsi(Request $request, User $user)
+    {
+        $skripsi = new Skripsi();
+
+        if (Gate::forUser($user)->allows('mahasiswa')) {
+            $data = $request->all();
+            $rules = [
+                'judul' => 'required',
+                'sub_judul' => 'nullable',
+                'anggota' => 'nullable',
+                'file_skripsi' => 'required|mimes:pdf',
+            ];
+            $messages = [
+                'integer' => ':attribute harus berupa angka.',
+                'mimes' => ':attribute harus berupa pdf',
+                'required' => ':attribute tidak boleh kosong.'
+            ];
+            $validator = Validator::make($data, $rules, $messages);
+            $validated_user = $validator->validated();
+
+            $this->mahasiswaService->updateSkripsi($user, $skripsi, $validated_user);
+
+            return redirect('/mahasiswa/skripsi');
+        }
+        abort(404);
     }
 
     // informasi
@@ -87,11 +128,43 @@ class MahasiswaController extends Controller
     // profile
     public function getProfile()
     {
-        return view('mahasiswa.profile.index', ['title' => 'profile']);
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.profile.index', ['title' => 'profile']);
+        }
+        abort(404);
     }
 
     public function editProfile()
     {
-        return view('mahasiswa.profile.profileEdit', ['title' => 'profile']);
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.profile.profileEdit', ['title' => 'profile']);
+        }
+        abort(404);
+    }
+
+    public function updateProfile(Request $request, User $user)
+    {
+        if (Gate::forUser($user)->allows('mahasiswa')) {
+            $data = $request->all();
+            $rules = [
+                'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
+                'tanda_tangan' => 'required|mimes:jpg,jpeg,png',
+                'no_kontak' => 'required|integer',
+                'nama_ortu' => 'required',
+                'no_kontak_ortu' => 'required|integer',
+            ];
+            $messages = [
+                'integer' => ':attribute harus berupa angka.',
+                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
+                'required' => ':attribute tidak boleh kosong.'
+            ];
+            $validator = Validator::make($data, $rules, $messages);
+            $validated_user = $validator->validated();
+
+            $this->mahasiswaService->updateProfile($user, $validated_user);
+
+            return redirect('/mahasiswa/profile');
+        }
+        abort(404);
     }
 }

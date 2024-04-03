@@ -27,23 +27,21 @@
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
-                    <select name="program_studi" id="program_studi" class="w-30 rounded-md"
-                        onchange="redirectToPage(this)">
-                        <option value="/dosen/index">Dosen</option>
-                        <option value="/admin/index" selected>Komite</option>
-                    </select>
-                    {{-- <a href="/dosen/index"
-                        class="h-7 w-36 bg-red-300 text-center rounded-md font-semibold hover:text-white">
-                        Ganti Role Dosen
-                    </a> --}}
-                </div>
+                @can('komite')
+                    <div class="flex items-center">
+                        <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
+                        <select name="program_studi" id="program_studi" class="w-30 rounded-md"
+                            onchange="redirectToPage(this)">
+                            <option value="/dosen/index">Dosen</option>
+                            <option value="/admin/index" selected>Komite</option>
+                        </select>
+                    </div>
+                @endcan
             </div>
         </div>
         <div class="px-8">
-            <div class="container mx-auto flex justify-between">
-                <div class="w-2/3">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="w-3/5">
                     <ul class="flex justify-between">
                         <li>
                             <a href="/admin/index"
@@ -117,40 +115,27 @@
                                 </span>
                             </a>
                         </li>
-                        {{-- <li class="relative">
-                            <button id="dataDropdownButton"
-                                class="hover:bg-slate-300 {{ $title == 'data' ? 'bg-red-200' : '' }}">
-                                Data
-                                <span>
-                                    <img src="/storage/icons/contract.png"
-                                        class="w-3 h-3 inline-block -translate-y-[10%]">
-                                </span>
-                            </button>
-                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
-                                id="dataDropdownContent">
-                                <a href="/admin/data/kelas" class="block px-4 py-2 hover:bg-slate-300">Kelas</a>
-                                <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/admin/data/prodi" class="block px-4 py-2 hover:bg-slate-300">Program
-                                    Studi</a>
-                                <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/admin/data/tahun" class="block px-4 py-2 hover:bg-slate-300">Tahun
-                                    Ajaran</a>
-                            </div>
-                        </li> --}}
                     </ul>
                 </div>
                 <div class="relative">
-                    <button
-                        class="flex items-center relative hover:bg-slate-300  {{ $title == 'profile' ? 'bg-red-200' : '' }}"
+                    <button class="flex items-center hover:bg-slate-300  {{ $title == 'profile' ? 'bg-red-200' : '' }}"
                         id="userDropdownButton">
-                        <p class="truncate text-nowrap inline-block max-w-64">Admin</p>
+                        <p class="truncate text-nowrap inline-block max-w-64">{{ Auth::user()->nama }}</p>
                         <span class="ml-3">
-                            <img src="/storage/icons/user.png" class="w-3 h-3 translate-y-[10%]">
+                            <img src="/storage/{{ isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png' }}"
+                                class="w-7 h-7 rounded-full">
                         </span>
                     </button>
                     <div class="absolute bg-slate-100 rounded-md shadow-md w-32 mt-2 right-0 hidden"
                         id="userDropdownContent">
-                        <a href="#" class="block px-4 py-2 hover:bg-slate-300">Logout</a>
+                        @can('komite')
+                            <a href="/dosen/profile" class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
+                            <div class="container h-[1px] w-full bg-slate-500"></div>
+                        @endcan
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button type="submit" class="hover:bg-slate-300 w-full py-2">Logout</button>
+                        </form>
                     </div>
                 </div>
             </div>

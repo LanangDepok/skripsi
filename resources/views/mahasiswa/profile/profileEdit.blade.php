@@ -2,34 +2,67 @@
 
 @section('content')
     <div class="container mx-auto w-1/4 border-2 p-8 border-primary rounded-xl shadow-lg shadow-slate-400 mt-8">
-        <form>
+        <form method="POST" action="/mahasiswa/profile/{{ Auth::user()->id }}" enctype="multipart/form-data">
+            @csrf
             <div>
                 <h2 class="text-xl font-semibold text-center underline">Edit Profil</h2>
             </div>
             <div class="mt-4">
-                <label for="photo_profile">Foto Profil</label>
-                <input type="file" id="photo_profile" name="photo_profile"
+                <label for="photo_profil">Foto Profil</label>
+                <input type="file" id="photo_profil" name="photo_profil"
                     class="border-primary border block w-full rounded-md">
             </div>
+            @error('photo_profil')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
             <div class="mt-4">
-                <label for="signature">Tanda Tangan</label>
-                <input type="file" id="signature" name="signature" class="border-primary border block w-full rounded-md">
+                <label for="tanda_tangan">Tanda Tangan</label>
+                <input type="file" id="tanda_tangan" name="tanda_tangan"
+                    class="border-primary border block w-full rounded-md">
             </div>
+            @error('tanda_tangan')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
             <div class="mt-4">
-                <label for="telp">No. Kontak</label>
-                <input type="text" id="telp" name="telp" class="border-primary border block w-full rounded-md"
-                    value="0895365145790">
+                <label for="no_kontak">No. Kontak</label>
+                <input type="text" id="no_kontak" name="no_kontak" class="border-primary border block w-full rounded-md"
+                    value="{{ Auth::user()->mahasiswa->no_kontak }}">
             </div>
+            @error('no_kontak')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
             <div class=" mt-4">
-                <label for="ortu">Nama Orang Tua/Wali</label>
-                <input type="text" id="ortu" name="ortu" class="border-primary border block w-full rounded-md"
-                    value="myMother">
+                <label for="nama_ortu">Nama Orang Tua/Wali</label>
+                <input type="text" id="nama_ortu" name="nama_ortu" class="border-primary border block w-full rounded-md"
+                    value="{{ Auth::user()->mahasiswa->nama_ortu }}">
             </div>
+            @error('nama_ortu')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
             <div class=" mt-4">
-                <label for="telp_ortu">No. Kontak Orang Tua/Wali</label>
-                <input type="text" id="telp_ortu" name="telp_ortu" class="border-primary border block w-full rounded-md"
-                    value="081380288665">
+                <label for="no_kontak_ortu">No. Kontak Orang Tua/Wali</label>
+                <input type="text" id="no_kontak_ortu" name="no_kontak_ortu"
+                    class="border-primary border block w-full rounded-md"
+                    value="{{ Auth::user()->mahasiswa->no_kontak_ortu }}">
             </div>
+            @error('no_kontak_ortu')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
             {{-- <div class=" mt-4">
                     <label for="tim">Anggota Tim</label>
                     <input type="text" id="tim" name="tim"
@@ -38,7 +71,9 @@
             <div class="mt-8 flex justify-around">
                 <button class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black"><a
                         href="/mahasiswa/profile">Kembali</a></button>
-                <button class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black">Simpan</button>
+                @method('PUT')
+                <button type="submit"
+                    class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black">Simpan</button>
             </div>
         </form>
     </div>

@@ -58,4 +58,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+    public function skripsi(): HasOne
+    {
+        return $this->hasOne(Skripsi::class);
+    }
 }

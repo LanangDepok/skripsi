@@ -90,14 +90,14 @@
                         </div>
                         <div class="text-left mb-4">
                             <p>Role</p>
-                            <input type="checkbox" id="dosen_pembimbing" name="role[]" value="Dosen Pembimbing">
-                            <label for="dosen_pembimbing">Dosen Pembimbing</label><br>
-                            <input type="checkbox" id="dosen_penguji" name="role[]" value="Dosen Penguji">
-                            <label for="dosen_penguji">Dosen Penguji</label><br>
-                            <input type="checkbox" id="ketua_penguji" name="role[]" value="Ketua Penguji">
-                            <label for="ketua_penguji">Ketua Penguji</label><br>
-                            <input type="checkbox" id="komite" name="role[]" value="Komite">
+                            <input type="checkbox" id="komite" name="role[]" value="2">
                             <label for="komite">Komite</label><br>
+                            <input type="checkbox" id="ketua_penguji" name="role[]" value="3">
+                            <label for="ketua_penguji">Ketua Penguji</label><br>
+                            <input type="checkbox" id="dosen_penguji" name="role[]" value="4">
+                            <label for="dosen_penguji">Dosen Penguji</label><br>
+                            <input type="checkbox" id="dosen_pembimbing" name="role[]" value="5">
+                            <label for="dosen_pembimbing">Dosen Pembimbing</label><br>
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">

@@ -7,20 +7,18 @@
             type="submit">Edit Konten</button>
         <div class="flex justify-between">
             <h2 class="text-2xl text-primary text-left font-semibold">Timeline Skripsi</h2>
-            {{-- <button class="bg-primary text-white w-24 h-8 my-auto rounded-2xl text-2xl hover:text-black hover:bg-red-300"
-                type="submit">Edit</button> --}}
         </div>
         <div class="bg-primary container h-1 mb-5 mt-2"></div>
-        <img src="/storage/assets/timeline_skripsi.jpg" class="w-full">
+        @isset($konten)
+        @endisset
+        <img src="/storage/{{ $konten[0]->gambar }}" class="w-full">
     </div>
     <div class="container text-center mx-auto w-3/4 mt-24">
         <div class="flex justify-between">
             <h2 class="text-2xl text-primary text-left font-semibold">Alur Skripsi</h2>
-            {{-- <button class="bg-primary text-white w-24 h-8 my-auto rounded-2xl text-2xl hover:text-black hover:bg-red-300"
-                type="submit">Edit</button> --}}
         </div>
         <div class="bg-primary container h-1 mb-5 mt-2"></div>
-        <img src="/storage/assets/alur_skripsi.jpg" class="w-full">
+        <img src="/storage/{{ $konten[1]->gambar }}" class="w-full">
     </div>
 
     {{-- Modal --}}
@@ -29,21 +27,24 @@
             <div class="w-7 ml-auto">
                 <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
-            <div class="container w-1/2 mx-auto">
-                <p class="text-center mb-5 font-semibold text-xl">Edit Konten</p>
-                <div>
-                    <label for="dosen_pembimbing1">Timeline Skripsi</label>
-                    <input type="file" class="w-full rounded-md border border-primary">
+            <form method="POST" action="/admin/index" enctype="multipart/form-data">
+                @csrf
+                <div class="container w-1/2 mx-auto">
+                    <p class="text-center mb-5 font-semibold text-xl">Edit Konten</p>
+                    <div>
+                        <label>Timeline Skripsi</label>
+                        <input name="timeline_skripsi" type="file" class="w-full rounded-md border border-primary">
+                    </div>
+                    <div class="mt-4">
+                        <label>Alur Skripsi</label>
+                        <input name="alur_skripsi" type="file" class="w-full rounded-md border border-primary">
+                    </div>
+                    <div class="w-24 h-8 mx-auto mt-10">
+                        <button type="submit"
+                            class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300">Simpan</button>
+                    </div>
                 </div>
-                <div class="mt-4">
-                    <label for="dosen_pembimbing1">Alur Skripsi</label>
-                    <input type="file" class="w-full rounded-md border border-primary">
-                </div>
-                <div class="w-24 h-8 mx-auto mt-10">
-                    <button type="submit"
-                        class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300">Simpan</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 

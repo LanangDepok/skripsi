@@ -21,7 +21,12 @@
             <P>Jabatan: {{ $dosen->jabatan }}</P><br>
             <P>Fungsional: {{ $dosen->fungsional }}</P><br>
             <P>Gol & Pangkat: {{ $dosen->gol_pangkat }}</P><br>
-            <P>Role: {{ implode(', ', $dosen->role) }}</P><br>
+            <P>
+                @php
+                    $roles = $dosen->user->roles->pluck('nama')->implode(', ');
+                @endphp
+                Role: {{ $roles }}
+            </P><br>
             <P>Mahasiswa Bimbingan: </P>
             <div class="h-1 bg-primary"></div>
         </div>

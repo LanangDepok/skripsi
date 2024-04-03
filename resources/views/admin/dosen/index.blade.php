@@ -34,6 +34,7 @@
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
+                    <th class="border-b border-slate-500 py-2">No.</th>
                     <th class="border-b border-slate-500 py-2">Nama</th>
                     <th class="border-b border-slate-500 py-2">NIP</th>
                     <th class="border-b border-slate-500 py-2">Role</th>
@@ -42,10 +43,14 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $i = 0;
+                @endphp
                 @foreach ($data as $dosen)
                     <tr class="even:bg-slate-300">
                         <form method="POST" action="/admin/dosen/{{ $dosen->id }}">
                             @csrf
+                            <td class="border-b border-slate-500 py-2 text-center">{{ ++$i }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->user->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->nip }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
@@ -64,7 +69,8 @@
                                         href="/admin/dosen/{{ $dosen->id }}/edit">Edit</a></button>
                                 @method('DELETE')
                                 <button type="submit"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Delete</button>
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                                    onclick="confirmDelete(event)">Delete</button>
                             </td>
                         </form>
                     </tr>
@@ -72,4 +78,12 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        function confirmDelete(event) {
+            if (!confirm('Apakah yakin ingin menghapus?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
 @endsection

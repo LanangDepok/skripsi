@@ -96,18 +96,21 @@
                         </div>
                         <div class="text-left mb-4">
                             <p>Role</p>
-                            <input type="checkbox" id="dosen_pembimbing" name="role[]" value="Dosen Pembimbing"
-                                {{ in_array('Dosen Pembimbing', $dosen->role) ? 'checked' : '' }}>
-                            <label for="dosen_pembimbing">Dosen Pembimbing</label><br>
-                            <input type="checkbox" id="dosen_penguji" name="role[]" value="Dosen Penguji"
-                                {{ in_array('Dosen Penguji', $dosen->role) ? 'checked' : '' }}>
-                            <label for="dosen_penguji">Dosen Penguji</label><br>
-                            <input type="checkbox" id="ketua_penguji" name="role[]" value="Ketua Penguji"
-                                {{ in_array('Ketua Penguji', $dosen->role) ? 'checked' : '' }}>
-                            <label for="ketua_penguji">Ketua Penguji</label><br>
-                            <input type="checkbox" id="komite" name="role[]" value="Komite"
-                                {{ in_array('Komite', $dosen->role) ? 'checked' : '' }}>
+                            @php
+                                $roles = $dosen->user->roles->pluck('nama');
+                            @endphp
+                            <input type="checkbox" id="komite" name="role[]" value="2"
+                                {{ $roles->contains('Komite') ? 'checked' : '' }}>
                             <label for="komite">Komite</label><br>
+                            <input type="checkbox" id="ketua_penguji" name="role[]" value="3"
+                                {{ $roles->contains('Ketua Penguji') ? 'checked' : '' }}>
+                            <label for="ketua_penguji">Ketua Penguji</label><br>
+                            <input type="checkbox" id="dosen_penguji" name="role[]" value="4"
+                                {{ $roles->contains('Dosen Penguji') ? 'checked' : '' }}>
+                            <label for="dosen_penguji">Dosen Penguji</label><br>
+                            <input type="checkbox" id="dosen_pembimbing" name="role[]" value="5"
+                                {{ $roles->contains('Dosen Pembimbing') ? 'checked' : '' }}>
+                            <label for="dosen_pembimbing">Dosen Pembimbing</label><br>
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
