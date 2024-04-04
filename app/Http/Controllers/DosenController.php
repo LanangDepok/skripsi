@@ -67,7 +67,6 @@ class DosenController extends Controller
 
     public function updateProfile(Request $request, User $user)
     {
-
         if (Gate::forUser($user)->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             $photo_profil = $request->photo_profil;
             $tanda_tangan = $request->tanda_tangan;

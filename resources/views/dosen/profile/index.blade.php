@@ -5,7 +5,6 @@
         <button id="editButton" class="rounded-lg bg-primary p-2 px-4 text-white hover:text-black hover:bg-red-300">
             Edit Biodata
         </button>
-
     </div>
     <div
         class="container mx-auto w-2/3 mt-2 flex rounded-lg border-2 border-primary p-6 shadow-slate-400 shadow-lg justify-around">
@@ -24,6 +23,7 @@
             alt="(Belum ada tanda tangan)">
     </div>
 
+
     {{-- Modal --}}
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
@@ -35,11 +35,11 @@
                 <div class="container w-1/2 mx-auto">
                     <p class="text-center mb-5 font-semibold text-xl">Edit Profil</p>
                     <div>
-                        <label>Photo Profil</label>
+                        <label>Photo Profil (PNG, JPG, JPEG)</label>
                         <input name="photo_profil" type="file" class="w-full rounded-md border border-primary">
                     </div>
                     <div class="mt-4">
-                        <label>Tanda Tangan</label>
+                        <label>Tanda Tangan (PNG, JPG, JPEG)</label>
                         <input name="tanda_tangan" type="file" class="w-full rounded-md border border-primary">
                     </div>
                     <div class="w-24 h-8 mx-auto mt-10">

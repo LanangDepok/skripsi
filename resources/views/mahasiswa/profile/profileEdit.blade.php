@@ -8,7 +8,7 @@
                 <h2 class="text-xl font-semibold text-center underline">Edit Profil</h2>
             </div>
             <div class="mt-4">
-                <label for="photo_profil">Foto Profil</label>
+                <label for="photo_profil">Foto Profil (PNG, JPG, JPEG)</label>
                 <input type="file" id="photo_profil" name="photo_profil"
                     class="border-primary border block w-full rounded-md">
             </div>
@@ -19,7 +19,7 @@
                 </div>
             @enderror
             <div class="mt-4">
-                <label for="tanda_tangan">Tanda Tangan</label>
+                <label for="tanda_tangan">Tanda Tangan (PNG, JPG, JPEG)</label>
                 <input type="file" id="tanda_tangan" name="tanda_tangan"
                     class="border-primary border block w-full rounded-md">
             </div>

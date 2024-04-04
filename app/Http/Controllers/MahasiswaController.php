@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Konten;
 use App\Models\Mahasiswa;
+use App\Models\PengajuanJudul;
+use App\Models\Role;
 use App\Models\Skripsi;
 use App\Models\User;
 use App\Services\MahasiswaService;
@@ -26,7 +28,52 @@ class MahasiswaController extends Controller
     // pengajuan
     public function pengajuanJudul()
     {
-        return view('mahasiswa.pengajuan.pengajuanJudul', ['title' => 'pengajuan']);
+        $roles = Role::find(5)->users()->get();
+
+        return view('mahasiswa.pengajuan.pengajuanJudul', ['title' => 'pengajuan', 'roles' => $roles]);
+    }
+
+    public function ajukanJudul(Request $request, User $user)
+    {
+        $pengajuan_judul = new PengajuanJudul();
+
+        $data = $request->all();
+        $rules = [
+            'no_kontak' => 'required|integer',
+            'nama_ortu' => 'required',
+            'no_kontak_ortu' => 'required|integer',
+            'anggota' => 'nullable',
+            'judul_dosen' => 'required',
+            'judul' => 'required',
+            'sub_judul' => 'nullable',
+            'abstrak' => 'required',
+            'studi_kasus' => 'required',
+            'sumber_referensi' => 'required',
+            'pilihan1_dospem' => 'required',
+            'pilihan2_dospem' => 'required',
+            'pilihan3_dospem' => 'required',
+            'tanda_tangan' => 'required|mimes:jpg,jpeg,png'
+        ];
+        $messages = [
+            'required' => ':attribute tidak boleh kosong.',
+            'integer' => 'penulisan :attribute harus mengikuti aturan dasar.'
+        ];
+        $validator = Validator::make($data, $rules, $messages);
+        $validated_mahasiswa = $validator->safe()->only(['no_kontak', 'nama_ortu', 'no_kontak_ortu', 'tanda_tangan']);
+        $validated_mahasiswa['status'] = 'Melakukan pengajuan judul';
+
+        $validated_skripsi = $validator->safe()->only(['judul', 'sub_judul', 'anggota', 'sumber_referensi']);
+        $validated_skripsi['user_id'] = $user->id;
+
+        $validated_pengajuan = $validator->safe()->only(['anggota', 'judul_dosen', 'judul', 'sub_judul', 'abstrak', 'studi_kasus', 'sumber_referensi']);
+        $dosen_pilihan = $validator->safe()->only(['pilihan1_dospem', 'pilihan2_dospem', 'pilihan3_dospem']);
+        $validated_pengajuan['dosen_pilihan'] = implode(', ', $dosen_pilihan);
+        $validated_pengajuan['user_id'] = $user->id;
+        $validated_pengajuan['status'] = 'menunggu';
+
+        $this->mahasiswaService->ajukanSkripsi($user, $pengajuan_judul, $validated_mahasiswa, $validated_skripsi, $validated_pengajuan);
+
+        return redirect('/mahasiswa/informasi');
     }
 
     public function pengajuanSempro()
@@ -105,6 +152,12 @@ class MahasiswaController extends Controller
     {
         return view('mahasiswa.informasi.index', ['title' => 'informasi']);
     }
+
+    public function getPengajuanJudul(PengajuanJudul $pengajuanJudul)
+    {
+        return view('mahasiswa.informasi.getPengajuanJudul', ['title' => 'informasi', 'pengajuanJudul' => $pengajuanJudul]);
+    }
+
 
     public function getBeritaSempro()
     {

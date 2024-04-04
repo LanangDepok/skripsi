@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Skripsi::class);
     }
+    public function pengajuanJudul(): HasOne
+    {
+        return $this->hasOne(pengajuanJudul::class);
+    }
 }

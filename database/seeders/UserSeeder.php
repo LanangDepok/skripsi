@@ -48,5 +48,20 @@ class UserSeeder extends Seeder
             'nama' => 'Rizki',
             'password' => 'rizki',
         ]);
+        User::create([
+            'email' => 'bambang@gmail.com',
+            'nama' => 'Pak Bambang',
+            'password' => 'pakbambang',
+        ]);
+        User::create([
+            'email' => 'mauldy@gmail.com',
+            'nama' => 'Pak mauldy',
+            'password' => 'pakmauldy',
+        ]);
+        User::create([
+            'email' => 'asep@gmail.com',
+            'nama' => 'Pak Asep',
+            'password' => 'pakasep',
+        ]);
     }
 }

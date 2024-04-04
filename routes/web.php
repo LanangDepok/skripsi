@@ -33,6 +33,7 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/index', 'index');
 
     Route::get('/mahasiswa/pengajuan/judul', 'pengajuanJudul');
+    Route::post('/mahasiswa/pengajuan/judul/{user}', 'ajukanJudul');
     Route::get('/mahasiswa/pengajuan/sempro', 'pengajuanSempro');
     Route::get('/mahasiswa/pengajuan/skripsi', 'pengajuanSkripsi');
     Route::get('/mahasiswa/pengajuan/alat', 'pengajuanAlat');
@@ -45,6 +46,7 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::put('/mahasiswa/skripsi/{user}', 'updateSkripsi');
 
     Route::get('/mahasiswa/informasi', 'getInformations');
+    Route::get('/mahasiswa/informasi/{pengajuanJudul}/pengajuanJudul', 'getPengajuanJudul');
     Route::get('/mahasiswa/informasi/1/berita_sempro', 'getBeritaSempro');
     Route::get('/mahasiswa/informasi/1/berita_skripsi', 'getBeritaSkripsi');
 
