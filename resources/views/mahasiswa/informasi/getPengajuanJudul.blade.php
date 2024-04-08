@@ -4,7 +4,7 @@
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
             <a href="/mahasiswa/informasi"
-                class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 h-8 rounded-xl text-center">Back</a>
+                class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center py-[1px]">Back</a>
         </div>
         <div class="flex justify-center">
             <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
@@ -26,6 +26,7 @@
             <P>No. Kontak Orang Tua/Wali: {{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
             <P>Nama Anggota Tim (Jika ada): {{ isset($pengajuanJudul->anggota) ? $pengajuanJudul->anggota : '' }}</P><br>
             <P>Judul Skripsi: {{ $pengajuanJudul->judul }}</P><br>
+            <p>Apakah judul dari dosen? {{ $pengajuanJudul->judul_dosen }}</p><br>
             <P>Sub Judul Skripsi (Jika ada): {{ isset($pengajuanJudul->sub_judul) ? $pengajuanJudul->sub_judul : '' }}</P>
             <br>
             <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanJudul->abstrak }}</p><br>

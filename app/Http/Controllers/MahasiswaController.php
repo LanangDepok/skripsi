@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konten;
+use App\Models\Logbook;
 use App\Models\Mahasiswa;
 use App\Models\PengajuanJudul;
 use App\Models\Role;
@@ -10,6 +11,7 @@ use App\Models\Skripsi;
 use App\Models\User;
 use App\Services\MahasiswaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,11 +28,15 @@ class MahasiswaController extends Controller
     }
 
     // pengajuan
-    public function pengajuanJudul()
+    public function pengajuanJudul(User $user)
     {
-        $roles = Role::find(5)->users()->get();
+        if (!isset($user->pengajuanJudul) || $user->pengajuanJudul->latest()->first()->status == 'ditolak') {
+            $roles = Role::find(5)->users()->get();
 
-        return view('mahasiswa.pengajuan.pengajuanJudul', ['title' => 'pengajuan', 'roles' => $roles]);
+            return view('mahasiswa.pengajuan.pengajuanJudul', ['title' => 'pengajuan', 'roles' => $roles]);
+        } else {
+            return redirect('mahasiswa/informasi')->with('messages', 'Anda sudah melakukan pengajuan judul!');
+        }
     }
 
     public function ajukanJudul(Request $request, User $user)
@@ -67,7 +73,7 @@ class MahasiswaController extends Controller
 
         $validated_pengajuan = $validator->safe()->only(['anggota', 'judul_dosen', 'judul', 'sub_judul', 'abstrak', 'studi_kasus', 'sumber_referensi']);
         $dosen_pilihan = $validator->safe()->only(['pilihan1_dospem', 'pilihan2_dospem', 'pilihan3_dospem']);
-        $validated_pengajuan['dosen_pilihan'] = implode(', ', $dosen_pilihan);
+        $validated_pengajuan['dosen_pilihan'] = implode(' - ', $dosen_pilihan);
         $validated_pengajuan['user_id'] = $user->id;
         $validated_pengajuan['status'] = 'menunggu';
 
@@ -94,12 +100,42 @@ class MahasiswaController extends Controller
     // logbook
     public function getLogbooks()
     {
-        return view('mahasiswa.logbook.index', ['title' => 'logbook']);
+        if (Auth::user()->mahasiswa->bimbingan == null) {
+            return redirect('/mahasiswa/informasi/')->with('messages', 'Anda belum mempunyai dosen pembimbing.');
+        } else {
+            $bimbingan = Auth::user()->mahasiswa->bimbingan;
+            return view('mahasiswa.logbook.index', ['title' => 'logbook', 'bimbingan' => $bimbingan]);
+        }
+    }
+
+    public function getLogbook(Logbook $logbook)
+    {
+        return view('mahasiswa.logbook.detailLogbook', ['title' => 'logbook', 'logbook' => $logbook]);
     }
 
     public function createLogbook()
     {
         return view('mahasiswa.logbook.logbookCreate', ['title' => 'logbook']);
+    }
+
+    public function storeLogbook(Request $request)
+    {
+        $data = $request->all();
+        $rules = [
+            'tanggal' => 'required',
+            'tempat' => 'required',
+            'uraian' => 'required',
+            'rencana_pencapaian' => 'required',
+            'jenis_bimbingan' => 'required',
+        ];
+        $messages = ['required' => 'silahkan isi :attribute terlebih dahulu!'];
+        $validator = Validator::make($data, $rules, $messages)->validate();
+        $validator['bimbingan_id'] = Auth::user()->mahasiswa->bimbingan->id;
+        $validator['status'] = 'Menunggu persetujuan';
+
+        Logbook::create($validator);
+
+        return redirect('/mahasiswa/logbook')->with('success', 'Berhasil mengajukan logbook');
     }
 
     // skripsi

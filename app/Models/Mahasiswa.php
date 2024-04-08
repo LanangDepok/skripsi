@@ -17,4 +17,8 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function bimbingan(): HasOne
+    {
+        return $this->hasOne(Bimbingan::class);
+    }
 }

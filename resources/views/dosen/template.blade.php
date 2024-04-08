@@ -27,14 +27,16 @@
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
-                    <select name="program_studi" id="program_studi" class="w-30 rounded-md"
-                        onchange="redirectToPage(this)">
-                        <option value="/dosen/index" selected>Dosen</option>
-                        <option value="/admin/index">Komite</option>
-                    </select>
-                </div>
+                @can('komite')
+                    <div class="flex items-center">
+                        <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
+                        <select name="program_studi" id="program_studi" class="w-30 rounded-md"
+                            onchange="redirectToPage(this)">
+                            <option value="/dosen/index" selected>Dosen</option>
+                            <option value="/admin/index">Komite</option>
+                        </select>
+                    </div>
+                @endcan
             </div>
         </div>
         <div class="px-8">

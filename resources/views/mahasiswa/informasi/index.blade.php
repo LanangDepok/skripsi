@@ -4,6 +4,11 @@
     <div class="container mx-auto w-3/4">
         <p class=" text-2xl font-semibold">Pengajuan Judul & Dosen Pembimbing</p>
         <div class="bg-primary h-1 mb-5 mt-2 mx-auto"></div>
+        @if (session('messages'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <span class="font-medium">Error!</span> {{ session('messages') }}
+            </div>
+        @endif
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
@@ -19,12 +24,12 @@
                     @php
                         $i = 1;
                     @endphp
-                    @foreach (Auth::user()->pengajuanJudul->get() as $data)
+                    @foreach (Auth::user()->pengajuanJudul->where('user_id', Auth::user()->id)->get() as $data)
                         <tr>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->judul }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ isset($data->dosen_terpilih) ? $dosen->terpilih : 'menunggu' }}</td>
+                                {{ isset($data->dosen_terpilih) ? $data->dosen_terpilih : 'menunggu' }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }}
                             </td>
                             <td class="text-center border-b border-slate-500">

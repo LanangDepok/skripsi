@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bimbingan;
 use App\Models\Dosen;
 use App\Models\Konten;
 use App\Models\Mahasiswa;
+use App\Models\PengajuanJudul;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
 use Illuminate\Http\Request;
@@ -283,23 +286,52 @@ class AdminController extends Controller
     public function pengajuanJudul()
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.judul.index', ['title' => 'pengajuan']);
+            $pengajuanJudul = PengajuanJudul::where('status', '=', 'menunggu')->get();
+            // $pengajuanJudul = PengajuanJudul::get();
+
+            return view('admin.pengajuan.judul.index', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul]);
         }
         abort(404);
     }
 
-    public function storePengajuanJudul(Request $request)
+    public function terimaPengajuanJudul(Request $request, PengajuanJudul $pengajuanJudul)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.judul.index', ['title' => 'pengajuan']);
+            if ($request->input('action') == 'terima') {
+                $dosen_pembimbing = $request->dosen_pembimbing;
+                $pengajuanJudul->update([
+                    'dosen_terpilih' => $dosen_pembimbing,
+                    'status' => 'diterima'
+                ]);
+
+                $pengajuanJudul->user->mahasiswa->update([
+                    'status' => 'Bimbingan sempro'
+                ]);
+
+                $user_dosen = User::where('nama', '=', $dosen_pembimbing)->first();
+                Bimbingan::create([
+                    'dosen_id' => $user_dosen->dosen->id,
+                    'mahasiswa_id' => $pengajuanJudul->user->mahasiswa->id,
+                ]);
+            }
+            if ($request->input('action') == 'tolak') {
+                $pengajuanJudul->update([
+                    'status' => 'ditolak'
+                ]);
+            }
+
+            return redirect('/admin/pengajuan/judul');
         }
         abort(404);
     }
 
-    public function getPengajuanJudul()
+    public function getPengajuanJudul(PengajuanJudul $pengajuanJudul)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.judul.detailPengajuan', ['title' => 'pengajuan']);
+            $role = Role::get();
+            $dosen_pembimbing = $role[4]->users;
+
+            return view('admin.pengajuan.judul.detailPengajuan', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul, 'dosenPembimbing' => $dosen_pembimbing]);
         }
         abort(404);
     }

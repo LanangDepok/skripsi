@@ -1,11 +1,12 @@
 @extends('admin.template')
 
 @section('content')
-    <div class="container mx-auto flex justify-center">
-        <button class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300"><a
-                href="/admin/dosen/create">Tambah
-                Dosen</a></button>
-    </div>
+    @can('admin')
+        <div class="container mx-auto flex justify-center">
+            <a href="/admin/dosen/create" class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">Tambah
+                Dosen</a>
+        </div>
+    @endcan
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
         <div class="flex justify-evenly items-center">
@@ -61,12 +62,10 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">-</td>
                             <td class="text-center  border-b border-slate-500">
-                                <button type="button"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                        href="/admin/dosen/{{ $dosen->id }}">Detail</a></button>
-                                <button type="button"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"><a
-                                        href="/admin/dosen/{{ $dosen->id }}/edit">Edit</a></button>
+                                <a href="/admin/dosen/{{ $dosen->id }}"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
+                                <a href="/admin/dosen/{{ $dosen->id }}/edit"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
                                 @method('DELETE')
                                 <button type="submit"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"

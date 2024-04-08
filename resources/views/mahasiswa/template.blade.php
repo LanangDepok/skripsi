@@ -61,7 +61,8 @@
                             </button>
                             <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
                                 id="pengajuanDropdownContent">
-                                <a href="/mahasiswa/pengajuan/judul" class="block px-4 py-2 hover:bg-slate-300">Judul
+                                <a href="/mahasiswa/pengajuan/judul/{{ Auth::user()->id }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Judul
                                     &
                                     pembimbing</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
@@ -110,7 +111,7 @@
                     <button
                         class="flex items-center relative hover:bg-slate-300 {{ $title == 'profile' ? 'bg-red-200' : '' }}"
                         id="userDropdownButton">
-                        <p class="truncate text-nowrap inline-block max-w-64">Bagas Rizkiyanto</p>
+                        <p class="truncate text-nowrap inline-block max-w-64">{{ Auth::user()->nama }}</p>
                         <span class="ml-3">
                             <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
                                 class="w-7 h-7 rounded-full">

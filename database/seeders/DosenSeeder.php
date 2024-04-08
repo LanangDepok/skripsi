@@ -38,6 +38,14 @@ class DosenSeeder extends Seeder
             'tanda_tangan' => '',
         ]);
         Dosen::create([
+            'user_id' => '5',
+            'nip' => '3454738473',
+            'jabatan' => 'Jabatan 3',
+            'fungsional' => 'Fungsional 3',
+            'gol_pangkat' => 'gol_pangkat 3',
+            'tanda_tangan' => '',
+        ]);
+        Dosen::create([
             'user_id' => '8',
             'nip' => '1341234',
             'jabatan' => 'Jabatan 1',

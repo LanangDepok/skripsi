@@ -1,13 +1,13 @@
-@extends('dosen.template')
+@extends('mahasiswa.template')
 
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/logbook"
+            <a href="/mahasiswa/logbook"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md block">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($logbook->bimbingan->mahasiswa->photo_profil) ? $logbook->bimbingan->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
@@ -34,31 +34,9 @@
                 <iframe src="/storage/{{ $logbook->bimbingan->mahasiswa->user->skripsi->file_skripsi }}"
                     class="w-full h-[600px]"></iframe>
             @else
-                <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
+                <p class="text-center text-xl font-semibold">Anda belum <a href="/mahasiswa/skripsi"
+                        class="text-blue-500 underline">upload file skripsi.</a></p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/logbook/{{ $logbook->id }}">
-            @csrf
-            <div class="container mx-auto w-1/2 mt-6 flex justify-around">
-                <button type="submit" name="terima" value="terima" onclick="confirmAccept(event)"
-                    class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Terima</button>
-                <button type="submit" onclick="confirmDelete(event)"
-                    class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Tolak</button>
-            </div>
-        </form>
     </div>
-
-    <script>
-        function confirmAccept(event) {
-            if (!confirm('Apakah yakin ingin menerima bimbingan?')) {
-                event.preventDefault();
-            }
-        }
-
-        function confirmDelete(event) {
-            if (!confirm('Apakah yakin ingin menolak bimbingan?')) {
-                event.preventDefault();
-            }
-        }
-    </script>
 @endsection

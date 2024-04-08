@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bimbingan;
 use App\Models\Dosen;
 use App\Models\Konten;
+use App\Models\Logbook;
 use App\Models\User;
 use App\Services\DosenService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class DosenController extends Controller
@@ -25,12 +28,26 @@ class DosenController extends Controller
     //logbook
     public function getLogbooks()
     {
-        return view('dosen.bimbingan.logbook.index', ['title' => 'bimbingan']);
+        $bimbingans = Auth::user()->dosen->bimbingans;
+
+        return view('dosen.bimbingan.logbook.index', ['title' => 'bimbingan', 'bimbingans' => $bimbingans]);
     }
 
-    public function getLogbook()
+    public function getLogbook(Logbook $logbook)
     {
-        return view('dosen.bimbingan.logbook.detailLogbook', ['title' => 'bimbingan']);
+        return view('dosen.bimbingan.logbook.detailLogbook', ['title' => 'bimbingan', 'logbook' => $logbook]);
+    }
+
+    public function acceptLogbook(Request $request, Logbook $logbook)
+    {
+        if (isset($request->terima)) {
+            $logbook->update(['status' => 'diterima']);
+            return redirect('dosen/bimbingan/logbook');
+        } else {
+            $logbook->update(['status' => 'ditolak']);
+            return redirect('dosen/bimbingan/logbook');
+
+        }
     }
 
     //persetujuan sidang
@@ -50,9 +67,9 @@ class DosenController extends Controller
         return view('dosen.bimbingan.ListMahasiswa.index', ['title' => 'bimbingan']);
     }
 
-    public function getListMahasiswa()
+    public function getListMahasiswa(Bimbingan $bimbingan)
     {
-        return view('dosen.bimbingan.ListMahasiswa.detailMahasiswa', ['title' => 'bimbingan']);
+        return view('dosen.bimbingan.ListMahasiswa.detailMahasiswa', ['title' => 'bimbingan', 'bimbingan' => $bimbingan]);
     }
 
 
@@ -143,7 +160,7 @@ class DosenController extends Controller
         return view('dosen.kelulusan.index', ['title' => 'kelulusan']);
     }
 
-    //kelulusan
+    //pengajuan revisi
     public function getAllRevisi()
     {
         return view('dosen.revisi.index', ['title' => 'revisi']);

@@ -61,9 +61,9 @@
                     <div class="text-left mb-4">
                         <p>Apakah judul dari dosen?<span class="text-red-700">*</span></p>
                         <label for="judul_dosen">Ya</label>
-                        <input type="radio" name="judul_dosen" id="judul_dosen" value="Ya">
+                        <input type="radio" name="judul_dosen" value="Ya" required>
                         <label for="judul_dosen">Tidak</label>
-                        <input type="radio" name="judul_dosen" id="judul_dosen" value="Tidak">
+                        <input type="radio" name="judul_dosen" value="Tidak" required>
                     </div>
                     @error('judul_dosen')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -137,7 +137,7 @@
                         <select name="pilihan1_dospem" id="pilihan1_dospem"
                             class="block border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 w-full">
                             @foreach ($roles as $role)
-                                <option value="volvo">{{ $role->nama }}</option>
+                                <option value="{{ $role->nama }}">{{ $role->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -147,7 +147,7 @@
                         <select name="pilihan2_dospem" id="pilihan2_dospem"
                             class="block border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 w-full">
                             @foreach ($roles as $role)
-                                <option value="volvo">{{ $role->nama }}</option>
+                                <option value="{{ $role->nama }}">{{ $role->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -157,7 +157,7 @@
                         <select name="pilihan3_dospem" id="pilihan3_dospem"
                             class="block border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 w-full">
                             @foreach ($roles as $role)
-                                <option value="volvo">{{ $role->nama }}</option>
+                                <option value="{{ $role->nama }}">{{ $role->nama }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('status');
             $table->string('sumber_referensi');
             $table->string('dosen_pilihan');
-            $table->string('dosen_terpilih');
+            $table->string('dosen_terpilih')->nullable();
             $table->timestamps();
         });
     }

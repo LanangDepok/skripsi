@@ -6,21 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Dosen extends Model
+class Bimbingan extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $casts = ['role' => 'array'];
 
-    public function user(): BelongsTo
+    public function mahasiswa(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Mahasiswa::class);
     }
-    public function bimbingans(): HasMany
+
+    public function dosen(): BelongsTo
     {
-        return $this->hasMany(Bimbingan::class);
+        return $this->belongsTo(Dosen::class);
+    }
+    public function logbooks(): HasMany
+    {
+        return $this->hasMany(Logbook::class);
     }
 }
