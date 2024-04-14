@@ -27,11 +27,11 @@
         </div>
         <img src="/storage/{{ Auth::user()->mahasiswa->tanda_tangan }}" class="max-h-24 max-w-56 my-auto">
     </div>
-    <div class="container mx-auto w-2/3 mt-12">
+    {{-- <div class="container mx-auto w-2/3 mt-12">
         <p class="text-center text-xl font-semibold">Progress</p>
         <div class="bg-primary h-1 mb-5 mt-2 mx-auto"></div>
-    </div>
-    <div class="flex container mx-auto w-2/3 justify-between">
+    </div> --}}
+    {{-- <div class="flex container mx-auto w-2/3 justify-between">
         <div class="w-36 h-36">
             <div
                 class="border-2 h-20 w-20 border-slate-500 flex justify-center items-center rounded-full mx-auto bg-primary">
@@ -60,5 +60,5 @@
             </div>
             <p class="text-center">Sidang Skripsi</p>
         </div>
-    </div>
+    </div> --}}
 @endsection

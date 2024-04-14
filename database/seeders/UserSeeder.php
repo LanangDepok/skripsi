@@ -63,5 +63,10 @@ class UserSeeder extends Seeder
             'nama' => 'Pak Asep',
             'password' => 'pakasep',
         ]);
+        User::create([
+            'email' => 'yanto@gmail.com',
+            'nama' => 'Yanto',
+            'password' => 'yanto',
+        ]);
     }
 }

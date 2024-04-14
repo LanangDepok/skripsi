@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->string('status')->nullable();
             $table->string('tanda_tangan')->nullable();
             $table->string('photo_profil')->nullable();
-            $table->string('file_skripsi')->nullable();
             $table->string('no_kontak')->nullable();
             $table->string('nama_ortu')->nullable();
             $table->string('no_kontak_ortu')->nullable();

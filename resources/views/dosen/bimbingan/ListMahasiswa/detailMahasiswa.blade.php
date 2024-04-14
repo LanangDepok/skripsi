@@ -18,7 +18,7 @@
             <P>Email: {{ $bimbingan->mahasiswa->user->email }}</P><br>
             <P>Kelas: {{ $bimbingan->mahasiswa->kelas }}</P><br>
             <P>Prodi: {{ $bimbingan->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $bimbingan->mahasiswa->tahun }}</P><br>
+            <P>Tahun Ajaran: {{ $bimbingan->mahasiswa->tahun_ajaran }}</P><br>
             <P>Status: {{ $bimbingan->mahasiswa->status }}</P><br>
             <P>No. Kontak Mahasiswa: {{ $bimbingan->mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $bimbingan->mahasiswa->nama_ortu }}</P><br>
@@ -30,7 +30,12 @@
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">
-            <iframe src="/storage/assets/Draf 4-Pro-Bagas Rizkiyanto.pdf" class="w-full h-[600px]"></iframe>
+            @if ($bimbingan->mahasiswa->user->skripsi->file_skripsi != null)
+                <iframe src="/storage/{{ $bimbingan->mahasiswa->user->skripsi->file_skripsi }}"
+                    class="w-full h-[600px]"></iframe>
+            @else
+                <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
+            @endif
         </div>
     </div>
 @endsection

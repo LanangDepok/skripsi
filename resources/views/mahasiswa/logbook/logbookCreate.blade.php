@@ -60,7 +60,7 @@
                             <span class="font-medium">Error!</span> {{ $message }}
                         </div>
                     @enderror
-                    <div class="text-left mb-4">
+                    {{-- <div class="text-left mb-4">
                         <label for="jenis_bimbingan">Jenis Bimbingan</label>
                         <select name="jenis_bimbingan" id="jenis_bimbingan"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100">
@@ -73,7 +73,7 @@
                             role="alert">
                             <span class="font-medium">Error!</span> {{ $message }}
                         </div>
-                    @enderror
+                    @enderror --}}
                     <div class="text-center mt-16">
                         <button type="submit"
                             class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white">Kirim</button>

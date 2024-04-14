@@ -24,17 +24,30 @@
             <P>No. Kontak Mahasiswa: {{ $mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $mahasiswa->nama_ortu }}</P><br>
             <P>No. Kontak Orang Tua/Wali: {{ $mahasiswa->no_kontak_ortu }}</P><br>
-            <P>Nama Anggota Tim (Jika ada): {{ $mahasiswa->user->pengajuanJudul->anggota }}</P><br>
-            <P>Judul Skripsi: {{ $mahasiswa->user->pengajuanJudul->judul }}</P><br>
-            <P>Sub Judul Skripsi (Jika ada): {{ $mahasiswa->user->pengajuanJudul->sub_judul }}</P><br>
-            <p>Abstrak/Ringkasan Skripsi: {{ $mahasiswa->user->pengajuanJudul->abstrak }}</p><br>
-            <p>Dosen Pembimbing: {{ $mahasiswa->user->pengajuanJudul->dosen_terpilih }}</p>
+            <P>Nama Anggota Tim (Jika ada):
+                {{ isset($mahasiswa->user->skripsi->anggota) ? $mahasiswa->user->skripsi->anggota : '' }}</P>
+            <br>
+            <P>Judul Skripsi:
+                {{ isset($mahasiswa->user->skripsi->judul) ? $mahasiswa->user->skripsi->judul : '' }}</P><br>
+            <P>Sub Judul Skripsi (Jika ada):
+                {{ isset($mahasiswa->user->skripsi->sub_judul) ? $mahasiswa->user->skripsi->sub_judul : '' }}
+            </P><br>
+            <p>Abstrak/Ringkasan Skripsi:
+                {{ isset($mahasiswa->user->pengajuanJudul->abstrak) ? $mahasiswa->user->pengajuanJudul->latest()->first()->abstrak : '' }}
+            </p>
+            <br>
+            <p>Dosen Pembimbing:
+                {{ isset($mahasiswa->user->pengajuanJudul->dosen_terpilih) ? $mahasiswa->user->pengajuanJudul->latest()->first()->dosen_terpilih : '' }}
+            </p>
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">
-            @isset($mahasiswa->file_skripsi)
-                <iframe src="{{ asset('storage/' . $mahasiswa->file_skripsi) }}" class="w-full h-[600px]"></iframe>
-            @endisset
+            @if ($mahasiswa->user->skripsi != null && $mahasiswa->user->skripsi->file_skripsi != null)
+                <iframe src="{{ asset('storage/' . $mahasiswa->user->skripsi->file_skripsi) }}"
+                    class="w-full h-[600px]"></iframe>
+            @else
+                <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
+            @endif
         </div>
     </div>
 @endsection

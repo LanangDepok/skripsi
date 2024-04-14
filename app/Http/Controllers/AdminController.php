@@ -7,9 +7,11 @@ use App\Models\Dosen;
 use App\Models\Konten;
 use App\Models\Mahasiswa;
 use App\Models\PengajuanJudul;
+use App\Models\PengajuanSempro;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -340,15 +342,48 @@ class AdminController extends Controller
     public function pengajuanSempro()
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan']);
+            $pengajuanSempro = PengajuanSempro::get();
+            return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
 
-    public function getPengajuanSempro()
+    public function getPengajuanSempro(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan']);
+            $role_ketua = Role::with('users')->find(3);
+            $role_penguji = Role::with('users')->find(4);
+            return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
+        }
+        abort(404);
+    }
+
+    public function terimaPengajuanSempro(Request $request, PengajuanSempro $pengajuanSempro)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            if (isset($request->terima)) {
+                $data = $request->all();
+                $rules = [
+                    'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
+                    'penguji2_id' => 'required|different:penguji1_id,penguji3_id',
+                    'penguji3_id' => 'required|different:penguji2_id,penguji1_id',
+                    'tanggal' => 'required'
+                ];
+                $messages = [
+                    'required' => 'Silahkan pilih :attribute terlebih dahulu.',
+                    'different' => 'Pilihan penguji tidak boleh sama.'
+                ];
+                $validator = Validator::make($data, $rules, $messages)->validate();
+                $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
+                $validator['tanggal'] = $tanggal->format('d F Y');
+                $validator['status'] = 'Menunggu sidang';
+
+                $pengajuanSempro->update($validator);
+                return redirect('/admin/pengajuan/sempro');
+            } else {
+                $pengajuanSempro->update(['status' => 'Ditolak']);
+                return redirect('/admin/pengajuan/sempro');
+            }
         }
         abort(404);
     }

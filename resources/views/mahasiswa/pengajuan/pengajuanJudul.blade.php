@@ -5,6 +5,12 @@
         <div class="container w-2/5">
             <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Judul & Dosen Pembimbing</h2>
             <div class="bg-primary container h-1 mb-5 mt-2"></div>
+            @if (session('messages'))
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ session('messages') }}
+                </div>
+            @endif
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                 <form method="POST" action="/mahasiswa/pengajuan/judul/{{ Auth::user()->id }}" enctype="multipart/form-data">
                     @csrf

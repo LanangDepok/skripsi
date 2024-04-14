@@ -64,12 +64,14 @@
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/admin/dosen/{{ $dosen->id }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/admin/dosen/{{ $dosen->id }}/edit"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
-                                    onclick="confirmDelete(event)">Delete</button>
+                                @can('admin')
+                                    <a href="/admin/dosen/{{ $dosen->id }}/edit"
+                                        class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                                        onclick="confirmDelete(event)">Delete</button>
+                                @endcan
                             </td>
                         </form>
                     </tr>

@@ -34,8 +34,12 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
 
     Route::get('/mahasiswa/pengajuan/judul/{user}', 'pengajuanJudul');
     Route::post('/mahasiswa/pengajuan/judul/{user}', 'ajukanJudul');
+
     Route::get('/mahasiswa/pengajuan/sempro', 'pengajuanSempro');
+    Route::post('/mahasiswa/pengajuan/sempro/{user}', 'ajukanSempro');
+
     Route::get('/mahasiswa/pengajuan/skripsi', 'pengajuanSkripsi');
+
     Route::get('/mahasiswa/pengajuan/alat', 'pengajuanAlat');
 
     Route::get('/mahasiswa/logbook', 'getLogbooks');
@@ -49,6 +53,7 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
 
     Route::get('/mahasiswa/informasi', 'getInformations');
     Route::get('/mahasiswa/informasi/{pengajuanJudul}/pengajuanJudul', 'getPengajuanJudul');
+    Route::get('/mahasiswa/informasi/{pengajuanSempro}/pengajuanSempro', 'getPengajuanSempro');
     Route::get('/mahasiswa/informasi/1/berita_sempro', 'getBeritaSempro');
     Route::get('/mahasiswa/informasi/1/berita_skripsi', 'getBeritaSkripsi');
 
@@ -84,8 +89,11 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/pengajuan/judul', 'pengajuanJudul');
     Route::get('/admin/pengajuan/judul/{pengajuanJudul}', 'getPengajuanJudul');
     Route::post('/admin/pengajuan/judul/{pengajuanJudul}', 'terimaPengajuanJudul');
+
     Route::get('/admin/pengajuan/sempro', 'pengajuanSempro');
-    Route::get('/admin/pengajuan/sempro/1', 'getPengajuanSempro');
+    Route::get('/admin/pengajuan/sempro/{pengajuanSempro}', 'getPengajuanSempro');
+    Route::post('/admin/pengajuan/sempro/{pengajuanSempro}', 'terimaPengajuanSempro');
+
     Route::get('/admin/pengajuan/skripsi', 'pengajuanSkripsi');
     Route::get('/admin/pengajuan/skripsi/1', 'getPengajuanSkripsi');
     Route::get('/admin/pengajuan/alat', 'getAllPengajuanAlat');
@@ -105,14 +113,16 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/bimbingan/logbook/{logbook}', 'acceptLogbook');
 
     Route::get('/dosen/bimbingan/persetujuanSidang', 'getAllPersetujuanSidang');
-    Route::get('/dosen/bimbingan/persetujuanSidang/1', 'getPersetujuanSidang');
+    Route::get('/dosen/bimbingan/persetujuanSidang/{pengajuanSempro}', 'getPersetujuanSidang');
+    Route::post('/dosen/bimbingan/persetujuanSidang/{pengajuanSempro}', 'acceptPersetujuanSidangSempro');
 
     Route::get('/dosen/bimbingan/listMahasiswa', 'getAllListMahasiswa');
     Route::get('/dosen/bimbingan/listMahasiswa/{bimbingan}', 'getListMahasiswa');
 
     Route::get('/dosen/pengujian/sempro', 'getAllPengujianSempro');
-    Route::get('/dosen/pengujian/sempro/1', 'getPengujianSempro');
-    Route::get('/dosen/pengujian/sempro/1/terima', 'penilaianSempro');
+    Route::get('/dosen/pengujian/sempro/{pengajuanSempro}', 'getPengujianSempro');
+    Route::get('/dosen/pengujian/sempro/{pengajuanSempro}/terima', 'penilaianSempro');
+    Route::post('/dosen/pengujian/sempro/{pengajuanSempro}', 'nilaiSempro');
 
     Route::get('/dosen/pengujian/skripsi', 'getAllPengujianSkripsi');
     Route::get('/dosen/pengujian/skripsi/1', 'getPengujianSkripsi');

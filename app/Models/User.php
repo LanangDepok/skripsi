@@ -66,4 +66,24 @@ class User extends Authenticatable
     {
         return $this->hasOne(pengajuanJudul::class);
     }
+    public function pengajuanSemproMahasiswa(): HasMany
+    {
+        return $this->hasMany(PengajuanSempro::class, 'mahasiswa_id');
+    }
+    public function pengajuanSemproDospem(): HasMany
+    {
+        return $this->hasMany(PengajuanSempro::class, 'dospem_id');
+    }
+    public function pengajuanSemproPenguji1(): HasMany
+    {
+        return $this->hasMany(PengajuanSempro::class, 'penguji1_id');
+    }
+    public function pengajuanSemproPenguji2(): HasMany
+    {
+        return $this->hasMany(PengajuanSempro::class, 'penguji2_id');
+    }
+    public function pengajuanSemproPenguji3(): HasMany
+    {
+        return $this->hasMany(PengajuanSempro::class, 'penguji3_id');
+    }
 }

@@ -1,6 +1,12 @@
 @extends('mahasiswa.template')
 
 @section('content')
+    @if (session('messages'))
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span> {{ session('messages') }}
+        </div>
+    @endif
     <div class="container text-center mx-auto">
         <a href="/mahasiswa/skripsi/edit"
             class="rounded-md border border-slate-300 shadow-md shadow-slate-400 bg-primary text-white w-56 p-3 hover:text-black hover:bg-red-300">Tambah

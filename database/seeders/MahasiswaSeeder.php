@@ -15,24 +15,29 @@ class MahasiswaSeeder extends Seeder
     {
         Mahasiswa::create([
             'user_id' => 6,
-            'dospem_nip' => 456,
             'nim' => 207412006,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
-            'status' => 'Bimbingan sempro',
+            'status' => 'Belum mengajukan judul',
             'tanda_tangan' => '',
-            'file_skripsi' => '',
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
             'user_id' => 7,
-            'dospem_nip' => 456,
             'nim' => 207412007,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
             'status' => 'Belum mengajukan judul',
             'tanda_tangan' => '',
-            'file_skripsi' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 11,
+            'nim' => 207412008,
+            'prodi' => 'Teknik Informatika',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
             'tahun_ajaran' => '2023/2024'
         ]);
     }

@@ -1,6 +1,12 @@
 @extends('dosen.template')
 
 @section('content')
+    @if (session('messages'))
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span> {{ session('messages') }}
+        </div>
+    @endif
     <div class="container mx-auto w-2/3 flex justify-end">
         <button id="editButton" class="rounded-lg bg-primary p-2 px-4 text-white hover:text-black hover:bg-red-300">
             Edit Biodata

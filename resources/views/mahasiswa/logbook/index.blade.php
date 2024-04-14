@@ -40,6 +40,12 @@
                 <span class="font-medium">Sukses!</span> {{ session('success') }}
             </div>
         @endif
+        @if (session('messages'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                role="alert">
+                <span class="font-medium">Error!</span> {{ session('messages') }}
+            </div>
+        @endif
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-2/3">
             <thead class="bg-primary">
                 <tr>
