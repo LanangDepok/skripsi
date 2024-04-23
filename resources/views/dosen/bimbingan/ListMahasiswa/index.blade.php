@@ -19,20 +19,21 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach (Auth::user()->dosen->bimbingans as $listMahasiswa)
+                @foreach (Auth::user()->bimbinganDosen as $listMahasiswa)
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $listMahasiswa->mahasiswa->user->nama }} ({{ $listMahasiswa->mahasiswa->nim }})
+                            {{ $listMahasiswa->bimbinganMahasiswa->nama }}
+                            ({{ $listMahasiswa->bimbinganMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $listMahasiswa->mahasiswa->user->skripsi->judul }}
+                            {{ $listMahasiswa->bimbinganMahasiswa->skripsi->judul }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $listMahasiswa->mahasiswa->user->skripsi->anggota }}
+                            {{ $listMahasiswa->bimbinganMahasiswa->skripsi->anggota }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $listMahasiswa->mahasiswa->status }}
+                            {{ $listMahasiswa->bimbinganMahasiswa->mahasiswa->status }}
                         </td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/bimbingan/listMahasiswa/{{ $listMahasiswa->id }}"

@@ -60,7 +60,8 @@
                                 @endphp
                                 {{ $roles }}
                             </td>
-                            <td class="border-b border-slate-500 py-2 text-center">-</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ count($dosen->user->bimbinganDosen) }}
+                            </td>
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/admin/dosen/{{ $dosen->id }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>

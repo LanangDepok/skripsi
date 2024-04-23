@@ -30,9 +30,18 @@
             <br>
             <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Tanggal: {{ $pengajuanSempro->created_at }}</p>
+            <p>Metode: {{ $pengajuanSempro->metode }}</p>
+            <br>
+            <p>Tanggal pengajuan: {{ $pengajuanSempro->created_at->format('d F Y') }}</p>
             <br>
             <p>Dosen Pembimbing: {{ Auth::user()->nama }}</p>
+            <br>
+            <P>
+                Bukti registrasi:
+                <a class="italic text-blue-400" href="{{ $pengajuanSempro->bukti_registrasi }}">
+                    {{ $pengajuanSempro->bukti_registrasi }}
+                </a>
+            </P><br>
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">
@@ -43,7 +52,7 @@
                 <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/persetujuanSidang/{{ $pengajuanSempro->id }}">
+        <form method="POST" action="/dosen/bimbingan/persetujuanSempro/{{ $pengajuanSempro->id }}">
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"

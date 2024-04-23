@@ -92,35 +92,37 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/dosen/pengujian/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
-                                @can('dosen_pembimbing')
+                                {{-- @can('dosen_pembimbing')
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
                                     <a href="/dosen/pengujian/terbimbing"
                                         class="block px-4 py-2 hover:bg-slate-300">Penilaian
                                         Mahasiswa Bimbingan</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
-                                @endcan
+                                @endcan --}}
                             </div>
                         </li>
-                        <li>
-                            <a href="/dosen/rekapitulasi"
-                                class="hover:bg-slate-300 {{ $title == 'rekapitulasi' ? 'bg-red-200' : '' }}">
-                                Rekapitulasi Nilai
-                                <span>
-                                    <img src="/storage/icons/open-book.png"
-                                        class="w-3 h-3 inline-block -translate-y-[10%]">
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/dosen/kelulusan"
-                                class="hover:bg-slate-300 {{ $title == 'kelulusan' ? 'bg-red-200' : '' }}">
-                                Kelulusan
-                                <span>
-                                    <img src="/storage/icons/mortarboard.png"
-                                        class="w-3 h-3 inline-block -translate-y-[10%]">
-                                </span>
-                            </a>
-                        </li>
+                        @can('ketua_penguji')
+                            <li>
+                                <a href="/dosen/rekapitulasi"
+                                    class="hover:bg-slate-300 {{ $title == 'rekapitulasi' ? 'bg-red-200' : '' }}">
+                                    Rekapitulasi Nilai
+                                    <span>
+                                        <img src="/storage/icons/open-book.png"
+                                            class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/dosen/kelulusan"
+                                    class="hover:bg-slate-300 {{ $title == 'kelulusan' ? 'bg-red-200' : '' }}">
+                                    Kelulusan
+                                    <span>
+                                        <img src="/storage/icons/mortarboard.png"
+                                            class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    </span>
+                                </a>
+                            </li>
+                        @endcan
                         <li>
                             <a href="/dosen/revisi"
                                 class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">

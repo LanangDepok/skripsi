@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bimbingan;
-use App\Models\Dosen;
 use App\Models\Konten;
 use App\Models\Logbook;
+use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
+use App\Models\PengajuanSkripsi;
 use App\Models\User;
 use App\Services\DosenService;
 use Illuminate\Http\Request;
@@ -34,8 +35,8 @@ class DosenController extends Controller
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
-            $bimbingans = Auth::user()->dosen->bimbingans;
-            return view('dosen.bimbingan.logbook.index', ['title' => 'bimbingan', 'bimbingans' => $bimbingans]);
+            $bimbingan = Auth::user()->bimbinganDosen;
+            return view('dosen.bimbingan.logbook.index', ['title' => 'bimbingan', 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -71,10 +72,10 @@ class DosenController extends Controller
         abort(404);
     }
 
-    public function getPersetujuanSidang(PengajuanSempro $pengajuanSempro)
+    public function getPersetujuanSempro(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::allows('dosen_pembimbing')) {
-            return view('dosen.bimbingan.persetujuanSidang.detailPersetujuan', ['title' => 'bimbingan', 'pengajuanSempro' => $pengajuanSempro]);
+            return view('dosen.bimbingan.persetujuanSidang.detailPersetujuanSempro', ['title' => 'bimbingan', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
@@ -87,6 +88,26 @@ class DosenController extends Controller
                 return redirect('/dosen/bimbingan/persetujuanSidang');
             } else {
                 $pengajuanSempro->update(['status' => 'Ditolak']);
+                return redirect('/dosen/bimbingan/persetujuanSidang');
+            }
+        }
+        abort(404);
+    }
+    public function getPersetujuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('dosen_pembimbing')) {
+            return view('dosen.bimbingan.persetujuanSidang.detailPersetujuanSkripsi', ['title' => 'bimbingan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function acceptPersetujuanSidangSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('dosen_pembimbing')) {
+            if (isset($request->terima)) {
+                $pengajuanSkripsi->update(['status' => 'Menunggu pembagian jadwal']);
+                return redirect('/dosen/bimbingan/persetujuanSidang');
+            } else {
+                $pengajuanSkripsi->update(['status' => 'Ditolak']);
                 return redirect('/dosen/bimbingan/persetujuanSidang');
             }
         }
@@ -212,50 +233,251 @@ class DosenController extends Controller
     //pengujian skripsi
     public function getAllPengujianSkripsi()
     {
-        return view('dosen.pengujian.skripsi.index', ['title' => 'pengujian']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            if (Auth::user()->dosen->tanda_tangan == null) {
+                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+            }
+            $dosen_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
+                ->where(function ($query) {
+                    $query->where('status', '=', 'Menunggu sidang')
+                        ->orWhere('status', '=', 'Menunggu penilaian');
+                })->get();
+            $dosen_penguji2 = PengajuanSkripsi::where('penguji2_id', '=', Auth::user()->id)
+                ->where(function ($query) {
+                    $query->where('status', '=', 'Menunggu sidang')
+                        ->orWhere('status', '=', 'Menunggu penilaian');
+                })->get();
+            $dosen_penguji3 = PengajuanSkripsi::where('penguji3_id', '=', Auth::user()->id)
+                ->where(function ($query) {
+                    $query->where('status', '=', 'Menunggu sidang')
+                        ->orWhere('status', '=', 'Menunggu penilaian');
+                })->get();
+            $dosen_pembimbing = PengajuanSkripsi::where('dospem_id', '=', Auth::user()->id)
+                ->where(function ($query) {
+                    $query->where('status', '=', 'Menunggu sidang')
+                        ->orWhere('status', '=', 'Menunggu penilaian');
+                })->get();
+
+            return view('dosen.pengujian.skripsi.index', [
+                'title' => 'pengujian',
+                'dosen_penguji1' => $dosen_penguji1,
+                'dosen_penguji2' => $dosen_penguji2,
+                'dosen_penguji3' => $dosen_penguji3,
+                'dosen_pembimbing' => $dosen_pembimbing,
+            ]);
+        }
+        abort(404);
     }
 
-    public function getPengujianSkripsi()
+    public function getPengujianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        return view('dosen.pengujian.skripsi.detail', ['title' => 'pengujian']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            return view('dosen.pengujian.skripsi.detail', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(403);
     }
 
-    public function penilaianSkripsi()
+    public function penilaianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        return view('dosen.pengujian.skripsi.penilaian', ['title' => 'pengujian']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            return view('dosen.pengujian.skripsi.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(403);
+    }
+
+    public function nilaiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji'])) {
+            $data = $request->all();
+            $rules = [
+                'a1' => 'required|numeric|between:4.5,10',
+                'a2' => 'required|numeric|between:4.5,15',
+                'a3' => 'required|numeric|between:4.5,10',
+                'b1' => 'required|numeric|between:5.5,15',
+                'b2' => 'required|numeric|between:5.5,15',
+                'b3' => 'required|numeric|between:5.5,10',
+                'b4' => 'required|numeric|between:5.5,10',
+                'b5' => 'required|numeric|between:5.5,15',
+                'total_nilai' => 'required',
+            ];
+            $messages = [
+                'required' => 'Nilai tidak boleh kosong.',
+                'numeric' => 'Nilai harus berupa angka',
+                'between' => 'Nilai harus bernilai antara :min hingga :max',
+            ];
+            Validator::make($data, $rules, $messages)->validate();
+
+            if (Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
+                $pengajuanSkripsi->update([
+                    'nilai1' => $request->total_nilai,
+                    'status' => 'Menunggu penilaian'
+                ]);
+                return redirect('/dosen/pengujian/skripsi');
+            } elseif (Auth::user()->id == $pengajuanSkripsi->penguji2_id) {
+                $pengajuanSkripsi->update([
+                    'nilai2' => $request->total_nilai,
+                    'status' => 'Menunggu penilaian'
+                ]);
+                return redirect('/dosen/pengujian/skripsi');
+            } elseif (Auth::user()->id == $pengajuanSkripsi->penguji3_id) {
+                $pengajuanSkripsi->update([
+                    'nilai3' => $request->total_nilai,
+                    'status' => 'Menunggu penilaian'
+                ]);
+                return redirect('/dosen/pengujian/skripsi');
+            }
+        } elseif (Gate::any(['dosen_pembimbing'])) {
+            $data = $request->all();
+            $rules = [
+                'a1' => 'required|numeric|between:4.5,10',
+                'a2' => 'required|numeric|between:4.5,15',
+                'a3' => 'required|numeric|between:4.5,10',
+                'b1' => 'required|numeric|between:4.5,15',
+                'b2' => 'required|numeric|between:4.5,10',
+                'b3' => 'required|numeric|between:4.5,10',
+                'b4' => 'required|numeric|between:4.5,15',
+                'c1' => 'required|numeric|between:1.5,4',
+                'c2' => 'required|numeric|between:1.5,4',
+                'c3' => 'required|numeric|between:1,3',
+                'c4' => 'required|numeric|between:1,4',
+                'total_nilai' => 'required',
+            ];
+            $messages = [
+                'required' => 'Nilai tidak boleh kosong.',
+                'numeric' => 'Nilai harus berupa angka',
+                'between' => 'Nilai harus bernilai antara :min hingga :max',
+            ];
+            Validator::make($data, $rules, $messages)->validate();
+
+            $pengajuanSkripsi->update([
+                'nilai_pembimbing' => $request->total_nilai,
+                'status' => 'Menunggu penilaian'
+            ]);
+
+            return redirect('/dosen/pengujian/skripsi');
+        } else {
+            abort(404);
+        }
+    }
+
+    public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
     }
 
     //pengujian terbimbing
-    public function getAllPengujianTerbimbing()
-    {
-        return view('dosen.pengujian.terbimbing.index', ['title' => 'pengujian']);
-    }
+    // public function getAllPengujianTerbimbing()
+    // {
+    //     return view('dosen.pengujian.terbimbing.index', ['title' => 'pengujian']);
+    // }
 
-    public function getPengujianTerbimbing()
-    {
-        return view('dosen.pengujian.terbimbing.detail', ['title' => 'pengujian']);
-    }
+    // public function getPengujianTerbimbing()
+    // {
+    //     return view('dosen.pengujian.terbimbing.detail', ['title' => 'pengujian']);
+    // }
 
-    public function penilaianTerbimbing()
-    {
-        return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian']);
-    }
+
 
     //rekapitulasi nilai
     public function getAllRekapitulasi()
     {
-        return view('dosen.rekapitulasi.index', ['title' => 'rekapitulasi']);
+        if (Gate::allows('ketua_penguji')) {
+            $pengajuanSkripsi = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
+                ->where('status', '=', 'Menunggu penilaian')->where('nilai_total', '=', null)->get();
+            return view('dosen.rekapitulasi.index', ['title' => 'rekapitulasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
     }
 
-    public function getRekapitulasi()
+    public function getRekapitulasi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        return view('dosen.rekapitulasi.detail', ['title' => 'rekapitulasi']);
+        if (Gate::allows('ketua_penguji')) {
+            return view('dosen.rekapitulasi.detail', ['title' => 'rekapitulasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+
+    public function rekapNilai(Request $request, PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('ketua_penguji')) {
+            $data = $request->all();
+            $rules = [
+                'nilai_pembimbing' => 'required',
+                'nilai1' => 'required',
+                'nilai2' => 'required',
+                'nilai3' => 'required',
+                'nilai_total' => 'required',
+            ];
+            $messages = ['required' => 'Nilai tidak boleh kosong'];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+            $validated['status'] = 'Menunggu kelulusan';
+
+            $pengajuanSkripsi->update($validated);
+
+            return redirect('/dosen/kelulusan');
+        }
+        abort(404);
     }
 
     //kelulusan
     public function getAllKelulusan()
     {
-        return view('dosen.kelulusan.index', ['title' => 'kelulusan']);
+        if (Gate::allows('ketua_penguji')) {
+            $pengajuanSkripsi = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu kelulusan')->get();
+            return view('dosen.kelulusan.index', ['title' => 'kelulusan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+
+    public function getKelulusan(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('ketua_penguji')) {
+            return view('dosen.kelulusan.detail', ['title' => 'kelulusan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+
+    public function luluskanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('ketua_penguji')) {
+            $pengajuanSkripsi->update(['status' => 'Lulus']);
+            $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->update(['status' => 'Lulus']);
+
+            return redirect('/dosen/kelulusan');
+        }
+        abort(404);
+    }
+    public function tolakSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('ketua_penguji')) {
+            $pengajuanSkripsi->update(['status' => 'Tidak lulus']);
+
+            return redirect('/dosen/kelulusan');
+        }
+        abort(404);
+    }
+
+    public function revisiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::allows('ketua_penguji')) {
+            $data = $request->all();
+            $rules = [
+                'revisi_alat' => 'nullable|required_without_all:revisi_laporan',
+                'revisi_laporan' => 'nullable|required_without_all:revisi_alat',
+            ];
+            $messages = [
+                'revisi_alat.required_without_all' => 'Pastikan terisi salah satu antara revisi alat atau revisi laporan.',
+                'revisi_laporan.required_without_all' => 'Pastikan terisi salah satu antara revisi alat atau revisi laporan.',
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
+            PengajuanRevisi::create($validated);
+
+            $pengajuanSkripsi->update(['status' => 'Revisi']);
+            $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Revisi']);
+        }
+        abort(404);
     }
 
     //pengajuan revisi

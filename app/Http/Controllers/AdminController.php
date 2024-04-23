@@ -8,6 +8,7 @@ use App\Models\Konten;
 use App\Models\Mahasiswa;
 use App\Models\PengajuanJudul;
 use App\Models\PengajuanSempro;
+use App\Models\PengajuanSkripsi;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
@@ -312,8 +313,8 @@ class AdminController extends Controller
 
                 $user_dosen = User::where('nama', '=', $dosen_pembimbing)->first();
                 Bimbingan::create([
-                    'dosen_id' => $user_dosen->dosen->id,
-                    'mahasiswa_id' => $pengajuanJudul->user->mahasiswa->id,
+                    'dosen_id' => $user_dosen->id,
+                    'mahasiswa_id' => $pengajuanJudul->user->id,
                 ]);
             }
             if ($request->input('action') == 'tolak') {
@@ -379,6 +380,7 @@ class AdminController extends Controller
                 $validator['status'] = 'Menunggu sidang';
 
                 $pengajuanSempro->update($validator);
+                $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->update(['status' => 'Sidang Sempro']);
                 return redirect('/admin/pengajuan/sempro');
             } else {
                 $pengajuanSempro->update(['status' => 'Ditolak']);
@@ -392,15 +394,48 @@ class AdminController extends Controller
     public function pengajuanSkripsi()
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan']);
+            $pengajuanSkripsi = PengajuanSkripsi::get();
+            return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
-
-    public function getPengajuanSkripsi()
+    public function getPengajuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan']);
+            $role_ketua = Role::with('users')->find(3);
+            $role_penguji = Role::with('users')->find(4);
+            return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
+        }
+        abort(404);
+    }
+    public function terimaPengajuanSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
+    {
+        // dd($request->all());
+        if (Gate::any(['admin', 'komite'])) {
+            if (isset($request->terima)) {
+                $data = $request->all();
+                $rules = [
+                    'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
+                    'penguji2_id' => 'required|different:penguji1_id,penguji3_id',
+                    'penguji3_id' => 'required|different:penguji2_id,penguji1_id',
+                    'tanggal' => 'required'
+                ];
+                $messages = [
+                    'required' => 'Silahkan pilih :attribute terlebih dahulu.',
+                    'different' => 'Pilihan penguji tidak boleh sama.'
+                ];
+                $validator = Validator::make($data, $rules, $messages)->validate();
+                $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
+                $validator['tanggal'] = $tanggal->format('d F Y');
+                $validator['status'] = 'Menunggu sidang';
+
+                $pengajuanSkripsi->update($validator);
+                $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Sidang Skripsi']);
+                return redirect('/admin/pengajuan/skripsi');
+            } else {
+                $pengajuanSkripsi->update(['status' => 'Ditolak']);
+                return redirect('/admin/pengajuan/skripsi');
+            }
         }
         abort(404);
     }
@@ -426,7 +461,9 @@ class AdminController extends Controller
     public function getSkripsian()
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.skripsi.index', ['title' => 'skripsi']);
+            $sempro = PengajuanSempro::get();
+            $skripsi = PengajuanSkripsi::get();
+            return view('admin.skripsi.index', ['title' => 'skripsi', 'sempro' => $sempro, 'skripsi' => $skripsi]);
         }
         abort(404);
     }

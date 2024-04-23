@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bimbingan extends Model
 {
@@ -13,16 +11,15 @@ class Bimbingan extends Model
 
     protected $guarded = ['id'];
 
-    public function mahasiswa(): BelongsTo
+    public function bimbinganMahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class);
+        return $this->belongsTo(User::class, 'mahasiswa_id');
     }
-
-    public function dosen(): BelongsTo
+    public function bimbinganDosen()
     {
-        return $this->belongsTo(Dosen::class);
+        return $this->belongsTo(User::class, 'dosen_id');
     }
-    public function logbooks(): HasMany
+    public function logbook()
     {
         return $this->hasMany(Logbook::class);
     }

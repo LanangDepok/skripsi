@@ -102,36 +102,58 @@
             </tbody>
         </table>
     </div>
-    <div class="container mx-auto w-1/2 mt-6 mb-20">
-        <p class=" text-2xl font-semibold">Sidang Skripsi</p>
-        <div class="bg-primary h-1 mb-5 mt-2 mx-auto"></div>
+    <div class="container mx-auto w-full mt-5">
+        <p class=" text-2xl font-semibold text-center">Sidang Skripsi</p>
+        <div class="bg-primary h-1 mb-3 mx-auto"></div>
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
-                    <th class="border-b border-slate-500 py-2">Tanggal</th>
+                    <th class="border-b border-slate-500 py-2">No</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
+                    <th class="border-b border-slate-500 py-2">Tanggal sidang</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Total Nilai</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Detail</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="border-b border-slate-500 py-2 text-center">2 Agustus 2024</td>
-                    <td class="border-b border-slate-500 py-2 text-justify">Lorem ipsum dolor sit amet
-                        consectetur,
-                        adipisicing elit. Necessitatibus beatae amet explicabo iure atque repellat odio suscipit
-                        architecto rem nemo, perferendis dolore nam voluptatem dolorem accusamus deleniti ut
-                        similique, sapiente velit quod dicta qui. Assumenda officia eos nobis placeat id.</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Lulus</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">
-                            Detail
-                        </button>
-                        <button class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300">
-                            <a href="/mahasiswa/informasi/1/berita_skripsi">Berita Acara</a>
-                        </button>
-                    </td>
-                </tr>
+                @isset(Auth::user()->pengajuanSkripsiMahasiswa)
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach (Auth::user()->pengajuanSkripsiMahasiswa as $data)
+                        <tr>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ $data->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($data->tanggal) ? $data->tanggal : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($data->nilai_pembimbing) ? $data->nilai_pembimbing : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($data->nilai1, $data->nilai2, $data->nilai3) ? ($data->nilai1 + $data->nilai2 + $data->nilai3) / 3 : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($data->nilai_total) ? $data->nilai_total : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
+                            <td class="text-center border-b border-slate-500">
+                                <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanSkripsi"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                    Detail
+                                </a>
+                                <button class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300">
+                                    <a href="/mahasiswa/informasi/1/berita_skripsi">Berita Acara</a>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endisset
+            </tbody>
             </tbody>
         </table>
     </div>

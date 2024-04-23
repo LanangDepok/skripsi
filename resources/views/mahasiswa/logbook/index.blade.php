@@ -9,10 +9,11 @@
         <div class="flex justify-between px-20">
             <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md">
                 <p class="text-center">Dosen Pembimbing</p>
-                <img src="/storage/{{ isset(Auth::user()->mahasiswa->bimbingan->dosen->photo_profil) ? Auth::user()->mahasiswa->bimbingan->dosen->photo_profil : 'icons/user.png' }}"
+                <img src="/storage/{{ isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png' }}"
                     class="w-28 h-28 rounded-full mt-2 mx-auto">
-                <p class="text-center">{{ $bimbingan->dosen->user->nama }}</p>
-                <p class="text-center">{{ $bimbingan->dosen->nip }}</p>
+                <p class="text-center">{{ $bimbingan->bimbinganDosen->nama }}</p>
+                <p class="text-center">
+                    {{ $bimbingan->bimbinganDosen->dosen->nip }}</p>
             </div>
             <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md h-48">
                 <p class="text-red-600 font-bold underline text-xl mb-3">Perhatian!!</p>
@@ -49,6 +50,7 @@
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-2/3">
             <thead class="bg-primary">
                 <tr>
+                    <th class="border-b border-slate-500 py-2">No.</th>
                     <th class="border-b border-slate-500 py-2">Tanggal bimbingan</th>
                     <th class="border-b border-slate-500 py-2">Tempat</th>
                     <th class="border-b border-slate-500 py-2">Jenis Bimbingan</th>
@@ -57,16 +59,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($bimbingan->logbooks as $logbook)
-                    <tr class="even:bg-slate-300">
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tanggal }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tempat }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->jenis_bimbingan }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->status }}</td>
-                        <td class="text-center  border-b border-slate-500"><a href="/mahasiswa/logbook/{{ $logbook->id }}"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
-                        </td>
-                    </tr>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach ($bimbingan->logbook as $logbook)
+                    @if (isset($bimbingan->logbook))
+                        <tr class="even:bg-slate-300">
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tanggal }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tempat }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ $logbook->jenis_bimbingan }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->status }}</td>
+                            <td class="text-center  border-b border-slate-500"><a
+                                    href="/mahasiswa/logbook/{{ $logbook->id }}"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

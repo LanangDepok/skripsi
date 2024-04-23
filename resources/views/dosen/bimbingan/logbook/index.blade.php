@@ -18,13 +18,13 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach ($bimbingans as $bimbingan)
-                    @foreach ($bimbingan->logbooks as $logbook)
-                        @if ($logbook->status == 'Menunggu persetujuan')
+                @foreach ($bimbingan as $bimbingan)
+                    @foreach ($bimbingan->logbook as $logbook)
+                        @if ($logbook->status == 'Menunggu persetujuan pembimbing')
                             <tr class="even:bg-slate-300">
                                 <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                                 <td class="border-b border-slate-500 py-2 text-center">
-                                    {{ $logbook->bimbingan->mahasiswa->user->nama }}</td>
+                                    {{ $logbook->bimbingan->bimbinganMahasiswa->nama }}</td>
                                 <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tanggal }}</td>
                                 <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tempat }}</td>
                                 <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->status }}</td>

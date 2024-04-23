@@ -26,7 +26,14 @@
                 @endphp
                 Role: {{ $roles }}
             </P><br>
-            <P>Mahasiswa Bimbingan: </P>
+            <P>Mahasiswa Bimbingan:
+                @php
+                    $i = 1;
+                @endphp
+                @foreach ($dosen->user->bimbinganDosen as $bimbingan)
+                    <p>{{ $i++ }}. {{ $bimbingan->bimbinganMahasiswa->nama }}</p>
+                @endforeach
+            </P>
             <div class="h-1 bg-primary"></div>
         </div>
     </div>

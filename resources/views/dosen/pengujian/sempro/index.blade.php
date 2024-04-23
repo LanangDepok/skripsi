@@ -10,7 +10,6 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
                     <th class="border-b border-slate-500 py-2">Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Penguji</th>
                     <th class="border-b border-slate-500 py-2">Tanggal Sidang</th>
@@ -21,10 +20,6 @@
                 @php
                     $i = 1;
                 @endphp
-                {{-- @if (count($dosen_pembimbing) > 0)
-                    <p>Mahasiswa Bimbingan</p>
-                    <div class="w-3/4 h-1 bg-primary"></div>
-                @endif --}}
                 @foreach ($dosen_pembimbing as $dosen_pembimbing)
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>

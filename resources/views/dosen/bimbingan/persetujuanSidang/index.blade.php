@@ -23,7 +23,7 @@
                 @php
                     $i = 1;
                 @endphp
-                @foreach (Auth::user()->pengajuanSemproDospem->where('status', '=', 'Menunggu persetujuan') as $pengajuanSempro)
+                @foreach (Auth::user()->pengajuanSemproDospem->where('status', '=', 'Menunggu persetujuan pembimbing') as $pengajuanSempro)
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
@@ -37,7 +37,27 @@
                             {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                         <td class="text-center  border-b border-slate-500">
-                            <a href="/dosen/bimbingan/persetujuanSidang/{{ $pengajuanSempro->id }}"
+                            <a href="/dosen/bimbingan/persetujuanSempro/{{ $pengajuanSempro->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
+                        </td>
+                    </tr>
+                @endforeach
+
+                @foreach (Auth::user()->pengajuanSkripsiDospem->where('status', '=', 'Menunggu persetujuan pembimbing') as $pengajuanSkripsi)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
+                            <p>({{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi->id }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
                         </td>
                     </tr>

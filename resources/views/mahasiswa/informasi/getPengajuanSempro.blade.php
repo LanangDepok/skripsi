@@ -34,7 +34,9 @@
             </P>
             <br>
             <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->abstrak }}</p><br>
-            <p>Dosen Pembimbing: {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->dosen_terpilih }} </p><br>
+            <p>Dosen Pembimbing:
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->latest('created_at')->first()->dosen_terpilih }}
+            </p><br>
             <p>Dosen Penguji: </p>
             <p>
                 1.
@@ -53,6 +55,7 @@
             <p>Status: {{ $pengajuanSempro->status }}</p><br>
             <p>Nilai: {{ $pengajuanSempro->nilai }}</p><br>
             <p>Tanggal sidang: {{ $pengajuanSempro->tanggal }}</p><br>
+            <textarea rows="5" readonly>{{ $pengajuanSempro->keterangan }}</textarea><br>
         </div>
     </div>
 @endsection

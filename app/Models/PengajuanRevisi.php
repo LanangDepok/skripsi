@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Logbook extends Model
+class PengajuanRevisi extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
 
-    public function bimbingan()
+    public function pengajuanSkripsi()
     {
-        return $this->belongsTo(Bimbingan::class);
+        return $this->belongsTo(PengajuanSkripsi::class, 'pengajuan_skripsi_id', 'id');
     }
 }

@@ -26,7 +26,8 @@
                 </span>{{ isset(Auth::user()->skripsi->anggota) ? Auth::user()->skripsi->anggota : '-' }}</p>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
-            <iframe src="/storage/assets/Draf 4-Pro-Bagas Rizkiyanto.pdf" class="w-full h-[500px]" title="Skripsi"></iframe>
+            <iframe src="/storage/{{ Auth::user()->skripsi->file_skripsi }}" class="w-full h-[500px]"
+                title="Skripsi"></iframe>
         </div>
     @endif
 @endsection

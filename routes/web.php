@@ -39,6 +39,7 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::post('/mahasiswa/pengajuan/sempro/{user}', 'ajukanSempro');
 
     Route::get('/mahasiswa/pengajuan/skripsi', 'pengajuanSkripsi');
+    Route::post('/mahasiswa/pengajuan/skripsi/{user}', 'ajukanSkripsi');
 
     Route::get('/mahasiswa/pengajuan/alat', 'pengajuanAlat');
 
@@ -54,8 +55,9 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/informasi', 'getInformations');
     Route::get('/mahasiswa/informasi/{pengajuanJudul}/pengajuanJudul', 'getPengajuanJudul');
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/pengajuanSempro', 'getPengajuanSempro');
-    Route::get('/mahasiswa/informasi/1/berita_sempro', 'getBeritaSempro');
-    Route::get('/mahasiswa/informasi/1/berita_skripsi', 'getBeritaSkripsi');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/pengajuanSkripsi', 'getPengajuanSkripsi');
+    Route::get('/mahasiswa/informasi/1/berita_sempro', 'beritaAcaraSempro');
+    Route::get('/mahasiswa/informasi/1/berita_skripsi', 'beritaAcaraSkripsi');
 
     Route::get('/mahasiswa/revisi', 'getAllRevisi');
     Route::get('/mahasiswa/revisi/1', 'getRevisi');
@@ -95,7 +97,9 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::post('/admin/pengajuan/sempro/{pengajuanSempro}', 'terimaPengajuanSempro');
 
     Route::get('/admin/pengajuan/skripsi', 'pengajuanSkripsi');
-    Route::get('/admin/pengajuan/skripsi/1', 'getPengajuanSkripsi');
+    Route::get('/admin/pengajuan/skripsi/{pengajuanSkripsi}', 'getPengajuanSkripsi');
+    Route::post('/admin/pengajuan/skripsi/{pengajuanSkripsi}', 'terimaPengajuanSkripsi');
+
     Route::get('/admin/pengajuan/alat', 'getAllPengajuanAlat');
     Route::get('/admin/pengajuan/alat/1', 'getPengajuanAlat');
 
@@ -113,8 +117,10 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/bimbingan/logbook/{logbook}', 'acceptLogbook');
 
     Route::get('/dosen/bimbingan/persetujuanSidang', 'getAllPersetujuanSidang');
-    Route::get('/dosen/bimbingan/persetujuanSidang/{pengajuanSempro}', 'getPersetujuanSidang');
-    Route::post('/dosen/bimbingan/persetujuanSidang/{pengajuanSempro}', 'acceptPersetujuanSidangSempro');
+    Route::get('/dosen/bimbingan/persetujuanSempro/{pengajuanSempro}', 'getPersetujuanSempro');
+    Route::post('/dosen/bimbingan/persetujuanSempro/{pengajuanSempro}', 'acceptPersetujuanSidangSempro');
+    Route::get('/dosen/bimbingan/persetujuanSkripsi/{pengajuanSkripsi}', 'getPersetujuanSkripsi');
+    Route::post('/dosen/bimbingan/persetujuanSkripsi/{pengajuanSkripsi}', 'acceptPersetujuanSidangSkripsi');
 
     Route::get('/dosen/bimbingan/listMahasiswa', 'getAllListMahasiswa');
     Route::get('/dosen/bimbingan/listMahasiswa/{bimbingan}', 'getListMahasiswa');
@@ -125,17 +131,24 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/pengujian/sempro/{pengajuanSempro}', 'nilaiSempro');
 
     Route::get('/dosen/pengujian/skripsi', 'getAllPengujianSkripsi');
-    Route::get('/dosen/pengujian/skripsi/1', 'getPengujianSkripsi');
-    Route::get('/dosen/pengujian/skripsi/1/terima', 'penilaianSkripsi');
+    Route::get('/dosen/pengujian/skripsi/{pengajuanSkripsi}', 'getPengujianSkripsi');
+    Route::get('/dosen/pengujian/skripsi/{pengajuanSkripsi}/terima', 'penilaianSkripsi');
+    Route::post('/dosen/pengujian/skripsi/{pengajuanSkripsi}', 'nilaiskripsi');
 
-    Route::get('/dosen/pengujian/terbimbing', 'getAllPengujianTerbimbing');
-    Route::get('/dosen/pengujian/terbimbing/1', 'getPengujianTerbimbing');
-    Route::get('/dosen/pengujian/terbimbing/1/terima', 'penilaianTerbimbing');
+
+    // Route::get('/dosen/pengujian/terbimbing', 'getAllPengujianTerbimbing');
+    // Route::get('/dosen/pengujian/terbimbing/1', 'getPengujianTerbimbing');
+    Route::get('/dosen/pengujian/terbimbing/{pengajuanSkripsi}/terima', 'penilaianTerbimbing');
 
     Route::get('dosen/rekapitulasi', 'getAllRekapitulasi');
-    Route::get('dosen/rekapitulasi/1', 'getRekapitulasi');
+    Route::get('dosen/rekapitulasi/{pengajuanSkripsi}', 'getRekapitulasi');
+    Route::post('dosen/rekapitulasi/{pengajuanSkripsi}', 'rekapNilai');
 
     Route::get('/dosen/kelulusan', 'getAllKelulusan');
+    Route::get('/dosen/kelulusan/{pengajuanSkripsi}', 'getKelulusan');
+    Route::post('/dosen/kelulusan/lulus/{pengajuanSkripsi}', 'luluskanSkripsi');
+    Route::post('/dosen/kelulusan/tolak/{pengajuanSkripsi}', 'tolakSkripsi');
+    Route::post('/dosen/kelulusan/revisi/{pengajuanSkripsi}', 'revisiSkripsi');
 
     Route::get('/dosen/revisi', 'getAllRevisi');
     Route::get('dosen/revisi/1', 'getRevisi');
