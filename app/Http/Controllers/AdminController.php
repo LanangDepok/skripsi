@@ -7,6 +7,7 @@ use App\Models\Dosen;
 use App\Models\Konten;
 use App\Models\Mahasiswa;
 use App\Models\PengajuanJudul;
+use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
 use App\Models\Role;
@@ -14,6 +15,7 @@ use App\Models\User;
 use App\Services\AdminService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -472,7 +474,80 @@ class AdminController extends Controller
     public function getAllRevisi()
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.revisi.index', ['title' => 'revisi']);
+            $pengajuanRevisi = PengajuanRevisi::where('terima_penguji1', '!=', null)
+                ->where('terima_penguji2', '!=', null)
+                ->where('terima_penguji3', '!=', null)
+                ->where('terima_pembimbing', '!=', null)
+                ->get();
+            return view('admin.revisi.index', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+        }
+        abort(404);
+    }
+
+    public function getRevisi(PengajuanRevisi $pengajuanRevisi)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            return view('admin.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+        }
+        abort(404);
+    }
+
+    public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            if (isset($request->tolak)) {
+                $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Ditolak']);
+                $pengajuanRevisi->update(['status' => 'Tidak lulus']);
+                $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Bimbingan Skripsi']);
+
+                return redirect('/admin/revisi');
+            } elseif (isset($request->revisi)) {
+                if ($pengajuanRevisi->terima_penguji1 == 'Tidak') {
+                    $pengajuanRevisi->update([
+                        'terima_penguji1' => null,
+                        'status' => 'Revisi'
+                    ]);
+                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
+
+                    return redirect('/admin/revisi');
+                }
+                if ($pengajuanRevisi->terima_penguji2 == 'Tidak') {
+                    $pengajuanRevisi->update([
+                        'terima_penguji2' => null,
+                        'status' => 'Revisi'
+                    ]);
+                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
+
+                    return redirect('/admin/revisi');
+                }
+                if ($pengajuanRevisi->terima_penguji3 == 'Tidak') {
+                    $pengajuanRevisi->update([
+                        'terima_penguji3' => null,
+                        'status' => 'Revisi'
+                    ]);
+                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
+
+                    return redirect('/admin/revisi');
+                }
+                if ($pengajuanRevisi->terima_pembimbing == 'Tidak') {
+                    $pengajuanRevisi->update([
+                        'terima_pembimbing' => null,
+                        'status' => 'Revisi'
+                    ]);
+                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
+
+                    return redirect('/admin/revisi');
+                }
+            } elseif (isset($request->terima)) {
+                $pengajuanRevisi->update([
+                    'status' => 'Diterima',
+                    'ttd_komite' => Auth::user()->dosen->tanda_tangan
+                ]);
+                $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Lulus']);
+                $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);
+
+                return redirect('/admin/revisi');
+            }
         }
         abort(404);
     }

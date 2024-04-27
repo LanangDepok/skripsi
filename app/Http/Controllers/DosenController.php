@@ -162,12 +162,14 @@ class DosenController extends Controller
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
             $ketua_sidang = PengajuanSempro::where('penguji1_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
-            $dosen_penguji = PengajuanSempro::where('penguji2_id', '=', Auth::user()->id)->orWhere('penguji3_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
+            $dosen_penguji2 = PengajuanSempro::where('penguji2_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
+            $dosen_penguji3 = PengajuanSempro::where('penguji3_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
             $dosen_pembimbing = PengajuanSempro::where('dospem_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
             return view('dosen.pengujian.sempro.index', [
                 'title' => 'pengujian',
                 'ketua_sidang' => $ketua_sidang,
-                'dosen_penguji' => $dosen_penguji,
+                'dosen_penguji2' => $dosen_penguji2,
+                'dosen_penguji3' => $dosen_penguji3,
                 'dosen_pembimbing' => $dosen_pembimbing,
             ]);
         }
@@ -472,10 +474,14 @@ class DosenController extends Controller
             $validated = Validator::make($data, $rules, $messages)->validate();
 
             $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
+            $validated['status'] = 'Revisi';
+            $validated['deadline'] = date('d M Y', time() + 864000);
             PengajuanRevisi::create($validated);
 
             $pengajuanSkripsi->update(['status' => 'Revisi']);
             $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Revisi']);
+
+            return redirect('/dosen/kelulusan');
         }
         abort(404);
     }
@@ -483,11 +489,94 @@ class DosenController extends Controller
     //pengajuan revisi
     public function getAllRevisi()
     {
-        return view('dosen.revisi.index', ['title' => 'revisi']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            $terima_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
+                ->where('status', '=', 'Menunggu persetujuan revisi')->whereHas('pengajuanRevisi', function ($query) {
+                    $query->where('terima_penguji1', '=', null);
+                })->get();
+            $terima_penguji2 = PengajuanSkripsi::where('penguji2_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu persetujuan revisi')
+                ->whereHas('pengajuanRevisi', function ($query) {
+                    $query->where('terima_penguji2', '=', null);
+                })->get();
+            $terima_penguji3 = PengajuanSkripsi::where('penguji3_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu persetujuan revisi')
+                ->whereHas('pengajuanRevisi', function ($query) {
+                    $query->where('terima_penguji3', '=', null);
+                })->get();
+            $terima_pembimbing = PengajuanSkripsi::where('dospem_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu persetujuan revisi')
+                ->whereHas('pengajuanRevisi', function ($query) {
+                    $query->where('terima_pembimbing', '=', null);
+                })->get();
+            return view('dosen.revisi.index', [
+                'title' => 'revisi',
+                'terima_penguji1' => $terima_penguji1,
+                'terima_penguji2' => $terima_penguji2,
+                'terima_penguji3' => $terima_penguji3,
+                'terima_pembimbing' => $terima_pembimbing,
+            ]);
+        }
+        abort(404);
     }
 
-    public function getRevisi()
+    public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        return view('dosen.revisi.detail', ['title' => 'revisi']);
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing', 'komite'])) {
+            return view('dosen.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+        }
+        abort(404);
+    }
+
+    public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
+    {
+        if (isset($request->terima)) {
+            if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji1_id) {
+                $pengajuanRevisi->update([
+                    'terima_penguji1' => 'Ya',
+                    'keterangan_penguji1' => 'Diterima'
+                ]);
+            } elseif (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji2_id) {
+                $pengajuanRevisi->update([
+                    'terima_penguji2' => 'Ya',
+                    'keterangan_penguji2' => 'Diterima'
+                ]);
+            } else if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji3_id) {
+                $pengajuanRevisi->update([
+                    'terima_penguji3' => 'Ya',
+                    'keterangan_penguji3' => 'Diterima'
+                ]);
+            } else if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->dospem_id) {
+                $pengajuanRevisi->update([
+                    'terima_pembimbing' => 'Ya',
+                    'keterangan_pembimbing' => 'Diterima'
+                ]);
+            }
+            return redirect('/dosen/revisi');
+        } else {
+            $data = $request->all();
+            $rules = ['keterangan_revisi' => 'required'];
+            $messages = ['required' => 'Jika melakukan revisi ulang, silahkan mengisi keterangan revisi terlebih dahulu.'];
+            Validator::make($data, $rules, $messages)->validate();
+            if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji1_id) {
+                $pengajuanRevisi->update([
+                    'keterangan_penguji1' => $request->keterangan_revisi,
+                    'terima_penguji1' => 'Tidak'
+                ]);
+            } elseif (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji2_id) {
+                $pengajuanRevisi->update([
+                    'keterangan_penguji2' => $request->keterangan_revisi,
+                    'terima_penguji2' => 'Tidak'
+                ]);
+            } else if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->penguji3_id) {
+                $pengajuanRevisi->update([
+                    'keterangan_penguji3' => $request->keterangan_revisi,
+                    'terima_penguji3' => 'Tidak'
+                ]);
+            } else if (Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->dospem_id) {
+                $pengajuanRevisi->update([
+                    'keterangan_pembimbing' => $request->keterangan_revisi,
+                    'terima_pembimbing' => 'Tidak'
+                ]);
+            }
+            return redirect('/dosen/revisi');
+        }
     }
 }

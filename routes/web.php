@@ -60,7 +60,8 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/informasi/1/berita_skripsi', 'beritaAcaraSkripsi');
 
     Route::get('/mahasiswa/revisi', 'getAllRevisi');
-    Route::get('/mahasiswa/revisi/1', 'getRevisi');
+    Route::post('/mahasiswa/revisi/{pengajuanRevisi}', 'terimaRevisi');
+    Route::get('/mahasiswa/revisi/{pengajuanRevisi}', 'getRevisi');
 
     Route::get('/mahasiswa/profile', 'getProfile');
     Route::get('/mahasiswa/profile/edit', 'editProfile');
@@ -106,7 +107,8 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/skripsi', 'getSkripsian');
 
     Route::get('/admin/revisi', 'getAllRevisi');
-    Route::get('/admin/revisi/1', 'getRevisi');
+    Route::get('/admin/revisi/{pengajuanRevisi}', 'getRevisi');
+    Route::post('/admin/revisi/{pengajuanRevisi}', 'keputusanRevisi');
 });
 
 Route::middleware('auth')->controller(DosenController::class)->group(function () {
@@ -140,9 +142,9 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     // Route::get('/dosen/pengujian/terbimbing/1', 'getPengujianTerbimbing');
     Route::get('/dosen/pengujian/terbimbing/{pengajuanSkripsi}/terima', 'penilaianTerbimbing');
 
-    Route::get('dosen/rekapitulasi', 'getAllRekapitulasi');
-    Route::get('dosen/rekapitulasi/{pengajuanSkripsi}', 'getRekapitulasi');
-    Route::post('dosen/rekapitulasi/{pengajuanSkripsi}', 'rekapNilai');
+    Route::get('/dosen/rekapitulasi', 'getAllRekapitulasi');
+    Route::get('/dosen/rekapitulasi/{pengajuanSkripsi}', 'getRekapitulasi');
+    Route::post('/dosen/rekapitulasi/{pengajuanSkripsi}', 'rekapNilai');
 
     Route::get('/dosen/kelulusan', 'getAllKelulusan');
     Route::get('/dosen/kelulusan/{pengajuanSkripsi}', 'getKelulusan');
@@ -151,7 +153,8 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/kelulusan/revisi/{pengajuanSkripsi}', 'revisiSkripsi');
 
     Route::get('/dosen/revisi', 'getAllRevisi');
-    Route::get('dosen/revisi/1', 'getRevisi');
+    Route::get('/dosen/revisi/{pengajuanRevisi}', 'getRevisi');
+    Route::post('/dosen/revisi/{pengajuanRevisi}', 'keputusanRevisi');
 
     Route::get('/dosen/profile', 'getProfile');
     Route::put('/dosen/profile/{user}', 'updateProfile');

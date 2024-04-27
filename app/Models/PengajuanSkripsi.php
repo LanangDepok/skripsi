@@ -33,6 +33,6 @@ class PengajuanSkripsi extends Model
     }
     public function pengajuanRevisi()
     {
-        return $this->hasMany(PengajuanRevisi::class, 'pengajuan_skripsi_id', 'id');
+        return $this->hasOne(PengajuanRevisi::class, 'pengajuan_skripsi_id', 'id');
     }
 }

@@ -25,7 +25,7 @@
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
-                <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
+                <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
             <form method="POST" action="/admin/index" enctype="multipart/form-data">
                 @csrf

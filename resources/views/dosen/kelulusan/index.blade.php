@@ -33,7 +33,8 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
-                        <td id="nilaiPembimbing" class="border-b border-slate-500 py-2 text-center">83.3</td>
+                        <td id="nilaiPembimbing" class="border-b border-slate-500 py-2 text-center">
+                            {{ $pengajuanSkripsi->nilai_total }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->status }}</td>
                         <td class="border-b border-slate-500">
                             <a href="/dosen/kelulusan/{{ $pengajuanSkripsi->id }}"

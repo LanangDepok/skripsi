@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->bigInteger('penguji3_id')->nullable();
             $table->text('link_presentasi');
             // $table->string('membuat_alat');
-            $table->string('sertifikat_lomba');
+            $table->text('sertifikat_lomba');
             $table->string('status');
             $table->string('tanggal')->nullable();
             $table->string('nilai1')->nullable();

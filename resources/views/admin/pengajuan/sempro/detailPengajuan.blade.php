@@ -37,7 +37,7 @@
                     class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
             </div>
             <div class="flex justify-center">
-                <img src="/storage/{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->photo_profil ? $pengajuanSempro->user->mahasiswa->photo_profil : 'icons/user.png' }}"
+                <img src="/storage/{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->photo_profil ? $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
                     class="w-36 h-36 rounded-full">
             </div>
             <div class="text-center mt-6">

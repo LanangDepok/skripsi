@@ -72,27 +72,52 @@
                         </td>
                     </tr>
                 @endforeach
-                @foreach ($dosen_penguji as $dosen_penguji)
+                @foreach ($dosen_penguji2 as $dosen_penguji2)
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $dosen_penguji->pengajuanSemproMahasiswa->nama }}
-                            ({{ $dosen_penguji->pengajuanSemproMahasiswa->mahasiswa->nim }})
+                            {{ $dosen_penguji2->pengajuanSemproMahasiswa->nama }}
+                            ({{ $dosen_penguji2->pengajuanSemproMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $dosen_penguji->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $dosen_penguji2->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $dosen_penguji->pengajuanSemproMahasiswa->skripsi->judul }}</td>
+                            {{ $dosen_penguji2->pengajuanSemproMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $dosen_penguji->pengajuanSemproDospem->nama }}</td>
+                            {{ $dosen_penguji2->pengajuanSemproDospem->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            1. {{ $dosen_penguji->pengajuanSemproPenguji1->nama }}<br>
-                            2. {{ $dosen_penguji->pengajuanSemproPenguji2->nama }}<br>
-                            3. {{ $dosen_penguji->pengajuanSemproPenguji3->nama }}
+                            1. {{ $dosen_penguji2->pengajuanSemproPenguji1->nama }}<br>
+                            2. {{ $dosen_penguji2->pengajuanSemproPenguji2->nama }}<br>
+                            3. {{ $dosen_penguji2->pengajuanSemproPenguji3->nama }}
                         </td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji->tanggal }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji2->tanggal }}</td>
                         <td class="text-center  border-b border-slate-500">
-                            <a href="/dosen/pengujian/sempro/{{ $dosen_penguji->id }}"
+                            <a href="/dosen/pengujian/sempro/{{ $dosen_penguji2->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a></button>
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach ($dosen_penguji3 as $dosen_penguji3)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_penguji3->pengajuanSemproMahasiswa->nama }}
+                            ({{ $dosen_penguji3->pengajuanSemproMahasiswa->mahasiswa->nim }})
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_penguji3->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_penguji3->pengajuanSemproMahasiswa->skripsi->judul }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_penguji3->pengajuanSemproDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            1. {{ $dosen_penguji3->pengajuanSemproPenguji1->nama }}<br>
+                            2. {{ $dosen_penguji3->pengajuanSemproPenguji2->nama }}<br>
+                            3. {{ $dosen_penguji3->pengajuanSemproPenguji3->nama }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji3->tanggal }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="/dosen/pengujian/sempro/{{ $dosen_penguji3->id }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a></button>
                         </td>
                     </tr>

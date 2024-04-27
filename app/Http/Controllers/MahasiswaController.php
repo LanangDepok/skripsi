@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Konten;
 use App\Models\Logbook;
 use App\Models\PengajuanJudul;
+use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
 use App\Models\Role;
@@ -332,11 +333,35 @@ class MahasiswaController extends Controller
     //Revisi
     public function getAllRevisi()
     {
-        return view('mahasiswa.Revisi.index', ['title' => 'revisi']);
+        if (Gate::allows('mahasiswa')) {
+            $pengajuanRevisi = PengajuanRevisi::get();
+            if (isset($pengajuanRevisi)) {
+                $pengajuanRevisi = PengajuanRevisi::where('pengajuan_skripsi_id', '=', Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->id)
+                    ->where('status', '=', 'Revisi')->first();
+                return view('mahasiswa.Revisi.index', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+            }
+            return view('mahasiswa.Revisi.index', ['title' => 'revisi']);
+        }
+        abort(404);
     }
-    public function getRevisi()
+    public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        return view('mahasiswa.Revisi.detail', ['title' => 'revisi']);
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.Revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+        }
+        abort(404);
+    }
+    public function terimaRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
+    {
+        if (Gate::allows('mahasiswa')) {
+            $pengajuanRevisi->update([
+                'status' => 'Menunggu persetujuan',
+                'link_revisi_alat' => $request->link_revisi_alat
+            ]);
+            $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Menunggu persetujuan revisi']);
+            return redirect('/mahasiswa/informasi')->with('success', 'Silahkan cek informasi secara berkala');
+        }
+        abort(404);
     }
 
     // profile

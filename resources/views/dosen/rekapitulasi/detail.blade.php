@@ -73,7 +73,7 @@
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-10 bottom-10 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
-                <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
+                <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
             <div class="w-10 ml-auto mr-16 border-4 border-black">
                 <p class="text-2xl font-semibold text-center">F8</p>

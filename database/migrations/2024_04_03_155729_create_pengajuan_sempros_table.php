@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->bigInteger('penguji2_id')->nullable();
             $table->bigInteger('penguji3_id')->nullable();
             $table->text('metode');
-            $table->string('bukti_registrasi');
+            $table->text('bukti_registrasi');
             $table->string('status');
             $table->text('keterangan')->nullable();
             $table->string('tanggal')->nullable();

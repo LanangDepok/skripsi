@@ -67,7 +67,7 @@
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-7 bottom-7 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
-                <button id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
+                <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
             <div class="w-12 font-semibold text-2xl border-4 text-center border-black ml-auto mr-20">F10</div>
             <div class="container w-3/4 mx-auto">
@@ -94,7 +94,7 @@
     <div id="modal2" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-10 bottom-10 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
-                <button id="exitModal2" class="text-3xl font-extrabold text-slate-800">X</button>
+                <button type="button" id="exitModal2" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
             <div class="border-4 border-black w-10 ml-auto mr-20">
                 <p class="font-semibold text-2xl text-center">F9</p>

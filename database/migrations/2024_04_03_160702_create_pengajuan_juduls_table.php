@@ -15,12 +15,12 @@ return new class extends Migration {
             $table->bigInteger('user_id');
             $table->string('anggota')->nullable();
             $table->enum('judul_dosen', ['Ya', 'Tidak']);
-            $table->string('judul');
-            $table->string('sub_judul')->nullable();
+            $table->text('judul');
+            $table->text('sub_judul')->nullable();
             $table->text('abstrak');
-            $table->string('studi_kasus');
-            $table->string('status');
-            $table->string('sumber_referensi');
+            $table->text('studi_kasus');
+            $table->text('status');
+            $table->text('sumber_referensi');
             $table->string('dosen_pilihan');
             $table->string('dosen_terpilih')->nullable();
             $table->timestamps();

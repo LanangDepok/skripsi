@@ -15,6 +15,18 @@ return new class extends Migration {
             $table->bigInteger('pengajuan_skripsi_id');
             $table->text('revisi_alat')->nullable();
             $table->text('revisi_laporan')->nullable();
+            $table->string('terima_penguji1')->nullable();
+            $table->string('terima_penguji2')->nullable();
+            $table->string('terima_penguji3')->nullable();
+            $table->string('terima_pembimbing')->nullable();
+            $table->text('link_revisi_alat')->nullable();
+            $table->text('keterangan_penguji1')->nullable();
+            $table->text('keterangan_penguji2')->nullable();
+            $table->text('keterangan_penguji3')->nullable();
+            $table->text('keterangan_pembimbing')->nullable();
+            $table->string('status');
+            $table->string('ttd_komite')->nullable();
+            $table->string('deadline');
             $table->timestamps();
         });
     }
