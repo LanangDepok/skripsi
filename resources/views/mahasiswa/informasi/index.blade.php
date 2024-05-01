@@ -92,9 +92,12 @@
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
-                                <button class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300">
-                                    <a href="/mahasiswa/informasi/1/berita_skripsi">Berita Acara</a>
-                                </button>
+                                @if ($data->status == 'Lulus')
+                                    <a href="/mahasiswa/informasi/{{ $data->id }}/beritaSempro"
+                                        class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                        Berita acara
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -146,9 +149,12 @@
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
-                                <button class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300">
-                                    <a href="/mahasiswa/informasi/1/berita_skripsi">Berita Acara</a>
-                                </button>
+                                @if ($data->status == 'Lulus')
+                                    <a href="/mahasiswa/informasi/{{ $data->id }}/beritaSkripsi"
+                                        class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                        Berita acara
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -157,36 +163,38 @@
             </tbody>
         </table>
     </div>
-    <div class="container mx-auto w-1/2 mt-6 mb-20">
-        <p class=" text-2xl font-semibold">Serah terima alat & skripsi</p>
-        <div class="bg-primary h-1 mb-5 mt-2 mx-auto"></div>
+    <div class="container mx-auto w-full mt-5">
+        <p class=" text-2xl font-semibold text-center">Serah terima alat & skripsi</p>
+        <div class="bg-primary h-1 mb-3 mx-auto"></div>
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
-                    <th class="border-b border-slate-500 py-2">Tanggal</th>
+                    <th class="border-b border-slate-500 py-2">No.</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
+                    <th class="border-b border-slate-500 py-2">Keterangan</th>
                     <th class="border-b border-slate-500 py-2">Detail</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="border-b border-slate-500 py-2 text-center">2 Agustus 2024</td>
-                    <td class="border-b border-slate-500 py-2 text-justify">Lorem ipsum dolor sit amet
-                        consectetur,
-                        adipisicing elit. Necessitatibus beatae amet explicabo iure atque repellat odio suscipit
-                        architecto rem nemo, perferendis dolore nam voluptatem dolorem accusamus deleniti ut
-                        similique, sapiente velit quod dicta qui. Assumenda officia eos nobis placeat id.</td>
-                    <td class="border-b border-slate-500 py-2 text-center">Menunggu</td>
-                    <td class="text-center  border-b border-slate-500">
-                        <button class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">
-                            Detail
-                        </button>
-                        <button class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300">
-                            <a href="/mahasiswa/informasi/1/berita_skripsi">Berita Acara</a>
-                        </button>
-                    </td>
-                </tr>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach (Auth::user()->pengajuanAlat as $data)
+                    <tr>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $data->user->skripsi->judul }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($data->keterangan) ? $data->keterangan : '-' }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanAlat"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

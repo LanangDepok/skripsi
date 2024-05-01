@@ -114,4 +114,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PengajuanSempro::class, 'penguji3_id');
     }
+    public function pengajuanAlat()
+    {
+        return $this->hasMany(PengajuanAlat::class);
+    }
 }

@@ -92,9 +92,9 @@
                     <button type="button" id="terimaButton"
                         class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
                     @if (
-                        $pengajuanRevisi->terima_pembimbing != 'Ya' &&
-                            $pengajuanRevisi->terima_penguji1 != 'Ya' &&
-                            $pengajuanRevisi->terima_penguji2 != 'Ya' &&
+                        $pengajuanRevisi->terima_pembimbing != 'Ya' ||
+                            $pengajuanRevisi->terima_penguji1 != 'Ya' ||
+                            $pengajuanRevisi->terima_penguji2 != 'Ya' ||
                             $pengajuanRevisi->terima_penguji3 != 'Ya')
                         <button type="submit" name="revisi" value="revisi"
                             class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Revisi
@@ -123,7 +123,7 @@
                                 <p>Pembimbing : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
                                 @if ($pengajuanRevisi->terima_pembimbing == 'Ya')
                                     <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
-                                        class="max-w-16">
+                                        class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
                                 @endif
@@ -132,7 +132,7 @@
                                 <p>Penguji 1 : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji1 == 'Ya')
                                     <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}"
-                                        class="max-w-16">
+                                        class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
                                 @endif
@@ -141,7 +141,7 @@
                                 <p>Penguji 2 : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji2 == 'Ya')
                                     <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan }}"
-                                        class="max-w-16">
+                                        class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
                                 @endif
@@ -150,7 +150,7 @@
                                 <p>Penguji 3: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji3 == 'Ya')
                                     <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan }}"
-                                        class="max-w-16">
+                                        class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
                                 @endif

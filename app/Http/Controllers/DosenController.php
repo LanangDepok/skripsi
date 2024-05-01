@@ -31,7 +31,7 @@ class DosenController extends Controller
     //logbook
     public function getLogbooks()
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
@@ -43,7 +43,7 @@ class DosenController extends Controller
 
     public function getLogbook(Logbook $logbook)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.logbook.detailLogbook', ['title' => 'bimbingan', 'logbook' => $logbook]);
         }
         abort(404);
@@ -51,7 +51,7 @@ class DosenController extends Controller
 
     public function acceptLogbook(Request $request, Logbook $logbook)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (isset($request->terima)) {
                 $logbook->update(['status' => 'diterima']);
                 return redirect('/dosen/bimbingan/logbook');
@@ -66,7 +66,7 @@ class DosenController extends Controller
     //persetujuan sidang
     public function getAllPersetujuanSidang()
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.persetujuanSidang.index', ['title' => 'bimbingan']);
         }
         abort(404);
@@ -74,7 +74,7 @@ class DosenController extends Controller
 
     public function getPersetujuanSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.persetujuanSidang.detailPersetujuanSempro', ['title' => 'bimbingan', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
@@ -82,7 +82,7 @@ class DosenController extends Controller
 
     public function acceptPersetujuanSidangSempro(Request $request, PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (isset($request->terima)) {
                 $pengajuanSempro->update(['status' => 'Menunggu pembagian jadwal']);
                 return redirect('/dosen/bimbingan/persetujuanSidang');
@@ -95,14 +95,14 @@ class DosenController extends Controller
     }
     public function getPersetujuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.persetujuanSidang.detailPersetujuanSkripsi', ['title' => 'bimbingan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function acceptPersetujuanSidangSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (isset($request->terima)) {
                 $pengajuanSkripsi->update(['status' => 'Menunggu pembagian jadwal']);
                 return redirect('/dosen/bimbingan/persetujuanSidang');
@@ -117,7 +117,7 @@ class DosenController extends Controller
     //listMahasiswa
     public function getAllListMahasiswa()
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.ListMahasiswa.index', ['title' => 'bimbingan']);
         }
         abort(404);
@@ -125,7 +125,7 @@ class DosenController extends Controller
 
     public function getListMahasiswa(Bimbingan $bimbingan)
     {
-        if (Gate::allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             return view('dosen.bimbingan.ListMahasiswa.detailMahasiswa', ['title' => 'bimbingan', 'bimbingan' => $bimbingan]);
         }
         abort(404);
@@ -135,7 +135,7 @@ class DosenController extends Controller
     //profile
     public function getProfile()
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             return view('dosen.profile.index', ['title' => 'profile']);
         }
         abort(404);
@@ -157,7 +157,7 @@ class DosenController extends Controller
     //pengujian sempro
     public function getAllPengujianSempro()
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
@@ -178,7 +178,7 @@ class DosenController extends Controller
 
     public function getPengujianSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             return view('dosen.pengujian.sempro.detail', ['title' => 'pengujian', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
@@ -186,7 +186,7 @@ class DosenController extends Controller
 
     public function penilaianSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             return view('dosen.pengujian.sempro.penilaian', ['title' => 'pengujian', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
@@ -194,7 +194,7 @@ class DosenController extends Controller
 
     public function nilaiSempro(Request $request, PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             $data = $request->all();
             $rules = [
                 'kriteria1' => [Rule::in([1, 2, 4, 5]), 'required'],
@@ -235,7 +235,7 @@ class DosenController extends Controller
     //pengujian skripsi
     public function getAllPengujianSkripsi()
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
@@ -273,7 +273,7 @@ class DosenController extends Controller
 
     public function getPengujianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             return view('dosen.pengujian.skripsi.detail', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(403);
@@ -281,7 +281,7 @@ class DosenController extends Controller
 
     public function penilaianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             return view('dosen.pengujian.skripsi.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(403);
@@ -289,7 +289,7 @@ class DosenController extends Controller
 
     public function nilaiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji'])) {
             $data = $request->all();
             $rules = [
                 'a1' => 'required|numeric|between:4.5,10',
@@ -328,7 +328,7 @@ class DosenController extends Controller
                 ]);
                 return redirect('/dosen/pengujian/skripsi');
             }
-        } elseif (Gate::any(['dosen_pembimbing'])) {
+        } elseif (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             $data = $request->all();
             $rules = [
                 'a1' => 'required|numeric|between:4.5,10',
@@ -362,10 +362,10 @@ class DosenController extends Controller
         }
     }
 
-    public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
-    {
-        return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-    }
+    // public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
+    // {
+    //     return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+    // }
 
     //pengujian terbimbing
     // public function getAllPengujianTerbimbing()
@@ -383,7 +383,7 @@ class DosenController extends Controller
     //rekapitulasi nilai
     public function getAllRekapitulasi()
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $pengajuanSkripsi = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
                 ->where('status', '=', 'Menunggu penilaian')->where('nilai_total', '=', null)->get();
             return view('dosen.rekapitulasi.index', ['title' => 'rekapitulasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -393,7 +393,7 @@ class DosenController extends Controller
 
     public function getRekapitulasi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             return view('dosen.rekapitulasi.detail', ['title' => 'rekapitulasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
@@ -401,7 +401,7 @@ class DosenController extends Controller
 
     public function rekapNilai(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $data = $request->all();
             $rules = [
                 'nilai_pembimbing' => 'required',
@@ -424,7 +424,7 @@ class DosenController extends Controller
     //kelulusan
     public function getAllKelulusan()
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $pengajuanSkripsi = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu kelulusan')->get();
             return view('dosen.kelulusan.index', ['title' => 'kelulusan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
@@ -433,7 +433,7 @@ class DosenController extends Controller
 
     public function getKelulusan(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             return view('dosen.kelulusan.detail', ['title' => 'kelulusan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
@@ -441,7 +441,7 @@ class DosenController extends Controller
 
     public function luluskanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $pengajuanSkripsi->update(['status' => 'Lulus']);
             $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->update(['status' => 'Lulus']);
 
@@ -451,7 +451,7 @@ class DosenController extends Controller
     }
     public function tolakSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $pengajuanSkripsi->update(['status' => 'Tidak lulus']);
 
             return redirect('/dosen/kelulusan');
@@ -461,7 +461,24 @@ class DosenController extends Controller
 
     public function revisiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('ketua_penguji')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
+            $nama_bulan = [
+                'January' => 'Januari',
+                'February' => 'Februari',
+                'March' => 'Maret',
+                'April' => 'April',
+                'May' => 'Mei',
+                'June' => 'Juni',
+                'July' => 'Juli',
+                'August' => 'Agustus',
+                'September' => 'September',
+                'October' => 'Oktober',
+                'November' => 'November',
+                'December' => 'Desember'
+            ];
+
+
+
             $data = $request->all();
             $rules = [
                 'revisi_alat' => 'nullable|required_without_all:revisi_laporan',
@@ -475,7 +492,13 @@ class DosenController extends Controller
 
             $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
             $validated['status'] = 'Revisi';
-            $validated['deadline'] = date('d M Y', time() + 864000);
+            // $validated['deadline'] = date('d M Y', time() + 864000);
+
+            $deadline_timestamp = time() + 864000;
+            $bulan_inggris = date('F', $deadline_timestamp);
+            $bulan_indonesia = $nama_bulan[$bulan_inggris];
+            $validated['deadline'] = date('d', $deadline_timestamp) . ' ' . $bulan_indonesia . date(' Y', $deadline_timestamp);
+
             PengajuanRevisi::create($validated);
 
             $pengajuanSkripsi->update(['status' => 'Revisi']);
@@ -489,7 +512,7 @@ class DosenController extends Controller
     //pengajuan revisi
     public function getAllRevisi()
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             $terima_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
                 ->where('status', '=', 'Menunggu persetujuan revisi')->whereHas('pengajuanRevisi', function ($query) {
                     $query->where('terima_penguji1', '=', null);
@@ -519,7 +542,7 @@ class DosenController extends Controller
 
     public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing', 'komite'])) {
             return view('dosen.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
         }
         abort(404);

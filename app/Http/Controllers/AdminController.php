@@ -6,6 +6,7 @@ use App\Models\Bimbingan;
 use App\Models\Dosen;
 use App\Models\Konten;
 use App\Models\Mahasiswa;
+use App\Models\PengajuanAlat;
 use App\Models\PengajuanJudul;
 use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
@@ -29,7 +30,7 @@ class AdminController extends Controller
     //konten
     public function index()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $konten = Konten::get();
             return view('admin.index', ['title' => 'index', 'konten' => $konten]);
         }
@@ -38,7 +39,7 @@ class AdminController extends Controller
 
     public function updateKonten(Request $request)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $konten = new Konten;
             $timeline_skripsi = $request->timeline_skripsi;
             $alur_skripsi = $request->alur_skripsi;
@@ -53,7 +54,7 @@ class AdminController extends Controller
     // mahasiswa
     public function getStudents()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $data = Mahasiswa::get();
             return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
         }
@@ -62,7 +63,7 @@ class AdminController extends Controller
 
     public function getStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa]);
         }
         abort(404);
@@ -70,14 +71,14 @@ class AdminController extends Controller
 
     public function createStudent()
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             return view('admin.mahasiswa.createMahasiswa', ['title' => 'mahasiswa']);
         }
         abort(404);
     }
     public function storeStudent(Request $request)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $user = new User;
             $mahasiswa = new Mahasiswa;
 
@@ -111,7 +112,7 @@ class AdminController extends Controller
 
     public function editStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             return view('admin.mahasiswa.editMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa]);
         }
         abort(404);
@@ -119,7 +120,7 @@ class AdminController extends Controller
 
     public function updateStudent(Request $request, Mahasiswa $mahasiswa)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $user = $mahasiswa->user;
 
             $data = $request->all();
@@ -158,7 +159,7 @@ class AdminController extends Controller
 
     public function deleteStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $mahasiswa->delete();
 
             return redirect('/admin/mahasiswa')->with('success', 'Data berhasil dihapus.');
@@ -169,7 +170,7 @@ class AdminController extends Controller
     // dosen
     public function getLecturers()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $data = Dosen::get();
 
             return view('admin.dosen.index', ['title' => 'dosen', 'data' => $data]);
@@ -179,7 +180,7 @@ class AdminController extends Controller
 
     public function getLecturer(Dosen $dosen)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             return view('admin.dosen.detailDosen', ['title' => 'dosen', 'dosen' => $dosen]);
         }
         abort(404);
@@ -187,7 +188,7 @@ class AdminController extends Controller
 
     public function createLecturer()
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             return view('admin.dosen.createDosen', ['title' => 'dosen']);
         }
         abort(404);
@@ -195,7 +196,7 @@ class AdminController extends Controller
 
     public function storeLecturer(Request $request)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $user = new User;
             $dosen = new Dosen;
 
@@ -231,7 +232,7 @@ class AdminController extends Controller
 
     public function editLecturer(Dosen $dosen)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             return view('admin.dosen.editDosen', ['title' => 'dosen', 'dosen' => $dosen]);
         }
         abort(404);
@@ -239,7 +240,7 @@ class AdminController extends Controller
 
     public function updateLecturer(Request $request, Dosen $dosen)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $data = $request->all();
             $rules = [
                 'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($dosen->user)],
@@ -278,7 +279,7 @@ class AdminController extends Controller
 
     public function deleteLecturer(Dosen $dosen)
     {
-        if (Gate::allows('admin')) {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
             $dosen->delete();
             $dosen->user->roles()->detach();
 
@@ -290,7 +291,7 @@ class AdminController extends Controller
     //pengajuan judul
     public function pengajuanJudul()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $pengajuanJudul = PengajuanJudul::where('status', '=', 'menunggu')->get();
             // $pengajuanJudul = PengajuanJudul::get();
 
@@ -301,7 +302,7 @@ class AdminController extends Controller
 
     public function terimaPengajuanJudul(Request $request, PengajuanJudul $pengajuanJudul)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if ($request->input('action') == 'terima') {
                 $dosen_pembimbing = $request->dosen_pembimbing;
                 $pengajuanJudul->update([
@@ -332,7 +333,7 @@ class AdminController extends Controller
 
     public function getPengajuanJudul(PengajuanJudul $pengajuanJudul)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $role = Role::get();
             $dosen_pembimbing = $role[4]->users;
 
@@ -344,7 +345,7 @@ class AdminController extends Controller
     //pengajuan sempro
     public function pengajuanSempro()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $pengajuanSempro = PengajuanSempro::get();
             return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro]);
         }
@@ -353,7 +354,7 @@ class AdminController extends Controller
 
     public function getPengajuanSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $role_ketua = Role::with('users')->find(3);
             $role_penguji = Role::with('users')->find(4);
             return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
@@ -363,8 +364,23 @@ class AdminController extends Controller
 
     public function terimaPengajuanSempro(Request $request, PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if (isset($request->terima)) {
+                $nama_bulan = [
+                    'January' => 'Januari',
+                    'February' => 'Februari',
+                    'March' => 'Maret',
+                    'April' => 'April',
+                    'May' => 'Mei',
+                    'June' => 'Juni',
+                    'July' => 'Juli',
+                    'August' => 'Agustus',
+                    'September' => 'September',
+                    'October' => 'Oktober',
+                    'November' => 'November',
+                    'December' => 'Desember'
+                ];
+
                 $data = $request->all();
                 $rules = [
                     'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
@@ -377,8 +393,12 @@ class AdminController extends Controller
                     'different' => 'Pilihan penguji tidak boleh sama.'
                 ];
                 $validator = Validator::make($data, $rules, $messages)->validate();
+
                 $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
-                $validator['tanggal'] = $tanggal->format('d F Y');
+                $bulan_inggris = $tanggal->format('F');
+                $bulan_indonesia = $nama_bulan[$bulan_inggris];
+                $validator['tanggal'] = str_replace($bulan_inggris, $bulan_indonesia, $tanggal->format('d F Y'));
+
                 $validator['status'] = 'Menunggu sidang';
 
                 $pengajuanSempro->update($validator);
@@ -395,7 +415,7 @@ class AdminController extends Controller
     //pengajuan skripsi
     public function pengajuanSkripsi()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $pengajuanSkripsi = PengajuanSkripsi::get();
             return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
@@ -403,7 +423,7 @@ class AdminController extends Controller
     }
     public function getPengajuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $role_ketua = Role::with('users')->find(3);
             $role_penguji = Role::with('users')->find(4);
             return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
@@ -413,8 +433,23 @@ class AdminController extends Controller
     public function terimaPengajuanSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
         // dd($request->all());
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if (isset($request->terima)) {
+                $nama_bulan = [
+                    'January' => 'Januari',
+                    'February' => 'Februari',
+                    'March' => 'Maret',
+                    'April' => 'April',
+                    'May' => 'Mei',
+                    'June' => 'Juni',
+                    'July' => 'Juli',
+                    'August' => 'Agustus',
+                    'September' => 'September',
+                    'October' => 'Oktober',
+                    'November' => 'November',
+                    'December' => 'Desember'
+                ];
+
                 $data = $request->all();
                 $rules = [
                     'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
@@ -427,8 +462,12 @@ class AdminController extends Controller
                     'different' => 'Pilihan penguji tidak boleh sama.'
                 ];
                 $validator = Validator::make($data, $rules, $messages)->validate();
+
                 $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
-                $validator['tanggal'] = $tanggal->format('d F Y');
+                $bulan_inggris = $tanggal->format('F');
+                $bulan_indonesia = $nama_bulan[$bulan_inggris];
+                $validator['tanggal'] = str_replace($bulan_inggris, $bulan_indonesia, $tanggal->format('d F Y'));
+
                 $validator['status'] = 'Menunggu sidang';
 
                 $pengajuanSkripsi->update($validator);
@@ -443,18 +482,42 @@ class AdminController extends Controller
     }
 
     //pengajuan alat
-    public function getAllPengajuanAlat()
+    public function PengajuanAlat()
     {
-        if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.alat.index', ['title' => 'pengajuan']);
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+            $pengajuanAlat = PengajuanAlat::where('status', '=', 'Menunggu persetujuan')->get();
+            return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'pengajuanAlat' => $pengajuanAlat]);
         }
         abort(404);
     }
 
-    public function getPengajuanAlat()
+    public function getPengajuanAlat(PengajuanAlat $pengajuanAlat)
     {
-        if (Gate::any(['admin', 'komite'])) {
-            return view('admin.pengajuan.alat.detail', ['title' => 'pengajuan']);
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+            return view('admin.pengajuan.alat.detail', ['title' => 'pengajuan', 'pengajuanAlat' => $pengajuanAlat]);
+        }
+        abort(404);
+    }
+
+    public function terimaPengajuanAlat(Request $request, PengajuanAlat $pengajuanAlat)
+    {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+            if ($request->terima) {
+                $pengajuanAlat->update(['status' => 'Diterima']);
+                $pengajuanAlat->user->mahasiswa->update(['status' => 'Lulus']);
+
+                return redirect('/admin/pengajuan/alat');
+            } else {
+                $data = $request->all();
+                $rules = ['keterangan' => 'required'];
+                $messages = ['required' => 'Keternagan tidak boleh kosong.'];
+                $validated = Validator::make($data, $rules, $messages)->validate();
+
+                $validated['status'] = 'Ditolak';
+                $pengajuanAlat->update($validated);
+
+                return redirect('/admin/pengajuan/alat');
+            }
         }
         abort(404);
     }
@@ -462,7 +525,7 @@ class AdminController extends Controller
     //skripsi
     public function getSkripsian()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $sempro = PengajuanSempro::get();
             $skripsi = PengajuanSkripsi::get();
             return view('admin.skripsi.index', ['title' => 'skripsi', 'sempro' => $sempro, 'skripsi' => $skripsi]);
@@ -473,7 +536,7 @@ class AdminController extends Controller
     //revisi
     public function getAllRevisi()
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $pengajuanRevisi = PengajuanRevisi::where('terima_penguji1', '!=', null)
                 ->where('terima_penguji2', '!=', null)
                 ->where('terima_penguji3', '!=', null)
@@ -486,7 +549,7 @@ class AdminController extends Controller
 
     public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             return view('admin.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
         }
         abort(404);
@@ -494,7 +557,7 @@ class AdminController extends Controller
 
     public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if (isset($request->tolak)) {
                 $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Ditolak']);
                 $pengajuanRevisi->update(['status' => 'Tidak lulus']);

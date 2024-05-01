@@ -64,7 +64,7 @@
                 <br>
                 {{-- <p>Apakah skripsinya membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p>
                 <br> --}}
-                <p>Dosen Pembimbing: {{ Auth::user()->nama }}</p>
+                <p>Dosen Pembimbing: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
                 <br>
                 <P>
                     Link presentasi:

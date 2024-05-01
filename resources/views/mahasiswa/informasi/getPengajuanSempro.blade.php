@@ -55,6 +55,7 @@
             <p>Status: {{ $pengajuanSempro->status }}</p><br>
             <p>Nilai: {{ $pengajuanSempro->nilai }}</p><br>
             <p>Tanggal sidang: {{ $pengajuanSempro->tanggal }}</p><br>
+            <p>Keterangan:</p>
             <textarea class="w-full" rows="5" readonly>{{ $pengajuanSempro->keterangan }}</textarea><br>
         </div>
     </div>

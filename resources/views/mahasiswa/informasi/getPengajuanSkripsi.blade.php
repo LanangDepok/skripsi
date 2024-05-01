@@ -66,6 +66,7 @@
             <p>Nilai dosen penguji: {{ $pengajuanSkripsi->nilai_penguji }}</p><br>
             <p>Nilai total: {{ $pengajuanSkripsi->nilai }}</p><br>
             <p>Tanggal sidang: {{ $pengajuanSkripsi->tanggal }}</p><br>
+            <P>Keterangan:</P>
             <textarea class="w-full" rows="5" readonly>{{ $pengajuanSkripsi->keterangan }}</textarea><br>
         </div>
     </div>
