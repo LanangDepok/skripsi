@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Daftar Pengajuan Revisi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Pelaksanaan Sidang Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
         <div class="flex justify-evenly items-center">
@@ -25,6 +25,24 @@
                         Multimedia dan Jaringan</option>
                 </select>
             </div>
+            <div>
+                <label for="cari_status">Status:</label>
+                <select name="cari_status" id="cari_status" class="w-56">
+                    <option value="">(Tanpa filter)</option>
+                    <option value="Lulus" {{ request()->input('cari_status') === 'Lulus' ? 'selected' : '' }}>
+                        Lulus</option>
+                    <option value="Tidak Lulus" {{ request()->input('cari_status') === 'Tidak Lulus' ? 'selected' : '' }}>
+                        Tidak Lulus</option>
+                    <option value="Menunggu persetujuan pembimbing"
+                        {{ request()->input('cari_status') === 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
+                        Menunggu persetujuan pembimbing
+                    </option>
+                    <option value="Menunggu pembagian jadwal"
+                        {{ request()->input('cari_status') === 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
+                        pembagian jadwal
+                    </option>
+                </select>
+            </div>
             <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
         </div>
     </div>
@@ -32,47 +50,46 @@
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No</th>
+                    <th class="border-b border-slate-500 py-2">N0.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
+                    <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Program Studi</th>
                     <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
-                    <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
-                    <th class="border-b border-slate-500 py-2">Action</th>
+                    <th class="border-b border-slate-500 py-2">Jenis</th>
+                    <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
+                    <th class="border-b border-slate-500 py-2">Status</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $pengajuanRevisi)
-                    @if ($pengajuanRevisi->status != 'Diterima')
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $startNubmer + $index }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
-                                <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                <p>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
-                                <p>2. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}</p>
-                                <p>3. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}</p>
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->nilai_total }}</td>
-                            <td class="border-b border-slate-500 text-center">
-                                <a href="/admin/revisi/{{ $pengajuanRevisi->id }}"
-                                    class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
-                            </td>
-                        </tr>
-                    @endif
+                @foreach ($data as $index => $skripsi)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
+
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $skripsi->pengajuanSkripsiMahasiswa->nama }} <br>
+                            ({{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($skripsi->pengajuanSkripsiMahasiswa->skripsi->judul) ? $skripsi->pengajuanSkripsiMahasiswa->skripsi->judul : 'Mahasiswa belum mengajukan judul.' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $skripsi->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>1. {{ $skripsi->pengajuanSkripsiPenguji1->nama ?? '-' }}</p>
+                            <p>2. {{ $skripsi->pengajuanSkripsiPenguji2->nama ?? '-' }}</p>
+                            <p>3. {{ $skripsi->pengajuanSkripsiPenguji3->nama ?? '-' }}</p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($skripsi->tanggal) ? $skripsi->tanggal : '-' }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $skripsi->status }}</td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

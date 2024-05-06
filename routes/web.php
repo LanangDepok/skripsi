@@ -108,7 +108,8 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/pengajuan/alat/{pengajuanAlat}', 'getPengajuanAlat');
     Route::post('/admin/pengajuan/alat/{pengajuanAlat}', 'terimaPengajuanAlat');
 
-    Route::get('/admin/skripsi', 'getSkripsian');
+    Route::get('/admin/pelaksanaan/sempro', 'getSempro');
+    Route::get('/admin/pelaksanaan/skripsi', 'getSkripsi');
 
     Route::get('/admin/revisi', 'getAllRevisi');
     Route::get('/admin/revisi/{pengajuanRevisi}', 'getRevisi');

@@ -40,5 +40,59 @@ class MahasiswaSeeder extends Seeder
             'tanda_tangan' => '',
             'tahun_ajaran' => '2023/2024'
         ]);
+        Mahasiswa::create([
+            'user_id' => 12,
+            'nim' => 207412009,
+            'prodi' => 'Teknik Multimedia dan Jaringan',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 13,
+            'nim' => 207412010,
+            'prodi' => 'Teknik Multimedia dan Jaringan',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 14,
+            'nim' => 207412011,
+            'prodi' => 'Teknik Multimedia dan Jaringan',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 15,
+            'nim' => 207412012,
+            'prodi' => 'Teknik Multimedia Digital',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 16,
+            'nim' => 207412013,
+            'prodi' => 'Teknik Multimedia Digital',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
+        Mahasiswa::create([
+            'user_id' => 17,
+            'nim' => 207412014,
+            'prodi' => 'Teknik Multimedia Digital',
+            'kelas' => 'TI_CCIT 8',
+            'status' => 'Belum mengajukan judul',
+            'tanda_tangan' => '',
+            'tahun_ajaran' => '2023/2024'
+        ]);
     }
 }

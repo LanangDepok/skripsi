@@ -72,7 +72,7 @@
                             </a>
                         </li>
                         <li class="relative">
-                            <button id="pengajuanDropdownButton"
+                            <button type="button" id="pengajuanDropdownButton"
                                 class="hover:bg-slate-300 {{ $title == 'pengajuan' ? 'bg-red-200' : '' }}">
                                 Pengajuan
                                 <span>
@@ -95,7 +95,25 @@
                                     terima alat & skripsi</a>
                             </div>
                         </li>
-                        <li>
+                        <li class="relative">
+                            <button type="button" id="sidangDropdownButton"
+                                class="hover:bg-slate-300 {{ $title == 'sidang' ? 'bg-red-200' : '' }}">
+                                Pelaksanaan sidang
+                                <span>
+                                    <img src="/storage/icons/meeting.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </button>
+                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                                id="sidangDropdownContent">
+                                <a href="/admin/pelaksanaan/sempro" class="block px-4 py-2 hover:bg-slate-300">Sidang
+                                    Sempro</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/admin/pelaksanaan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
+                                    Skripsi</a>
+                            </div>
+                        </li>
+                        {{-- <li>
                             <a href="/admin/skripsi"
                                 class="hover:bg-slate-300  {{ $title == 'skripsi' ? 'bg-red-200' : '' }}">
                                 Pelaksanaan Sidang
@@ -104,7 +122,7 @@
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="/admin/revisi"
                                 class="hover:bg-slate-300  {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
@@ -161,6 +179,12 @@
         const pengajuanDropdownContent = document.getElementById('pengajuanDropdownContent');
         pengajuanDropdownButton.addEventListener('click', function() {
             pengajuanDropdownContent.classList.toggle('hidden');
+        });
+
+        const sidangDropdownButton = document.getElementById('sidangDropdownButton');
+        const sidangDropdownContent = document.getElementById('sidangDropdownContent');
+        sidangDropdownButton.addEventListener('click', function() {
+            sidangDropdownContent.classList.toggle('hidden');
         });
 
         const userDropdownButton = document.getElementById('userDropdownButton');

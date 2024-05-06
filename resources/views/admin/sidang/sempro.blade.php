@@ -1,11 +1,10 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pengajuan Penyerahan Alat & Skripsi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Pelaksanaan Sidang Sempro</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/pengajuan/alat">
-            @csrf
+        <form method="GET">
             <div class="flex justify-evenly items-center">
                 <div>
                     <label for="cari_nama">Nama:</label>
@@ -28,6 +27,29 @@
                             Multimedia dan Jaringan</option>
                     </select>
                 </div>
+                <div>
+                    <label for="cari_status">Status:</label>
+                    <select name="cari_status" id="cari_status" class="w-56">
+                        <option value="">(Tanpa filter)</option>
+                        <option value="Lulus" {{ request()->input('cari_status') === 'Lulus' ? 'selected' : '' }}>
+                            Lulus</option>
+                        <option value="Tidak Lulus"
+                            {{ request()->input('cari_status') === 'Tidak Lulus' ? 'selected' : '' }}>
+                            Tidak Lulus</option>
+                        <option value="Menunggu persetujuan pembimbing"
+                            {{ request()->input('cari_status') === 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
+                            Menunggu persetujuan pembimbing
+                        </option>
+                        <option value="Menunggu pembagian jadwal"
+                            {{ request()->input('cari_status') === 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
+                            pembagian jadwal
+                        </option>
+                        <option value="Menunggu sidang"
+                            {{ request()->input('cari_status') === 'Menunggu sidang' ? 'selected' : '' }}>
+                            Menunggu sidang
+                        </option>
+                    </select>
+                </div>
                 <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
             </div>
         </form>
@@ -36,35 +58,51 @@
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">N0.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Action</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Jenis</th>
+                    <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
+                    <th class="border-b border-slate-500 py-2">Status</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $index => $pengajuanAlat)
+                @foreach ($data as $index => $sempro)
                     <tr class="even:bg-slate-300">
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>{{ $pengajuanAlat->user->nama }}</p>
-                            <p>({{ $pengajuanAlat->user->mahasiswa->nim }})</p>
-                        </td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanAlat->user->mahasiswa->prodi }}
-                        </td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanAlat->user->skripsi->judul }}
+                            {{ $sempro->pengajuanSemproMahasiswa->nama }} <br>
+                            ({{ $sempro->pengajuanSemproMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</td>
-                        <td class="text-center  border-b border-slate-500">
-                            <a href="/admin/pengajuan/alat/{{ $pengajuanAlat->id }}"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
+                            {{ $sempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $sempro->pengajuanSemproMahasiswa->skripsi->judul }}
                         </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $sempro->pengajuanSemproDospem->nama }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>1.
+                                {{ $sempro->pengajuanSemproPenguji1->nama ?? '-' }}
+                            </p>
+                            <p>2.
+                                {{ $sempro->pengajuanSemproPenguji2->nama ?? '-' }}
+                            </p>
+                            <p>3.
+                                {{ $sempro->pengajuanSemproPenguji3->nama ?? '-' }}
+                            </p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">Sidang Sempro</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($sempro->tanggal) ? $sempro->tanggal : '-' }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $sempro->status }}</td>
                     </tr>
                 @endforeach
             </tbody>

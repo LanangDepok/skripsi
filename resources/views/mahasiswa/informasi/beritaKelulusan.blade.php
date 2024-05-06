@@ -1,44 +1,48 @@
-@extends('admin.template')
+@extends('dosen.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Daftar Pengajuan Revisi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Pengujian Seminar Proposal</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <div class="flex justify-evenly items-center">
-            <div>
-                <label for="cari_nama">Nama:</label>
-                <input type="text" id="cari_nama" name="cari_nama" class="w-56" value="{{ request()->input('cari_nama') }}">
+        <form method="GET" action="/dosen/pengujian/sempro">
+            @csrf
+            <div class="flex justify-evenly items-center">
+                <div>
+                    <label for="cari_nama">Nama:</label>
+                    <input type="text" id="cari_nama" name="cari_nama" class="w-56"
+                        value="{{ request()->input('cari_nama') }}">
+                </div>
+                <div>
+                    <label for="cari_prodi">Program Studi:</label>
+                    <select name="cari_prodi" id="cari_prodi" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        <option value="Teknik Informatika"
+                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
+                            Informatika</option>
+                        <option value="Teknik Multimedia Digital"
+                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
+                            Multimedia Digital</option>
+                        <option value="Teknik Multimedia dan Jaringan"
+                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
+                            Teknik
+                            Multimedia dan Jaringan</option>
+                    </select>
+                </div>
+                <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
             </div>
-            <div>
-                <label for="program_studi">Program Studi:</label>
-                <select name="cari_prodi" id="cari_prodi" class="w-72">
-                    <option value="">(Tanpa filter)</option>
-                    <option value="Teknik Informatika"
-                        {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                        Informatika</option>
-                    <option value="Teknik Multimedia Digital"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                        Multimedia Digital</option>
-                    <option value="Teknik Multimedia dan Jaringan"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                        Teknik
-                        Multimedia dan Jaringan</option>
-                </select>
-            </div>
-            <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
-        </div>
+        </form>
     </div>
     <div class="container mx-auto mt-6">
         <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No</th>
+                    <th class="border-b border-slate-500 py-2">No.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
-                    <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
-                    <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
+                    <th class="border-b border-slate-500 py-2">Judul</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Tanggal Sidang</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -46,33 +50,30 @@
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $pengajuanRevisi)
-                    @if ($pengajuanRevisi->status != 'Diterima')
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $startNubmer + $index }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
-                                <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                <p>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
-                                <p>2. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}</p>
-                                <p>3. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}</p>
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $pengajuanRevisi->pengajuanSkripsi->nilai_total }}</td>
-                            <td class="border-b border-slate-500 text-center">
-                                <a href="/admin/revisi/{{ $pengajuanRevisi->id }}"
-                                    class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
-                            </td>
-                        </tr>
-                    @endif
+                @foreach ($data as $index => $dosen_skripsi)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_skripsi->pengajuanSemproMahasiswa->nama }}
+                            ({{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->nim }})
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_skripsi->pengajuanSemproMahasiswa->skripsi->judul }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $dosen_skripsi->pengajuanSemproDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            1. {{ $dosen_skripsi->pengajuanSemproPenguji1->nama }}<br>
+                            2. {{ $dosen_skripsi->pengajuanSemproPenguji2->nama }}<br>
+                            3. {{ $dosen_skripsi->pengajuanSemproPenguji3->nama }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_skripsi->tanggal }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="/dosen/pengujian/sempro/{{ $dosen_skripsi->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a></button>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>

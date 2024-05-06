@@ -155,22 +155,47 @@ class DosenController extends Controller
     }
 
     //pengujian sempro
-    public function getAllPengujianSempro()
+    public function getAllPengujianSempro(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
-            $ketua_sidang = PengajuanSempro::where('penguji1_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
-            $dosen_penguji2 = PengajuanSempro::where('penguji2_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
-            $dosen_penguji3 = PengajuanSempro::where('penguji3_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
-            $dosen_pembimbing = PengajuanSempro::where('dospem_id', '=', Auth::user()->id)->where('status', '=', 'Menunggu sidang')->get();
+
+            $query = PengajuanSempro::where(function ($query) {
+                $query->where('penguji1_id', Auth::user()->id)
+                    ->orWhere('penguji2_id', Auth::user()->id)
+                    ->orWhere('penguji3_id', Auth::user()->id)
+                    ->orWhere('dospem_id', Auth::user()->id);
+            })
+                ->whereIn('status', ['Menunggu sidang']);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSemproMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            if ($request->filled('cari_bimbingan')) {
+                $cari_bimbingan = $request->input('cari_bimbingan');
+                if ($cari_bimbingan === 'mahasiswa_bimbingan') {
+                    $query->where('dospem_id', '=', Auth::user()->id);
+                } elseif ($cari_bimbingan === 'mahasiswa_teruji') {
+                    $query->where('dospem_id', '!=', Auth::user()->id);
+                }
+            }
+
+            $data = $query->paginate(10);
+
             return view('dosen.pengujian.sempro.index', [
                 'title' => 'pengujian',
-                'ketua_sidang' => $ketua_sidang,
-                'dosen_penguji2' => $dosen_penguji2,
-                'dosen_penguji3' => $dosen_penguji3,
-                'dosen_pembimbing' => $dosen_pembimbing,
+                'data' => $data,
             ]);
         }
         abort(404);
@@ -194,7 +219,7 @@ class DosenController extends Controller
 
     public function nilaiSempro(Request $request, PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
+        if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
             $data = $request->all();
             $rules = [
                 'kriteria1' => [Rule::in([1, 2, 4, 5]), 'required'],
@@ -233,39 +258,75 @@ class DosenController extends Controller
     }
 
     //pengujian skripsi
-    public function getAllPengujianSkripsi()
+    public function getAllPengujianSkripsi(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
-            $dosen_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('status', '=', 'Menunggu sidang')
-                        ->orWhere('status', '=', 'Menunggu penilaian');
-                })->get();
-            $dosen_penguji2 = PengajuanSkripsi::where('penguji2_id', '=', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('status', '=', 'Menunggu sidang')
-                        ->orWhere('status', '=', 'Menunggu penilaian');
-                })->get();
-            $dosen_penguji3 = PengajuanSkripsi::where('penguji3_id', '=', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('status', '=', 'Menunggu sidang')
-                        ->orWhere('status', '=', 'Menunggu penilaian');
-                })->get();
-            $dosen_pembimbing = PengajuanSkripsi::where('dospem_id', '=', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('status', '=', 'Menunggu sidang')
-                        ->orWhere('status', '=', 'Menunggu penilaian');
-                })->get();
+            // $dosen_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
+            //     ->where(function ($query) {
+            //         $query->where('status', '=', 'Menunggu sidang')
+            //             ->orWhere('status', '=', 'Menunggu penilaian');
+            //     })->get();
+            // $dosen_penguji2 = PengajuanSkripsi::where('penguji2_id', '=', Auth::user()->id)
+            //     ->where(function ($query) {
+            //         $query->where('status', '=', 'Menunggu sidang')
+            //             ->orWhere('status', '=', 'Menunggu penilaian');
+            //     })->get();
+            // $dosen_penguji3 = PengajuanSkripsi::where('penguji3_id', '=', Auth::user()->id)
+            //     ->where(function ($query) {
+            //         $query->where('status', '=', 'Menunggu sidang')
+            //             ->orWhere('status', '=', 'Menunggu penilaian');
+            //     })->get();
+            // $dosen_pembimbing = PengajuanSkripsi::where('dospem_id', '=', Auth::user()->id)
+            //     ->where(function ($query) {
+            //         $query->where('status', '=', 'Menunggu sidang')
+            //             ->orWhere('status', '=', 'Menunggu penilaian');
+            //     })->get();
+
+            // return view('dosen.pengujian.skripsi.index', [
+            //     'title' => 'pengujian',
+            //     'dosen_penguji1' => $dosen_penguji1,
+            //     'dosen_penguji2' => $dosen_penguji2,
+            //     'dosen_penguji3' => $dosen_penguji3,
+            //     'dosen_pembimbing' => $dosen_pembimbing,
+            // ]);
+
+            $query = PengajuanSkripsi::where(function ($query) {
+                $query->where('penguji1_id', Auth::user()->id)
+                    ->orWhere('penguji2_id', Auth::user()->id)
+                    ->orWhere('penguji3_id', Auth::user()->id)
+                    ->orWhere('dospem_id', Auth::user()->id);
+            })
+                ->whereIn('status', ['Menunggu sidang', 'Menunggu penilaian']);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            if ($request->filled('cari_bimbingan')) {
+                $cari_bimbingan = $request->input('cari_bimbingan');
+                if ($cari_bimbingan === 'mahasiswa_bimbingan') {
+                    $query->where('dospem_id', '=', Auth::user()->id);
+                } elseif ($cari_bimbingan === 'mahasiswa_teruji') {
+                    $query->where('dospem_id', '!=', Auth::user()->id);
+                }
+            }
+
+            $data = $query->paginate(10);
 
             return view('dosen.pengujian.skripsi.index', [
                 'title' => 'pengujian',
-                'dosen_penguji1' => $dosen_penguji1,
-                'dosen_penguji2' => $dosen_penguji2,
-                'dosen_penguji3' => $dosen_penguji3,
-                'dosen_pembimbing' => $dosen_pembimbing,
+                'data' => $data,
             ]);
         }
         abort(404);

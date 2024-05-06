@@ -43,7 +43,28 @@ class RolerUserSeeder extends Seeder
         $user10 = User::find(10);
         $user10->roles()->sync([5]);
 
-        $user10 = User::find(11);
-        $user10->roles()->sync([6]);
+        $user11 = User::find(11);
+        $user11->roles()->sync([6]);
+
+        $user12 = User::find(12);
+        $user12->roles()->sync([6]);
+
+        $user13 = User::find(13);
+        $user13->roles()->sync([6]);
+
+        $user13 = User::find(13);
+        $user13->roles()->sync([6]);
+
+        $user14 = User::find(14);
+        $user14->roles()->sync([6]);
+
+        $user15 = User::find(15);
+        $user15->roles()->sync([6]);
+
+        $user16 = User::find(16);
+        $user16->roles()->sync([6]);
+
+        $user17 = User::find(17);
+        $user17->roles()->sync([6]);
     }
 }

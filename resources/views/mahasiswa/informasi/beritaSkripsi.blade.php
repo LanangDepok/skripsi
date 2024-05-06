@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="w-1/2 mx-auto print:hidden">
-        <a href="/mahasiswa/informasi"
+        <a href="{{ url()->previous() }}"
             class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block text-center">Back</a>
         </button>
     </div>

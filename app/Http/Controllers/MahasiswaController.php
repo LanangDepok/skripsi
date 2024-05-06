@@ -314,7 +314,7 @@ class MahasiswaController extends Controller
         if (Gate::forUser(Auth::user())->allows('mahasiswa')) {
             if (Auth::user()->pengajuanJudul == null) {
                 return redirect('/mahasiswa/pengajuan/judul/' . Auth::user()->id)->with('messages', 'Ajukan judul terlebih dahulu.');
-            } elseif (Auth::user()->pengajuanJudul->latest()->first()->status != 'diterima') {
+            } elseif (Auth::user()->pengajuanJudul->where('user_id', '=', Auth::user()->id)->latest()->first()->status != 'diterima') {
                 return redirect('/mahasiswa/informasi/')->with('messages', 'Pastikan pengajuan judul sudah diterima.');
             }
             return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
@@ -400,14 +400,21 @@ class MahasiswaController extends Controller
 
     public function beritaAcaraSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::forUser(Auth::user())->allows('mahasiswa')) {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
             return view('mahasiswa.informasi.beritaSempro', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
     public function beritaAcaraSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::forUser(Auth::user())->allows('mahasiswa')) {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.beritaSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function beritaKelulusan(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
             return view('mahasiswa.informasi.beritaSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);

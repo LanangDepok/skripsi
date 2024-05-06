@@ -38,6 +38,22 @@
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/bimbingan/listMahasiswa/{{ $listMahasiswa->id }}"
                                 class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Detail</a></button>
+                            @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->isNotEmpty())
+                                @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus')
+                                    <a href="/mahasiswa/informasi/{{ $listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->id }}/beritaSempro"
+                                        class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Form
+                                        F3</a></button>
+                                @endif
+                            @endif
+
+                            @if (
+                                $listMahasiswa->bimbinganMahasiswa->pengajuanSkripsiMahasiswa->isNotEmpty() &&
+                                    $listMahasiswa->bimbinganMahasiswa->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status ==
+                                        'Lulus')
+                                <a href="/dosen/bimbingan/listMahasiswa/{{ $listMahasiswa->id }}"
+                                    class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Form
+                                    F5</a></button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

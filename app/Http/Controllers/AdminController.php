@@ -15,6 +15,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -52,10 +53,30 @@ class AdminController extends Controller
     }
 
     // mahasiswa
-    public function getStudents()
+    public function getStudents(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $data = Mahasiswa::get();
+            $query = Mahasiswa::query();
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('user', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+            }
+
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', $cari_status);
+            }
+
+            $data = $query->paginate(3);
+
             return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
         }
         abort(404);
@@ -168,10 +189,25 @@ class AdminController extends Controller
     }
 
     // dosen
-    public function getLecturers()
+    public function getLecturers(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $data = Dosen::get();
+            $query = Dosen::query();
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('user', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_role')) {
+                $cari_role = $request->input('cari_role');
+                $query->whereHas('user.roles', function ($query) use ($cari_role) {
+                    $query->where('nama', 'like', '%' . $cari_role . '%');
+                });
+            }
+
+            $data = $query->paginate(2);
 
             return view('admin.dosen.index', ['title' => 'dosen', 'data' => $data]);
         }
@@ -289,11 +325,24 @@ class AdminController extends Controller
     }
 
     //pengajuan judul
-    public function pengajuanJudul()
+    public function pengajuanJudul(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $pengajuanJudul = PengajuanJudul::where('status', '=', 'menunggu')->get();
-            // $pengajuanJudul = PengajuanJudul::get();
+            $query = PengajuanJudul::query()->where('status', '=', 'menunggu');
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('user', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            $pengajuanJudul = $query->paginate(2);
 
             return view('admin.pengajuan.judul.index', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul]);
         }
@@ -343,11 +392,28 @@ class AdminController extends Controller
     }
 
     //pengajuan sempro
-    public function pengajuanSempro()
+    public function pengajuanSempro(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $pengajuanSempro = PengajuanSempro::get();
-            return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro]);
+            // $pengajuanSempro = PengajuanSempro::get();
+
+            $query = PengajuanSempro::query()->where('status', '=', 'Menunggu pembagian jadwal');
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSemproMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            $data = $query->paginate(1);
+
+            return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'data' => $data]);
         }
         abort(404);
     }
@@ -413,11 +479,26 @@ class AdminController extends Controller
     }
 
     //pengajuan skripsi
-    public function pengajuanSkripsi()
+    public function pengajuanSkripsi(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $pengajuanSkripsi = PengajuanSkripsi::get();
-            return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            $query = PengajuanSkripsi::query()->where('status', '=', 'Menunggu pembagian jadwal');
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            $data = $query->paginate(1);
+
+            return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'data' => $data]);
         }
         abort(404);
     }
@@ -482,11 +563,26 @@ class AdminController extends Controller
     }
 
     //pengajuan alat
-    public function PengajuanAlat()
+    public function PengajuanAlat(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $pengajuanAlat = PengajuanAlat::where('status', '=', 'Menunggu persetujuan')->get();
-            return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'pengajuanAlat' => $pengajuanAlat]);
+            $query = PengajuanAlat::query()->where('status', '=', 'Menunggu persetujuan');
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            $data = $query->paginate(1);
+
+            return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'data' => $data]);
         }
         abort(404);
     }
@@ -522,27 +618,89 @@ class AdminController extends Controller
         abort(404);
     }
 
-    //skripsi
-    public function getSkripsian()
+    //pelaksanaan sidang
+    public function getSempro(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $sempro = PengajuanSempro::get();
-            $skripsi = PengajuanSkripsi::get();
-            return view('admin.skripsi.index', ['title' => 'skripsi', 'sempro' => $sempro, 'skripsi' => $skripsi]);
+            $query = PengajuanSempro::query();
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSemproMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', 'like', '%' . $cari_status . '%');
+            }
+
+            $data = $query->paginate(1);
+
+            return view('admin.sidang.sempro', ['title' => 'sidang', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function getSkripsi(Request $request)
+    {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+            $query = PengajuanSkripsi::query();
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', 'like', '%' . $cari_status . '%');
+            }
+
+            $data = $query->paginate(1);
+
+            return view('admin.sidang.skripsi', ['title' => 'sidang', 'data' => $data]);
         }
         abort(404);
     }
 
     //revisi
-    public function getAllRevisi()
+    public function getAllRevisi(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $pengajuanRevisi = PengajuanRevisi::where('terima_penguji1', '!=', null)
+            $query = PengajuanRevisi::query()->where('terima_penguji1', '!=', null)
                 ->where('terima_penguji2', '!=', null)
                 ->where('terima_penguji3', '!=', null)
-                ->where('terima_pembimbing', '!=', null)
-                ->get();
-            return view('admin.revisi.index', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
+                ->where('terima_pembimbing', '!=', null);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                });
+            }
+
+            $data = $query->paginate(1);
+
+            return view('admin.revisi.index', ['title' => 'revisi', 'data' => $data]);
         }
         abort(404);
     }
