@@ -16,7 +16,7 @@
     <div class="container mx-auto w-full">
         <p class=" text-2xl font-semibold text-center">Pengajuan Judul & Dosen Pembimbing</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
                     <th class="border-b border-slate-500 py-2">No</th>
@@ -57,7 +57,7 @@
     <div class="container mx-auto w-full mt-5">
         <p class=" text-2xl font-semibold text-center">Seminar Proposal</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
                     <th class="border-b border-slate-500 py-2">No</th>
@@ -92,12 +92,26 @@
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
-                                @if ($data->status == 'Lulus')
-                                    <a href="/mahasiswa/informasi/{{ $data->id }}/beritaSempro"
-                                        class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
-                                        Berita acara
-                                    </a>
-                                @endif
+                                <div>
+                                    @if ($data->status != 'Menunggu persetujuan pembimbing' && $data->status != 'Ditolak')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f1"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F1
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f2"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F2
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f3"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F3
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -108,7 +122,7 @@
     <div class="container mx-auto w-full mt-5">
         <p class=" text-2xl font-semibold text-center">Sidang Skripsi</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
                     <th class="border-b border-slate-500 py-2">No</th>
@@ -149,12 +163,72 @@
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
-                                @if ($data->status == 'Lulus')
-                                    <a href="/mahasiswa/informasi/{{ $data->id }}/beritaSkripsi"
-                                        class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
-                                        Berita acara
-                                    </a>
-                                @endif
+                                <div>
+                                    @if ($data->status != 'Menunggu persetujuan pembimbing' && $data->status != 'Ditolak')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f4"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F4
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f5"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F5
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f6"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F6
+                                        </a>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7a"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F7a
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7b"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F7b
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7c"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F7c
+                                        </a>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f8"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F8
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f9"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F9
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus' || $data->status == 'Revisi' || $data->status == 'Menunggu persetujuan revisi')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f10"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F10
+                                        </a>
+                                    @endif
+                                    @if ($data->status == 'Lulus')
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f11"
+                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                            F11
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -166,7 +240,7 @@
     <div class="container mx-auto w-full mt-5">
         <p class=" text-2xl font-semibold text-center">Serah terima alat & skripsi</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead>
                 <tr>
                     <th class="border-b border-slate-500 py-2">No.</th>

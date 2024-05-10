@@ -10,6 +10,7 @@ use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
 use App\Models\User;
 use App\Services\DosenService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -84,7 +85,12 @@ class DosenController extends Controller
     {
         if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (isset($request->terima)) {
-                $pengajuanSempro->update(['status' => 'Menunggu pembagian jadwal']);
+                $tanggal = Carbon::now()->translatedFormat('d F Y');
+
+                $pengajuanSempro->update([
+                    'status' => 'Menunggu pembagian jadwal',
+                    'acc_dospem' => $tanggal,
+                ]);
                 return redirect('/dosen/bimbingan/persetujuanSidang');
             } else {
                 $pengajuanSempro->update(['status' => 'Ditolak']);
@@ -104,7 +110,12 @@ class DosenController extends Controller
     {
         if (Gate::forUser(Auth::user())->allows('dosen_pembimbing')) {
             if (isset($request->terima)) {
-                $pengajuanSkripsi->update(['status' => 'Menunggu pembagian jadwal']);
+                $tanggal = Carbon::now()->translatedFormat('d F Y');
+
+                $pengajuanSkripsi->update([
+                    'status' => 'Menunggu pembagian jadwal',
+                    'acc_dospem' => $tanggal,
+                ]);
                 return redirect('/dosen/bimbingan/persetujuanSidang');
             } else {
                 $pengajuanSkripsi->update(['status' => 'Ditolak']);
@@ -238,16 +249,15 @@ class DosenController extends Controller
                 'kriteria4.in' => 'Harus bernilai antara 1, 2, 4, atau 5.',
                 'kriteria5.in' => 'Harus bernilai antara 1, 2, 4, atau 5.',
             ];
-            $validator = Validator::make($data, $rules, $messages);
+            $validator = Validator::make($data, $rules, $messages)->validate();
+            // $data = $validator->safe()->only(['nilai', 'keterangan']);
 
-            $data = $validator->safe()->only(['nilai', 'keterangan']);
-
-            if ($data['nilai'] >= 400) {
-                $data['status'] = 'Lulus';
-                $pengajuanSempro->update($data);
+            if ($validator['nilai'] >= 400) {
+                $validator['status'] = 'Lulus';
+                $pengajuanSempro->update($validator);
             } else {
-                $data['status'] = 'Tidak lulus';
-                $pengajuanSempro->update($data);
+                $validator['status'] = 'Tidak lulus';
+                $pengajuanSempro->update($validator);
             }
 
             $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->update(['status' => 'Bimbingan Skripsi']);
@@ -368,24 +378,48 @@ class DosenController extends Controller
                 'numeric' => 'Nilai harus berupa angka',
                 'between' => 'Nilai harus bernilai antara :min hingga :max',
             ];
-            Validator::make($data, $rules, $messages)->validate();
+            $validated = Validator::make($data, $rules, $messages)->validate();
 
             if (Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
                 $pengajuanSkripsi->update([
-                    'nilai1' => $request->total_nilai,
-                    'status' => 'Menunggu penilaian'
+                    'nilai1' => $validated['total_nilai'],
+                    'status' => 'Menunggu penilaian',
+                    '1a1' => $validated['a1'],
+                    '1a2' => $validated['a2'],
+                    '1a3' => $validated['a3'],
+                    '1b1' => $validated['b1'],
+                    '1b2' => $validated['b2'],
+                    '1b3' => $validated['b3'],
+                    '1b4' => $validated['b4'],
+                    '1b5' => $validated['b5'],
                 ]);
                 return redirect('/dosen/pengujian/skripsi');
             } elseif (Auth::user()->id == $pengajuanSkripsi->penguji2_id) {
                 $pengajuanSkripsi->update([
-                    'nilai2' => $request->total_nilai,
-                    'status' => 'Menunggu penilaian'
+                    'nilai2' => $validated['total_nilai'],
+                    'status' => 'Menunggu penilaian',
+                    '2a1' => $validated['a1'],
+                    '2a2' => $validated['a2'],
+                    '2a3' => $validated['a3'],
+                    '2b1' => $validated['b1'],
+                    '2b2' => $validated['b2'],
+                    '2b3' => $validated['b3'],
+                    '2b4' => $validated['b4'],
+                    '2b5' => $validated['b5'],
                 ]);
                 return redirect('/dosen/pengujian/skripsi');
             } elseif (Auth::user()->id == $pengajuanSkripsi->penguji3_id) {
                 $pengajuanSkripsi->update([
-                    'nilai3' => $request->total_nilai,
-                    'status' => 'Menunggu penilaian'
+                    'nilai3' => $validated['total_nilai'],
+                    'status' => 'Menunggu penilaian',
+                    '3a1' => $validated['a1'],
+                    '3a2' => $validated['a2'],
+                    '3a3' => $validated['a3'],
+                    '3b1' => $validated['b1'],
+                    '3b2' => $validated['b2'],
+                    '3b3' => $validated['b3'],
+                    '3b4' => $validated['b4'],
+                    '3b5' => $validated['b5'],
                 ]);
                 return redirect('/dosen/pengujian/skripsi');
             }
@@ -410,11 +444,22 @@ class DosenController extends Controller
                 'numeric' => 'Nilai harus berupa angka',
                 'between' => 'Nilai harus bernilai antara :min hingga :max',
             ];
-            Validator::make($data, $rules, $messages)->validate();
+            $validated = Validator::make($data, $rules, $messages)->validate();
 
             $pengajuanSkripsi->update([
                 'nilai_pembimbing' => $request->total_nilai,
-                'status' => 'Menunggu penilaian'
+                'status' => 'Menunggu penilaian',
+                '4a1' => $validated['a1'],
+                '4a2' => $validated['a2'],
+                '4a3' => $validated['a3'],
+                '4b1' => $validated['b1'],
+                '4b2' => $validated['b2'],
+                '4b3' => $validated['b3'],
+                '4b4' => $validated['b4'],
+                '4c1' => $validated['c1'],
+                '4c2' => $validated['c2'],
+                '4c3' => $validated['c3'],
+                '4c4' => $validated['c4'],
             ]);
 
             return redirect('/dosen/pengujian/skripsi');
@@ -423,22 +468,10 @@ class DosenController extends Controller
         }
     }
 
-    // public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
-    // {
-    //     return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-    // }
-
-    //pengujian terbimbing
-    // public function getAllPengujianTerbimbing()
-    // {
-    //     return view('dosen.pengujian.terbimbing.index', ['title' => 'pengujian']);
-    // }
-
-    // public function getPengujianTerbimbing()
-    // {
-    //     return view('dosen.pengujian.terbimbing.detail', ['title' => 'pengujian']);
-    // }
-
+    public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        return view('dosen.pengujian.terbimbing.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+    }
 
 
     //rekapitulasi nilai
@@ -553,12 +586,14 @@ class DosenController extends Controller
 
             $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
             $validated['status'] = 'Revisi';
-            // $validated['deadline'] = date('d M Y', time() + 864000);
 
-            $deadline_timestamp = time() + 864000;
-            $bulan_inggris = date('F', $deadline_timestamp);
-            $bulan_indonesia = $nama_bulan[$bulan_inggris];
-            $validated['deadline'] = date('d', $deadline_timestamp) . ' ' . $bulan_indonesia . date(' Y', $deadline_timestamp);
+            // $deadline_timestamp = time() + 864000;
+            // $bulan_inggris = date('F', $deadline_timestamp);
+            // $bulan_indonesia = $nama_bulan[$bulan_inggris];
+            // $validated['deadline'] = date('d', $deadline_timestamp) . ' ' . $bulan_indonesia . date(' Y', $deadline_timestamp);
+
+            $deadline_timestamp = Carbon::now()->addDays(10)->translatedFormat('d F Y');
+            $validated['deadline'] = $deadline_timestamp;
 
             PengajuanRevisi::create($validated);
 

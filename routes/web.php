@@ -59,8 +59,19 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/pengajuanSkripsi', 'getPengajuanSkripsi');
     Route::get('/mahasiswa/informasi/{pengajuanAlat}/pengajuanAlat', 'getPengajuanAlat');
 
-    Route::get('/mahasiswa/informasi/{pengajuanSempro}/beritaSempro', 'beritaAcaraSempro');
-    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/beritaSkripsi', 'beritaAcaraSkripsi');
+    Route::get('/mahasiswa/informasi/{pengajuanSempro}/f1', 'f1');
+    Route::get('/mahasiswa/informasi/{pengajuanSempro}/f2', 'f2');
+    Route::get('/mahasiswa/informasi/{pengajuanSempro}/f3', 'f3');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f4', 'f4');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f5', 'f5');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f6', 'f6');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7a', 'f7a');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7b', 'f7b');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7c', 'f7c');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f8', 'f8');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f9', 'f9');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f10', 'f10');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f11', 'f11');
 
     Route::get('/mahasiswa/revisi', 'getAllRevisi');
     Route::post('/mahasiswa/revisi/{pengajuanRevisi}', 'terimaRevisi');

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
     content: [
       "./resources/**/*.blade.php",
@@ -10,7 +11,10 @@ module.exports = {
       extend: {
         colors:{
             primary: '#0F4A3A'
-        }
+        },
+        fontFamily: {
+            sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+          },
       },
     },
     plugins: [

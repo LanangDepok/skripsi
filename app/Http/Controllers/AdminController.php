@@ -15,7 +15,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -432,21 +431,6 @@ class AdminController extends Controller
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if (isset($request->terima)) {
-                $nama_bulan = [
-                    'January' => 'Januari',
-                    'February' => 'Februari',
-                    'March' => 'Maret',
-                    'April' => 'April',
-                    'May' => 'Mei',
-                    'June' => 'Juni',
-                    'July' => 'Juli',
-                    'August' => 'Agustus',
-                    'September' => 'September',
-                    'October' => 'Oktober',
-                    'November' => 'November',
-                    'December' => 'Desember'
-                ];
-
                 $data = $request->all();
                 $rules = [
                     'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
@@ -460,10 +444,8 @@ class AdminController extends Controller
                 ];
                 $validator = Validator::make($data, $rules, $messages)->validate();
 
-                $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
-                $bulan_inggris = $tanggal->format('F');
-                $bulan_indonesia = $nama_bulan[$bulan_inggris];
-                $validator['tanggal'] = str_replace($bulan_inggris, $bulan_indonesia, $tanggal->format('d F Y'));
+                $tanggal = Carbon::createFromFormat('Y-m-d', $data['tanggal']);
+                $validator['tanggal'] = $tanggal->translatedFormat('d F Y');
 
                 $validator['status'] = 'Menunggu sidang';
 
@@ -516,21 +498,6 @@ class AdminController extends Controller
         // dd($request->all());
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if (isset($request->terima)) {
-                $nama_bulan = [
-                    'January' => 'Januari',
-                    'February' => 'Februari',
-                    'March' => 'Maret',
-                    'April' => 'April',
-                    'May' => 'Mei',
-                    'June' => 'Juni',
-                    'July' => 'Juli',
-                    'August' => 'Agustus',
-                    'September' => 'September',
-                    'October' => 'Oktober',
-                    'November' => 'November',
-                    'December' => 'Desember'
-                ];
-
                 $data = $request->all();
                 $rules = [
                     'penguji1_id' => 'required|different:penguji2_id,penguji3_id',
@@ -544,10 +511,8 @@ class AdminController extends Controller
                 ];
                 $validator = Validator::make($data, $rules, $messages)->validate();
 
-                $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
-                $bulan_inggris = $tanggal->format('F');
-                $bulan_indonesia = $nama_bulan[$bulan_inggris];
-                $validator['tanggal'] = str_replace($bulan_inggris, $bulan_indonesia, $tanggal->format('d F Y'));
+                $tanggal = Carbon::createFromFormat('Y-m-d', $data['tanggal']);
+                $validator['tanggal'] = $tanggal->translatedFormat('d F Y');
 
                 $validator['status'] = 'Menunggu sidang';
 
@@ -760,9 +725,11 @@ class AdminController extends Controller
                     return redirect('/admin/revisi');
                 }
             } elseif (isset($request->terima)) {
+                $tanggal = Carbon::now()->translatedFormat('d F Y');
                 $pengajuanRevisi->update([
                     'status' => 'Diterima',
-                    'ttd_komite' => Auth::user()->dosen->tanda_tangan
+                    'ttd_komite' => Auth::user()->dosen->tanda_tangan,
+                    'tanggal_revisi' => $tanggal,
                 ]);
                 $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Lulus']);
                 $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);

@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="container mx-auto mt-6">
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No</th>
@@ -46,10 +46,10 @@
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $pengajuanRevisi)
+                @foreach ($data as $index => $pengajuanRevisi)
                     @if ($pengajuanRevisi->status != 'Diterima')
                         <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $startNubmer + $index }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
                                 <p>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>

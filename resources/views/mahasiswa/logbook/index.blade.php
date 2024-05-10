@@ -47,7 +47,7 @@
                 <span class="font-medium">Error!</span> {{ session('messages') }}
             </div>
         @endif
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-2/3">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-2/3">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No.</th>

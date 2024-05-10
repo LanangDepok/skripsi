@@ -18,8 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
-
-use function PHPUnit\Framework\isEmpty;
+use NumberFormatter;
 
 class MahasiswaController extends Controller
 {
@@ -102,7 +101,7 @@ class MahasiswaController extends Controller
                 return redirect('/mahasiswa/logbook')->with('messages', 'Minimal jumlah bimbingan adalah 3x sebelum mengajukan Seminar Proposal');
             } elseif (Auth::user()->pengajuanSemproMahasiswa->isEmpty()) {
                 return view('mahasiswa.pengajuan.pengajuanSempro', ['title' => 'pengajuan']);
-            } elseif (Auth::user()->pengajuanSemproMahasiswa && Auth::user()->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak') {
+            } elseif (Auth::user()->pengajuanSemproMahasiswa && (Auth::user()->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak' || Auth::user()->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Tidak lulus')) {
                 return view('mahasiswa.pengajuan.pengajuanSempro', ['title' => 'pengajuan']);
             } else {
                 return redirect('/mahasiswa/informasi')->with('messages', 'Anda sudah mengajukan sidang sempro.');
@@ -158,7 +157,7 @@ class MahasiswaController extends Controller
                 return redirect('/mahasiswa/logbook')->with('messages', 'Minimal jumlah bimbingan adalah 10x sebelum mengajukan Sidang Skripsi');
             } elseif (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
                 return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
-            } elseif (Auth::user()->pengajuanSkripsiMahasiswa && Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak') {
+            } elseif (Auth::user()->pengajuanSkripsiMahasiswa && (Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak' || Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak')) {
                 return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
             } else {
                 return redirect('/mahasiswa/informasi')->with('messages', 'Anda sudah mengajukan sidang skripsi.');
@@ -398,24 +397,105 @@ class MahasiswaController extends Controller
         abort(404);
     }
 
-    public function beritaAcaraSempro(PengajuanSempro $pengajuanSempro)
+
+    //form
+    public function f1(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            return view('mahasiswa.informasi.beritaSempro', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
+            return view('mahasiswa.informasi.f1', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
-    public function beritaAcaraSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    public function f2(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            return view('mahasiswa.informasi.beritaSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            return view('mahasiswa.informasi.f2', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
-    public function beritaKelulusan(PengajuanSkripsi $pengajuanSkripsi)
+    public function f3(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            return view('mahasiswa.informasi.beritaSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            return view('mahasiswa.informasi.f3', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
+        }
+        abort(404);
+    }
+    public function f4(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f4', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f5(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f5', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f6(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f6', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f7a(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f7a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f7b(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f7b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f7c(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f7c', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f8(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f9(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            // Membuat instance NumberFormatter untuk bahasa Indonesia dengan format terbilang
+            $numberFormatter = new NumberFormatter('id', NumberFormatter::SPELLOUT);
+
+            // Menghitung nilai rata-rata
+            $nilaiRataRata = number_format(($pengajuanSkripsi->nilai_pembimbing + (($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3) * 2) / 3, 1);
+
+            // Mengonversi nilai rata-rata menjadi terbilang
+            $terbilang = $numberFormatter->format($nilaiRataRata);
+
+            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $terbilang]);
+        }
+        abort(404);
+    }
+    public function f10(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f10', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function f11(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
+            return view('mahasiswa.informasi.f11', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
@@ -424,8 +504,7 @@ class MahasiswaController extends Controller
     public function getAllRevisi()
     {
         if (Gate::forUser(Auth::user())->allows('mahasiswa')) {
-            $pengajuanRevisi = PengajuanRevisi::get();
-            if (isset($pengajuanRevisi)) {
+            if (isset(Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi)) {
                 $pengajuanRevisi = PengajuanRevisi::where('pengajuan_skripsi_id', '=', Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->id)
                     ->where('status', '=', 'Revisi')->first();
                 return view('mahasiswa.Revisi.index', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);

@@ -114,7 +114,6 @@
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
                                         type="submit" onclick="confirmDelete(event)">Delete</button>
                                 @endcan
-
                             </td>
                         </form>
                     </tr>

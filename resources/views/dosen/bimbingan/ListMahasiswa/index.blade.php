@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto mt-6">
         <p class="text-center text-2xl font-semibold mb-6">List Mahasiswa</p>
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No.</th>
@@ -40,7 +40,7 @@
                                 class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Detail</a></button>
                             @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->isNotEmpty())
                                 @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus')
-                                    <a href="/mahasiswa/informasi/{{ $listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->id }}/beritaSempro"
+                                    <a href="/mahasiswa/informasi/{{ $listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->id }}/f3"
                                         class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Form
                                         F3</a></button>
                                 @endif

@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->string('status');
             $table->string('ttd_komite')->nullable();
             $table->string('deadline');
+            $table->string('tanggal_revisi')->nullable();
             $table->timestamps();
         });
     }

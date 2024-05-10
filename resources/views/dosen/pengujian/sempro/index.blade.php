@@ -46,7 +46,7 @@
         </form>
     </div>
     <div class="container mx-auto mt-6">
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No.</th>
@@ -86,7 +86,7 @@
                             <a href="/dosen/pengujian/sempro/{{ $dosen_skripsi->id }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a></button>
                             @if (Auth::user()->id == $dosen_skripsi->penguji1_id)
-                                <a href="/dosen/pengujian/sempro/{{ $dosen_skripsi->penguji1_id }}/terima"
+                                <a href="/dosen/pengujian/sempro/{{ $dosen_skripsi->id }}/terima"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a></button>
                             @endif
                         </td>

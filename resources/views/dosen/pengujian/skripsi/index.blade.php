@@ -46,7 +46,7 @@
         </form>
     </div>
     <div class="container mx-auto mt-6">
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No.</th>
@@ -63,8 +63,19 @@
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
+
                 @foreach ($data as $index => $dosen_skripsi)
-                    @if ($dosen_skripsi->nilai_pembimbing == null)
+                    @php
+                        $isDospem = Auth::user()->id == $dosen_skripsi->dospem_id;
+                        $isPenguji1 = Auth::user()->id == $dosen_skripsi->penguji1_id;
+                        $isPenguji2 = Auth::user()->id == $dosen_skripsi->penguji2_id;
+                        $isPenguji3 = Auth::user()->id == $dosen_skripsi->penguji3_id;
+                    @endphp
+                    @if (
+                        ($isDospem && is_null($dosen_skripsi->nilai_pembimbing)) ||
+                            ($isPenguji1 && is_null($dosen_skripsi->nilai1)) ||
+                            ($isPenguji2 && is_null($dosen_skripsi->nilai2)) ||
+                            ($isPenguji3 && is_null($dosen_skripsi->nilai3)))
                         <tr class="even:bg-slate-300">
                             <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
@@ -86,13 +97,23 @@
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/dosen/pengujian/terbimbing/{{ $dosen_skripsi->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
+                                @can('dosen_penguji')
+                                    <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}/terima"
+                                        class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
+                                @endcan
+                                @can('dosen_pembimbing')
+                                    <a href="/dosen/pengujian/terbimbing/{{ $dosen_skripsi->id }}/terima"
+                                        class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
+                                @endcan
                             </td>
                         </tr>
                     @endif
                 @endforeach
-                {{-- @foreach ($dosen_pembimbing as $dosen_pembimbing)
+
+                {{-- @php
+                    $i = 1;
+                @endphp
+                @foreach ($dosen_pembimbing as $dosen_pembimbing)
                     @if ($dosen_pembimbing->nilai_pembimbing == null)
                         <tr class="even:bg-slate-300">
                             <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>

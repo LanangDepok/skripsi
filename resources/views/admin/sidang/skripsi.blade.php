@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="container mx-auto mt-6">
-        <table class="table-fixed mx-auto border-2 border-collapse border-slate-500 w-full">
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">N0.</th>
