@@ -92,7 +92,8 @@
                             <p>Role</p>
                             <input type="checkbox" id="komite" name="role[]" value="2">
                             <label for="komite">Komite</label><br>
-                            <input type="checkbox" id="ketua_penguji" name="role[]" value="3">
+                            <input type="checkbox" id="ketua_penguji" name="role[]" value="3"
+                                onchange="checkDosenPenguji()">
                             <label for="ketua_penguji">Ketua Penguji</label><br>
                             <input type="checkbox" id="dosen_penguji" name="role[]" value="4">
                             <label for="dosen_penguji">Dosen Penguji</label><br>
@@ -101,13 +102,12 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <button type="button"
-                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white"><a
-                                        href="/admin/dosen">Back</a></button>
+                                <a href="/admin/dosen"
+                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white block items-center">Back</a></button>
                             </div>
                             <div class="text-center mt-12">
                                 <button type="submit"
-                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white">Simpan</button>
+                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white">Simpan</button>
                             </div>
                         </div>
                     </div>
@@ -115,4 +115,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function checkDosenPenguji() {
+            var ketuaPengujiCheckbox = document.getElementById('ketua_penguji');
+            var dosenPengujiCheckbox = document.getElementById('dosen_penguji');
+
+            if (ketuaPengujiCheckbox.checked) {
+                dosenPengujiCheckbox.checked = true;
+                dosenPengujiCheckbox.disabled = true;
+            } else {
+                dosenPengujiCheckbox.disabled = false;
+            }
+        }
+    </script>
 @endsection

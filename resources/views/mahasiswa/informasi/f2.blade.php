@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">
@@ -96,7 +107,7 @@
                     <tr>
                         <td class="border border-slate-500 py-2 text-center" colspan="5">NILAI TOTAL</td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSempro->kriteria1 * 25 + $pengajuanSempro->kriteria2 * 25 + $pengajuanSempro->kriteria3 * 25 + $pengajuanSempro->kriteria4 * 15 + $pengajuanSempro->kriteria5 * 10 }}
+                            {{ $pengajuanSempro->nilai }}
                         </td>
                     </tr>
                 </tbody>
@@ -115,7 +126,7 @@
                 <img class="max-w-32 max-h-24"
                     src="/storage/{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan }}">
                 <p>{{ $pengajuanSempro->pengajuanSemproPenguji1->nama }}</p>
-                <p>NIP.{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->nip }}2342424234223424</p>
+                <p>NIP.{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->nip }}</p>
             </div>
             <div>
                 <textarea cols="50" rows="5" readonly>{{ $pengajuanSempro->keterangan }}</textarea>

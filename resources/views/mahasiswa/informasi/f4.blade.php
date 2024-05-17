@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">

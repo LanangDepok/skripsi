@@ -556,23 +556,6 @@ class DosenController extends Controller
     public function revisiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::forUser(Auth::user())->allows('ketua_penguji')) {
-            $nama_bulan = [
-                'January' => 'Januari',
-                'February' => 'Februari',
-                'March' => 'Maret',
-                'April' => 'April',
-                'May' => 'Mei',
-                'June' => 'Juni',
-                'July' => 'Juli',
-                'August' => 'Agustus',
-                'September' => 'September',
-                'October' => 'Oktober',
-                'November' => 'November',
-                'December' => 'Desember'
-            ];
-
-
-
             $data = $request->all();
             $rules = [
                 'revisi_alat' => 'nullable|required_without_all:revisi_laporan',
@@ -586,11 +569,6 @@ class DosenController extends Controller
 
             $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
             $validated['status'] = 'Revisi';
-
-            // $deadline_timestamp = time() + 864000;
-            // $bulan_inggris = date('F', $deadline_timestamp);
-            // $bulan_indonesia = $nama_bulan[$bulan_inggris];
-            // $validated['deadline'] = date('d', $deadline_timestamp) . ' ' . $bulan_indonesia . date(' Y', $deadline_timestamp);
 
             $deadline_timestamp = Carbon::now()->addDays(10)->translatedFormat('d F Y');
             $validated['deadline'] = $deadline_timestamp;

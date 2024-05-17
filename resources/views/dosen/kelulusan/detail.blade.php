@@ -103,14 +103,11 @@
                 <form method="POST" action="/dosen/kelulusan/lulus/{{ $pengajuanSkripsi->id }}">
                     @csrf
                     <p class="text-center mb-5 font-semibold text-xl">Apakah anda yakin untuk meluluskan?</p>
-                    <p>Nama : Bagas Rizkiyanto</p><br>
-                    <p>NIM : 2007412006</p><br>
-                    <p>Program studi : Teknik Informatika</p><br>
-                    <p>Judul : Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus eveniet adipisci commodi
-                        officia quidem, est molestias asperiores iste quos saepe. Quaerat quae, sunt beatae at ut ea
-                        repellendus libero dignissimos nobis, accusantium quibusdam minima optio consequatur sapiente
-                        tempora, quia aut?</p><br>
-                    <p>Nilai akhir : 83.3</p>
+                    <p>Nama : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p><br>
+                    <p>NIM : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p><br>
+                    <p>Program studi : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p><br>
+                    <p>Judul : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p><br>
+                    <p>Nilai akhir : {{ $pengajuanSkripsi->nilai_total }}</p>
                     <div class="w-full h-8 mx-auto mt-10 flex justify-evenly">
                         <button type="submit"
                             class="bg-primary w-1/4 h-full rounded-md text-white hover:text-black hover:bg-red-300">Luluskan</button>

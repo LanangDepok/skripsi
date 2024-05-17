@@ -58,7 +58,9 @@
             <textarea readonly class="w-full border border-primary rounded-md" rows="10">
                 {{ $pengajuanRevisi->revisi_laporan }}
            </textarea>
-            <iframe src="/storage/assets/Draf 4-Pro-Bagas Rizkiyanto.pdf" class="w-full h-[600px] mt-3"></iframe>
+            <iframe
+                src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi }}"
+                class="w-full h-[600px] mt-3"></iframe>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary"></div>

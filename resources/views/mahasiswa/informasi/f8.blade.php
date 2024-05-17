@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">
@@ -9,7 +20,7 @@
     </div>
     <div class="container ml-auto mr-10">
         <div class="border-4 border-black w-20 ml-auto">
-            <p class="text-4xl font-semibold text-center">F10</p>
+            <p class="text-4xl font-semibold text-center">F8</p>
         </div>
     </div>
     <div class="container mx-auto">
@@ -68,9 +79,9 @@
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ number_format(($pengajuanSkripsi->nilai_pembimbing + (($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3) * 2) / 3, 1) }}
+                            {{ $pengajuanSkripsi->nilai_total }}
                         </td>
-                        <td class="border border-slate-500 py-2 text-center"></td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $huruf_mutu }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -81,7 +92,7 @@
             <img class="max-w-32 max-h-24"
                 src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}">
             <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
-            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}2342424234223424</p>
+            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
         </div>
         <div class="mt-3">
             <a href="#" onclick="downloadPDF()"

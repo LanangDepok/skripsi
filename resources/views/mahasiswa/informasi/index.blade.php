@@ -175,8 +175,6 @@
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F5
                                         </a>
-                                    @endif
-                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
                                         <a href="/mahasiswa/informasi/{{ $data->id }}/f6"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F6
@@ -209,24 +207,24 @@
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F8
                                         </a>
-                                    @endif
-                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
                                         <a href="/mahasiswa/informasi/{{ $data->id }}/f9"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F9
                                         </a>
                                     @endif
-                                    @if ($data->status == 'Lulus' || $data->status == 'Revisi' || $data->status == 'Menunggu persetujuan revisi')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f10"
-                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
-                                            F10
-                                        </a>
-                                    @endif
-                                    @if ($data->status == 'Lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f11"
-                                            class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
-                                            F11
-                                        </a>
+                                    @if ($data->pengajuanRevisi)
+                                        @if ($data->status == 'Lulus' || $data->status == 'Revisi' || $data->status == 'Menunggu persetujuan revisi')
+                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f10"
+                                                class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                                F10
+                                            </a>
+                                        @endif
+                                        @if ($data->status == 'Lulus')
+                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f11"
+                                                class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                                F11
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                             </td>

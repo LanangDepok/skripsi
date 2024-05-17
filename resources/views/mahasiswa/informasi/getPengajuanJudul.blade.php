@@ -11,7 +11,7 @@
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
-            <p class="font-semibold text-lg">Bagas Rizkiyanto</p>
+            <p class="font-semibold text-lg">{{ $pengajuanJudul->user->nama }}</p>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>

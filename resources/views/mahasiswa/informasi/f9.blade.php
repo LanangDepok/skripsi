@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">
@@ -16,8 +27,8 @@
         <p class="text-center font-bold text-2xl underline">SURAT KEPUTUSAN SIDANG SKRIPSI</p>
         <p class="text-center font-bold text-2xl underline">JURUSAN TEKNIK INFORMATIKA DAN KOMPUTER</p>
         <p class="text-center font-bold text-2xl underline">POLITEKNIK NEGERI JAKARTA</p>
-        <p class="text-center font-bold">Nomor : ......./PAN-TA/
-            ..................<span class="text-slate-100">(prodi)/(konsentrasi)</span>/2020</p>
+        <p class="text-center font-bold mt-3">Nomor :
+            .......................................................................</p>
     </div>
     <div class="container w-full mx-auto mt-5 mb-20">
         <p class="text-center">Tentang</p>
@@ -63,7 +74,9 @@
         <div class="mt-3">
             <p class="font-semibold">Persyaratan Kelulusan :</p>
             <p>1. Merevisi Alat/Program Aplikasi dan atau laporan skripsi sesuai Form F8 dan harus dipenuhi paling lambat
-                pada {{ $pengajuanSkripsi->pengajuanRevisi->deadline }}, yaitu <span class="font-semibold">10 hari
+                pada
+                {{ isset($pengajuanSkripsi->pengajuanRevisi) ? $pengajuanSkripsi->pengajuanRevisi->deadline : $deadline }},
+                yaitu <span class="font-semibold">10 hari
                     kerja</span> setelah tanggal pelaksanaan
                 sidang.</p>
             <p>2. Jika revisi tidak dipenuhi sampai batas waktu pada poin (1), putusan ini dinyatakan <span
@@ -80,14 +93,14 @@
                 <img class="max-w-32 max-h-24"
                     src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tanda_tangan }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
-                <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
+                <p>NIM.{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p>Ketua Sidang,</p>
                 <img class="max-w-32 max-h-24"
                     src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
-                <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}2342424234223424</p>
+                <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
             </div>
         </div>
         <div class="mt-3">

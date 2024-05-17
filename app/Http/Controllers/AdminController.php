@@ -74,7 +74,7 @@ class AdminController extends Controller
                 $query->where('status', $cari_status);
             }
 
-            $data = $query->paginate(3);
+            $data = $query->paginate(10);
 
             return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
         }
@@ -206,7 +206,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(2);
+            $data = $query->paginate(10);
 
             return view('admin.dosen.index', ['title' => 'dosen', 'data' => $data]);
         }
@@ -341,7 +341,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $pengajuanJudul = $query->paginate(2);
+            $pengajuanJudul = $query->paginate(10);
 
             return view('admin.pengajuan.judul.index', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul]);
         }
@@ -410,7 +410,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -478,7 +478,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -545,7 +545,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -606,7 +606,7 @@ class AdminController extends Controller
                 $query->where('status', 'like', '%' . $cari_status . '%');
             }
 
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.sidang.sempro', ['title' => 'sidang', 'data' => $data]);
         }
@@ -634,7 +634,7 @@ class AdminController extends Controller
                 $query->where('status', 'like', '%' . $cari_status . '%');
             }
 
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.sidang.skripsi', ['title' => 'sidang', 'data' => $data]);
         }
@@ -663,7 +663,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(1);
+            $data = $query->paginate(10);
 
             return view('admin.revisi.index', ['title' => 'revisi', 'data' => $data]);
         }

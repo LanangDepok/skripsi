@@ -465,23 +465,42 @@ class MahasiswaController extends Controller
     public function f8(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            $huruf_mutu = "";
+            if ($pengajuanSkripsi->nilai_total >= 81) {
+                $huruf_mutu = 'A';
+            } elseif ($pengajuanSkripsi->nilai_total >= 76) {
+                $huruf_mutu = 'A-';
+            } elseif ($pengajuanSkripsi->nilai_total >= 72) {
+                $huruf_mutu = 'B+';
+            } elseif ($pengajuanSkripsi->nilai_total >= 68) {
+                $huruf_mutu = 'B';
+            } elseif ($pengajuanSkripsi->nilai_total >= 64) {
+                $huruf_mutu = 'B-';
+            } elseif ($pengajuanSkripsi->nilai_total >= 60) {
+                $huruf_mutu = 'C+';
+            } elseif ($pengajuanSkripsi->nilai_total >= 56) {
+                $huruf_mutu = 'C';
+            } elseif ($pengajuanSkripsi->nilai_total >= 41) {
+                $huruf_mutu = 'D';
+            } elseif ($pengajuanSkripsi->nilai_total >= 1) {
+                $huruf_mutu = 'E';
+            }
+
+            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'huruf_mutu' => $huruf_mutu]);
         }
         abort(404);
     }
     public function f9(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            // Membuat instance NumberFormatter untuk bahasa Indonesia dengan format terbilang
             $numberFormatter = new NumberFormatter('id', NumberFormatter::SPELLOUT);
-
-            // Menghitung nilai rata-rata
             $nilaiRataRata = number_format(($pengajuanSkripsi->nilai_pembimbing + (($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3) * 2) / 3, 1);
-
-            // Mengonversi nilai rata-rata menjadi terbilang
             $terbilang = $numberFormatter->format($nilaiRataRata);
 
-            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $terbilang]);
+            $tanggal = Carbon::createFromFormat('Y-m-d', $pengajuanSkripsi->updated_at->format('Y-m-d'))->addDays(10);
+            $deadline = $tanggal->translatedFormat('d F Y');
+
+            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $terbilang, 'deadline' => $deadline]);
         }
         abort(404);
     }

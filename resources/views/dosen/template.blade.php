@@ -9,15 +9,17 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <title>Skripsi PNJ</title>
     <style>
-        /* * {
-            border: 1px solid red;
-        } */
+        @media print {
+            @page {
+                margin: 0;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <header class="w-full">
+    <header class="w-full print:hidden">
         <div class="bg-primary px-8">
             <div class="container mx-auto flex justify-between">
                 <div class="flex items-center">
@@ -162,12 +164,11 @@
         </div>
     </header>
 
-    <main class="mt-10">
+    <main class="mt-10 mb-20">
         @yield('content')
     </main>
 
-    <div class="mb-20"></div>
-    <footer class="fixed bottom-0 left-0 right-0">
+    <footer class="fixed bottom-0 left-0 right-0 print:hidden">
         <div class="bg-slate-400 container text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
         </div>

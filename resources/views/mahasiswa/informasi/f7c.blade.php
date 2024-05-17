@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">
@@ -106,14 +117,7 @@
                             NILAI TOTAL ( NA+NB )
                         </td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->{'3a1'} +
-                                $pengajuanSkripsi->{'3a2'} +
-                                $pengajuanSkripsi->{'3a3'} +
-                                $pengajuanSkripsi->{'3b1'} +
-                                $pengajuanSkripsi->{'3b2'} +
-                                $pengajuanSkripsi->{'3b3'} +
-                                $pengajuanSkripsi->{'3b4'} +
-                                $pengajuanSkripsi->{'3b5'} }}
+                            {{ $pengajuanSkripsi->nilai3 }}
                         </td>
                     </tr>
                 </tbody>
@@ -125,7 +129,7 @@
             <img class="max-w-32 max-h-24"
                 src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan }}">
             <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}</p>
-            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->nip }}2342424234223424</p>
+            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->nip }}</p>
         </div>
         <div class="mt-3">
             <a href="#" onclick="downloadPDF()"

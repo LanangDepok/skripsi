@@ -1,4 +1,15 @@
-@extends('mahasiswa.template')
+@php
+    $layout = null;
+    if (auth()->user()->can('dosen_pembimbing')) {
+        $layout = 'dosen.template';
+    } elseif (auth()->user()->can('mahasiswa')) {
+        $layout = 'mahasiswa.template';
+    }
+@endphp
+
+@if ($layout)
+    @extends($layout)
+@endif
 
 @section('content')
     <div class="print:hidden">
@@ -89,4 +100,14 @@
             </div>
         </div>
     </div>
+    <div class="mt-3">
+        <a href="#" onclick="downloadPDF()"
+            class="block w-36 text-lg bg-primary text-white hover:text-black hover:bg-red-300 mx-auto rounded-md text-center print:hidden">Unduh
+            PDF</a>
+    </div>
+    <script>
+        function downloadPDF() {
+            window.print();
+        }
+    </script>
 @endsection
