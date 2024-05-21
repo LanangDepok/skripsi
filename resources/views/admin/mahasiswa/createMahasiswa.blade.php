@@ -2,18 +2,37 @@
 
 @section('content')
     <div class="container mx-auto">
-        {{-- <div class="flex justify-center">
-            <p class="text-xl font-semibold">Masukkan Excel</p>
-        </div>
-        <div class="flex justify-center mt-3">
-            <input type="file" name="excel">
-        </div>
-        <div class="flex justify-center mt-3">
-            <button class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white">Simpan</button>
+        @if (session('success'))
+            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 text-center"
+                role="alert">
+                <span class="font-medium">Sukses!</span> {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                role="alert">
+                <span class="font-medium">Error!</span> {{ session('error') }}
+            </div>
+        @endif
+        <div class="border-2 border-primary rounded-md w-1/2 mx-auto">
+            <form method="POST" action="/admin/mahasiswa/excel" enctype="multipart/form-data">
+                @csrf
+                <div class="text-center">
+                    <p class="text-xl font-semibold">Masukkan Excel</p>
+                </div>
+                <div class="text-center mt-3">
+                    <input type="file" name="excel" class="border border-black rounded-sm" accept=".xlsx">
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit"
+                        class="bg-primary mb-2 w-36 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white">Import
+                        excel</button>
+                </div>
+            </form>
         </div>
         <div class="flex justify-center mt-6">
             <p class="text-xl font-semibold">Atau</p>
-        </div> --}}
+        </div>
         <div class="flex justify-center mt-6">
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Isi Biodata Mahasiswa</h2>
@@ -21,12 +40,6 @@
                 <form method="POST" action="/admin/mahasiswa">
                     @csrf
                     <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                        @if (session('success'))
-                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                                role="alert">
-                                <span class="font-medium">Sukses!</span> {{ session('success') }}
-                            </div>
-                        @endif
                         <div class="text-left mb-4">
                             <label for="email">Email<span class="text-red-700">*</span></label>
                             <input type="text"
@@ -107,11 +120,13 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <button class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                                <button
+                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
                                     type="button"><a href="/admin/mahasiswa">Back</a></button>
                             </div>
                             <div class="text-center mt-12">
-                                <button class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                                <button
+                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
                                     type="submit">Simpan</button>
                             </div>
                         </div>

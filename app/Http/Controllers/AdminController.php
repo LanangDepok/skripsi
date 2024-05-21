@@ -15,11 +15,15 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class AdminController extends Controller
 {
@@ -41,12 +45,32 @@ class AdminController extends Controller
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $konten = new Konten;
-            $timeline_skripsi = $request->timeline_skripsi;
-            $alur_skripsi = $request->alur_skripsi;
+
+            $data = $request->all();
+            $rules = [
+                'timeline_skripsi' => 'nullable|mimes:jpg,jpeg,png',
+                'alur_skripsi' => 'nullable|mimes:jpg,jpeg,png',
+            ];
+            $messages = [
+                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
+            ];
+            $validator = Validator::make($data, $rules, $messages)->validate();
+
+            if ($request->timeline_skripsi) {
+                $timeline_skripsi = $validator['timeline_skripsi'];
+            } else {
+                $timeline_skripsi = null;
+            }
+
+            if ($request->alur_skripsi) {
+                $alur_skripsi = $validator['alur_skripsi'];
+            } else {
+                $alur_skripsi = null;
+            }
 
             $this->adminService->updateKonten($konten, $timeline_skripsi, $alur_skripsi);
 
-            return back();
+            return redirect('/');
         }
         abort(404);
     }
@@ -126,6 +150,93 @@ class AdminController extends Controller
             $this->adminService->storeStudent($validated_user, $validated_mahasiswa, $user, $mahasiswa);
 
             return redirect('/admin/mahasiswa/create')->with('success', 'Data berhasil ditambahkan.');
+        }
+        abort(404);
+    }
+
+    public function storeStudentExcel(Request $request)
+    {
+        if (Gate::forUser(Auth::user())->allows('admin')) {
+            if ($request->file('excel')) {
+                $file = $request->file('excel');
+                $path = $file->getRealPath();
+                $extension = $file->getClientOriginalExtension();
+
+                $reader = IOFactory::createReader(ucfirst($extension));
+                $spreadsheet = $reader->load($path);
+
+                DB::beginTransaction();
+
+                foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
+                    $highestRow = $worksheet->getHighestRow();
+
+                    for ($row = 2; $row <= $highestRow; $row++) {
+                        $email = $worksheet->getCell('A' . $row)->getValue();
+                        $password = $worksheet->getCell('B' . $row)->getValue();
+                        $nama = $worksheet->getCell('C' . $row)->getValue();
+                        $nim = $worksheet->getCell('D' . $row)->getValue();
+                        $kelas = $worksheet->getCell('E' . $row)->getValue();
+                        $prodi = $worksheet->getCell('F' . $row)->getValue();
+                        $tahunAjaran = $worksheet->getCell('G' . $row)->getValue();
+
+                        $data = [
+                            'email' => $email,
+                            'password' => $password,
+                            'nama' => $nama,
+                            'nim' => $nim,
+                            'kelas' => $kelas,
+                            'prodi' => $prodi,
+                            'tahun_ajaran' => $tahunAjaran,
+                        ];
+
+                        $rules = [
+                            'email' => 'required|email|unique:users,email',
+                            'password' => 'required',
+                            'nama' => 'required',
+                            'nim' => 'required|integer|unique:mahasiswas,nim',
+                            'kelas' => 'required',
+                            'prodi' => 'required',
+                            'tahun_ajaran' => 'required',
+                        ];
+
+                        $messages = [
+                            'required' => ':attribute tidak boleh kosong.',
+                            'unique' => ':attribute sudah tersedia.',
+                            'email' => ':attribute tidak valid.',
+                            'integer' => ':attribute harus berupa angka.'
+                        ];
+
+                        $validator = Validator::make($data, $rules, $messages);
+
+                        if ($validator->fails()) {
+                            DB::rollBack();
+                            $errorMessage = 'Validasi data pada baris ' . $row . ': ' . $validator->errors()->first();
+                            return redirect('/admin/mahasiswa/create')->with('error', $errorMessage);
+                        }
+
+                        $user = new User;
+                        $user->email = $email;
+                        $user->password = $password;
+                        $user->nama = $nama;
+                        $user->save();
+                        $user->roles()->sync([6]);
+
+                        $mahasiswa = new Mahasiswa;
+                        $mahasiswa->nim = $nim;
+                        $mahasiswa->kelas = $kelas;
+                        $mahasiswa->prodi = $prodi;
+                        $mahasiswa->tahun_ajaran = $tahunAjaran;
+                        $mahasiswa->status = 'Belum mengajukan judul';
+                        $mahasiswa->user_id = $user->id;
+                        $mahasiswa->save();
+                    }
+                }
+                DB::commit();
+                return redirect('/admin/mahasiswa/create')->with('success', 'Data berhasil ditambahkan.');
+
+            } else {
+                return redirect('/admin/mahasiswa/create')->with('error', 'Pastikan sudah memasukkan file yang benar');
+            }
         }
         abort(404);
     }

@@ -90,6 +90,7 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/mahasiswa', 'getStudents');
     Route::get('/admin/mahasiswa/create', 'createStudent');
     Route::post('/admin/mahasiswa', 'storeStudent');
+    Route::post('/admin/mahasiswa/excel', 'storeStudentExcel');
     Route::get('/admin/mahasiswa/{mahasiswa}', 'getStudent');
     Route::get('/admin/mahasiswa/{mahasiswa}/edit', 'editStudent');
     Route::put('/admin/mahasiswa/{mahasiswa}', 'updateStudent');

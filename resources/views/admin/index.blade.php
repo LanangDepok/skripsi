@@ -1,6 +1,18 @@
 @extends('admin.template')
 
 @section('content')
+    @error('timeline_skripsi')
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span>Timeline skripsi harus memiliki format antara jpg, jpeg, png.
+        </div>
+    @enderror
+    @error('alur_skripsi')
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span>Alur skripsi harus memiliki format antara jpg, jpeg, png.
+        </div>
+    @enderror
     <div class="container text-center mx-auto w-3/4">
         <button id="editButton"
             class="bg-primary text-white w-40 h-8 my-auto rounded-2xl text-2xl hover:text-black hover:bg-red-300"
@@ -32,11 +44,11 @@
                 <div class="container w-1/2 mx-auto">
                     <p class="text-center mb-5 font-semibold text-xl">Edit Konten</p>
                     <div>
-                        <label>Timeline Skripsi</label>
+                        <label>Timeline Skripsi (jpg,jpeg,png)</label>
                         <input name="timeline_skripsi" type="file" class="w-full rounded-md border border-primary">
                     </div>
                     <div class="mt-4">
-                        <label>Alur Skripsi</label>
+                        <label>Alur Skripsi (jpg,jpeg,png)</label>
                         <input name="alur_skripsi" type="file" class="w-full rounded-md border border-primary">
                     </div>
                     <div class="w-24 h-8 mx-auto mt-10">

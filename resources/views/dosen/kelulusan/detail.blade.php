@@ -80,7 +80,7 @@
                     <p>Tanggal sidang: {{ $pengajuanSkripsi->tanggal }}</p>
                     <label for="pointA" class="font-bold">A. Revisi Alat/Program Aplikasi Skripsi</label>
                     <textarea id="pointA" name="revisi_alat" rows="5" class="w-full border-primary rounded-md border"></textarea>
-                    <label for="pointB" class="font-bold">A. Revisi Laporan Skripsi</label>
+                    <label for="pointB" class="font-bold">B. Revisi Laporan Skripsi</label>
                     <textarea id="pointB" name="revisi_laporan" rows="5" class="w-full border-primary rounded-md border"></textarea>
                     <div class="w-24 h-8 mx-auto mt-4">
                         <button type="submit"
