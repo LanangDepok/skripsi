@@ -14,7 +14,7 @@ class MahasiswaSeeder extends Seeder
     public function run(): void
     {
         Mahasiswa::create([
-            'user_id' => 6,
+            'user_id' => 10,
             'nim' => 207412006,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
@@ -23,7 +23,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 7,
+            'user_id' => 11,
             'nim' => 207412007,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
@@ -32,7 +32,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 11,
+            'user_id' => 12,
             'nim' => 207412008,
             'prodi' => 'Teknik Informatika',
             'kelas' => 'TI_CCIT 8',
@@ -41,7 +41,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 12,
+            'user_id' => 13,
             'nim' => 207412009,
             'prodi' => 'Teknik Multimedia dan Jaringan',
             'kelas' => 'TI_CCIT 8',
@@ -50,7 +50,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 13,
+            'user_id' => 14,
             'nim' => 207412010,
             'prodi' => 'Teknik Multimedia dan Jaringan',
             'kelas' => 'TI_CCIT 8',
@@ -59,7 +59,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 14,
+            'user_id' => 15,
             'nim' => 207412011,
             'prodi' => 'Teknik Multimedia dan Jaringan',
             'kelas' => 'TI_CCIT 8',
@@ -68,7 +68,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 15,
+            'user_id' => 16,
             'nim' => 207412012,
             'prodi' => 'Teknik Multimedia Digital',
             'kelas' => 'TI_CCIT 8',
@@ -77,7 +77,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 16,
+            'user_id' => 17,
             'nim' => 207412013,
             'prodi' => 'Teknik Multimedia Digital',
             'kelas' => 'TI_CCIT 8',
@@ -86,7 +86,7 @@ class MahasiswaSeeder extends Seeder
             'tahun_ajaran' => '2023/2024'
         ]);
         Mahasiswa::create([
-            'user_id' => 17,
+            'user_id' => 18,
             'nim' => 207412014,
             'prodi' => 'Teknik Multimedia Digital',
             'kelas' => 'TI_CCIT 8',

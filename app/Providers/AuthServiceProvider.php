@@ -42,5 +42,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('mahasiswa', function (User $user) {
             return $user->roles->pluck('nama')->contains('Mahasiswa');
         });
+        Gate::define('ketua_komite', function (User $user) {
+            return $user->roles->pluck('nama')->contains('Ketua Komite');
+        });
     }
 }

@@ -112,10 +112,9 @@
         <div class="mt-3 ml-auto w-1/4">
             <p>Depok, {{ $pengajuanSkripsi->tanggal }}</p>
             <p>Ketua Komite Skripsi,</p>
-            <img class="max-w-32 max-h-24"
-                src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}">
-            <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
-            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
+            <img class="max-w-32 max-h-24" src="/storage/{{ $ttd->dosen->tanda_tangan }}">
+            <p>{{ $ttd->nama }}</p>
+            <p>NIP.{{ $ttd->dosen->nip }}</p>
         </div>
         <div class="mt-3">
             <a href="#" onclick="downloadPDF()"

@@ -87,7 +87,7 @@
            </textarea>
         </div>
 
-        @can('komite')
+        @can('ketua_komite')
             <form method="POST" action="/admin/revisi/{{ $pengajuanRevisi->id }}">
                 @csrf
                 <div class="container w-1/2 mx-auto mt-10 flex justify-around">

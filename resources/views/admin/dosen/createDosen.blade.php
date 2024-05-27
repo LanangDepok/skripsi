@@ -15,6 +15,12 @@
                                 <span class="font-medium">Sukses!</span> {{ session('success') }}
                             </div>
                         @endif
+                        @if (session('error'))
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                                role="alert">
+                                <span class="font-medium">Error!</span> {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="text-left mb-4">
                             <label for="email">Email<span class="text-red-700">*</span></label>
                             <input type="text"
@@ -90,6 +96,8 @@
                         </div>
                         <div class="text-left mb-4">
                             <p>Role</p>
+                            <input type="checkbox" id="ketua_komite" name="role[]" value="7" onchange="checkKomite()">
+                            <label for="ketua_komite">Ketua Komite</label><br>
                             <input type="checkbox" id="komite" name="role[]" value="2">
                             <label for="komite">Komite</label><br>
                             <input type="checkbox" id="ketua_penguji" name="role[]" value="3"
@@ -126,6 +134,20 @@
                 dosenPengujiCheckbox.disabled = true;
             } else {
                 dosenPengujiCheckbox.disabled = false;
+            }
+        }
+    </script>
+
+    <script>
+        function checkKomite() {
+            var ketuaKomiteCheckbox = document.getElementById('ketua_komite');
+            var komiteCheckbox = document.getElementById('komite');
+
+            if (ketuaKomiteCheckbox.checked) {
+                komiteCheckbox.checked = true;
+                komiteCheckbox.disabled = true;
+            } else {
+                komiteCheckbox.disabled = false;
             }
         }
     </script>

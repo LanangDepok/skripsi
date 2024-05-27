@@ -14,6 +14,7 @@ use App\Models\Skripsi;
 use App\Models\User;
 use App\Services\MahasiswaService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -514,7 +515,11 @@ class MahasiswaController extends Controller
     public function f11(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::forUser(Auth::user())->any(['mahasiswa', 'dosen_pembimbing'])) {
-            return view('mahasiswa.informasi.f11', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            $ttd = User::whereHas('roles', function (Builder $query) {
+                $query->where('nama', '=', 'Ketua Komite');
+            })->first();
+
+            return view('mahasiswa.informasi.f11', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'ttd' => $ttd]);
         }
         abort(404);
     }

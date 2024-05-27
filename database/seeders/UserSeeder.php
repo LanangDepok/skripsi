@@ -39,16 +39,6 @@ class UserSeeder extends Seeder
             'password' => 'pakanggi',
         ]);
         User::create([
-            'email' => 'bagas@gmail.com',
-            'nama' => 'Bagas',
-            'password' => 'bagas',
-        ]);
-        User::create([
-            'email' => 'rizki@gmail.com',
-            'nama' => 'Rizki',
-            'password' => 'rizki',
-        ]);
-        User::create([
             'email' => 'bambang@gmail.com',
             'nama' => 'Pak Bambang',
             'password' => 'pakbambang',
@@ -63,40 +53,56 @@ class UserSeeder extends Seeder
             'nama' => 'Pak Asep',
             'password' => 'pakasep',
         ]);
-        // User::create([
-        //     'email' => 'yanto@gmail.com',
-        //     'nama' => 'Yanto',
-        //     'password' => 'yanto',
-        // ]);
-        // User::create([
-        //     'email' => 'fillea@gmail.com',
-        //     'nama' => 'Fillea',
-        //     'password' => 'fillea',
-        // ]);
-        // User::create([
-        //     'email' => 'rethia@gmail.com',
-        //     'nama' => 'Rethia',
-        //     'password' => 'rethia',
-        // ]);
-        // User::create([
-        //     'email' => 'yuma@gmail.com',
-        //     'nama' => 'Yuma',
-        //     'password' => 'yuma',
-        // ]);
-        // User::create([
-        //     'email' => 'gladys@gmail.com',
-        //     'nama' => 'Gladys',
-        //     'password' => 'gladys',
-        // ]);
-        // User::create([
-        //     'email' => 'aisha@gmail.com',
-        //     'nama' => 'Aisha',
-        //     'password' => 'aisha',
-        // ]);
-        // User::create([
-        //     'email' => 'rizkita@gmail.com',
-        //     'nama' => 'Rizkita',
-        //     'password' => 'rizkita',
-        // ]);
+        User::create([
+            'email' => 'hatta@gmail.com',
+            'nama' => 'Pak Hatta',
+            'password' => 'pakhatta',
+        ]);
+
+        User::create([
+            'email' => 'bagas@gmail.com',
+            'nama' => 'Bagas',
+            'password' => 'bagas',
+        ]);
+        User::create([
+            'email' => 'rizki@gmail.com',
+            'nama' => 'Rizki',
+            'password' => 'rizki',
+        ]);
+        User::create([
+            'email' => 'yanto@gmail.com',
+            'nama' => 'Yanto',
+            'password' => 'yanto',
+        ]);
+        User::create([
+            'email' => 'fillea@gmail.com',
+            'nama' => 'Fillea',
+            'password' => 'fillea',
+        ]);
+        User::create([
+            'email' => 'rethia@gmail.com',
+            'nama' => 'Rethia',
+            'password' => 'rethia',
+        ]);
+        User::create([
+            'email' => 'yuma@gmail.com',
+            'nama' => 'Yuma',
+            'password' => 'yuma',
+        ]);
+        User::create([
+            'email' => 'gladys@gmail.com',
+            'nama' => 'Gladys',
+            'password' => 'gladys',
+        ]);
+        User::create([
+            'email' => 'aisha@gmail.com',
+            'nama' => 'Aisha',
+            'password' => 'aisha',
+        ]);
+        User::create([
+            'email' => 'rizkita@gmail.com',
+            'nama' => 'Rizkita',
+            'password' => 'rizkita',
+        ]);
     }
 }

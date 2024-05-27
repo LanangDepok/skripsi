@@ -33,7 +33,9 @@
                         <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
                         <select name="program_studi" id="program_studi" class="w-30 rounded-md"
                             onchange="redirectToPage(this)">
-                            <option value="/dosen/index">Dosen</option>
+                            @if (Auth::user()->can('dosen_pembimbing') || Auth::user()->can('dosen_penguji') || Auth::user()->can('ketua_penguji'))
+                                <option value="/dosen/index">Dosen</option>
+                            @endif
                             <option value="/admin/index" selected>Komite</option>
                         </select>
                     </div>
@@ -148,7 +150,7 @@
                     <div class="absolute bg-slate-100 rounded-md shadow-md w-32 mt-2 right-0 hidden"
                         id="userDropdownContent">
                         @can('komite')
-                            <a href="/dosen/profile" class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
+                            <a href="/admin/profile" class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
                             <div class="container h-[1px] w-full bg-slate-500"></div>
                         @endcan
                         <form method="POST" action="/logout">

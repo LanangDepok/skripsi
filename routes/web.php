@@ -126,6 +126,9 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/revisi', 'getAllRevisi');
     Route::get('/admin/revisi/{pengajuanRevisi}', 'getRevisi');
     Route::post('/admin/revisi/{pengajuanRevisi}', 'keputusanRevisi');
+
+    Route::get('/admin/profile', 'getProfile');
+    Route::put('/admin/profile/{user}', 'updateProfile');
 });
 
 Route::middleware('auth')->controller(DosenController::class)->group(function () {

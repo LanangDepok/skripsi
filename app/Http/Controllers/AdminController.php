@@ -15,7 +15,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Services\AdminService;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +36,28 @@ class AdminController extends Controller
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             $konten = Konten::get();
             return view('admin.index', ['title' => 'index', 'konten' => $konten]);
+        }
+        abort(404);
+    }
+
+    //profile
+    public function getProfile()
+    {
+        if (Gate::forUser(Auth::user())->any(['komite', 'ketua_komite'])) {
+            return view('admin.profile.index', ['title' => 'profile']);
+        }
+        abort(404);
+    }
+
+    public function updateProfile(Request $request, User $user)
+    {
+        if (Gate::forUser($user)->any(['komite', 'ketua_komite'])) {
+            $photo_profil = $request->photo_profil;
+            $tanda_tangan = $request->tanda_tangan;
+
+            $this->adminService->updateProfile($user, $photo_profil, $tanda_tangan);
+
+            return back();
         }
         abort(404);
     }
@@ -98,7 +119,7 @@ class AdminController extends Controller
                 $query->where('status', $cari_status);
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
         }
@@ -317,7 +338,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.dosen.index', ['title' => 'dosen', 'data' => $data]);
         }
@@ -368,6 +389,14 @@ class AdminController extends Controller
             $validated_user = $validator->safe()->only(['email', 'password', 'nama']);
             $validated_dosen = $validator->safe()->only(['nip', 'jabatan', 'fungsional', 'gol_pangkat', 'role']);
             $validated_role = $validator->safe()->only(['role']);
+
+            // Check if any user already has the role with ID 7
+            if (in_array(7, $validated_role['role'])) {
+                $KetuaKomiteCheck = DB::table('role_user')->where('role_id', 7)->exists();
+                if ($KetuaKomiteCheck) {
+                    return redirect('/admin/dosen/create')->with(['error' => 'Role Ketua Komite sudah dimiliki oleh dosen lain.']);
+                }
+            }
 
             $this->adminService->storeLecturer($validated_user, $validated_dosen, $validated_role, $user, $dosen);
 
@@ -452,7 +481,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $pengajuanJudul = $query->paginate(10);
+            $pengajuanJudul = $query->paginate(30);
 
             return view('admin.pengajuan.judul.index', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul]);
         }
@@ -521,7 +550,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -589,7 +618,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -656,7 +685,7 @@ class AdminController extends Controller
                     $query->where('prodi', 'like', '%' . $cari_prodi . '%');
                 });
             }
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'data' => $data]);
         }
@@ -717,7 +746,7 @@ class AdminController extends Controller
                 $query->where('status', 'like', '%' . $cari_status . '%');
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.sidang.sempro', ['title' => 'sidang', 'data' => $data]);
         }
@@ -745,7 +774,7 @@ class AdminController extends Controller
                 $query->where('status', 'like', '%' . $cari_status . '%');
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.sidang.skripsi', ['title' => 'sidang', 'data' => $data]);
         }
@@ -756,6 +785,10 @@ class AdminController extends Controller
     public function getAllRevisi(Request $request)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+            if (Auth::user()->dosen->tanda_tangan == null) {
+                return redirect('/admin/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+            }
+
             $query = PengajuanRevisi::query()->where('terima_penguji1', '!=', null)
                 ->where('terima_penguji2', '!=', null)
                 ->where('terima_penguji3', '!=', null)
@@ -774,7 +807,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('admin.revisi.index', ['title' => 'revisi', 'data' => $data]);
         }
@@ -783,7 +816,7 @@ class AdminController extends Controller
 
     public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'komite', 'ketua_komite'])) {
             return view('admin.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
         }
         abort(404);
@@ -791,7 +824,7 @@ class AdminController extends Controller
 
     public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::forUser(Auth::user())->any(['admin', 'ketua_komite'])) {
             if (isset($request->tolak)) {
                 $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Ditolak']);
                 $pengajuanRevisi->update(['status' => 'Tidak lulus']);

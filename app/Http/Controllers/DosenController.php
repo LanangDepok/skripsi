@@ -202,7 +202,7 @@ class DosenController extends Controller
                 }
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('dosen.pengujian.sempro.index', [
                 'title' => 'pengujian',
@@ -274,34 +274,6 @@ class DosenController extends Controller
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
-            // $dosen_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
-            //     ->where(function ($query) {
-            //         $query->where('status', '=', 'Menunggu sidang')
-            //             ->orWhere('status', '=', 'Menunggu penilaian');
-            //     })->get();
-            // $dosen_penguji2 = PengajuanSkripsi::where('penguji2_id', '=', Auth::user()->id)
-            //     ->where(function ($query) {
-            //         $query->where('status', '=', 'Menunggu sidang')
-            //             ->orWhere('status', '=', 'Menunggu penilaian');
-            //     })->get();
-            // $dosen_penguji3 = PengajuanSkripsi::where('penguji3_id', '=', Auth::user()->id)
-            //     ->where(function ($query) {
-            //         $query->where('status', '=', 'Menunggu sidang')
-            //             ->orWhere('status', '=', 'Menunggu penilaian');
-            //     })->get();
-            // $dosen_pembimbing = PengajuanSkripsi::where('dospem_id', '=', Auth::user()->id)
-            //     ->where(function ($query) {
-            //         $query->where('status', '=', 'Menunggu sidang')
-            //             ->orWhere('status', '=', 'Menunggu penilaian');
-            //     })->get();
-
-            // return view('dosen.pengujian.skripsi.index', [
-            //     'title' => 'pengujian',
-            //     'dosen_penguji1' => $dosen_penguji1,
-            //     'dosen_penguji2' => $dosen_penguji2,
-            //     'dosen_penguji3' => $dosen_penguji3,
-            //     'dosen_pembimbing' => $dosen_pembimbing,
-            // ]);
 
             $query = PengajuanSkripsi::where(function ($query) {
                 $query->where('penguji1_id', Auth::user()->id)
@@ -332,7 +304,7 @@ class DosenController extends Controller
                 }
             }
 
-            $data = $query->paginate(10);
+            $data = $query->paginate(30);
 
             return view('dosen.pengujian.skripsi.index', [
                 'title' => 'pengujian',
