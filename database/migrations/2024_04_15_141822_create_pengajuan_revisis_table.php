@@ -19,13 +19,15 @@ return new class extends Migration {
             $table->string('terima_penguji2')->nullable();
             $table->string('terima_penguji3')->nullable();
             $table->string('terima_pembimbing')->nullable();
+            $table->string('terima_pembimbing2')->nullable();
             $table->text('link_revisi_alat')->nullable();
             $table->text('keterangan_penguji1')->nullable();
             $table->text('keterangan_penguji2')->nullable();
             $table->text('keterangan_penguji3')->nullable();
             $table->text('keterangan_pembimbing')->nullable();
+            $table->text('keterangan_pembimbing2')->nullable();
             $table->string('status');
-            $table->string('ttd_komite')->nullable();
+            $table->string('terima_ketua_komite')->nullable();
             $table->string('deadline');
             $table->string('tanggal_revisi')->nullable();
             $table->timestamps();

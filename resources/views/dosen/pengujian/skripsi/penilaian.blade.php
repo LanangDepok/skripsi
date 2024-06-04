@@ -154,7 +154,8 @@
                             </div>
                             <div class="text-center mt-12">
                                 <button type="submit"
-                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 hover:text-black text-white">Nilai</button>
+                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                                    onclick="return confirm('Nilai sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Nilai</button>
                             </div>
                         </div>
                     </form>

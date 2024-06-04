@@ -10,7 +10,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
                     <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
@@ -29,11 +30,13 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji1->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                        {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji1->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji1->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($terima_penguji1->dospem2_id) ? $terima_penguji1->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji1->pengajuanSkripsiPenguji1->nama }}</p>
                             <p>2. {{ $terima_penguji1->pengajuanSkripsiPenguji2->nama }}</p>
@@ -55,11 +58,13 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                        {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($terima_penguji2->dospem2_id) ? $terima_penguji2->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji2->pengajuanSkripsiPenguji1->nama }}</p>
                             <p>2. {{ $terima_penguji2->pengajuanSkripsiPenguji2->nama }}</p>
@@ -81,11 +86,13 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                        {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($terima_penguji3->dospem2_id) ? $terima_penguji3->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji3->pengajuanSkripsiPenguji1->nama }}</p>
                             <p>2. {{ $terima_penguji3->pengajuanSkripsiPenguji2->nama }}</p>
@@ -107,11 +114,13 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                        {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($terima_pembimbing->dospem2_id) ? $terima_pembimbing->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_pembimbing->pengajuanSkripsiPenguji1->nama }}</p>
                             <p>2. {{ $terima_pembimbing->pengajuanSkripsiPenguji2->nama }}</p>
@@ -120,6 +129,34 @@
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_pembimbing->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
                             <a href="/dosen/revisi/{{ $terima_pembimbing->pengajuanRevisi->id }}"
+                                class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach ($terima_pembimbing2 as $terima_pembimbing2)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>{{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->nama }}</p>
+                            <p>{{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $terima_pembimbing2->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($terima_pembimbing2) ? $terima_pembimbing2->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>1. {{ $terima_pembimbing2->pengajuanSkripsiPenguji1->nama }}</p>
+                            <p>2. {{ $terima_pembimbing2->pengajuanSkripsiPenguji2->nama }}</p>
+                            <p>3. {{ $terima_pembimbing2->pengajuanSkripsiPenguji3->nama }}</p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $terima_pembimbing2->nilai_total }}</td>
+                        <td class="border-b border-slate-500 text-center">
+                            <a href="/dosen/revisi/{{ $terima_pembimbing2->pengajuanRevisi->id }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>

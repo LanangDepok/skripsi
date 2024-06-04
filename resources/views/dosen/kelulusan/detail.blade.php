@@ -30,8 +30,10 @@
             <P>Judul Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P><br>
             <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Dosen Pembimbing: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
-            {{-- <p>Apakah skripsi membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p><br> --}}
+            <p>Dosen Pembimbing 1: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p>Dosen Pembimbing 2:
+                {{ isset($pengajuanSkripsi->pengajuanSkripsiDospem2->nama) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+            </p><br>
             <p>Penguji:
                 <br>1. {{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}
                 <br>2. {{ $pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}
@@ -56,7 +58,8 @@
             <form method="POST" action="/dosen/kelulusan/tolak/{{ $pengajuanSkripsi->id }}">
                 @csrf
                 <button type="submit"
-                    class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Tolak</button>
+                    class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Tolak sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Tolak</button>
             </form>
             <button id="revisiButton"
                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Revisi</button>
@@ -84,7 +87,8 @@
                     <textarea id="pointB" name="revisi_laporan" rows="5" class="w-full border-primary rounded-md border"></textarea>
                     <div class="w-24 h-8 mx-auto mt-4">
                         <button type="submit"
-                            class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300">Kirim</button>
+                            class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300"
+                            onclick="return confirm('Revisi sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Kirim</button>
                     </div>
                 </form>
             </div>
@@ -110,7 +114,8 @@
                     <p>Nilai akhir : {{ $pengajuanSkripsi->nilai_total }}</p>
                     <div class="w-full h-8 mx-auto mt-10 flex justify-evenly">
                         <button type="submit"
-                            class="bg-primary w-1/4 h-full rounded-md text-white hover:text-black hover:bg-red-300">Luluskan</button>
+                            class="bg-primary w-1/4 h-full rounded-md text-white hover:text-black hover:bg-red-300"
+                            onclick="return confirm('Terima sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Luluskan</button>
                     </div>
                 </form>
             </div>

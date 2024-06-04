@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('mahasiswa_id');
             $table->bigInteger('dospem_id');
+            $table->bigInteger('dospem2_id')->nullable();
             $table->bigInteger('penguji1_id')->nullable();
             $table->bigInteger('penguji2_id')->nullable();
             $table->bigInteger('penguji3_id')->nullable();
@@ -26,8 +27,10 @@ return new class extends Migration {
             $table->string('nilai2')->nullable();
             $table->string('nilai3')->nullable();
             $table->string('nilai_pembimbing')->nullable();
+            $table->string('nilai_pembimbing2')->nullable();
             $table->string('nilai_total')->nullable();
             $table->string('acc_dospem')->nullable();
+            $table->string('acc_dospem2')->nullable();
             $table->string('4a1')->nullable();
             $table->string('4a2')->nullable();
             $table->string('4a3')->nullable();
@@ -39,6 +42,17 @@ return new class extends Migration {
             $table->string('4c2')->nullable();
             $table->string('4c3')->nullable();
             $table->string('4c4')->nullable();
+            $table->string('5a1')->nullable();
+            $table->string('5a2')->nullable();
+            $table->string('5a3')->nullable();
+            $table->string('5b1')->nullable();
+            $table->string('5b2')->nullable();
+            $table->string('5b3')->nullable();
+            $table->string('5b4')->nullable();
+            $table->string('5c1')->nullable();
+            $table->string('5c2')->nullable();
+            $table->string('5c3')->nullable();
+            $table->string('5c4')->nullable();
             $table->string('1a1')->nullable();
             $table->string('1a2')->nullable();
             $table->string('1a3')->nullable();
@@ -63,6 +77,7 @@ return new class extends Migration {
             $table->string('3b3')->nullable();
             $table->string('3b4')->nullable();
             $table->string('3b5')->nullable();
+            $table->string('pengizin')->nullable();
             $table->timestamps();
         });
     }

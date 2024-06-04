@@ -26,17 +26,21 @@
             <P>No. Kontak Orang Tua/Wali: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->no_kontak_ortu }}</P>
             <br>
             <P>Nama Anggota Tim (Jika ada):
-                {{ isset($pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->anggota) ? $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->anggota : '' }}
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->anggota }}
             </P><br>
-            <P>Judul Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->judul }}</P><br>
+            <P>Judul Skripsi:
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->judul }}
+            </P><br>
             <P>Sub Judul Skripsi (Jika ada):
-                {{ isset($pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sub_judul) ? $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sub_judul : '' }}
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->sub_judul }}
             </P>
             <br>
-            <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->abstrak }}</p>
+            <p>Abstrak/Ringkasan Skripsi:
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
+            </p>
             <br>
             <p>Dosen Pembimbing:
-                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->latest('created_at')->first()->dosen_terpilih }}
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
             </p><br>
             <p>Dosen Penguji: </p>
             <p>
@@ -62,8 +66,16 @@
             </p><br>
             {{-- <p>Apakah skripsi membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p><br> --}}
             <p>Status: {{ $pengajuanSkripsi->status }}</p><br>
-            <p>Nilai dosen pembimbing: {{ $pengajuanSkripsi->nilai_pembimbing }}</p><br>
-            <p>Nilai dosen penguji: {{ $pengajuanSkripsi->nilai_penguji }}</p><br>
+            <p>Nilai dosen pembimbing:
+                @if ($pengajuanSkripsi->nilai_pembimbing2)
+                    {{ ($pengajuanSkripsi->nilai_pembimbing + $pengajuanSkripsi->nilai_pembimbing2) / 2 }}
+                @else
+                    {{ $pengajuanSkripsi->nilai_pembimbing }}
+                @endif
+            </p><br>
+            <p>Nilai dosen penguji:
+                {{ ($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3 }}
+            </p><br>
             <p>Nilai total: {{ $pengajuanSkripsi->nilai }}</p><br>
             <p>Tanggal sidang: {{ $pengajuanSkripsi->tanggal }}</p><br>
             <P>Keterangan:</P>

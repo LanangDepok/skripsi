@@ -39,16 +39,10 @@
                             <span class="font-medium">Error!</span> {{ $message }}
                         </div>
                     @enderror
-                    {{-- <div class="text-left mb-4">
-                        <p>Apakah skripsinya membuat alat?<span class="text-red-700">*</span></p>
-                        <label for="membuat_alat">Ya</label>
-                        <input type="radio" name="membuat_alat" id="membuat_alat" value="Ya">
-                        <label for="membuat_alat">Tidak</label>
-                        <input type="radio" name="membuat_alat" id="membuat_alat" value="Tidak">
-                    </div> --}}
                     <div class="text-center mt-12">
                         <button type="submit"
-                            class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white">Kirim</button>
+                            class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                            onclick="return confirm('Ajukan pengajuan sidang skripsi?')">Kirim</button>
                     </div>
                 </form>
             </div>

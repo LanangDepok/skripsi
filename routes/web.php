@@ -64,7 +64,8 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/f3', 'f3');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f4', 'f4');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f5', 'f5');
-    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f6', 'f6');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f6a', 'f6a');
+    Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f6b', 'f6b');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7a', 'f7a');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7b', 'f7b');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/f7c', 'f7c');

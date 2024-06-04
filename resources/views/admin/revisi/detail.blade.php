@@ -66,25 +66,32 @@
             <div class="h-1 bg-primary"></div>
             <p class="font-bold text-xl text-center mt-5">Hasil Evaluasi Pembimbing & Penguji</p>
             <p class="font-semibold text-lg mt-5">1.
-                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }} (Pembimbing)</p>
-            <textarea readonly class="w-full border border-primary rounded-md" rows="3">
-                {{ $pengajuanRevisi->keterangan_pembimbing }}
-           </textarea>
-            <p class="font-semibold text-lg mt-5">2.
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }} (Penguji 1)</p>
             <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji1 }}
            </textarea>
-            <p class="font-semibold text-lg mt-5">3.
+            <p class="font-semibold text-lg mt-5">2.
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }} (Penguji 2)</p>
             <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji2 }}
            </textarea>
-            <p class="font-semibold text-lg mt-5">4.
+            <p class="font-semibold text-lg mt-5">3.
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }} (Penguji 3)</p>
             <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji3 }}
            </textarea>
+            <p class="font-semibold text-lg mt-5">4.
+                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }} (Pembimbing 1)</p>
+            <textarea readonly class="w-full border border-primary rounded-md" rows="3">
+            {{ $pengajuanRevisi->keterangan_pembimbing }}
+            </textarea>
+            @if ($pengajuanRevisi->pengajuanSkripsi->dospem2_id)
+                <p class="font-semibold text-lg mt-5">5.
+                    {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }} (Pembimbing 2)</p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="3">
+            {{ isset($pengajuanRevisi->pengajuanSkripsi->dospem2_id) ? $pengajuanRevisi->keterangan_pembimbing2 : '(Tidak ada pembimbing 2)' }}
+            </textarea>
+            @endif
         </div>
 
         @can('ketua_komite')
@@ -95,14 +102,17 @@
                         class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
                     @if (
                         $pengajuanRevisi->terima_pembimbing != 'Ya' ||
+                            ($pengajuanRevisi->pengajuanSkripsi->dospem2_id != null && $pengajuanRevisi->terima_pembimbing2 != 'Ya') ||
                             $pengajuanRevisi->terima_penguji1 != 'Ya' ||
                             $pengajuanRevisi->terima_penguji2 != 'Ya' ||
                             $pengajuanRevisi->terima_penguji3 != 'Ya')
                         <button type="submit" name="revisi" value="revisi"
-                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Revisi
+                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300"
+                            onclick="return confirm('Yakin ingin merevisi ulang skripsi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Revisi
                             ulang</button>
                         <button type="button" name="tolak" value="tolak"
-                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Tolak</button>
+                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300"
+                            onclick="return confirm('Yakin ingin menolak skripsi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Tolak</button>
                     @endif
                 </div>
 
@@ -121,15 +131,6 @@
                             <p>Judul: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
                             </p>
                             <p>Tanggal sidang: {{ $pengajuanRevisi->pengajuanSkripsi->tanggal }}</p>
-                            <div class="flex justify-between mt-5 items-center">
-                                <p>Pembimbing : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
-                                @if ($pengajuanRevisi->terima_pembimbing == 'Ya')
-                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
-                                        class="max-w-16 max-h-12">
-                                @else
-                                    <p>(Revisi lagi)</p>
-                                @endif
-                            </div>
                             <div class="flex justify-between mt-5 items-center">
                                 <p>Penguji 1 : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji1 == 'Ya')
@@ -157,9 +158,31 @@
                                     <p>(Revisi lagi)</p>
                                 @endif
                             </div>
+                            <div class="flex justify-between mt-5 items-center">
+                                <p>Pembimbing 1: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                                @if ($pengajuanRevisi->terima_pembimbing == 'Ya')
+                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
+                                        class="max-w-16 max-h-12">
+                                @else
+                                    <p>(Revisi lagi)</p>
+                                @endif
+                            </div>
+                            @if ($pengajuanRevisi->pengajuanSkripsi->dospem2_id)
+                                <div class="flex justify-between mt-5 items-center">
+                                    <p>Pembimbing 2: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}
+                                    </p>
+                                    @if ($pengajuanRevisi->terima_pembimbing2 == 'Ya')
+                                        <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}"
+                                            class="max-w-16 max-h-12">
+                                    @else
+                                        <p>(Revisi lagi)</p>
+                                    @endif
+                                </div>
+                            @endif
                             <div class="w-32 h-8 mx-auto mt-7">
                                 <button type="submit" name="terima" value="terima"
-                                    class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300">Terima
+                                    class="bg-primary w-full h-full rounded-md text-white hover:text-black hover:bg-red-300"
+                                    onclick="return confirm('Yakin ingin menerima revisi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Terima
                                     Revisi</button>
                             </div>
                         </div>

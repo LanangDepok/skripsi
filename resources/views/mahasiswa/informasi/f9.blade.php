@@ -53,8 +53,6 @@
             </p>
             <p><span class="font-semibold">NIM : </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}
             </p>
-            <p><span class="font-semibold">Program Studi :
-                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p>
             <p><span class="font-semibold">Judul Skripsi :
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
             <p class="font-semibold"><span class="font-semibold">Dinyatakan :

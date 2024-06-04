@@ -46,11 +46,22 @@
         </div>
         <div class="mt-3">
             <p>Depok, {{ $pengajuanSkripsi->acc_dospem }}</p>
-            <p>Pembimbing,</p>
-            <img class="max-w-32 max-h-24"
-                src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}">
-            <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
-            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->nip }}</p>
+            @if ($pengajuanSkripsi->pengizin == $pengajuanSkripsi->pengajuanSkripsiDospem->id)
+                <p>Pembimbing 1,</p>
+                <img class="max-w-32 max-h-24"
+                    src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}">
+                <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->nip }}</p>
+            @endif
+            @isset($pengajuanSkripsi->dospem2_id)
+                @if ($pengajuanSkripsi->pengizin == $pengajuanSkripsi->pengajuanSkripsiDospem2->id)
+                    <p>Pembimbing 2,</p>
+                    <img class="max-w-32 max-h-24"
+                        src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}">
+                    <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}</p>
+                    <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->nip }}</p>
+                @endif
+            @endisset
         </div>
         <div class="mt-3">
             <a href="#" onclick="downloadPDF()"

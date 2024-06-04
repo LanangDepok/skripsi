@@ -19,6 +19,10 @@ class PengajuanSkripsi extends Model
     {
         return $this->BelongsTo(User::class, 'dospem_id');
     }
+    public function pengajuanSkripsiDospem2(): BelongsTo
+    {
+        return $this->BelongsTo(User::class, 'dospem2_id');
+    }
     public function pengajuanSkripsiPenguji1(): BelongsTo
     {
         return $this->BelongsTo(User::class, 'penguji1_id');

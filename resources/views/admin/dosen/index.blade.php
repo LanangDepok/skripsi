@@ -84,7 +84,7 @@
                                     @method('DELETE')
                                     <button type="submit"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
-                                        onclick="confirmDelete(event)">Delete</button>
+                                        onclick="return confirm('Yakin ingin menghapus dosen dengan nama {{ $dosen->user->nama }}?')">Delete</button>
                                 @endcan
                             </td>
                         </form>

@@ -24,7 +24,9 @@
             <P>Judul Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P><br>
             <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Dosen Pembimbing: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p>Dosen Pembimbing 1: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p>Dosen Pembimbing 2:
+                {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}</p><br>
             {{-- <p>Apakah skripsi membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p><br> --}}
             <p>Penguji:
                 <br>1. {{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}

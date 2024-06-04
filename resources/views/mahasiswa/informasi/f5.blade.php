@@ -72,12 +72,27 @@
             </div>
             <div class="container flex justify-between items-center">
                 <div class="basis-2/3">
-                    <p><span class="font-semibold">4. Pembimbing :
+                    <p><span class="font-semibold">4. Pembimbing 1:
                         </span>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
                         src="/storage/{{ $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan : '-' }}">
+                </div>
+            </div>
+            <div class="container flex justify-between items-center">
+                <div class="basis-2/3">
+                    <p><span class="font-semibold">5. Pembimbing 2:
+                        </span>{{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem->nama : '-' }}
+                    </p>
+                </div>
+                <div class="basis-1/3">
+                    @if ($pengajuanSkripsi->dospem2_id)
+                        <img class="max-w-32 max-h-24"
+                            src="/storage/{{ $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan : '-' }}">
+                    @else
+                        <p>-</p>
+                    @endif
                 </div>
             </div>
         </div>

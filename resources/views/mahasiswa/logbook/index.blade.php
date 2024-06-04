@@ -8,7 +8,7 @@
     <div class="container mx-auto mt-4">
         <div class="flex justify-between px-20">
             <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md">
-                <p class="text-center">Dosen Pembimbing</p>
+                <p class="text-center">Dosen Pembimbing 1</p>
                 <img src="/storage/{{ isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png' }}"
                     class="w-28 h-28 rounded-full mt-2 mx-auto">
                 <p class="text-center">{{ $bimbingan->bimbinganDosen->nama }}</p>
@@ -29,6 +29,17 @@
                     <li>4. Bimbingan dihitung berdasarkan jumlah logbook yang diterima oleh dosen pembimbing</li>
                 </ul>
             </div>
+            <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md">
+                <p class="text-center">Dosen Pembimbing 2</p>
+                <img src="/storage/{{ isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png' }}"
+                    class="w-28 h-28 rounded-full mt-2 mx-auto">
+                <p class="text-center">
+                    {{ isset($bimbingan->bimbinganDosen2) ? $bimbingan->bimbinganDosen2->nama : '(Tidak ada)' }}</p>
+                <p class="text-center">
+                    {{ isset($bimbingan->bimbinganDosen2) ? $bimbingan->bimbinganDosen2->dosen->nip : '' }}</p>
+            </div>
+        </div>
+        <div class="mt-5 text-center">
             <a href="/mahasiswa/logbook/create"
                 class="bg-primary rounded-md p-1 px-3 text-white h-1/6 mt-auto hover:text-black hover:bg-red-300">+Tambah
                 Logbook</a>

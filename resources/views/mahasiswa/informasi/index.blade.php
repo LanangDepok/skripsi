@@ -33,7 +33,7 @@
                     @php
                         $i = 1;
                     @endphp
-                    @foreach (Auth::user()->pengajuanJudul->where('user_id', Auth::user()->id)->get() as $data)
+                    @foreach (Auth::user()->pengajuanJudul as $data)
                         <tr>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->judul }}</td>
@@ -54,7 +54,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container mx-auto w-full mt-5">
+    <div class="container mx-auto w-full mt-10">
         <p class=" text-2xl font-semibold text-center">Seminar Proposal</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
@@ -119,7 +119,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container mx-auto w-full mt-5">
+    <div class="container mx-auto w-full mt-10">
         <p class=" text-2xl font-semibold text-center">Sidang Skripsi</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
@@ -149,7 +149,11 @@
                                 {{ isset($data->tanggal) ? $data->tanggal : '-' }}
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ isset($data->nilai_pembimbing) ? $data->nilai_pembimbing : '-' }}
+                                @if ($data->nilai_pembimbing2)
+                                    {{ isset($data->nilai_pembimbing, $data->nilai_pembimbing2) ? ($data->nilai_pembimbing + $data->nilai_pembimbing2) / 2 : '-' }}
+                                @else
+                                    {{ isset($data->nilai_pembimbing) ? $data->nilai_pembimbing : '-' }}
+                                @endif
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ isset($data->nilai1, $data->nilai2, $data->nilai3) ? ($data->nilai1 + $data->nilai2 + $data->nilai3) / 3 : '-' }}
@@ -175,10 +179,16 @@
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F5
                                         </a>
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f6"
+                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f6a"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F6
                                         </a>
+                                        @if ($data->dospem2_id != null)
+                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f6b"
+                                                class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
+                                                F6
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                                 <div>
@@ -235,7 +245,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container mx-auto w-full mt-5">
+    <div class="container mx-auto w-full mt-10">
         <p class=" text-2xl font-semibold text-center">Serah terima alat & skripsi</p>
         <div class="bg-primary h-1 mb-3 mx-auto"></div>
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">

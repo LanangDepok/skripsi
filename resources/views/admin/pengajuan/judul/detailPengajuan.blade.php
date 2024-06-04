@@ -1,6 +1,12 @@
 @extends('admin.template')
 
 @section('content')
+    @if (session('error'))
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span> {{ session('error') }}
+        </div>
+    @endif
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
             <a href="/admin/pengajuan/judul"
@@ -47,21 +53,37 @@
                 </div>
                 {{-- Modal --}}
                 <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 hidden z-[1]">
-                    <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
+                    <div class="fixed bg-white top-40 bottom-40 left-96 right-96 z-10 rounded-lg">
                         <div class="w-7 ml-auto">
                             <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
                         </div>
-                        <div class="container w-1/2 mx-auto my-3">
-
+                        <div class="container w-3/4 mx-auto my-3">
                             <p class="text-center mb-5 font-semibold text-xl">Pilih Dosen Pembimbing</p>
-                            <p class="mb-3">Dosen Pilihan: {{ $pengajuanJudul->dosen_pilihan }}</p>
-                            <label for="dosen_pembimbing">Dosen Pilihan</label>
+                            <p class="mb-3">Dosen Pilihan:
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @foreach ($dosen_pilihan as $dospil)
+                                    <br>{{ $i++ }}. {{ $dospil }}
+                                @endforeach
+                            </p>
+                            <label for="dosen_pembimbing">Tentunkan Dosen Pembimbing</label>
                             <select name="dosen_pembimbing" id="dosen_pembimbing"
-                                class="w-full rounded-md border border-primary">
+                                class="w-full rounded-md border border-primary mb-5">
                                 @foreach ($dosenPembimbing as $dospem)
                                     <option value="{{ $dospem->nama }}">{{ $dospem->nama }}</option>
                                 @endforeach
                             </select>
+                            {{-- <label for="dosen_pembimbing2">Tentunkan Pembimbing 2
+                                <span class="text-red-600">(opsional)</span>
+                            </label>
+                            <select name="dosen_pembimbing2" id="dosen_pembimbing2"
+                                class="w-full rounded-md border border-primary">
+                                <option value="">(Tidak memilih)</option>
+                                @foreach ($dosenPembimbing as $dospem)
+                                    <option value="{{ $dospem->nama }}">{{ $dospem->nama }}</option>
+                                @endforeach
+                            </select> --}}
                             <div class="w-24 h-8 mx-auto mt-7">
                                 <button type="submit" name="action" value="terima"
                                     class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300 text-white">Terima</button>

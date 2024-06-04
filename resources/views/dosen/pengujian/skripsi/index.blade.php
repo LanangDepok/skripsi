@@ -53,7 +53,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Penguji</th>
                     <th class="border-b border-slate-500 py-2">Tanggal Sidang</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
@@ -61,23 +62,27 @@
             </thead>
             <tbody>
                 @php
-                    $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
+                    // $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
+                    $i = 1;
                 @endphp
 
                 @foreach ($data as $index => $dosen_skripsi)
                     @php
                         $isDospem = Auth::user()->id == $dosen_skripsi->dospem_id;
+                        $isDospem2 = Auth::user()->id == $dosen_skripsi->dospem2_id;
                         $isPenguji1 = Auth::user()->id == $dosen_skripsi->penguji1_id;
                         $isPenguji2 = Auth::user()->id == $dosen_skripsi->penguji2_id;
                         $isPenguji3 = Auth::user()->id == $dosen_skripsi->penguji3_id;
                     @endphp
                     @if (
                         ($isDospem && is_null($dosen_skripsi->nilai_pembimbing)) ||
+                            ($isDospem2 && is_null($dosen_skripsi->nilai_pembimbing2)) ||
                             ($isPenguji1 && is_null($dosen_skripsi->nilai1)) ||
                             ($isPenguji2 && is_null($dosen_skripsi->nilai2)) ||
                             ($isPenguji3 && is_null($dosen_skripsi->nilai3)))
                         <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
+                            {{-- <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td> --}}
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ $dosen_skripsi->pengajuanSkripsiMahasiswa->nama }}
                                 ({{ $dosen_skripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
@@ -89,6 +94,9 @@
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ $dosen_skripsi->pengajuanSkripsiDospem->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($dosen_skripsi->dospem2_id) ? $dosen_skripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">
                                 1. {{ $dosen_skripsi->pengajuanSkripsiPenguji1->nama }}<br>
                                 2. {{ $dosen_skripsi->pengajuanSkripsiPenguji2->nama }}<br>
                                 3. {{ $dosen_skripsi->pengajuanSkripsiPenguji3->nama }}
@@ -97,144 +105,27 @@
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                @can('dosen_penguji')
+                                @if (
+                                    $dosen_skripsi->penguji1_id == Auth::user()->id ||
+                                        $dosen_skripsi->penguji2_id == Auth::user()->id ||
+                                        $dosen_skripsi->penguji3_id == Auth::user()->id)
                                     <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}/terima"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                                @endcan
-                                @can('dosen_pembimbing')
+                                @endif
+                                @if ($dosen_skripsi->dospem_id == Auth::user()->id || $dosen_skripsi->dospem2_id == Auth::user()->id)
                                     <a href="/dosen/pengujian/terbimbing/{{ $dosen_skripsi->id }}/terima"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                                @endcan
+                                @endif
                             </td>
                         </tr>
                     @endif
                 @endforeach
-
-                {{-- @php
-                    $i = 1;
-                @endphp
-                @foreach ($dosen_pembimbing as $dosen_pembimbing)
-                    @if ($dosen_pembimbing->nilai_pembimbing == null)
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_pembimbing->pengajuanSkripsiMahasiswa->nama }}
-                                ({{ $dosen_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_pembimbing->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_pembimbing->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                1. {{ $dosen_pembimbing->pengajuanSkripsiPenguji1->nama }}<br>
-                                2. {{ $dosen_pembimbing->pengajuanSkripsiPenguji2->nama }}<br>
-                                3. {{ $dosen_pembimbing->pengajuanSkripsiPenguji3->nama }}
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_pembimbing->tanggal }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_pembimbing->id }}"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/dosen/pengujian/terbimbing/{{ $dosen_pembimbing->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-                @foreach ($dosen_penguji1 as $dosen_penguji1)
-                    @if ($dosen_penguji1->nilai1 == null)
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji1->pengajuanSkripsiMahasiswa->nama }}
-                                ({{ $dosen_penguji1->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji1->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji1->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji1->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                1. {{ $dosen_penguji1->pengajuanSkripsiPenguji1->nama }}<br>
-                                2. {{ $dosen_penguji1->pengajuanSkripsiPenguji2->nama }}<br>
-                                3. {{ $dosen_penguji1->pengajuanSkripsiPenguji3->nama }}
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji1->tanggal }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_penguji1->id }}"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_penguji1->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-                @foreach ($dosen_penguji2 as $dosen_penguji2)
-                    @if ($dosen_penguji2->nilai2 == null)
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji2->pengajuanSkripsiMahasiswa->nama }}
-                                ({{ $dosen_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji2->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji2->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                1. {{ $dosen_penguji2->pengajuanSkripsiPenguji1->nama }}<br>
-                                2. {{ $dosen_penguji2->pengajuanSkripsiPenguji2->nama }}<br>
-                                3. {{ $dosen_penguji2->pengajuanSkripsiPenguji3->nama }}
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji2->tanggal }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/pengujian/sempro/{{ $dosen_penguji2->id }}"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_penguji2->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-                @foreach ($dosen_penguji3 as $dosen_penguji3)
-                    @if ($dosen_penguji3->nilai3 == null)
-                        <tr class="even:bg-slate-300">
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji3->pengajuanSkripsiMahasiswa->nama }}
-                                ({{ $dosen_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji3->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_penguji3->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                1. {{ $dosen_penguji3->pengajuanSkripsiPenguji1->nama }}<br>
-                                2. {{ $dosen_penguji3->pengajuanSkripsiPenguji2->nama }}<br>
-                                3. {{ $dosen_penguji3->pengajuanSkripsiPenguji3->nama }}
-                            </td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_penguji3->tanggal }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/pengujian/sempro/{{ $dosen_penguji3->id }}"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_penguji3->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach --}}
             </tbody>
         </table>
     </div>
 
     {{-- pagination --}}
-    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    {{-- <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
         <div class="flex flex-1 justify-between sm:hidden">
             <a href="#"
                 class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
@@ -289,5 +180,5 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

@@ -37,8 +37,11 @@
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p>
             <p><span class="font-semibold">Judul Skripsi :
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
-            <p><span class="font-semibold">Pembimbing :
+            <p><span class="font-semibold">Pembimbing 1:
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+            <p><span class="font-semibold">Pembimbing 2:
+                </span>{{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+            </p>
         </div>
         <div class="mt-3">
             <table class="table-auto mx-auto w-full">
@@ -66,9 +69,16 @@
                             {{ number_format(($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3, 1) }}
                         </td>
                         <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->nilai_pembimbing }}</td>
-                        <td class="border border-slate-500 py-2 text-center"></td>
+                        <td class="border border-slate-500 py-2 text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->nilai_pembimbing2 : '' }}
+                        </td>
                         <td class="border border-slate-500 py-2 text-center" colspan="2">
-                            {{ $pengajuanSkripsi->nilai_pembimbing }}</td>
+                            @if ($pengajuanSkripsi->dospem2_id != null)
+                                {{ ($pengajuanSkripsi->nilai_pembimbing + $pengajuanSkripsi->nilai_pembimbing2) / 2 }}
+                            @else
+                                {{ $pengajuanSkripsi->nilai_pembimbing }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 font-semibold text-center" rowspan="2" colspan="6">

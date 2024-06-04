@@ -9,8 +9,8 @@
                     <th class="border-b border-slate-500 py-2">No.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
-                    <th class="border-b border-slate-500 py-2">Pembimbing (Nilai)</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing 1 (Nilai)</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing 2 (Nilai)</th>
                     <th class="border-b border-slate-500 py-2">Penguji 1 (Nilai)</th>
                     <th class="border-b border-slate-500 py-2">Penguji 2 (Nilai)</th>
                     <th class="border-b border-slate-500 py-2">Penguji 3 (Nilai)</th>
@@ -31,24 +31,28 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
-                        {{-- <td class="border-b border-slate-500 py-2 text-center">Teknik Informatika</td> --}}
                         <td id="nilaiPembimbing" class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->nilai_pembimbing }}
+                            {{ isset($pengajuanSkripsi->nilai_pembimbing) ? $pengajuanSkripsi->nilai_pembimbing : '(Menunggu)' }}
+                        </td>
+                        <td id="nilaiPembimbing" class="border-b border-slate-500 py-2 text-center">
+                            @if ($pengajuanSkripsi->dospem2_id != null)
+                                {{ isset($pengajuanSkripsi->nilai_pembimbing2) ? $pengajuanSkripsi->nilai_pembimbing2 : '(Menunggu)' }}
+                            @else
+                                -
+                            @endif
                         </td>
                         <td id="nilaiPenguji1" class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->nilai1 }}
+                            {{ isset($pengajuanSkripsi->nilai1) ? $pengajuanSkripsi->nilai1 : '(Menunggu)' }}
                         </td>
                         <td id="nilaiPenguji2" class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->nilai2 }}
+                            {{ isset($pengajuanSkripsi->nilai2) ? $pengajuanSkripsi->nilai2 : '(Menunggu)' }}
                         </td>
                         <td id="nilaiPenguji3" class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->nilai3 }}
+                            {{ isset($pengajuanSkripsi->nilai3) ? $pengajuanSkripsi->nilai3 : '(Menunggu)' }}
                         </td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/rekapitulasi/{{ $pengajuanSkripsi->id }}"
                                 class="bg-primary border rounded-md w-16 block text-white hover:text-black hover:bg-red-300 mx-auto">Detail</a>
-                            {{-- <button id="terimaButton"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Nilai</button> --}}
                         </td>
                     </tr>
                 @endforeach

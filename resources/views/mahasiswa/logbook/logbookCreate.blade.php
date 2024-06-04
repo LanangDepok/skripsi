@@ -62,7 +62,8 @@
                     @enderror
                     <div class="text-center mt-16">
                         <button type="submit"
-                            class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white">Kirim</button>
+                            class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                            onclick="return confirm('Ajukan logbook?')">Kirim</button>
                     </div>
                 </form>
             </div>

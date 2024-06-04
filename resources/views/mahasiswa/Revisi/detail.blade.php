@@ -37,25 +37,32 @@
             <div class="container w-1/2 mx-auto mt-6">
                 <p class="font-bold text-xl text-center mt-5">Hasil Evaluasi Pembimbing & Penguji</p>
                 <p class="font-semibold text-lg mt-5">1.
-                    {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }} (Pembimbing)</p>
-                <textarea readonly class="w-full border border-primary rounded-md" rows="3">
-                {{ $pengajuanRevisi->keterangan_pembimbing }}
-           </textarea>
-                <p class="font-semibold text-lg mt-5">2.
                     {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }} (Penguji 1)</p>
                 <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji1 }}
-           </textarea>
-                <p class="font-semibold text-lg mt-5">3.
+                </textarea>
+                <p class="font-semibold text-lg mt-5">2.
                     {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }} (Penguji 2)</p>
                 <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji2 }}
-           </textarea>
-                <p class="font-semibold text-lg mt-5">4.
+                </textarea>
+                <p class="font-semibold text-lg mt-5">3.
                     {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }} (Penguji 3)</p>
                 <textarea readonly class="w-full border border-primary rounded-md" rows="3">
                 {{ $pengajuanRevisi->keterangan_penguji3 }}
-           </textarea>
+                 </textarea>
+                <p class="font-semibold text-lg mt-5">4.
+                    {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }} (Pembimbing)</p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="3">
+                {{ $pengajuanRevisi->keterangan_pembimbing }}
+                </textarea>
+                @if ($pengajuanRevisi->pengajuanSkripsi->dospem2_id)
+                    <p class="font-semibold text-lg mt-5">5.
+                        {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }} (Pembimbing 2)</p>
+                    <textarea readonly class="w-full border border-primary rounded-md" rows="3">
+                    {{ $pengajuanRevisi->keterangan_pembimbing2 }}
+                    </textarea>
+                @endif
                 <div class="h-1 bg-primary"></div>
             </div>
         @endif
@@ -93,7 +100,8 @@
                         name="link_revisi_alat" id="link_revisi_alat">
                     <div class="w-24 h-8 mx-auto mt-4">
                         <button type="submit"
-                            class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300 text-white">Kirim</button>
+                            class="bg-primary w-full h-full rounded-md hover:text-black hover:bg-red-300 text-white"
+                            onclick="return confirm('Apakah revisi sudah diperbaiki dengan benar?')">Kirim</button>
                     </div>
                 </form>
             </div>

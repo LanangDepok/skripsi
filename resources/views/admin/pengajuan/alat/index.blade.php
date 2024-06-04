@@ -40,7 +40,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -61,6 +62,9 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($pengajuanAlat->user->bimbinganMahasiswa->dosen2_id) ? $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama : '-' }}
+                        </td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/admin/pengajuan/alat/{{ $pengajuanAlat->id }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>

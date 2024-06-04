@@ -41,7 +41,8 @@
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -63,6 +64,9 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/admin/pengajuan/skripsi/{{ $pengajuanSkripsi->id }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</button>

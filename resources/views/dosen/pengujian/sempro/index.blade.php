@@ -61,11 +61,13 @@
             </thead>
             <tbody>
                 @php
-                    $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
+                    // $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
+                    $i = 1;
                 @endphp
                 @foreach ($data as $index => $dosen_skripsi)
                     <tr class="even:bg-slate-300">
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
+                        {{-- <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td> --}}
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $dosen_skripsi->pengajuanSemproMahasiswa->nama }}
                             ({{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->nim }})
@@ -97,7 +99,7 @@
     </div>
 
     {{-- pagination --}}
-    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    {{-- <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
         <div class="flex flex-1 justify-between sm:hidden">
             <a href="#"
                 class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
@@ -152,5 +154,5 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

@@ -30,7 +30,7 @@
                 </div>
             @enderror
             <div class="mt-4">
-                <label for="no_kontak">No. Kontak</label>
+                <label for="no_kontak">No. Kontak (Gunakan 62, ex: 62812...)</label>
                 <input type="text" id="no_kontak" name="no_kontak" class="border-primary border block w-full rounded-md"
                     value="{{ Auth::user()->mahasiswa->no_kontak }}">
             </div>
@@ -52,7 +52,7 @@
                 </div>
             @enderror
             <div class=" mt-4">
-                <label for="no_kontak_ortu">No. Kontak Orang Tua/Wali</label>
+                <label for="no_kontak_ortu">No. Kontak Orang Tua/Wali (Gunakan 62, ex: 62812...)</label>
                 <input type="text" id="no_kontak_ortu" name="no_kontak_ortu"
                     class="border-primary border block w-full rounded-md"
                     value="{{ Auth::user()->mahasiswa->no_kontak_ortu }}">

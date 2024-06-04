@@ -62,6 +62,26 @@
                         </td>
                     </tr>
                 @endforeach
+
+                @foreach (Auth::user()->pengajuanSkripsiDospem2->where('status', '=', 'Menunggu persetujuan pembimbing') as $pengajuanSkripsi2)
+                    <tr class="even:bg-slate-300">
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <p>{{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->nama }}</p>
+                            <p>({{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->skripsi->judul }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi2->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -112,7 +112,8 @@
                                     @method('DELETE')
                                     <button type="submit"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
-                                        type="submit" onclick="confirmDelete(event)">Delete</button>
+                                        type="submit"
+                                        onclick="return confirm('Yakin ingin menghapus mahasiswa dengan nama {{ $mahasiswa->user->nama }}?')">Delete</button>
                                 @endcan
                             </td>
                         </form>
@@ -179,12 +180,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function confirmDelete(event) {
-            if (!confirm('Apakah yakin ingin menghapus?')) {
-                event.preventDefault();
-            }
-        }
-    </script>
 @endsection

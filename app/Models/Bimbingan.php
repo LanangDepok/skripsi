@@ -19,6 +19,10 @@ class Bimbingan extends Model
     {
         return $this->belongsTo(User::class, 'dosen_id');
     }
+    public function bimbinganDosen2()
+    {
+        return $this->belongsTo(User::class, 'dosen2_id');
+    }
     public function logbook()
     {
         return $this->hasMany(Logbook::class);

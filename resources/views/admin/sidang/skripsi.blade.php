@@ -54,7 +54,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
                     <th class="border-b border-slate-500 py-2">Jenis</th>
                     <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
@@ -80,6 +81,9 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $skripsi->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $skripsi->pengajuanSkripsiPenguji1->nama ?? '-' }}</p>
                             <p>2. {{ $skripsi->pengajuanSkripsiPenguji2->nama ?? '-' }}</p>

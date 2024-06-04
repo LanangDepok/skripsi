@@ -110,13 +110,31 @@
                             <textarea id="keterangan" name="keterangan"
                                 class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100" rows="5"></textarea>
                         </div>
+                        <div class="text-left mb-4">
+                            <label for="dospem2_id">Tambahkan Dosen Pembimbing 2
+                                <span class="text-red-700 font-bold">(opsional)</span>
+                            </label>
+                            <select name="dospem2_id" id="dospem2_id" class="w-full rounded-md border border-primary">
+                                <option value="">(Tidak memilih)</option>
+                                @foreach ($dosenPembimbing as $dospem)
+                                    <option value="{{ $dospem->id }}">{{ $dospem->nama }}</option>
+                                @endforeach
+                            </select>
+                            @if (session('errorDospem'))
+                                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <span class="font-medium">Error!</span> {{ session('errorDospem') }}
+                                </div>
+                            @endif
+                        </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
                                 <a href="/dosen/pengujian/sempro"
                                     class="bg-primary w-24 rounded-md hover:bg-red-300 text-white block">Back</a>
                             </div>
                             <div class="text-center mt-12">
-                                <button class="bg-primary w-24 rounded-md hover:bg-red-300 text-white">Nilai</button>
+                                <button class="bg-primary w-24 rounded-md hover:bg-red-300 text-white"
+                                    onclick="return confirm('Nilai seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')">Nilai</button>
                             </div>
                         </div>
                     </form>

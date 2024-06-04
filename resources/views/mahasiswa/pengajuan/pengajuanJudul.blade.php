@@ -198,8 +198,8 @@
                         </div>
                     @enderror
                     <div class="text-center mt-12">
-                        <button type="submit"
-                            class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white">Kirim</button>
+                        <button type="submit" class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white"
+                            onclick="return confirm('Ajukan pengajuan judul?')">Kirim</button>
                     </div>
                 </form>
             </div>

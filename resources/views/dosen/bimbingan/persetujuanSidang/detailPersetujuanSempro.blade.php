@@ -56,9 +56,11 @@
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Terima persetujuan seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')">Terima</button>
                 <button type="submit" name="tolak"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Tolak persetujuan seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')">Tolak</button>
             </div>
         </form>
     </div>

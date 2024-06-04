@@ -32,8 +32,6 @@
             <br>
             <p>Tanggal pengajuan: {{ $pengajuanSkripsi->created_at->format('d F Y') }}</p>
             <br>
-            {{-- <p>Apakah skripsinya membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p>
-            <br> --}}
             <p>Dosen Pembimbing: {{ Auth::user()->nama }}</p>
             <br>
             <P>
@@ -62,9 +60,11 @@
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Terima persetujuan sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Terima</button>
                 <button type="submit" name="tolak"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Tolak persetujuan sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Tolak</button>
             </div>
         </form>
     </div>

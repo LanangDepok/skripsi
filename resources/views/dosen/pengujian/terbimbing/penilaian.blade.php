@@ -13,16 +13,13 @@
                             <p class="text-2xl font-semibold text-center">F6</p>
                         </div>
                         <div class="text-left mb-4">
-                            <p>Nama: Bagas Rizkiyanto</p>
+                            <p>Nama: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
                         </div>
                         <div class="text-left mb-4">
-                            <p>NIM: 2007412006</p>
+                            <p>NIM: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
                         </div>
                         <div class="text-left mb-4">
-                            <p>Judul: Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque amet fuga, ducimus
-                                doloribus assumenda asperiores, cupiditate, reiciendis accusantium unde obcaecati ipsa
-                                minima id
-                                vero suscipit provident. Rem cupiditate neque quidem dolores. Expedita ea soluta qui.</p>
+                            <p>Judul: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
                         </div>
                         <div class="text-left mb-4">
                             <p class="font-bold text-lg">A. TATA TULIS LAPORAN</p>
@@ -205,7 +202,8 @@
                                     class="bg-primary w-24 block rounded-2xl hover:bg-red-300 text-white">Back</a>
                             </div>
                             <div class="text-center mt-12">
-                                <button class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white">Nilai</button>
+                                <button class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white"
+                                    onclick="return confirm('Nilai sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Nilai</button>
                             </div>
                         </div>
                     </form>

@@ -66,9 +66,20 @@
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 font-semibold text-center">PEMBIMBING 2</td>
-                        <td class="border border-slate-500 py-2 font-semibold text-center"></td>
-                        <td class="border border-slate-500 py-2 font-semibold text-center"></td>
-                        <td class="border border-slate-500 py-2 font-semibold text-center"></td>
+                        <td class="border border-slate-500 py-2 font-semibold text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
+                        <td class="border border-slate-500 py-2 font-semibold text-center">
+                            @if ($pengajuanSkripsi->dospem2_id != null)
+                                <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
+                                    class="max-h-28 mx-auto">
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td class="border border-slate-500 py-2 font-semibold text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanRevisi->keterangan_pembimbing2 : '-' }}
+                        </td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 font-semibold text-center">PENGUJI 1</td>

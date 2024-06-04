@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container mx-auto">
+        @if (session('error'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                role="alert">
+                <span class="font-medium">Error!</span> {{ session('error') }}
+            </div>
+        @endif
         @if ($errors->has('penguji1_id'))
             @error('penguji1_id')
                 <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
@@ -64,7 +70,11 @@
                 <br>
                 {{-- <p>Apakah skripsinya membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p>
                 <br> --}}
-                <p>Dosen Pembimbing: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                <p>Dosen Pembimbing 1: {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                <br>
+                <p>Dosen Pembimbing 2:
+                    {{ isset($pengajuanSkripsi->pengajuanSkripsiDospem2->nama) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '' }}
+                </p>
                 <br>
                 <P>
                     Link presentasi:
@@ -91,7 +101,8 @@
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="button" id="terimaButton"
                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
-                <button type="submit" name="tolak" onclick="confirmDelete(event)"
+                <button type="submit" name="tolak"
+                    onclick="return confirm('Apakah yakin ingin menolak pengajuan skripsi?')"
                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
             </div>
 
@@ -143,7 +154,8 @@
                         </div>
                         <div class="w-24 h-8 mx-auto mt-10">
                             <button type="submit" name="terima" value="terima"
-                                class="bg-primary text-white w-full h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
+                                class="bg-primary text-white w-full h-full rounded-md hover:text-black hover:bg-red-300"
+                                onclick="return confirm('Apakah yakin ingin menerima pengajuan skripsi?')">Terima</button>
                         </div>
                     </div>
                 </div>
@@ -165,13 +177,6 @@
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.classList.toggle('hidden');
-            }
-        }
-    </script>
-    <script>
-        function confirmDelete(event) {
-            if (!confirm('Apakah yakin ingin menolak pengajuan?')) {
-                event.preventDefault();
             }
         }
     </script>

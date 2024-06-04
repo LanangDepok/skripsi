@@ -9,6 +9,12 @@
                 <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                     <form method="POST" action="/admin/dosen/{{ $dosen->id }}">
                         @csrf
+                        @if (session('error'))
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                                role="alert">
+                                <span class="font-medium">Error!</span> {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="text-left mb-4">
                             <label for="email">Email<span class="text-red-700">*</span></label>
                             <input type="text"
@@ -99,11 +105,14 @@
                             @php
                                 $roles = $dosen->user->roles->pluck('nama');
                             @endphp
+                            <input type="checkbox" id="ketua_komite" name="role[]" value="7" onchange="checkKomite()"
+                                {{ $roles->contains('Ketua Komite') ? 'checked' : '' }}>
+                            <label for="ketua_komite">Ketua Komite</label><br>
                             <input type="checkbox" id="komite" name="role[]" value="2"
                                 {{ $roles->contains('Komite') ? 'checked' : '' }}>
                             <label for="komite">Komite</label><br>
                             <input type="checkbox" id="ketua_penguji" name="role[]" value="3"
-                                {{ $roles->contains('Ketua Penguji') ? 'checked' : '' }}>
+                                onchange="checkDosenPenguji()" {{ $roles->contains('Ketua Penguji') ? 'checked' : '' }}>
                             <label for="ketua_penguji">Ketua Penguji</label><br>
                             <input type="checkbox" id="dosen_penguji" name="role[]" value="4"
                                 {{ $roles->contains('Dosen Penguji') ? 'checked' : '' }}>
@@ -120,8 +129,8 @@
                             </div>
                             @method('PUT')
                             <div class="text-center mt-12">
-                                <button type="submit"
-                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white">Simpan</button>
+                                <button type="submit" class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white"
+                                    onclick="return confirm('Yakin ingin mengubah data dosen atas nama {{ $dosen->user->nama }}?')">Simpan</button>
                             </div>
                         </div>
                     </form>
@@ -129,4 +138,35 @@
             </div>
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            checkKomite();
+            checkDosenPenguji();
+        }
+
+        function checkDosenPenguji() {
+            var ketuaPengujiCheckbox = document.getElementById('ketua_penguji');
+            var dosenPengujiCheckbox = document.getElementById('dosen_penguji');
+
+            if (ketuaPengujiCheckbox.checked) {
+                dosenPengujiCheckbox.checked = true;
+                dosenPengujiCheckbox.disabled = true;
+            } else {
+                dosenPengujiCheckbox.disabled = false;
+            }
+        }
+
+        function checkKomite() {
+            var ketuaKomiteCheckbox = document.getElementById('ketua_komite');
+            var komiteCheckbox = document.getElementById('komite');
+
+            if (ketuaKomiteCheckbox.checked) {
+                komiteCheckbox.checked = true;
+                komiteCheckbox.disabled = true;
+            } else {
+                komiteCheckbox.disabled = false;
+            }
+        }
+    </script>
 @endsection

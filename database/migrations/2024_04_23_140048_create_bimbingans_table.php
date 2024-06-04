@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('mahasiswa_id');
             $table->bigInteger('dosen_id');
+            $table->bigInteger('dosen2_id')->nullable();
             $table->timestamps();
         });
     }

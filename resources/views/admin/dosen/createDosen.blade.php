@@ -72,26 +72,34 @@
                         <div class="text-left mb-4">
                             <label for="jabatan">jabatan:</label>
                             <select name="jabatan" id="jabatan" class="block border border-primary rounded-md w-full">
-                                <option value="Jabatan 1">Jabatan 1</option>
-                                <option value="Jabatan 2">Jabatan 2</option>
-                                <option value="Jabatan 3">Jabatan 3</option>
+                                <option value="Dosen">Dosen</option>
+                                <option value="KPS">KPS</option>
+                                <option value="Kajur">Kajur</option>
+                                <option value="Kalab">Kalab</option>
                             </select>
                         </div>
                         <div class="text-left mb-4">
-                            <label for="Fungsional">Fungsional:</label>
-                            <select name="fungsional" id="Fungsional" class="block border border-primary rounded-md w-full">
-                                <option value="Fungsional 1">Fungsional 1</option>
-                                <option value="Fungsional 2">Fungsional 2</option>
-                                <option value="Fungsional 3">Fungsional 3</option>
+                            <label for="fungsional">Jabatan Fungsional:</label>
+                            <select name="fungsional" id="fungsional" class="block border border-primary rounded-md w-full">
+                                <option value="Asisten Ahli">Asisten Ahli</option>
+                                <option value="Lektor">Lektor</option>
+                                <option value="Lektor Kepala">Lektor Kepala</option>
+                                <option value="Guru Besar">Guru Besar</option>
                             </select>
                         </div>
                         <div class="text-left mb-4">
-                            <label for="gol_pangkat">gol_pangkat:</label>
+                            <label for="gol_pangkat">Pangkat Golongan</label>
                             <select name="gol_pangkat" id="gol_pangkat"
                                 class="block border border-primary rounded-md w-full">
-                                <option value="gol_pangkat 1">gol_pangkat 1</option>
-                                <option value="gol_pangkat 2">gol_pangkat 2</option>
-                                <option value="gol_pangkat 3">gol_pangkat 3</option>
+                                <option value="III/a">III/a</option>
+                                <option value="III/b">III/b</option>
+                                <option value="III/c">III/c</option>
+                                <option value="III/d">III/d</option>
+                                <option value="IV/a">IV/a</option>
+                                <option value="IV/b">IV/b</option>
+                                <option value="IV/c">IV/c</option>
+                                <option value="IV/d">IV/d</option>
+                                <option value="IV/e">IV/e</option>
                             </select>
                         </div>
                         <div class="text-left mb-4">

@@ -55,24 +55,24 @@
                     <tr>
                         <td class="border border-slate-500 py-2">Kesesuaian dengan Sistematika Penulisan (A1)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 10</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4a1'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5a1'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">Kesesuaian dengan isi laporan (A2)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 15</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4a2'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5a2'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">Sesuai dengan format penulisan (A3)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 10</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4a3'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5a3'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 text-center font-semibold" colspan="2">
                             Nilai Pengetahuan,NA = ( A1+A2+A3 )
                         </td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->{'4a1'} + $pengajuanSkripsi->{'4a2'} + $pengajuanSkripsi->{'4a3'} }}
+                            {{ $pengajuanSkripsi->{'5a1'} + $pengajuanSkripsi->{'5a2'} + $pengajuanSkripsi->{'5a3'} }}
                         </td>
                     </tr>
                     <tr>
@@ -82,29 +82,29 @@
                     <tr>
                         <td class="border border-slate-500 py-2">Perancangan Alat/Program Aplikasi (B1)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 15</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4b1'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5b1'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">Pembangunan Alat/Program Aplikasi(B2)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 10</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4b2'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5b2'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">PengsidangAlat/Program Aplikasi(B3)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 10</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4b3'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5b3'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">PengoperasianAlat/Program Aplikasi(B4)</td>
                         <td class="border border-slate-500 py-2 text-center">4,5 - 15</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4b4'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5b4'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 text-center font-semibold" colspan="2">
                             Nilai Keterampilan,NB = ( B1+B2+B3+B4 )
                         </td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->{'4b1'} + $pengajuanSkripsi->{'4b2'} + $pengajuanSkripsi->{'4b3'} + $pengajuanSkripsi->{'4b4'} }}
+                            {{ $pengajuanSkripsi->{'5b1'} + $pengajuanSkripsi->{'5b2'} + $pengajuanSkripsi->{'5b3'} + $pengajuanSkripsi->{'5b4'} }}
                         </td>
                     </tr>
                     <tr>
@@ -114,30 +114,30 @@
                     <tr>
                         <td class="border border-slate-500 py-2">Konsistensi terhadap jadwal bimbingan (C1)</td>
                         <td class="border border-slate-500 py-2 text-center">1,5 - 4,0</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4c1'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5c1'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">Tanggung jawab (C2)</td>
                         <td class="border border-slate-500 py-2 text-center">1,5 - 4,0</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4c2'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5c2'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">Kemampuan bekerjasama(C3)</td>
                         <td class="border border-slate-500 py-2 text-center">1,0 - 3,0</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4c3'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5c3'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2">
                             Kepatuhan terhadap Instruksi Kerja / Standar Operasi Kerja (C4)</td>
                         <td class="border border-slate-500 py-2 text-center">1,0 - 4,0</td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'4c4'} }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->{'5c4'} }}</td>
                     </tr>
                     <tr>
                         <td class="border border-slate-500 py-2 text-center font-semibold" colspan="2">
                             Nilai Etika Kerja,NC = ( C1+C2+C3+C4 )
                         </td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->{'4c1'} + $pengajuanSkripsi->{'4c2'} + $pengajuanSkripsi->{'4c3'} + $pengajuanSkripsi->{'4c4'} }}
+                            {{ $pengajuanSkripsi->{'5c1'} + $pengajuanSkripsi->{'5c2'} + $pengajuanSkripsi->{'5c3'} + $pengajuanSkripsi->{'5c4'} }}
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +145,7 @@
                             NILAI TOTAL ( NA+NB+NC )
                         </td>
                         <td class="border border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->nilai_pembimbing }}
+                            {{ $pengajuanSkripsi->nilai_pembimbing2 }}
                         </td>
                     </tr>
                 </tbody>
@@ -153,11 +153,11 @@
         </div>
         <div class="mt-3">
             <p>Depok, {{ $pengajuanSkripsi->tanggal }}</p>
-            <p>Pembimbing</p>
+            <p>Pembimbing 2</p>
             <img class="max-w-32 max-h-24"
-                src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}">
-            <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
-            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->nip }}</p>
+                src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}">
+            <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}</p>
+            <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->nip }}</p>
         </div>
         <div class="mt-3">
             <a href="#" onclick="downloadPDF()"

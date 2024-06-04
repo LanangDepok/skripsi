@@ -93,13 +93,6 @@
                                 class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
                                 name="tahun_ajaran" id="tahun_ajaran" value="{{ $mahasiswa->tahun_ajaran }}">
                         </div>
-                        {{-- <label for="dosen_pembimbing">Dosen Pembimbing:</label>
-                        <select name="dosen_pembimbing" id="dosen_pembimbing"
-                            class="block border border-primary rounded-md w-full">
-                            <option value="Pak Anggi">Pak Anggi</option>
-                            <option value="Pak Bambang">Pak Bambang</option>
-                            <option value="Pak Mauldy">Pak Mauldy</option>
-                        </select> --}}
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
                                 <button type="button"
@@ -109,7 +102,8 @@
                             <div class="text-center mt-12">
                                 @method('PUT')
                                 <button type="submit"
-                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white hover:text-black">Update</button>
+                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white hover:text-black"
+                                    onclick="return confirm('Yakin ingin mengubah data mahasiswa atas nama {{ $mahasiswa->user->nama }}?')">Update</button>
                             </div>
                         </div>
                     </form>

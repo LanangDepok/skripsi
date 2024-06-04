@@ -62,9 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Skripsi::class);
     }
-    public function pengajuanJudul(): HasOne
+    public function pengajuanJudul(): HasMany
     {
-        return $this->hasOne(pengajuanJudul::class);
+        return $this->hasMany(pengajuanJudul::class);
     }
     public function pengajuanSemproMahasiswa(): HasMany
     {
@@ -86,13 +86,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(PengajuanSempro::class, 'penguji3_id');
     }
-    public function bimbinganMahasiswa()
+    public function bimbinganMahasiswa(): HasOne
     {
         return $this->hasOne(Bimbingan::class, 'mahasiswa_id');
     }
-    public function bimbinganDosen()
+    public function bimbinganDosen(): HasMany
     {
         return $this->hasMany(Bimbingan::class, 'dosen_id');
+    }
+    public function bimbinganDosen2(): HasMany
+    {
+        return $this->hasMany(Bimbingan::class, 'dosen2_id');
     }
     public function pengajuanSkripsiMahasiswa(): HasMany
     {
@@ -101,6 +105,10 @@ class User extends Authenticatable
     public function pengajuanSkripsiDospem(): HasMany
     {
         return $this->hasMany(PengajuanSkripsi::class, 'dospem_id');
+    }
+    public function pengajuanSkripsiDospem2(): HasMany
+    {
+        return $this->hasMany(PengajuanSkripsi::class, 'dospem2_id');
     }
     public function pengajuanSkripsiPenguji1(): HasMany
     {
@@ -114,7 +122,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(PengajuanSempro::class, 'penguji3_id');
     }
-    public function pengajuanAlat()
+    public function pengajuanAlat(): HasMany
     {
         return $this->hasMany(PengajuanAlat::class);
     }

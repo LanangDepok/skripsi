@@ -34,7 +34,10 @@
             <P>Sub Judul Skripsi (Jika ada):
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Dosen Pembimbing: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p>Dosen Pembimbing 1: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p>Dosen Pembimbing 2:
+                {{ isset($pengajuanRevisi->pengajuanSkripsi->dospem2_id) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+            </p><br>
             <p>Penguji:
                 <br>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}
                 <br>2. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}
@@ -66,7 +69,8 @@
             @csrf
             <div class="container w-1/2 mx-auto mt-10 flex justify-around">
                 <button type="submit" name="terima" value="terima"
-                    class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Terima</button>
+                    class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Terima revisi mahasiswa atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Terima</button>
                 <button type="button" id="revisiButton"
                     class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Revisi
                     ulang</button>
@@ -84,7 +88,8 @@
                             name="keterangan_revisi" id="link_revisi_alat"></textarea>
                         <div class="w-32 h-8 mx-auto mt-4">
                             <button type="submit"
-                                class="bg-primary w-full rounded-md hover:text-black hover:bg-red-300 text-white">Revisi
+                                class="bg-primary w-full rounded-md hover:text-black hover:bg-red-300 text-white"
+                                onclick="return confirm('Revisi ulang mahasiswa atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Revisi
                                 ulang</button>
                         </div>
                     </div>

@@ -10,7 +10,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
                     <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
@@ -33,6 +34,9 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                        </td>
                         <td id="nilaiPembimbing" class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->nilai_total }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->status }}</td>

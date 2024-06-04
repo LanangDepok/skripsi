@@ -38,7 +38,11 @@
                 <br>
                 <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanAlat->user->skripsi->sub_judul }}</P>
                 <br>
-                <p>Dosen Pembimbing: {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</p>
+                <p>Dosen Pembimbing 1: {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</p>
+                <br>
+                <p>Dosen Pembimbing 2:
+                    {{ isset($pengajuanAlat->user->bimbinganMahasiswa->dosen2_id) ? $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-' }}
+                </p>
                 <br>
                 <P>
                     Form F12:
@@ -61,8 +65,9 @@
                 <div class="h-1 bg-primary"></div>
             </div>
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
-                <button type="submit" name="terima" value="terima" onclick="confirmDelete(event)"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Terima</button>
+                <button type="submit" name="terima" value="terima"
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
+                    onclick="return confirm('Terima pengajuan skripsi dan alat atas nama {{ $pengajuanAlat->user->nama }}?')">Terima</button>
                 <button type="button" id="tolakButton"
                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
             </div>
@@ -81,7 +86,8 @@
                         </div>
                         <div class="w-24 h-8 mx-auto mt-5">
                             <button type="submit" name="tolak" value="tolak"
-                                class="bg-primary text-white w-full h-full rounded-md hover:text-black hover:bg-red-300">Tolak</button>
+                                class="bg-primary text-white w-full h-full rounded-md hover:text-black hover:bg-red-300"
+                                onclick="return confirm('Tolak pengajuan skripsi dan alat atas nama {{ $pengajuanAlat->user->nama }}?')">Tolak</button>
                         </div>
                     </div>
                 </div>
@@ -103,13 +109,6 @@
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.classList.toggle('hidden');
-            }
-        }
-    </script>
-    <script>
-        function confirmDelete(event) {
-            if (!confirm('Apakah yakin ingin menerima revisi?')) {
-                event.preventDefault();
             }
         }
     </script>

@@ -26,17 +26,18 @@
             <P>No. Kontak Orang Tua/Wali: {{ $pengajuanAlat->user->mahasiswa->no_kontak_ortu }}</P>
             <br>
             <P>Nama Anggota Tim (Jika ada):
-                {{ isset($pengajuanAlat->user->pengajuanJudul->anggota) ? $pengajuanAlat->user->pengajuanJudul->anggota : '' }}
+                {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->anggota }}
             </P><br>
-            <P>Judul Skripsi: {{ $pengajuanAlat->user->pengajuanJudul->judul }}</P><br>
+            <P>Judul Skripsi: {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->judul }}</P><br>
             <P>Sub Judul Skripsi (Jika ada):
-                {{ isset($pengajuanAlat->user->pengajuanJudul->sub_judul) ? $pengajuanAlat->user->pengajuanJudul->sub_judul : '' }}
+                {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->sub_judul }}
             </P>
             <br>
-            <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanAlat->user->pengajuanJudul->abstrak }}</p>
+            <p>Abstrak/Ringkasan Skripsi:
+                {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}</p>
             <br>
             <p>Dosen Pembimbing:
-                {{ $pengajuanAlat->user->pengajuanJudul->latest('created_at')->first()->dosen_terpilih }}
+                {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
             </p><br>
             <p>Link form F12:
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f12 }}</a>

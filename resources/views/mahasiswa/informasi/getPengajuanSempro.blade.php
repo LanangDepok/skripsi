@@ -26,16 +26,20 @@
             <P>No. Kontak Orang Tua/Wali: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->no_kontak_ortu }}</P>
             <br>
             <P>Nama Anggota Tim (Jika ada):
-                {{ isset($pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->anggota) ? $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->anggota : '' }}
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->anggota }}
             </P><br>
-            <P>Judul Skripsi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->judul }}</P><br>
+            <P>Judul Skripsi:
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->judul }}
+            </P><br>
             <P>Sub Judul Skripsi (Jika ada):
-                {{ isset($pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sub_judul) ? $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sub_judul : '' }}
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->sub_judul }}
             </P>
             <br>
-            <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->abstrak }}</p><br>
+            <p>Abstrak/Ringkasan Skripsi:
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
+            </p><br>
             <p>Dosen Pembimbing:
-                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->latest('created_at')->first()->dosen_terpilih }}
+                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
             </p><br>
             <p>Dosen Penguji: </p>
             <p>

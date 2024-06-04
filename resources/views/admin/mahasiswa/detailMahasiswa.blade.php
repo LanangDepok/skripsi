@@ -33,11 +33,15 @@
                 {{ isset($mahasiswa->user->skripsi->sub_judul) ? $mahasiswa->user->skripsi->sub_judul : '' }}
             </P><br>
             <p>Abstrak/Ringkasan Skripsi:
-                {{ isset($mahasiswa->user->pengajuanJudul->abstrak) ? $mahasiswa->user->pengajuanJudul->latest()->first()->abstrak : '' }}
+                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
             </p>
             <br>
             <p>Dosen Pembimbing:
-                {{ isset($mahasiswa->user->pengajuanJudul->dosen_terpilih) ? $mahasiswa->user->pengajuanJudul->latest()->first()->dosen_terpilih : '' }}
+                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
+            </p>
+            <br>
+            <p>Dosen Pembimbing 2:
+                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih2 }}
             </p>
             <div class="h-1 bg-primary"></div>
         </div>

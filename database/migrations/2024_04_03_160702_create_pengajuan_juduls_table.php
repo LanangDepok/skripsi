@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->text('sumber_referensi');
             $table->string('dosen_pilihan');
             $table->string('dosen_terpilih')->nullable();
+            $table->string('dosen_terpilih2')->nullable();
             $table->timestamps();
         });
     }
