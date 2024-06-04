@@ -37,11 +37,11 @@
             </p>
             <br>
             <p>Dosen Pembimbing:
-                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
+                {{ $bimbingan->bimbinganDosen->nama }}
             </p>
             <br>
             <p>Dosen Pembimbing 2:
-                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih2 }}
+                {{ isset($bimbingan->dosen2_id) ? $bimbingan->bimbinganDosen2->nama : '-' }}
             </p>
             <div class="h-1 bg-primary"></div>
         </div>

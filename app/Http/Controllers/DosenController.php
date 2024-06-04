@@ -276,7 +276,7 @@ class DosenController extends Controller
                     return redirect('/dosen/pengujian/sempro/' . $pengajuanSempro->id . '/terima')->with('errorDospem', 'Pilihan dosen pembimbing 2 tidak boleh sama');
                 } else {
                     $bimbingan->update(['dosen2_id' => $dospem2_id]);
-                    $pengajuanJudul->update(['dosen_terpilih2' => $bimbingan->bimbinganDosen2->nama]);
+                    // $pengajuanJudul->update(['dosen_terpilih2' => $bimbingan->bimbinganDosen2->nama]);
                 }
             }
 

@@ -36,8 +36,11 @@
             <p>Abstrak/Ringkasan Skripsi:
                 {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}</p>
             <br>
-            <p>Dosen Pembimbing:
-                {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
+            <p>Dosen Pembimbing 1:
+                {{ $bimbingan->bimbinganDosen->nama }}
+            </p><br>
+            <p>Dosen Pembimbing 2:
+                {{ isset($bimbingan->dosen2_id) ? $bimbingan->bimbinganDosen2->nama : '-' }}
             </p><br>
             <p>Link form F12:
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f12 }}</a>

@@ -59,7 +59,15 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->user->mahasiswa->prodi }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->judul }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $data->dosen_pilihan }}</td>
+                            @php
+                                $no = 1;
+                                $dosen_pilihan = explode('- ', $data->dosen_pilihan);
+                            @endphp
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                @foreach ($dosen_pilihan as $dospil)
+                                    {{ $no++ }}. {{ $dospil }}<br>
+                                @endforeach
+                            </td>
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/admin/pengajuan/judul/{{ $data->id }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>

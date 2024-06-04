@@ -39,7 +39,7 @@
                 {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
             </p><br>
             <p>Dosen Pembimbing:
-                {{ $pengajuanSempro->pengajuanSemproMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
+                {{ $bimbingan->bimbinganDosen->nama }}
             </p><br>
             <p>Dosen Penguji: </p>
             <p>

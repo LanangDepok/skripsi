@@ -77,7 +77,7 @@ return new class extends Migration {
             $table->string('3b3')->nullable();
             $table->string('3b4')->nullable();
             $table->string('3b5')->nullable();
-            $table->string('pengizin')->nullable();
+            $table->bigInteger('pengizin')->nullable();
             $table->timestamps();
         });
     }

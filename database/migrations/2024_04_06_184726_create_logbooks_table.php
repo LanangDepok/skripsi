@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('logbooks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('bimbingan_id');
-            $table->string('pengizin')->nullable();
+            $table->bigInteger('pengizin')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tempat')->nullable();
             $table->text('uraian')->nullable();

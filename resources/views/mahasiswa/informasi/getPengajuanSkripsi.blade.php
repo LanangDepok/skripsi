@@ -39,8 +39,11 @@
                 {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
             </p>
             <br>
-            <p>Dosen Pembimbing:
-                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->pengajuanJudul->sortByDesc('created_at')->first()->dosen_terpilih }}
+            <p>Dosen Pembimbing 1:
+                {{ $bimbingan->bimbinganDosen->nama }}
+            </p><br>
+            <p>Dosen Pembimbing 2:
+                {{ isset($bimbingan->dosen2_id) ? $bimbingan->bimbinganDosen2->nama : '-' }}
             </p><br>
             <p>Dosen Penguji: </p>
             <p>

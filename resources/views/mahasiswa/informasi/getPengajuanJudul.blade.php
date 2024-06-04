@@ -33,7 +33,7 @@
             <p>Studi kasus: {{ $pengajuanJudul->studi_kasus }}</p><br>
             <p>Sumber referensi: {{ $pengajuanJudul->sumber_referensi }}</p><br>
             <p>Dosen Pembimbing:
-                {{ isset($pengajuanJudul->dosen_terpilih) ? $pengajuanJudul->dosen_terpilih : 'menunggu' }}</p><br>
+                {{ isset($bimbingan->dosen_id) ? $bimbingan->bimbinganDosen->nama : 'menunggu' }}</p><br>
             {{-- <p>Dosen Pembimbing 2:
                 {{ isset($pengajuanJudul->dosen_terpilih2) ? $pengajuanJudul->dosen_terpilih2 : 'menunggu' }}</p><br> --}}
             <p>Status: {{ $pengajuanJudul->status }}</p>

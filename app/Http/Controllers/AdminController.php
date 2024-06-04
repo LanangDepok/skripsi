@@ -130,7 +130,8 @@ class AdminController extends Controller
     public function getStudent(Mahasiswa $mahasiswa)
     {
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa]);
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $mahasiswa->user_id)->first();
+            return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -501,38 +502,38 @@ class AdminController extends Controller
         if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
             if ($request->input('action') == 'terima') {
                 $dosen_pembimbing = $request->dosen_pembimbing;
-                $dosen_pembimbing2 = $request->dosen_pembimbing2;
+                // $dosen_pembimbing2 = $request->dosen_pembimbing2;
                 $user_dosen = User::where('nama', '=', $dosen_pembimbing)->first();
 
-                if ($dosen_pembimbing2) {
-                    if ($dosen_pembimbing == $dosen_pembimbing2) {
-                        return redirect('/admin/pengajuan/judul/' . $pengajuanJudul->id)->with('error', 'Pilihan dosen pembimbing 1 dan 2 tidak boleh sama');
-                    }
+                // if ($dosen_pembimbing2) {
+                //     if ($dosen_pembimbing == $dosen_pembimbing2) {
+                //         return redirect('/admin/pengajuan/judul/' . $pengajuanJudul->id)->with('error', 'Pilihan dosen pembimbing 1 dan 2 tidak boleh sama');
+                //     }
 
-                    $user_dosen2 = User::where('nama', '=', $dosen_pembimbing2)->first();
+                //     $user_dosen2 = User::where('nama', '=', $dosen_pembimbing2)->first();
 
-                    $pengajuanJudul->update([
-                        'dosen_terpilih' => $dosen_pembimbing,
-                        'dosen_terpilih2' => $dosen_pembimbing2,
-                        'status' => 'Diterima'
-                    ]);
+                //     $pengajuanJudul->update([
+                //         'dosen_terpilih' => $dosen_pembimbing,
+                //         'dosen_terpilih2' => $dosen_pembimbing2,
+                //         'status' => 'Diterima'
+                //     ]);
 
-                    Bimbingan::create([
-                        'dosen_id' => $user_dosen->id,
-                        'dosen2_id' => $user_dosen2->id,
-                        'mahasiswa_id' => $pengajuanJudul->user->id,
-                    ]);
-                } else {
-                    $pengajuanJudul->update([
-                        'dosen_terpilih' => $dosen_pembimbing,
-                        'status' => 'Diterima'
-                    ]);
+                //     Bimbingan::create([
+                //         'dosen_id' => $user_dosen->id,
+                //         'dosen2_id' => $user_dosen2->id,
+                //         'mahasiswa_id' => $pengajuanJudul->user->id,
+                //     ]);
+                // } else {
+                $pengajuanJudul->update([
+                    // 'dosen_terpilih' => $dosen_pembimbing,
+                    'status' => 'Diterima'
+                ]);
 
-                    Bimbingan::create([
-                        'dosen_id' => $user_dosen->id,
-                        'mahasiswa_id' => $pengajuanJudul->user->id,
-                    ]);
-                }
+                Bimbingan::create([
+                    'dosen_id' => $user_dosen->id,
+                    'mahasiswa_id' => $pengajuanJudul->user->id,
+                ]);
+                // }
 
                 $pengajuanJudul->user->mahasiswa->update([
                     'status' => 'Bimbingan sempro'

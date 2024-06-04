@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bimbingan;
 use App\Models\Konten;
 use App\Models\Logbook;
 use App\Models\PengajuanAlat;
@@ -368,7 +369,8 @@ class MahasiswaController extends Controller
     public function getPengajuanJudul(PengajuanJudul $pengajuanJudul)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanJudul->user_id) {
-            return view('mahasiswa.informasi.getPengajuanJudul', ['title' => 'informasi', 'pengajuanJudul' => $pengajuanJudul]);
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanJudul->user_id)->first();
+            return view('mahasiswa.informasi.getPengajuanJudul', ['title' => 'informasi', 'pengajuanJudul' => $pengajuanJudul, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -376,7 +378,8 @@ class MahasiswaController extends Controller
     public function getPengajuanSempro(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSempro->mahasiswa_id) {
-            return view('mahasiswa.informasi.getPengajuanSempro', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanSempro->mahasiswa_id)->first();
+            return view('mahasiswa.informasi.getPengajuanSempro', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -384,7 +387,8 @@ class MahasiswaController extends Controller
     public function getPengajuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa->id) {
-            return view('mahasiswa.informasi.getPengajuanSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanSkripsi->mahasiswa_id)->first();
+            return view('mahasiswa.informasi.getPengajuanSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -392,6 +396,7 @@ class MahasiswaController extends Controller
     public function getPengajuanAlat(PengajuanAlat $pengajuanAlat)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanAlat->user_id) {
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanAlat->user_id)->first();
             return view('mahasiswa.informasi.getPengajuanAlat', ['title' => 'informasi', 'pengajuanAlat' => $pengajuanAlat]);
         }
         abort(404);

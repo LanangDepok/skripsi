@@ -40,7 +40,8 @@
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->abstrak }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->studi_kasus }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ isset($data->dosen_terpilih) ? $data->dosen_terpilih : 'menunggu' }}</td>
+                                {{ isset($data->user->bimbinganMahasiswa) ? $data->user->bimbinganMahasiswa->bimbinganDosen->nama : 'menunggu' }}
+                            </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
                             <td class="text-center border-b border-slate-500">
                                 <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanJudul"
