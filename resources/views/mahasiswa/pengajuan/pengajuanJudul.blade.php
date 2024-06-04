@@ -15,8 +15,7 @@
                 <form method="POST" action="/mahasiswa/pengajuan/judul/{{ Auth::user()->id }}" enctype="multipart/form-data">
                     @csrf
                     <div class="text-left mb-4">
-                        <label for="no_kontak">No. Kontak Mahasiswa (ex: 6281380227845)<span
-                                class="text-red-700">*</span></label>
+                        <label for="no_kontak">No. Kontak Mahasiswa<span class="text-red-700">*</span></label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
                             name="no_kontak" id="no_kontak" value="{{ old('no_kontak') }}">
@@ -40,8 +39,7 @@
                         </div>
                     @enderror
                     <div class="text-left mb-4">
-                        <label for="no_kontak_ortu">No. Kontak Orang Tua/Wali (ex: 6281380227845)<span
-                                class="text-red-700">*</span></label>
+                        <label for="no_kontak_ortu">No. Kontak Orang Tua/Wali<span class="text-red-700">*</span></label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
                             name="no_kontak_ortu" id="no_kontak_ortu">

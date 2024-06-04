@@ -54,9 +54,9 @@ class MahasiswaController extends Controller
 
             $data = $request->all();
             $rules = [
-                'no_kontak' => 'required|integer',
+                'no_kontak' => 'required|regex:/^\d+$/',
                 'nama_ortu' => 'required',
-                'no_kontak_ortu' => 'required|integer',
+                'no_kontak_ortu' => 'required|regex:/^\d+$/',
                 'anggota' => 'nullable',
                 'judul_dosen' => 'required',
                 'judul' => 'required',
@@ -71,7 +71,7 @@ class MahasiswaController extends Controller
             ];
             $messages = [
                 'required' => ':attribute tidak boleh kosong.',
-                'integer' => 'penulisan :attribute harus mengikuti aturan dasar.',
+                'regex' => 'penulisan :attribute harus berupa angka.',
                 'different' => 'Pilihan dosen pembimbing tidak boleh sama'
             ];
             $validator = Validator::make($data, $rules, $messages);
@@ -386,7 +386,7 @@ class MahasiswaController extends Controller
 
     public function getPengajuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa->id) {
+        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa_id) {
             $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanSkripsi->mahasiswa_id)->first();
             return view('mahasiswa.informasi.getPengajuanSkripsi', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'bimbingan' => $bimbingan]);
         }
@@ -397,7 +397,7 @@ class MahasiswaController extends Controller
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanAlat->user_id) {
             $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanAlat->user_id)->first();
-            return view('mahasiswa.informasi.getPengajuanAlat', ['title' => 'informasi', 'pengajuanAlat' => $pengajuanAlat]);
+            return view('mahasiswa.informasi.getPengajuanAlat', ['title' => 'informasi', 'pengajuanAlat' => $pengajuanAlat, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }
@@ -526,7 +526,7 @@ class MahasiswaController extends Controller
     public function f9(PengajuanSkripsi $pengajuanSkripsi)
     {
         $numberFormatter = new NumberFormatter('id', NumberFormatter::SPELLOUT);
-        $nilaiRataRata = number_format($pengajuanSkripsi->nilai_total);
+        $nilaiRataRata = number_format($pengajuanSkripsi->nilai_total, 1);
         $terbilang = $numberFormatter->format($nilaiRataRata);
 
         $tanggal = Carbon::createFromFormat('Y-m-d', $pengajuanSkripsi->updated_at->format('Y-m-d'))->addDays(10);
@@ -618,12 +618,12 @@ class MahasiswaController extends Controller
             $rules = [
                 'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
                 'tanda_tangan' => 'required|mimes:jpg,jpeg,png',
-                'no_kontak' => 'required|integer',
+                'no_kontak' => 'required|regex:/^\d+$/',
                 'nama_ortu' => 'required',
-                'no_kontak_ortu' => 'required|integer',
+                'no_kontak_ortu' => 'required|regex:/^\d+$/',
             ];
             $messages = [
-                'integer' => ':attribute harus berupa angka.',
+                'regex' => ':attribute harus berupa angka.',
                 'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
                 'required' => ':attribute tidak boleh kosong.'
             ];

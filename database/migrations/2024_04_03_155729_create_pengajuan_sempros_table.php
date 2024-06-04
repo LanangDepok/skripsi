@@ -23,14 +23,14 @@ return new class extends Migration {
             $table->string('status');
             $table->text('keterangan')->nullable();
             $table->string('tanggal')->nullable();
-            $table->string('nilai')->nullable();
             $table->string('acc_dospem')->nullable();
             $table->string('acc_dospem2')->nullable();
-            $table->string('kriteria1')->nullable();
-            $table->string('kriteria2')->nullable();
-            $table->string('kriteria3')->nullable();
-            $table->string('kriteria4')->nullable();
-            $table->string('kriteria5')->nullable();
+            $table->double('nilai')->nullable();
+            $table->double('kriteria1')->nullable();
+            $table->double('kriteria2')->nullable();
+            $table->double('kriteria3')->nullable();
+            $table->double('kriteria4')->nullable();
+            $table->double('kriteria5')->nullable();
             $table->timestamps();
         });
     }
