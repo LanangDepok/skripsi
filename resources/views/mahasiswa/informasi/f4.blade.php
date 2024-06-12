@@ -18,11 +18,26 @@
             Back
         </a>
     </div>
-    <div class="container ml-auto mr-10">
-        <div class="border-4 border-black w-20 ml-auto">
-            <p class="text-4xl font-semibold text-center">F4</p>
+    <div class="container flex justify-evenly mt-10 mx-auto">
+        <div class="flex items-center">
+            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+        </div>
+        <div class="text-center">
+            <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
+            <p>POLITEKNIK NEGERI JAKARTA</p>
+            <p class="font-bold">JURUSAN TEKNIK INFORMATIKA DAN KOMPUTER</p>
+            <br>
+            <p>Jl. Prof.DR.G.A. Siwabesy, Kampus UI, Depok 16425</p>
+            <p>Telp. (021) 91274097, Fax (021) 7863531</p>
+            <p>Laman : http://www.pnj.ac.id, e-mail:tik@pnj.ac.id</p>
+        </div>
+        <div class="flex items-start">
+            <div class="border-4 border-black w-20 h-20 flex items-center justify-center">
+                <p class="text-4xl font-semibold">F4</p>
+            </div>
         </div>
     </div>
+    <hr class="border-2 border-black w-3/4 mx-auto mb-10">
     <div class="container mx-auto">
         <p class="text-center font-bold text-2xl">LEMBAR PERSETUJUAN PEMBIMBING <span class="underline"><br>MENGIKUTI SIDANG
                 SKRIPSI</span></p>
@@ -35,14 +50,14 @@
             <p><span class="font-semibold">NIM : </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}
             </p>
             <p><span class="font-semibold">Program Studi :
-                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p>
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</p>
             <p><span class="font-semibold">Judul Skripsi :
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
         </div>
         <div class="mt-3">
             <p>Sesuai dengan persyaratan yang diatur dalam Pedoman Skripsi Jurusan Teknik informatika dan Komputer , maka
                 dengan ini menyetujui mahasiswa tersebut di atas untuk mengikuti sidang skripsi Tahun Akademik
-                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun_ajaran }}</p>
+                {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</p>
         </div>
         <div class="mt-3">
             <p>Depok, {{ $pengajuanSkripsi->acc_dospem }}</p>

@@ -19,7 +19,12 @@
             <P>Tanggal bimbingan: {{ $logbook->tanggal }}</P>
             <P>Tempat bimbingan: {{ $logbook->tempat }}</P>
             <p>Jenis bimbingan: {{ $logbook->jenis_bimbingan }}</p>
-            <p>Status: {{ $logbook->status }}</p><br>
+            <p>Status: {{ $logbook->status }}</p>
+            @if ($logbook->status == 'Diterima')
+                <p>Diterima oleh: {{ $penerima->nama }}</p><br>
+            @elseif ($logbook->status == 'Ditolak')
+                <p>Ditolak oleh: {{ $penerima->nama }}</p><br>
+            @endif
             <p>Uraian:</p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->uraian }}</textarea><br><br>
             <p>Rencana Pencapaian:</p>

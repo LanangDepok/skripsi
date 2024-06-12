@@ -4,29 +4,39 @@
     <p class="text-center font-semibold text-2xl text-primary">Daftar Pengajuan Revisi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <div class="flex justify-evenly items-center">
-            <div>
-                <label for="cari_nama">Nama:</label>
-                <input type="text" id="cari_nama" name="cari_nama" class="w-56" value="{{ request()->input('cari_nama') }}">
+        <form>
+            <div class="flex justify-evenly items-center">
+                <div>
+                    <label for="cari_nama">Nama:</label>
+                    <input type="text" id="cari_nama" name="cari_nama" class="w-56"
+                        value="{{ request()->input('cari_nama') }}">
+                </div>
+                <div>
+                    <label for="cari_prodi">Program Studi:</label>
+                    <select name="cari_prodi" id="cari_prodi" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_tahun">Tahun Ajaran:</label>
+                    <select name="cari_tahun" id="cari_tahun" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($tahun as $thn)
+                            <option value="{{ $thn->id }}"
+                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                                {{ $thn->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit"
+                    class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
             </div>
-            <div>
-                <label for="program_studi">Program Studi:</label>
-                <select name="cari_prodi" id="cari_prodi" class="w-72">
-                    <option value="">(Tanpa filter)</option>
-                    <option value="Teknik Informatika"
-                        {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                        Informatika</option>
-                    <option value="Teknik Multimedia Digital"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                        Multimedia Digital</option>
-                    <option value="Teknik Multimedia dan Jaringan"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                        Teknik
-                        Multimedia dan Jaringan</option>
-                </select>
-            </div>
-            <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
-        </div>
+        </form>
     </div>
     <div class="container mx-auto mt-6">
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
@@ -36,8 +46,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Penguji</th>
                     <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
@@ -56,9 +66,14 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
+                            <p>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($pengajuanRevisi->pengajuanSkripsi->dospem2_id) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                             <p>2. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}</p>

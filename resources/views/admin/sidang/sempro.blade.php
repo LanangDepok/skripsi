@@ -15,37 +15,44 @@
                     <label for="cari_prodi">Program Studi:</label>
                     <select name="cari_prodi" id="cari_prodi" class="w-72">
                         <option value="">(Tanpa filter)</option>
-                        <option value="Teknik Informatika"
-                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                            Informatika</option>
-                        <option value="Teknik Multimedia Digital"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                            Multimedia Digital</option>
-                        <option value="Teknik Multimedia dan Jaringan"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                            Teknik
-                            Multimedia dan Jaringan</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_tahun">Tahun Ajaran:</label>
+                    <select name="cari_tahun" id="cari_tahun" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($tahun as $thn)
+                            <option value="{{ $thn->id }}"
+                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                                {{ $thn->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div>
                     <label for="cari_status">Status:</label>
                     <select name="cari_status" id="cari_status" class="w-56">
                         <option value="">(Tanpa filter)</option>
-                        <option value="Lulus" {{ request()->input('cari_status') === 'Lulus' ? 'selected' : '' }}>
+                        <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>
                             Lulus</option>
                         <option value="Tidak Lulus"
-                            {{ request()->input('cari_status') === 'Tidak Lulus' ? 'selected' : '' }}>
+                            {{ request()->input('cari_status') == 'Tidak Lulus' ? 'selected' : '' }}>
                             Tidak Lulus</option>
                         <option value="Menunggu persetujuan pembimbing"
-                            {{ request()->input('cari_status') === 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
+                            {{ request()->input('cari_status') == 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
                             Menunggu persetujuan pembimbing
                         </option>
                         <option value="Menunggu pembagian jadwal"
-                            {{ request()->input('cari_status') === 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
+                            {{ request()->input('cari_status') == 'Menunggu pembagian jadwal' ? 'selected' : '' }}>
+                            Menunggu
                             pembagian jadwal
                         </option>
                         <option value="Menunggu sidang"
-                            {{ request()->input('cari_status') === 'Menunggu sidang' ? 'selected' : '' }}>
+                            {{ request()->input('cari_status') == 'Menunggu sidang' ? 'selected' : '' }}>
                             Menunggu sidang
                         </option>
                     </select>
@@ -62,9 +69,9 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
-                    <th class="border-b border-slate-500 py-2">Jenis</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Penguji</th>
+                    {{-- <th class="border-b border-slate-500 py-2">Jenis</th> --}}
                     <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                 </tr>
@@ -81,7 +88,7 @@
                             ({{ $sempro->pengajuanSemproMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $sempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $sempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $sempro->pengajuanSemproMahasiswa->skripsi->judul }}
                         </td>
@@ -99,7 +106,7 @@
                                 {{ $sempro->pengajuanSemproPenguji3->nama ?? '-' }}
                             </p>
                         </td>
-                        <td class="border-b border-slate-500 py-2 text-center">Sidang Sempro</td>
+                        {{-- <td class="border-b border-slate-500 py-2 text-center">Sidang Sempro</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($sempro->tanggal) ? $sempro->tanggal : '-' }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $sempro->status }}</td>

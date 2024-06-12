@@ -17,9 +17,9 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $mahasiswa->user->email }}</P><br>
             <P>NIM: {{ $mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $mahasiswa->tahun->nama }}</P><br>
             <P>Status: Seminar Proposal</P><br>
             <P>No. Kontak Mahasiswa: {{ $mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $mahasiswa->nama_ortu }}</P><br>
@@ -33,11 +33,11 @@
                 {{ isset($mahasiswa->user->skripsi->sub_judul) ? $mahasiswa->user->skripsi->sub_judul : '' }}
             </P><br>
             <p>Abstrak/Ringkasan Skripsi:
-                {{ $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}
+                {{ $mahasiswa->user->pengajuanJudul->isNotEmpty() ? $mahasiswa->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak : 'Belum ada' }}
             </p>
             <br>
             <p>Dosen Pembimbing:
-                {{ $bimbingan->bimbinganDosen->nama }}
+                {{ $bimbingan ? $bimbingan->bimbinganDosen->nama : 'Belum ada' }}
             </p>
             <br>
             <p>Dosen Pembimbing 2:

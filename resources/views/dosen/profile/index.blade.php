@@ -20,9 +20,9 @@
             <p>Email : {{ Auth::user()->email }}</p>
             <p>Nama : {{ Auth::user()->nama }}</p>
             <p>NIP : {{ Auth::user()->dosen->nip }}</p>
-            <p>Jabatan : {{ Auth::user()->dosen->jabatan }}</p>
-            <p>Fungsional: {{ Auth::user()->dosen->fungsional }}</p>
-            <p>Fungsioanl: {{ Auth::user()->dosen->gol_pangkat }}</p>
+            <p>Jabatan : {{ Auth::user()->dosen->jabatan->nama }}</p>
+            <p>Fungsional: {{ Auth::user()->dosen->fungsional->nama }}</p>
+            <p>Fungsioanl: {{ Auth::user()->dosen->gol_pangkat->nama }}</p>
             <p>Role: {{ Auth::user()->roles->pluck('nama')->implode(', ') }}</p>
         </div>
         <img src="/storage/{{ Auth::user()->dosen->tanda_tangan }}" class="max-h-24 max-w-56 my-auto"

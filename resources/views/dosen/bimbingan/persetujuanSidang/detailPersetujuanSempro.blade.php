@@ -18,11 +18,11 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanSempro->pengajuanSemproMahasiswa->email }}</P>
             <br>
-            <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas }}</P>
+            <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas->nama }}</P>
             <br>
-            <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</P>
+            <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</P>
             <br>
-            <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun_ajaran }}</P>
+            <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun->nama }}</P>
             <br>
             <P>Nama Anggota Tim (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->anggota }}</P>
             <br>

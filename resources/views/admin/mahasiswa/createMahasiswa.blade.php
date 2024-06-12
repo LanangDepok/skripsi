@@ -90,28 +90,28 @@
                         @enderror
                         <div class="text-left mb-4">
                             <label for="kelas">Kelas:</label>
-                            <select name="kelas" id="kelas" class="block border border-primary rounded-md w-full">
-                                <option value="TI-CCIT">TI-CCIT</option>
-                                <option value="SEC-CCIT">SEC-CCIT</option>
-                                <option value="TMJ">TMJ</option>
-                                <option value="TMD">TMD</option>
-                                <option value="TI">TI</option>
+                            <select name="kelas_id" id="kelas" class="block border border-primary rounded-md w-full">
+                                @foreach ($kelas as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="text-left mb-4">
                             <label for="prodi">Prodi:</label>
-                            <select name="prodi" id="prodi" class="block border border-primary rounded-md w-full">
-                                <option value="Teknik Informatika">Teknik Informatika</option>
-                                <option value="Teknik Multimedia Digital">Teknik Multimedia Digital</option>
-                                <option value="Teknik Multimedia dan Jaringan">Teknik Multimedia dan Jaringan</option>
+                            <select name="prodi_id" id="prodi" class="block border border-primary rounded-md w-full">
+                                @foreach ($prodi as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="text-left mb-4">
-                            <label for="tahun_ajaran">Tahun Ajaran<span class="text-red-700">*</span></label>
-                            <p>Contoh penulisan: 2023/2024</p>
-                            <input type="text"
-                                class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
-                                name="tahun_ajaran" id="tahun_ajaran">
+                            <label for="tahun_ajaran">Tahun Ajaran:</label>
+                            <select name="tahun_ajaran_id" id="tahun_ajaran"
+                                class="block border border-primary rounded-md w-full">
+                                @foreach ($tahun as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="text-left mb-4 hidden">
                             <input type="text"
@@ -120,8 +120,7 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <button
-                                    class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
+                                <button class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
                                     type="button"><a href="/admin/mahasiswa">Back</a></button>
                             </div>
                             <div class="text-center mt-12">

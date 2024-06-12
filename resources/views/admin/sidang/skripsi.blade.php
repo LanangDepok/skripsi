@@ -10,35 +10,41 @@
                 <input type="text" id="cari_nama" name="cari_nama" class="w-56" value="{{ request()->input('cari_nama') }}">
             </div>
             <div>
-                <label for="program_studi">Program Studi:</label>
+                <label for="cari_prodi">Program Studi:</label>
                 <select name="cari_prodi" id="cari_prodi" class="w-72">
                     <option value="">(Tanpa filter)</option>
-                    <option value="Teknik Informatika"
-                        {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                        Informatika</option>
-                    <option value="Teknik Multimedia Digital"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                        Multimedia Digital</option>
-                    <option value="Teknik Multimedia dan Jaringan"
-                        {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                        Teknik
-                        Multimedia dan Jaringan</option>
+                    @foreach ($prodi as $prd)
+                        <option value="{{ $prd->id }}"
+                            {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                            {{ $prd->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="cari_tahun">Tahun Ajaran:</label>
+                <select name="cari_tahun" id="cari_tahun" class="w-72">
+                    <option value="">(Tanpa filter)</option>
+                    @foreach ($tahun as $thn)
+                        <option value="{{ $thn->id }}"
+                            {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                            {{ $thn->nama }}</option>
+                    @endforeach
                 </select>
             </div>
             <div>
                 <label for="cari_status">Status:</label>
                 <select name="cari_status" id="cari_status" class="w-56">
                     <option value="">(Tanpa filter)</option>
-                    <option value="Lulus" {{ request()->input('cari_status') === 'Lulus' ? 'selected' : '' }}>
+                    <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>
                         Lulus</option>
-                    <option value="Tidak Lulus" {{ request()->input('cari_status') === 'Tidak Lulus' ? 'selected' : '' }}>
+                    <option value="Tidak Lulus" {{ request()->input('cari_status') == 'Tidak Lulus' ? 'selected' : '' }}>
                         Tidak Lulus</option>
                     <option value="Menunggu persetujuan pembimbing"
-                        {{ request()->input('cari_status') === 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
+                        {{ request()->input('cari_status') == 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
                         Menunggu persetujuan pembimbing
                     </option>
                     <option value="Menunggu pembagian jadwal"
-                        {{ request()->input('cari_status') === 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
+                        {{ request()->input('cari_status') == 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
                         pembagian jadwal
                     </option>
                 </select>
@@ -54,10 +60,9 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
-                    <th class="border-b border-slate-500 py-2">Jenis</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Penguji</th>
+                    {{-- <th class="border-b border-slate-500 py-2">Jenis</th> --}}
                     <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                 </tr>
@@ -75,21 +80,22 @@
                             ({{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($skripsi->pengajuanSkripsiMahasiswa->skripsi->judul) ? $skripsi->pengajuanSkripsiMahasiswa->skripsi->judul : 'Mahasiswa belum mengajukan judul.' }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $skripsi->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $skripsi->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($skripsi->dospem2_id) ? $skripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $skripsi->pengajuanSkripsiPenguji1->nama ?? '-' }}</p>
                             <p>2. {{ $skripsi->pengajuanSkripsiPenguji2->nama ?? '-' }}</p>
                             <p>3. {{ $skripsi->pengajuanSkripsiPenguji3->nama ?? '-' }}</p>
                         </td>
-                        <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
+                        {{-- <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td> --}}
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($skripsi->tanggal) ? $skripsi->tanggal : '-' }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $skripsi->status }}</td>

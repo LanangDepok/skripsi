@@ -53,9 +53,9 @@
             <div class="container w-1/2 mx-auto mt-6">
                 <div class="h-1 bg-primary mx-auto"></div>
                 <P>Email: {{ $pengajuanSempro->pengajuanSemproMahasiswa->email }}</P><br>
-                <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas }}</P><br>
-                <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</P><br>
-                <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun_ajaran }}</P><br>
+                <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas->nama }}</P><br>
+                <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</P><br>
+                <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun->nama }}</P><br>
                 <P>Nama Anggota Tim (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->anggota }}</P><br>
                 <P>Judul Skripsi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->judul }}</P><br>
                 <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->sub_judul }}</P>

@@ -34,7 +34,7 @@
                             {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->judul }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/bimbingan/persetujuanSempro/{{ $pengajuanSempro->id }}"
@@ -54,7 +54,7 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi->id }}"
@@ -74,7 +74,7 @@
                             {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->skripsi->judul }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi2->id }}"

@@ -11,15 +11,12 @@ use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
 use App\Models\Role;
-use App\Models\Skripsi;
 use App\Models\User;
 use App\Services\MahasiswaService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
-use NumberFormatter;
 
 class MahasiswaController extends Controller
 {
@@ -29,8 +26,99 @@ class MahasiswaController extends Controller
 
     public function index()
     {
-        $konten = Konten::get();
-        return view('mahasiswa.index', ['title' => 'index', 'konten' => $konten]);
+        if (Gate::allows('mahasiswa')) {
+            $konten = Konten::get();
+            return view('mahasiswa.index', ['title' => 'index', 'konten' => $konten]);
+        }
+        abort(404);
+    }
+
+    // profile
+    public function getProfile()
+    {
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.profile.index', ['title' => 'profile']);
+        }
+        abort(404);
+    }
+
+    public function editProfile()
+    {
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.profile.profileEdit', ['title' => 'profile']);
+        }
+        abort(404);
+    }
+
+    public function updateProfile(Request $request, User $user)
+    {
+        if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
+            $data = $request->all();
+            $rules = [
+                'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
+                'tanda_tangan' => 'required|mimes:jpg,jpeg,png',
+                'no_kontak' => 'required|regex:/^\d+$/',
+                'nama_ortu' => 'required',
+                'no_kontak_ortu' => 'required|regex:/^\d+$/',
+            ];
+            $messages = [
+                'regex' => ':attribute harus berupa angka.',
+                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
+                'required' => ':attribute tidak boleh kosong.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $this->mahasiswaService->updateProfile($user, $validated);
+
+            return redirect('/mahasiswa/profile');
+        }
+        abort(404);
+    }
+
+    // skripsi
+    public function getSkripsi()
+    {
+        if (Gate::allows('mahasiswa')) {
+            if (Auth::user()->pengajuanJudul->isEmpty()) {
+                return redirect('/mahasiswa/pengajuan/judul/' . Auth::user()->id)->with('messages', 'Ajukan judul terlebih dahulu.');
+            } elseif (Auth::user()->pengajuanJudul->sortByDesc('created_at')->first()->status != 'Diterima') {
+                return redirect('/mahasiswa/informasi/')->with('messages', 'Pastikan pengajuan judul sudah Diterima.');
+            }
+            return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
+        }
+        abort(404);
+    }
+
+    public function editSkripsi()
+    {
+        if (Gate::allows('mahasiswa')) {
+            return view('mahasiswa.skripsi.skripsiEdit', ['title' => 'skripsi']);
+        }
+        abort(404);
+    }
+
+    public function updateSkripsi(Request $request, User $user)
+    {
+        if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
+            $data = $request->all();
+            $rules = [
+                'judul' => 'required',
+                'sub_judul' => 'nullable',
+                'anggota' => 'nullable',
+                'file_skripsi' => 'required|mimes:pdf',
+            ];
+            $messages = [
+                'integer' => ':attribute harus berupa angka.',
+                'mimes' => ':attribute harus berupa pdf',
+                'required' => ':attribute tidak boleh kosong.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $this->mahasiswaService->updateSkripsi($user, $validated);
+
+            return redirect('/mahasiswa/skripsi');
+        }
+        abort(404);
     }
 
     // pengajuan
@@ -50,8 +138,6 @@ class MahasiswaController extends Controller
     public function ajukanJudul(Request $request, User $user)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
-            $pengajuan_judul = new PengajuanJudul();
-
             $data = $request->all();
             $rules = [
                 'no_kontak' => 'required|regex:/^\d+$/',
@@ -87,7 +173,8 @@ class MahasiswaController extends Controller
             $validated_pengajuan['user_id'] = $user->id;
             $validated_pengajuan['status'] = 'menunggu';
 
-            $this->mahasiswaService->ajukanSkripsi($user, $pengajuan_judul, $validated_mahasiswa, $validated_skripsi, $validated_pengajuan);
+            $this->mahasiswaService->ajukanJudul($user, $validated_mahasiswa, $validated_skripsi, $validated_pengajuan);
+
             return redirect('/mahasiswa/informasi');
         }
         abort(404);
@@ -119,7 +206,6 @@ class MahasiswaController extends Controller
                 'abstrak' => 'required',
                 'metode' => 'required',
                 'anggota' => 'nullable',
-                // 'bukti_registrasi' => 'required|mimes:jpg,jpeg,png,pdf'
                 'bukti_registrasi' => 'required'
             ];
             $messages = [
@@ -134,12 +220,9 @@ class MahasiswaController extends Controller
             $validated_sempro['dospem_id'] = $user->bimbinganMahasiswa->dosen_id;
 
             $validated_anggota = $validator->safe()->only(['anggota']);
-
             $validated_abstrak = $validator->safe()->only('abstrak');
 
-            PengajuanSempro::create($validated_sempro);
-            $user->skripsi->update($validated_anggota);
-            $user->pengajuanJudul->sortByDesc('created_at')->first()->update($validated_abstrak);
+            $this->mahasiswaService->ajukanSempro($user, $validated_sempro, $validated_anggota, $validated_abstrak);
 
             return redirect('/mahasiswa/informasi')->with('success', 'Pengajuan sempro berhasil, mohon cek info secara berkala');
         }
@@ -183,7 +266,7 @@ class MahasiswaController extends Controller
             $validated['dospem2_id'] = $user->bimbinganMahasiswa->dosen2_id;
             $validated['status'] = 'Menunggu persetujuan pembimbing';
 
-            PengajuanSkripsi::create($validated);
+            $this->mahasiswaService->ajukanSkripsi($validated);
 
             return redirect('/mahasiswa/informasi')->with('success', 'Pengajuan skripsi berhasil, mohon cek info secara berkala');
         }
@@ -221,7 +304,8 @@ class MahasiswaController extends Controller
             $validated = Validator::make($data, $rules, $messages)->validate();
             $validated['user_id'] = $user->id;
             $validated['status'] = 'Menunggu persetujuan';
-            PengajuanAlat::create($validated);
+
+            $this->mahasiswaService->ajukanAlat($validated);
 
             return redirect('/mahasiswa/informasi')->with('success', 'Pengajuan serah terima alat dan skripsi berhasil, mohon cek info secara berkala');
         }
@@ -245,7 +329,8 @@ class MahasiswaController extends Controller
     public function getLogbook(Logbook $logbook)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $logbook->bimbingan->mahasiswa_id) {
-            return view('mahasiswa.logbook.detailLogbook', ['title' => 'logbook', 'logbook' => $logbook]);
+            $penerima = User::where('id', '=', $logbook->pengizin)->first();
+            return view('mahasiswa.logbook.detailLogbook', ['title' => 'logbook', 'logbook' => $logbook, 'penerima' => $penerima]);
         }
         abort(404);
     }
@@ -264,21 +349,6 @@ class MahasiswaController extends Controller
     public function storeLogbook(Request $request)
     {
         if (Gate::allows('mahasiswa')) {
-            $nama_bulan = [
-                'January' => 'Januari',
-                'February' => 'Februari',
-                'March' => 'Maret',
-                'April' => 'April',
-                'May' => 'Mei',
-                'June' => 'Juni',
-                'July' => 'Juli',
-                'August' => 'Agustus',
-                'September' => 'September',
-                'October' => 'Oktober',
-                'November' => 'November',
-                'December' => 'Desember'
-            ];
-
             $data = $request->all();
             $rules = [
                 'tanggal' => 'required',
@@ -291,68 +361,11 @@ class MahasiswaController extends Controller
 
             $validator['bimbingan_id'] = Auth::user()->bimbinganMahasiswa->id;
             $validator['status'] = 'Menunggu persetujuan pembimbing';
-            $tanggal = Carbon::createFromFormat('Y-m-d', $validator['tanggal']);
-            $bulan_inggris = $tanggal->format('F');
-            $bulan_indonesia = $nama_bulan[$bulan_inggris];
-            $validator['tanggal'] = str_replace($bulan_inggris, $bulan_indonesia, $tanggal->format('d F Y'));
-
             $validator['jenis_bimbingan'] = 'Proposal';
-            if (Auth::user()->mahasiswa->status == 'Bimbingan Skripsi') {
-                $validator['jenis_bimbingan'] = 'Skripsi';
-            }
 
-            Logbook::create($validator);
+            $this->mahasiswaService->storeLogbook($validator);
 
             return redirect('/mahasiswa/logbook')->with('success', 'Berhasil mengajukan logbook');
-        }
-        abort(404);
-    }
-
-    // skripsi
-    public function getSkripsi()
-    {
-        if (Gate::allows('mahasiswa')) {
-            if (Auth::user()->pengajuanJudul->isEmpty()) {
-                return redirect('/mahasiswa/pengajuan/judul/' . Auth::user()->id)->with('messages', 'Ajukan judul terlebih dahulu.');
-            } elseif (Auth::user()->pengajuanJudul->sortByDesc('created_at')->first()->status != 'Diterima') {
-                return redirect('/mahasiswa/informasi/')->with('messages', 'Pastikan pengajuan judul sudah Diterima.');
-            }
-            return view('mahasiswa.skripsi.index', ['title' => 'skripsi']);
-        }
-        abort(404);
-    }
-
-    public function editSkripsi()
-    {
-        if (Gate::allows('mahasiswa')) {
-            return view('mahasiswa.skripsi.skripsiEdit', ['title' => 'skripsi']);
-        }
-        abort(404);
-    }
-
-    public function updateSkripsi(Request $request, User $user)
-    {
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
-            $skripsi = new Skripsi();
-
-            $data = $request->all();
-            $rules = [
-                'judul' => 'required',
-                'sub_judul' => 'nullable',
-                'anggota' => 'nullable',
-                'file_skripsi' => 'required|mimes:pdf',
-            ];
-            $messages = [
-                'integer' => ':attribute harus berupa angka.',
-                'mimes' => ':attribute harus berupa pdf',
-                'required' => ':attribute tidak boleh kosong.'
-            ];
-            $validator = Validator::make($data, $rules, $messages);
-            $validated_user = $validator->validated();
-
-            $this->mahasiswaService->updateSkripsi($user, $skripsi, $validated_user);
-
-            return redirect('/mahasiswa/skripsi');
         }
         abort(404);
     }
@@ -406,162 +419,152 @@ class MahasiswaController extends Controller
     //form
     public function f1(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f1', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
+            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+        ) {
             return view('mahasiswa.informasi.f1', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
     public function f2(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f2', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
+            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+        ) {
             return view('mahasiswa.informasi.f2', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
     public function f3(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f3', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
+            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+        ) {
             return view('mahasiswa.informasi.f3', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
         abort(404);
     }
     public function f4(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f4', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f4', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f5(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f5', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f5', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f6a(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f6a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f6a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f6b(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f6b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f6b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f7a(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f7a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f7a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f7b(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f7b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f7b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f7c(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) {
-            return view('mahasiswa.informasi.f7c', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f7c', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f8(PengajuanSkripsi $pengajuanSkripsi)
     {
-        $huruf_mutu = "";
-        if ($pengajuanSkripsi->nilai_total >= 81) {
-            $huruf_mutu = 'A';
-        } elseif ($pengajuanSkripsi->nilai_total >= 76) {
-            $huruf_mutu = 'A-';
-        } elseif ($pengajuanSkripsi->nilai_total >= 72) {
-            $huruf_mutu = 'B+';
-        } elseif ($pengajuanSkripsi->nilai_total >= 68) {
-            $huruf_mutu = 'B';
-        } elseif ($pengajuanSkripsi->nilai_total >= 64) {
-            $huruf_mutu = 'B-';
-        } elseif ($pengajuanSkripsi->nilai_total >= 60) {
-            $huruf_mutu = 'C+';
-        } elseif ($pengajuanSkripsi->nilai_total >= 56) {
-            $huruf_mutu = 'C';
-        } elseif ($pengajuanSkripsi->nilai_total >= 41) {
-            $huruf_mutu = 'D';
-        } elseif ($pengajuanSkripsi->nilai_total >= 1) {
-            $huruf_mutu = 'E';
-        }
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa_id) {
-            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'huruf_mutu' => $huruf_mutu]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
+            $huruf_mutu = $this->mahasiswaService->f8($pengajuanSkripsi);
+
             return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'huruf_mutu' => $huruf_mutu]);
         }
         abort(404);
     }
     public function f9(PengajuanSkripsi $pengajuanSkripsi)
     {
-        $numberFormatter = new NumberFormatter('id', NumberFormatter::SPELLOUT);
-        $nilaiRataRata = number_format($pengajuanSkripsi->nilai_total, 1);
-        $terbilang = $numberFormatter->format($nilaiRataRata);
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
+            $data = $this->mahasiswaService->f9($pengajuanSkripsi);
 
-        $tanggal = Carbon::createFromFormat('Y-m-d', $pengajuanSkripsi->updated_at->format('Y-m-d'))->addDays(10);
-        $deadline = $tanggal->translatedFormat('d F Y');
-
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa_id) {
-            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $terbilang, 'deadline' => $deadline]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
-            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $terbilang, 'deadline' => $deadline]);
+            return view('mahasiswa.informasi.f9', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'terbilang' => $data['terbilang'], 'deadline' => $data['deadline']]);
         }
         abort(404);
     }
     public function f10(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa_id) {
-            return view('mahasiswa.informasi.f10', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
             return view('mahasiswa.informasi.f10', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }
     public function f11(PengajuanSkripsi $pengajuanSkripsi)
     {
-        $penerima = $pengajuanSkripsi->pengajuanRevisi->terima_ketua_komite;
-        $ttd = User::where('id', '=', $penerima)->first();
+        if (
+            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+            ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
+        ) {
+            $ttd = $this->mahasiswaService->f11($pengajuanSkripsi);
 
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanSkripsi->mahasiswa_id) {
-            return view('mahasiswa.informasi.f11', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'ttd' => $ttd]);
-        } elseif (Gate::allows('dosen_pembimbing')) {
             return view('mahasiswa.informasi.f11', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'ttd' => $ttd]);
         }
         abort(404);
     }
 
-    //Revisi
+    //revisi
     public function getAllRevisi()
     {
         if (Gate::allows('mahasiswa')) {
@@ -584,56 +587,13 @@ class MahasiswaController extends Controller
     public function terimaRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
     {
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanRevisi->pengajuanSkripsi->mahasiswa_id) {
-            $pengajuanRevisi->update([
-                'status' => 'Menunggu persetujuan',
-                'link_revisi_alat' => $request->link_revisi_alat
-            ]);
-            $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Menunggu persetujuan revisi']);
+            $link_revisi_alat = $request->link_revisi_alat;
+
+            $this->mahasiswaService->terimaRevisi($pengajuanRevisi, $link_revisi_alat);
+
             return redirect('/mahasiswa/informasi')->with('success', 'Silahkan cek informasi secara berkala');
         }
         abort(404);
     }
 
-    // profile
-    public function getProfile()
-    {
-        if (Gate::allows('mahasiswa')) {
-            return view('mahasiswa.profile.index', ['title' => 'profile']);
-        }
-        abort(404);
-    }
-
-    public function editProfile()
-    {
-        if (Gate::allows('mahasiswa')) {
-            return view('mahasiswa.profile.profileEdit', ['title' => 'profile']);
-        }
-        abort(404);
-    }
-
-    public function updateProfile(Request $request, User $user)
-    {
-        if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
-            $data = $request->all();
-            $rules = [
-                'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
-                'tanda_tangan' => 'required|mimes:jpg,jpeg,png',
-                'no_kontak' => 'required|regex:/^\d+$/',
-                'nama_ortu' => 'required',
-                'no_kontak_ortu' => 'required|regex:/^\d+$/',
-            ];
-            $messages = [
-                'regex' => ':attribute harus berupa angka.',
-                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
-                'required' => ':attribute tidak boleh kosong.'
-            ];
-            $validator = Validator::make($data, $rules, $messages);
-            $validated_user = $validator->validated();
-
-            $this->mahasiswaService->updateProfile($user, $validated_user);
-
-            return redirect('/mahasiswa/profile');
-        }
-        abort(404);
-    }
 }

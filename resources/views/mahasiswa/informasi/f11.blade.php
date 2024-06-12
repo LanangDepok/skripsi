@@ -18,11 +18,26 @@
             Back
         </a>
     </div>
-    <div class="container ml-auto mr-10">
-        <div class="border-4 border-black w-20 ml-auto">
-            <p class="text-4xl font-semibold text-center">F11</p>
+    <div class="container flex justify-evenly mt-10 mx-auto">
+        <div class="flex items-center">
+            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+        </div>
+        <div class="text-center">
+            <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
+            <p>POLITEKNIK NEGERI JAKARTA</p>
+            <p class="font-bold">JURUSAN TEKNIK INFORMATIKA DAN KOMPUTER</p>
+            <br>
+            <p>Jl. Prof.DR.G.A. Siwabesy, Kampus UI, Depok 16425</p>
+            <p>Telp. (021) 91274097, Fax (021) 7863531</p>
+            <p>Laman : http://www.pnj.ac.id, e-mail:tik@pnj.ac.id</p>
+        </div>
+        <div class="flex items-start">
+            <div class="border-4 border-black w-20 h-20 flex items-center justify-center">
+                <p class="text-4xl font-semibold">F11</p>
+            </div>
         </div>
     </div>
+    <hr class="border-2 border-black w-3/4 mx-auto mb-10">
     <div class="container mx-auto">
         <p class="text-center font-bold text-2xl underline">LEMBAR TANDA BUKTI REVISI SKRIPSI</p>
         <p class="text-center font-bold text-2xl underline">(Alat/Program/Aplikasi Multimedia dan atau Laporan Skripsi)</p>
@@ -35,7 +50,7 @@
             <p><span class="font-semibold">NIM : </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}
             </p>
             <p><span class="font-semibold">Program Studi :
-                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p>
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</p>
             <p><span class="font-semibold">Judul Skripsi :
                 </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
         </div>
@@ -46,7 +61,7 @@
                     <tr>
                         <th class="border border-slate-500 py-2 text-center"></th>
                         <th class="border border-slate-500 py-2 text-center">nama</th>
-                        <th class="border border-slate-500 py-2 text-center">NILAI PEMBIMBING</th>
+                        <th class="border border-slate-500 py-2 text-center">TANDA TANGAN</th>
                         <th class="border border-slate-500 py-2 text-center">KETERANGAN/TANGGAL PENYERAHAN
                         </th>
                     </tr>
@@ -59,7 +74,7 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
-                                class="max-h-28 mx-auto">
+                                class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             {{ $pengajuanSkripsi->pengajuanRevisi->keterangan_pembimbing }}</td>
@@ -71,8 +86,8 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             @if ($pengajuanSkripsi->dospem2_id != null)
-                                <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
-                                    class="max-h-28 mx-auto">
+                                <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}"
+                                    class="max-w-32 max-h-24 mx-auto">
                             @else
                                 -
                             @endif
@@ -88,7 +103,7 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}"
-                                class="max-h-28 mx-auto">
+                                class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             {{ $pengajuanSkripsi->pengajuanRevisi->keterangan_penguji1 }}</td>
@@ -100,7 +115,7 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan }}"
-                                class="max-h-28 mx-auto">
+                                class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             {{ $pengajuanSkripsi->pengajuanRevisi->keterangan_penguji2 }}</td>
@@ -112,7 +127,7 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan }}"
-                                class="max-h-28 mx-auto">
+                                class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             {{ $pengajuanSkripsi->pengajuanRevisi->keterangan_penguji3 }}</td>

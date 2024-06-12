@@ -17,9 +17,9 @@
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $bimbingan->bimbinganMahasiswa->email }}</P><br>
-            <P>Kelas: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->tahun->nama }}</P><br>
             <P>Status: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->status }}</P><br>
             <P>No. Kontak: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->nama_ortu }}</P><br>

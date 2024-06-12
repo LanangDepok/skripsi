@@ -16,16 +16,22 @@
                     <label for="cari_prodi">Program Studi:</label>
                     <select name="cari_prodi" id="cari_prodi" class="w-72">
                         <option value="">(Tanpa filter)</option>
-                        <option value="Teknik Informatika"
-                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                            Informatika</option>
-                        <option value="Teknik Multimedia Digital"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                            Multimedia Digital</option>
-                        <option value="Teknik Multimedia dan Jaringan"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                            Teknik
-                            Multimedia dan Jaringan</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_tahun">Tahun Ajaran:</label>
+                    <select name="cari_tahun" id="cari_tahun" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($tahun as $thn)
+                            <option value="{{ $thn->id }}"
+                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                                {{ $thn->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
@@ -40,9 +46,7 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    {{-- <th class="border-b border-slate-500 py-2">Prodi</th> --}}
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -61,11 +65,12 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/admin/pengajuan/skripsi/{{ $pengajuanSkripsi->id }}"

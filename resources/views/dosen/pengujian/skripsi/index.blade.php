@@ -16,16 +16,11 @@
                     <label for="cari_prodi">Program Studi:</label>
                     <select name="cari_prodi" id="cari_prodi" class="w-72">
                         <option value="">(Tanpa filter)</option>
-                        <option value="Teknik Informatika"
-                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                            Informatika</option>
-                        <option value="Teknik Multimedia Digital"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                            Multimedia Digital</option>
-                        <option value="Teknik Multimedia dan Jaringan"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                            Teknik
-                            Multimedia dan Jaringan</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div>
@@ -33,10 +28,10 @@
                     <select name="cari_bimbingan" id="cari_bimbingan" class="w-72">
                         <option value="">(Tanpa filter)</option>
                         <option value="mahasiswa_bimbingan"
-                            {{ request()->input('cari_bimbingan') === 'mahasiswa_bimbingan' ? 'selected' : '' }}>Mahasiswa
+                            {{ request()->input('cari_bimbingan') == 'mahasiswa_bimbingan' ? 'selected' : '' }}>Mahasiswa
                             bimbingan</option>
                         <option value="mahasiswa_teruji"
-                            {{ request()->input('cari_bimbingan') === 'mahasiswa_teruji' ? 'selected' : '' }}>
+                            {{ request()->input('cari_bimbingan') == 'mahasiswa_teruji' ? 'selected' : '' }}>
                             Mahasiswa selain bimbingan
                         </option>
                     </select>
@@ -53,8 +48,7 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Pembimbing 1</th>
-                    <th class="border-b border-slate-500 py-2">Pembimbing 2</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Penguji</th>
                     <th class="border-b border-slate-500 py-2">Tanggal Sidang</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
@@ -88,13 +82,14 @@
                                 ({{ $dosen_skripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                                {{ $dosen_skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ $dosen_skripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ $dosen_skripsi->pengajuanSkripsiDospem->nama }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">
-                                {{ isset($dosen_skripsi->dospem2_id) ? $dosen_skripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                                <p>1. {{ $dosen_skripsi->pengajuanSkripsiDospem->nama }}</p>
+                                <p>2.
+                                    {{ isset($dosen_skripsi->dospem2_id) ? $dosen_skripsi->pengajuanSkripsiDospem2->nama : '-' }}
+                                </p>
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 1. {{ $dosen_skripsi->pengajuanSkripsiPenguji1->nama }}<br>

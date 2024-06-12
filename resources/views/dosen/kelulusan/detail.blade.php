@@ -23,9 +23,9 @@
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P><br>
-            <P>Kelas: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</P><br>
             <P>Nama Anggota Tim (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->anggota }}</P><br>
             <P>Judul Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P><br>
             <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
@@ -78,7 +78,7 @@
                     @csrf
                     <p>Nama (NIM): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}
                         ({{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
-                    <p>Program Studi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p>
+                    <p>Program Studi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</p>
                     <p>Judul: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p>
                     <p>Tanggal sidang: {{ $pengajuanSkripsi->tanggal }}</p>
                     <label for="pointA" class="font-bold">A. Revisi Alat/Program Aplikasi Skripsi</label>
@@ -147,10 +147,10 @@
 
         // Ubah penanganan klik di luar modal
         window.addEventListener('click', function(event) {
-            if (event.target === modal) {
+            if (event.target == modal) {
                 modal.classList.add('hidden');
             }
-            if (event.target === modal2) {
+            if (event.target == modal2) {
                 modal2.classList.add('hidden');
             }
         });

@@ -17,9 +17,9 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanAlat->user->email }}</P><br>
             <P>NIM: {{ $pengajuanAlat->user->mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P><br>
             <P>Status: {{ $pengajuanAlat->user->mahasiswa->status }}</P><br>
             <P>No. Kontak Mahasiswa: {{ $pengajuanAlat->user->mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $pengajuanAlat->user->mahasiswa->nama_ortu }}</P><br>

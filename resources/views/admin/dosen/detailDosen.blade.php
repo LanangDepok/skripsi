@@ -17,9 +17,9 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $dosen->user->email }}</P><br>
             <P>NIP: {{ $dosen->nip }}</P><br>
-            <P>Jabatan: {{ $dosen->jabatan }}</P><br>
-            <P>Fungsional: {{ $dosen->fungsional }}</P><br>
-            <P>Gol & Pangkat: {{ $dosen->gol_pangkat }}</P><br>
+            <P>Jabatan: {{ $dosen->jabatan->nama }}</P><br>
+            <P>Fungsional: {{ $dosen->fungsional->nama }}</P><br>
+            <P>Gol & Pangkat: {{ $dosen->gol_pangkat->nama }}</P><br>
             <P>
                 @php
                     $roles = $dosen->user->roles->pluck('nama')->implode(', ');

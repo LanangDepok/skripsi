@@ -16,14 +16,11 @@
             <p>Email : {{ Auth::user()->email }}</p>
             <p>Nama : {{ Auth::user()->nama }}</p>
             <p>NIM : {{ Auth::user()->mahasiswa->nim }}</p>
-            <p>Kelas : {{ Auth::user()->mahasiswa->kelas }}</p>
-            <p>Prodi : {{ Auth::user()->mahasiswa->prodi }}</p>
+            <p>Kelas : {{ Auth::user()->mahasiswa->kelas->nama }}</p>
+            <p>Prodi : {{ Auth::user()->mahasiswa->prodi->nama }}</p>
             <p>No. Kontak : {{ Auth::user()->mahasiswa->no_kontak }}</p>
             <p>Nama Orang Tua/Wali : {{ Auth::user()->mahasiswa->nama_ortu }}</p>
             <p>No. Kontak Orang Tua/Wali : {{ Auth::user()->mahasiswa->no_kontak_ortu }}</p>
-            {{-- <div class="flex flex-wrap bg-pink-300 w-96">
-                    <p>Anggota Tim : Ilham, kurniawan, Kurniadi</p>
-                </div> --}}
         </div>
         <img src="/storage/{{ Auth::user()->mahasiswa->tanda_tangan }}" class="max-h-24 max-w-56 my-auto">
     </div>

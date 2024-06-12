@@ -10,9 +10,8 @@
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Program Studi</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 1</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Pembimbing 2</th>
-                    <th class="border-b border-slate-500 py-2">Dosen Penguji</th>
+                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Penguji</th>
                     <th class="border-b border-slate-500 py-2">Nilai Akhir</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
@@ -31,11 +30,12 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji1->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji1->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $terima_penguji1->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji1->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($terima_penguji1->dospem2_id) ? $terima_penguji1->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $terima_penguji1->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($terima_penguji1->dospem2_id) ? $terima_penguji1->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji1->pengajuanSkripsiPenguji1->nama }}</p>
@@ -59,7 +59,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $terima_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiDospem->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
@@ -87,7 +87,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $terima_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiDospem->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
@@ -115,7 +115,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiDospem->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
@@ -143,7 +143,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing2->pengajuanSkripsiDospem->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">

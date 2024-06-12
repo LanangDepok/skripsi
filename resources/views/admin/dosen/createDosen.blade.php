@@ -70,48 +70,42 @@
                             </div>
                         @enderror
                         <div class="text-left mb-4">
-                            <label for="jabatan">jabatan:</label>
-                            <select name="jabatan" id="jabatan" class="block border border-primary rounded-md w-full">
-                                <option value="Dosen">Dosen</option>
-                                <option value="KPS">KPS</option>
-                                <option value="Kajur">Kajur</option>
-                                <option value="Kalab">Kalab</option>
+                            <label for="jabatan">Jabatan:</label>
+                            <select name="jabatan_id" id="jabatan" class="block border border-primary rounded-md w-full">
+                                @foreach ($jabatan as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="text-left mb-4">
                             <label for="fungsional">Jabatan Fungsional:</label>
-                            <select name="fungsional" id="fungsional" class="block border border-primary rounded-md w-full">
-                                <option value="Asisten Ahli">Asisten Ahli</option>
-                                <option value="Lektor">Lektor</option>
-                                <option value="Lektor Kepala">Lektor Kepala</option>
-                                <option value="Guru Besar">Guru Besar</option>
+                            <select name="fungsional_id" id="fungsional"
+                                class="block border border-primary rounded-md w-full">
+                                @foreach ($fungsional as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="text-left mb-4">
-                            <label for="gol_pangkat">Pangkat Golongan</label>
-                            <select name="gol_pangkat" id="gol_pangkat"
+                            <label for="gol_pangkat">Pangkat Golongan:</label>
+                            <select name="gol_pangkat_id" id="gol_pangkat"
                                 class="block border border-primary rounded-md w-full">
-                                <option value="III/a">III/a</option>
-                                <option value="III/b">III/b</option>
-                                <option value="III/c">III/c</option>
-                                <option value="III/d">III/d</option>
-                                <option value="IV/a">IV/a</option>
-                                <option value="IV/b">IV/b</option>
-                                <option value="IV/c">IV/c</option>
-                                <option value="IV/d">IV/d</option>
-                                <option value="IV/e">IV/e</option>
+                                @foreach ($golongan as $data)
+                                    <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="text-left mb-4">
                             <p>Role</p>
-                            <input type="checkbox" id="ketua_komite" name="role[]" value="7" onchange="checkKomite()">
-                            <label for="ketua_komite">Ketua Komite</label><br>
+                            {{-- <input type="checkbox" id="ketua_komite" name="role[]" value="7" onchange="checkKomite()">
+                            <label for="ketua_komite">Ketua Komite</label><br> --}}
                             <input type="checkbox" id="komite" name="role[]" value="2">
                             <label for="komite">Komite</label><br>
                             <input type="checkbox" id="ketua_penguji" name="role[]" value="3"
                                 onchange="checkDosenPenguji()">
                             <label for="ketua_penguji">Ketua Penguji</label><br>
                             <input type="checkbox" id="dosen_penguji" name="role[]" value="4">
+                            <input type="hidden" id="dosen_penguji2" name="role[]" value="4" disabled>
                             <label for="dosen_penguji">Dosen Penguji</label><br>
                             <input type="checkbox" id="dosen_pembimbing" name="role[]" value="5">
                             <label for="dosen_pembimbing">Dosen Pembimbing</label><br>
@@ -136,17 +130,20 @@
         function checkDosenPenguji() {
             var ketuaPengujiCheckbox = document.getElementById('ketua_penguji');
             var dosenPengujiCheckbox = document.getElementById('dosen_penguji');
+            var dosenPenguji2Checkbox = document.getElementById('dosen_penguji2');
 
             if (ketuaPengujiCheckbox.checked) {
                 dosenPengujiCheckbox.checked = true;
                 dosenPengujiCheckbox.disabled = true;
+                dosenPenguji2Checkbox.disabled = false;
             } else {
                 dosenPengujiCheckbox.disabled = false;
+                dosenPenguji2Checkbox.disabled = true;
             }
         }
     </script>
 
-    <script>
+    {{-- <script>
         function checkKomite() {
             var ketuaKomiteCheckbox = document.getElementById('ketua_komite');
             var komiteCheckbox = document.getElementById('komite');
@@ -158,5 +155,5 @@
                 komiteCheckbox.disabled = false;
             }
         }
-    </script>
+    </script> --}}
 @endsection

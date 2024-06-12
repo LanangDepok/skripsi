@@ -24,9 +24,9 @@
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P><br>
-            <P>Kelas: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun_ajaran }}
+            <P>Kelas: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}
             </P><br>
             <P>Nama Anggota Tim (Jika ada):
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->anggota }}</P><br>

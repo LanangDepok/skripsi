@@ -130,6 +130,42 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
 
     Route::get('/admin/profile', 'getProfile');
     Route::put('/admin/profile/{user}', 'updateProfile');
+
+    Route::get('/admin/database/tahun', 'getAllTahunAjaran');
+    Route::get('/admin/database/tahun/create', 'createTahunAjaran');
+    Route::post('/admin/database/tahun', 'storeTahunAjaran');
+    Route::get('/admin/database/tahun/{tahunAjaran}/edit', 'editTahunAjaran');
+    Route::put('/admin/database/tahun/{tahunAjaran}', 'updateTahunAjaran');
+
+    Route::get('/admin/database/kelas', 'getAllKelas');
+    Route::get('/admin/database/kelas/create', 'createKelas');
+    Route::post('/admin/database/kelas', 'storeKelas');
+    Route::get('/admin/database/kelas/{kelas}/edit', 'editKelas');
+    Route::put('/admin/database/kelas/{kelas}', 'updateKelas');
+
+    Route::get('/admin/database/prodi', 'getAllProgramStudi');
+    Route::get('/admin/database/prodi/create', 'createProgramStudi');
+    Route::post('/admin/database/prodi', 'storeProgramStudi');
+    Route::get('/admin/database/prodi/{programStudi}/edit', 'editProgramStudi');
+    Route::put('/admin/database/prodi/{programStudi}', 'updateProgramStudi');
+
+    Route::get('/admin/database/jabatan', 'getAllJabatan');
+    Route::get('/admin/database/jabatan/create', 'createJabatan');
+    Route::post('/admin/database/jabatan', 'storeJabatan');
+    Route::get('/admin/database/jabatan/{jabatan}/edit', 'editJabatan');
+    Route::put('/admin/database/jabatan/{jabatan}', 'updateJabatan');
+
+    Route::get('/admin/database/fungsional', 'getAllJabatanFungsional');
+    Route::get('/admin/database/fungsional/create', 'createJabatanFungsional');
+    Route::post('/admin/database/fungsional', 'storeJabatanFungsional');
+    Route::get('/admin/database/fungsional/{jabatanFungsional}/edit', 'editJabatanFungsional');
+    Route::put('/admin/database/fungsional/{jabatanFungsional}', 'updateJabatanFungsional');
+
+    Route::get('/admin/database/golongan', 'getAllPangkatGolongan');
+    Route::get('/admin/database/golongan/create', 'createPangkatGolongan');
+    Route::post('/admin/database/golongan', 'storePangkatGolongan');
+    Route::get('/admin/database/golongan/{pangkatGolongan}/edit', 'editPangkatGolongan');
+    Route::put('/admin/database/golongan/{pangkatGolongan}', 'updatePangkatGolongan');
 });
 
 Route::middleware('auth')->controller(DosenController::class)->group(function () {

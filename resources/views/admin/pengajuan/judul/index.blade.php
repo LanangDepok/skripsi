@@ -16,16 +16,22 @@
                     <label for="cari_prodi">Program Studi:</label>
                     <select name="cari_prodi" id="cari_prodi" class="w-72">
                         <option value="">(Tanpa filter)</option>
-                        <option value="Teknik Informatika"
-                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
-                            Informatika</option>
-                        <option value="Teknik Multimedia Digital"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
-                            Multimedia Digital</option>
-                        <option value="Teknik Multimedia dan Jaringan"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
-                            Teknik
-                            Multimedia dan Jaringan</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_tahun">Tahun Ajaran:</label>
+                    <select name="cari_tahun" id="cari_tahun" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($tahun as $thn)
+                            <option value="{{ $thn->id }}"
+                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                                {{ $thn->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <button type="submit"
@@ -57,7 +63,8 @@
                                 <p>{{ $data->user->nama }}</p>
                                 <p>({{ $data->user->mahasiswa->nim }})</p>
                             </td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $data->user->mahasiswa->prodi }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ $data->user->mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->judul }}</td>
                             @php
                                 $no = 1;

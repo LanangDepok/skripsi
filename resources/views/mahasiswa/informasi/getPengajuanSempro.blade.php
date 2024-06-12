@@ -17,9 +17,9 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanSempro->pengajuanSemproMahasiswa->email }}</P><br>
             <P>NIM: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun->nama }}</P><br>
             <P>Status: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->status }}</P><br>
             <P>No. Kontak Mahasiswa: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->nama_ortu }}</P><br>

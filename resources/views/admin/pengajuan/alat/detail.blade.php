@@ -26,11 +26,11 @@
                 <div class="h-1 bg-primary mx-auto"></div>
                 <P>Email: {{ $pengajuanAlat->user->email }}</P>
                 <br>
-                <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas }}</P>
+                <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P>
                 <br>
-                <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi }}</P>
+                <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P>
                 <br>
-                <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun_ajaran }}</P>
+                <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P>
                 <br>
                 <P>Nama Anggota Tim (Jika ada): {{ $pengajuanAlat->user->skripsi->anggota }}</P>
                 <br>

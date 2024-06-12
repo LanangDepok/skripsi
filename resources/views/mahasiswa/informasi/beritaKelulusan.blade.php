@@ -17,13 +17,13 @@
                     <select name="cari_prodi" id="cari_prodi" class="w-72">
                         <option value="">(Tanpa filter)</option>
                         <option value="Teknik Informatika"
-                            {{ request()->input('cari_prodi') === 'Teknik Informatika' ? 'selected' : '' }}>Teknik
+                            {{ request()->input('cari_prodi') == 'Teknik Informatika' ? 'selected' : '' }}>Teknik
                             Informatika</option>
                         <option value="Teknik Multimedia Digital"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
+                            {{ request()->input('cari_prodi') == 'Teknik Multimedia Digital' ? 'selected' : '' }}>Teknik
                             Multimedia Digital</option>
                         <option value="Teknik Multimedia dan Jaringan"
-                            {{ request()->input('cari_prodi') === 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
+                            {{ request()->input('cari_prodi') == 'Teknik Multimedia dan Jaringan' ? 'selected' : '' }}>
                             Teknik
                             Multimedia dan Jaringan</option>
                     </select>
@@ -58,7 +58,7 @@
                             ({{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->prodi }}</td>
+                            {{ $dosen_skripsi->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $dosen_skripsi->pengajuanSemproMahasiswa->skripsi->judul }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">

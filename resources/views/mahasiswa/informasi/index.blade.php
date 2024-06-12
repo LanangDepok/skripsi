@@ -151,13 +151,13 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 @if ($data->nilai_pembimbing2)
-                                    {{ isset($data->nilai_pembimbing, $data->nilai_pembimbing2) ? ($data->nilai_pembimbing + $data->nilai_pembimbing2) / 2 : '-' }}
+                                    {{ isset($data->nilai_pembimbing, $data->nilai_pembimbing2) ? number_format(($data->nilai_pembimbing + $data->nilai_pembimbing2) / 2, 1) : '-' }}
                                 @else
                                     {{ isset($data->nilai_pembimbing) ? $data->nilai_pembimbing : '-' }}
                                 @endif
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
-                                {{ isset($data->nilai1, $data->nilai2, $data->nilai3) ? ($data->nilai1 + $data->nilai2 + $data->nilai3) / 3 : '-' }}
+                                {{ isset($data->nilai1, $data->nilai2, $data->nilai3) ? number_format(($data->nilai1 + $data->nilai2 + $data->nilai3) / 3, 1) : '-' }}
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ isset($data->nilai_total) ? $data->nilai_total : '-' }}

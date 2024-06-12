@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Bimbingan;
 use App\Models\Dosen;
+use App\Models\Jabatan;
+use App\Models\JabatanFungsional;
+use App\Models\Kelas;
 use App\Models\Konten;
 use App\Models\Mahasiswa;
+use App\Models\PangkatGolongan;
 use App\Models\PengajuanAlat;
 use App\Models\PengajuanJudul;
 use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
+use App\Models\ProgramStudi;
 use App\Models\Role;
+use App\Models\TahunAjaran;
 use App\Models\User;
 use App\Services\AdminService;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -34,7 +37,7 @@ class AdminController extends Controller
     //konten
     public function index()
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $konten = Konten::get();
             return view('admin.index', ['title' => 'index', 'konten' => $konten]);
         }
@@ -44,7 +47,7 @@ class AdminController extends Controller
     //profile
     public function getProfile()
     {
-        if (Gate::forUser(Auth::user())->any(['komite', 'ketua_komite'])) {
+        if (Gate::allows('komite')) {
             return view('admin.profile.index', ['title' => 'profile']);
         }
         abort(404);
@@ -52,7 +55,7 @@ class AdminController extends Controller
 
     public function updateProfile(Request $request, User $user)
     {
-        if (Gate::forUser($user)->any(['komite', 'ketua_komite'])) {
+        if (Gate::allows('komite')) {
             $photo_profil = $request->photo_profil;
             $tanda_tangan = $request->tanda_tangan;
 
@@ -65,9 +68,7 @@ class AdminController extends Controller
 
     public function updateKonten(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            $konten = new Konten;
-
+        if (Gate::any(['admin', 'komite'])) {
             $data = $request->all();
             $rules = [
                 'timeline_skripsi' => 'nullable|mimes:jpg,jpeg,png',
@@ -90,7 +91,7 @@ class AdminController extends Controller
                 $alur_skripsi = null;
             }
 
-            $this->adminService->updateKonten($konten, $timeline_skripsi, $alur_skripsi);
+            $this->adminService->updateKonten($timeline_skripsi, $alur_skripsi);
 
             return redirect('/');
         }
@@ -100,7 +101,10 @@ class AdminController extends Controller
     // mahasiswa
     public function getStudents(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $tahun = TahunAjaran::get();
+            $prodi = ProgramStudi::get();
+
             $query = Mahasiswa::query();
 
             if ($request->filled('cari_nama')) {
@@ -112,7 +116,7 @@ class AdminController extends Controller
 
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
-                $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                $query->where('prodi_id', $cari_prodi);
             }
 
             if ($request->filled('cari_status')) {
@@ -120,16 +124,21 @@ class AdminController extends Controller
                 $query->where('status', $cari_status);
             }
 
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->where('tahun_ajaran_id', $cari_tahun);
+            }
+
             $data = $query->paginate(30);
 
-            return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data]);
+            return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data, 'tahun' => $tahun, 'prodi' => $prodi]);
         }
         abort(404);
     }
 
     public function getStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $bimbingan = Bimbingan::where('mahasiswa_id', '=', $mahasiswa->user_id)->first();
             return view('admin.mahasiswa.detailMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa, 'bimbingan' => $bimbingan]);
         }
@@ -138,14 +147,22 @@ class AdminController extends Controller
 
     public function createStudent()
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
-            return view('admin.mahasiswa.createMahasiswa', ['title' => 'mahasiswa']);
+        if (Gate::allows('admin')) {
+            $kelas = Kelas::get();
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+            return view('admin.mahasiswa.createMahasiswa', [
+                'title' => 'mahasiswa',
+                'kelas' => $kelas,
+                'prodi' => $prodi,
+                'tahun' => $tahun,
+            ]);
         }
         abort(404);
     }
     public function storeStudent(Request $request)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $user = new User;
             $mahasiswa = new Mahasiswa;
 
@@ -154,21 +171,21 @@ class AdminController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required',
                 'nama' => 'required',
-                'nim' => 'required|integer|unique:mahasiswas,nim',
-                'kelas' => 'required',
-                'prodi' => 'required',
-                'tahun_ajaran' => 'required',
+                'nim' => 'required|regex:/^\d+$/|unique:mahasiswas,nim',
+                'kelas_id' => 'required',
+                'prodi_id' => 'required',
+                'tahun_ajaran_id' => 'required',
                 'status' => 'required'
             ];
             $messages = [
                 'required' => ':attribute tidak boleh kosong.',
                 'unique' => ':attribute sudah tersedia.',
                 'email' => ':attribute tidak valid.',
-                'integer' => ':attribute harus berupa angka.'
+                'regex' => ':attribute harus berupa angka.'
             ];
             $validator = Validator::make($data, $rules, $messages);
             $validated_user = $validator->safe()->only(['email', 'password', 'nama']);
-            $validated_mahasiswa = $validator->safe()->only(['nim', 'kelas', 'prodi', 'tahun_ajaran', 'status']);
+            $validated_mahasiswa = $validator->safe()->only(['nim', 'kelas_id', 'prodi_id', 'tahun_ajaran_id', 'status']);
 
             $this->adminService->storeStudent($validated_user, $validated_mahasiswa, $user, $mahasiswa);
 
@@ -179,7 +196,7 @@ class AdminController extends Controller
 
     public function storeStudentExcel(Request $request)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             if ($request->file('excel')) {
                 $file = $request->file('excel');
                 $path = $file->getRealPath();
@@ -207,9 +224,9 @@ class AdminController extends Controller
                             'password' => $password,
                             'nama' => $nama,
                             'nim' => $nim,
-                            'kelas' => $kelas,
-                            'prodi' => $prodi,
-                            'tahun_ajaran' => $tahunAjaran,
+                            'kelas_id' => $kelas,
+                            'prodi_id' => $prodi,
+                            'tahun_ajaran_id' => $tahunAjaran,
                         ];
 
                         $rules = [
@@ -217,9 +234,9 @@ class AdminController extends Controller
                             'password' => 'required',
                             'nama' => 'required',
                             'nim' => 'required|integer|unique:mahasiswas,nim',
-                            'kelas' => 'required',
-                            'prodi' => 'required',
-                            'tahun_ajaran' => 'required',
+                            'kelas_id' => 'required',
+                            'prodi_id' => 'required',
+                            'tahun_ajaran_id' => 'required',
                         ];
 
                         $messages = [
@@ -246,9 +263,9 @@ class AdminController extends Controller
 
                         $mahasiswa = new Mahasiswa;
                         $mahasiswa->nim = $nim;
-                        $mahasiswa->kelas = $kelas;
-                        $mahasiswa->prodi = $prodi;
-                        $mahasiswa->tahun_ajaran = $tahunAjaran;
+                        $mahasiswa->kelas_id = $kelas;
+                        $mahasiswa->prodi_id = $prodi;
+                        $mahasiswa->tahun_ajaran_id = $tahunAjaran;
                         $mahasiswa->status = 'Belum mengajukan judul';
                         $mahasiswa->user_id = $user->id;
                         $mahasiswa->save();
@@ -266,31 +283,40 @@ class AdminController extends Controller
 
     public function editStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
-            return view('admin.mahasiswa.editMahasiswa', ['title' => 'mahasiswa', 'mahasiswa' => $mahasiswa]);
+        if (Gate::allows('admin')) {
+            $kelas = Kelas::get();
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+            return view('admin.mahasiswa.editMahasiswa', [
+                'title' => 'mahasiswa',
+                'mahasiswa' => $mahasiswa,
+                'kelas' => $kelas,
+                'prodi' => $prodi,
+                'tahun' => $tahun,
+            ]);
         }
         abort(404);
     }
 
     public function updateStudent(Request $request, Mahasiswa $mahasiswa)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $user = $mahasiswa->user;
 
             $data = $request->all();
             $rules = [
                 'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user)],
                 'nama' => 'required',
-                'nim' => ['required', 'integer', Rule::unique('mahasiswas', 'nim')->ignore($mahasiswa)],
-                'kelas' => 'required',
-                'prodi' => 'required',
-                'tahun_ajaran' => 'required',
+                'nim' => ['required', 'regex:/^\d+$/', Rule::unique('mahasiswas', 'nim')->ignore($mahasiswa)],
+                'kelas_id' => 'required',
+                'prodi_id' => 'required',
+                'tahun_ajaran_id' => 'required',
             ];
             $messages = [
                 'required' => ':attribute tidak boleh kosong.',
                 'unique' => ':attribute sudah tersedia.',
                 'email' => ':attribute tidak valid.',
-                'integer' => ':attribute harus berupa angka.'
+                'regex' => ':attribute harus berupa angka.'
             ];
 
             if ($request->password) {
@@ -302,7 +328,7 @@ class AdminController extends Controller
                 $validated_user = $validator->safe()->only(['email', 'nama']);
             }
 
-            $validated_mahasiswa = $validator->safe()->only(['nim', 'kelas', 'prodi', 'tahun_ajaran']);
+            $validated_mahasiswa = $validator->safe()->only(['nim', 'kelas_id', 'prodi_id', 'tahun_ajaran_id']);
 
             $this->adminService->updateStudent($validated_user, $validated_mahasiswa, $user, $mahasiswa);
 
@@ -313,8 +339,10 @@ class AdminController extends Controller
 
     public function deleteStudent(Mahasiswa $mahasiswa)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $mahasiswa->delete();
+            $mahasiswa->user->roles()->detach();
+            $mahasiswa->user->delete();
 
             return redirect('/admin/mahasiswa')->with('success', 'Data berhasil dihapus.');
         }
@@ -324,7 +352,7 @@ class AdminController extends Controller
     // dosen
     public function getLecturers(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $query = Dosen::query();
 
             if ($request->filled('cari_nama')) {
@@ -349,7 +377,7 @@ class AdminController extends Controller
 
     public function getLecturer(Dosen $dosen)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             return view('admin.dosen.detailDosen', ['title' => 'dosen', 'dosen' => $dosen]);
         }
         abort(404);
@@ -357,15 +385,23 @@ class AdminController extends Controller
 
     public function createLecturer()
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
-            return view('admin.dosen.createDosen', ['title' => 'dosen']);
+        if (Gate::allows('admin')) {
+            $jabatan = Jabatan::get();
+            $fungsional = JabatanFungsional::get();
+            $golongan = PangkatGolongan::get();
+            return view('admin.dosen.createDosen', [
+                'title' => 'dosen',
+                'jabatan' => $jabatan,
+                'fungsional' => $fungsional,
+                'golongan' => $golongan,
+            ]);
         }
         abort(404);
     }
 
     public function storeLecturer(Request $request)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $user = new User;
             $dosen = new Dosen;
 
@@ -374,22 +410,22 @@ class AdminController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required',
                 'nama' => 'required',
-                'nip' => 'required|integer|unique:dosens,nip',
-                'jabatan' => 'required',
-                'fungsional' => 'required',
-                'gol_pangkat' => 'required',
+                'nip' => 'required|regex:/^\d+$/|unique:dosens,nip',
+                'jabatan_id' => 'required',
+                'fungsional_id' => 'required',
+                'gol_pangkat_id' => 'required',
                 'role' => 'required',
             ];
             $messages = [
                 'required' => ':attribute tidak boleh kosong.',
                 'unique' => ':attribute sudah tersedia.',
                 'email' => ':attribute tidak valid.',
-                'integer' => ':attribute harus berupa angka.'
+                'regex' => ':attribute harus berupa angka.'
             ];
 
             $validator = Validator::make($data, $rules, $messages);
             $validated_user = $validator->safe()->only(['email', 'password', 'nama']);
-            $validated_dosen = $validator->safe()->only(['nip', 'jabatan', 'fungsional', 'gol_pangkat', 'role']);
+            $validated_dosen = $validator->safe()->only(['nip', 'jabatan_id', 'fungsional_id', 'gol_pangkat_id', 'role']);
             $validated_role = $validator->safe()->only(['role']);
 
             if (in_array(7, $validated_role['role'])) {
@@ -408,30 +444,39 @@ class AdminController extends Controller
 
     public function editLecturer(Dosen $dosen)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
-            return view('admin.dosen.editDosen', ['title' => 'dosen', 'dosen' => $dosen]);
+        if (Gate::allows('admin')) {
+            $jabatan = Jabatan::get();
+            $fungsional = JabatanFungsional::get();
+            $golongan = PangkatGolongan::get();
+            return view('admin.dosen.editDosen', [
+                'title' => 'dosen',
+                'dosen' => $dosen,
+                'jabatan' => $jabatan,
+                'fungsional' => $fungsional,
+                'golongan' => $golongan,
+            ]);
         }
         abort(404);
     }
 
     public function updateLecturer(Request $request, Dosen $dosen)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $data = $request->all();
             $rules = [
                 'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($dosen->user)],
                 'nama' => 'required',
-                'nip' => ['required', 'integer', Rule::unique('dosens', 'nip')->ignore($dosen)],
-                'jabatan' => 'required',
-                'fungsional' => 'required',
-                'gol_pangkat' => 'required',
+                'nip' => ['required', 'regex:/^\d+$/', Rule::unique('dosens', 'nip')->ignore($dosen)],
+                'jabatan_id' => 'required',
+                'fungsional_id' => 'required',
+                'gol_pangkat_id' => 'required',
                 'role' => 'required',
             ];
             $messages = [
                 'required' => ':attribute tidak boleh kosong.',
                 'unique' => ':attribute sudah tersedia.',
                 'email' => ':attribute tidak valid.',
-                'integer' => ':attribute harus berupa angka.'
+                'regex' => ':attribute harus berupa angka.'
             ];
 
             if ($request->password) {
@@ -443,7 +488,7 @@ class AdminController extends Controller
                 $validated_user = $validator->safe()->only(['email', 'nama']);
             }
 
-            $validated_dosen = $validator->safe()->only(['nip', 'jabatan', 'fungsional', 'gol_pangkat']);
+            $validated_dosen = $validator->safe()->only(['nip', 'jabatan_id', 'fungsional_id', 'gol_pangkat_id']);
             $validated_role = $validator->safe()->only(['role']);
 
             if (in_array(7, $validated_role['role'])) {
@@ -463,9 +508,10 @@ class AdminController extends Controller
 
     public function deleteLecturer(Dosen $dosen)
     {
-        if (Gate::forUser(Auth::user())->allows('admin')) {
+        if (Gate::allows('admin')) {
             $dosen->delete();
             $dosen->user->roles()->detach();
+            $dosen->user->delete();
 
             return redirect('/admin/dosen')->with('success', 'Data berhasil dihapus.');
         }
@@ -475,7 +521,10 @@ class AdminController extends Controller
     //pengajuan judul
     public function pengajuanJudul(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
             $query = PengajuanJudul::query()->where('status', '=', 'menunggu');
 
             if ($request->filled('cari_nama')) {
@@ -487,45 +536,35 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('user.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
             $pengajuanJudul = $query->paginate(30);
 
-            return view('admin.pengajuan.judul.index', ['title' => 'pengajuan', 'pengajuanJudul' => $pengajuanJudul]);
+            return view('admin.pengajuan.judul.index', [
+                'title' => 'pengajuan',
+                'pengajuanJudul' => $pengajuanJudul,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
 
     public function terimaPengajuanJudul(Request $request, PengajuanJudul $pengajuanJudul)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             if ($request->input('action') == 'terima') {
                 $dosen_pembimbing = $request->dosen_pembimbing;
-                // $dosen_pembimbing2 = $request->dosen_pembimbing2;
                 $user_dosen = User::where('nama', '=', $dosen_pembimbing)->first();
 
-                // if ($dosen_pembimbing2) {
-                //     if ($dosen_pembimbing == $dosen_pembimbing2) {
-                //         return redirect('/admin/pengajuan/judul/' . $pengajuanJudul->id)->with('error', 'Pilihan dosen pembimbing 1 dan 2 tidak boleh sama');
-                //     }
-
-                //     $user_dosen2 = User::where('nama', '=', $dosen_pembimbing2)->first();
-
-                //     $pengajuanJudul->update([
-                //         'dosen_terpilih' => $dosen_pembimbing,
-                //         'dosen_terpilih2' => $dosen_pembimbing2,
-                //         'status' => 'Diterima'
-                //     ]);
-
-                //     Bimbingan::create([
-                //         'dosen_id' => $user_dosen->id,
-                //         'dosen2_id' => $user_dosen2->id,
-                //         'mahasiswa_id' => $pengajuanJudul->user->id,
-                //     ]);
-                // } else {
                 $pengajuanJudul->update([
-                    // 'dosen_terpilih' => $dosen_pembimbing,
                     'status' => 'Diterima'
                 ]);
 
@@ -533,7 +572,6 @@ class AdminController extends Controller
                     'dosen_id' => $user_dosen->id,
                     'mahasiswa_id' => $pengajuanJudul->user->id,
                 ]);
-                // }
 
                 $pengajuanJudul->user->mahasiswa->update([
                     'status' => 'Bimbingan sempro'
@@ -552,7 +590,7 @@ class AdminController extends Controller
 
     public function getPengajuanJudul(PengajuanJudul $pengajuanJudul)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $role = Role::get();
             $dosen_pembimbing = $role[4]->users;
 
@@ -566,8 +604,9 @@ class AdminController extends Controller
     //pengajuan sempro
     public function pengajuanSempro(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            // $pengajuanSempro = PengajuanSempro::get();
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
 
             $query = PengajuanSempro::query()->where('status', '=', 'Menunggu pembagian jadwal');
 
@@ -580,19 +619,33 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
             $data = $query->paginate(30);
 
-            return view('admin.pengajuan.sempro.index', ['title' => 'pengajuan', 'data' => $data]);
+            return view(
+                'admin.pengajuan.sempro.index',
+                [
+                    'title' => 'pengajuan',
+                    'data' => $data,
+                    'prodi' => $prodi,
+                    'tahun' => $tahun
+                ]
+            );
         }
         abort(404);
     }
 
     public function getPengajuanSempro(PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $role_ketua = Role::with('users')->find(3);
             $role_penguji = Role::with('users')->find(4);
             return view('admin.pengajuan.sempro.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSempro' => $pengajuanSempro, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
@@ -602,7 +655,7 @@ class AdminController extends Controller
 
     public function terimaPengajuanSempro(Request $request, PengajuanSempro $pengajuanSempro)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             if (isset($request->terima)) {
                 $pembimbing1 = $pengajuanSempro->dospem_id;
 
@@ -617,27 +670,20 @@ class AdminController extends Controller
                     'required' => 'Silahkan pilih :attribute terlebih dahulu.',
                     'different' => 'Pilihan penguji tidak boleh sama.'
                 ];
-                $validator = Validator::make($data, $rules, $messages)->validate();
+                $validated = Validator::make($data, $rules, $messages)->validate();
 
                 if (
-                    $validator['penguji1_id'] == $pembimbing1 || $validator['penguji2_id'] == $pembimbing1 || $validator['penguji3_id'] == $pembimbing1
+                    $validated['penguji1_id'] == $pembimbing1 || $validated['penguji2_id'] == $pembimbing1 || $validated['penguji3_id'] == $pembimbing1
 
                 ) {
                     return redirect('/admin/pengajuan/sempro/' . $pengajuanSempro->id)->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
                 }
 
-                $tanggal = Carbon::createFromFormat('Y-m-d', $data['tanggal']);
-                $validator['tanggal'] = $tanggal->translatedFormat('d F Y');
-
-                $validator['status'] = 'Menunggu sidang';
-
-                $pengajuanSempro->update($validator);
-                $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->update(['status' => 'Sidang Sempro']);
-                return redirect('/admin/pengajuan/sempro');
+                $this->adminService->terimaPengajuanSempro($pengajuanSempro, $validated);
             } else {
                 $pengajuanSempro->update(['status' => 'Ditolak']);
-                return redirect('/admin/pengajuan/sempro');
             }
+            return redirect('/admin/pengajuan/sempro');
         }
         abort(404);
     }
@@ -645,7 +691,10 @@ class AdminController extends Controller
     //pengajuan skripsi
     public function pengajuanSkripsi(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
             $query = PengajuanSkripsi::query()->where('status', '=', 'Menunggu pembagian jadwal');
 
             if ($request->filled('cari_nama')) {
@@ -657,18 +706,29 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
             $data = $query->paginate(30);
 
-            return view('admin.pengajuan.skripsi.index', ['title' => 'pengajuan', 'data' => $data]);
+            return view('admin.pengajuan.skripsi.index', [
+                'title' => 'pengajuan',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
     public function getPengajuanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             $role_ketua = Role::with('users')->find(3);
             $role_penguji = Role::with('users')->find(4);
             return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
@@ -677,8 +737,7 @@ class AdminController extends Controller
     }
     public function terimaPengajuanSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
-        // dd($request->all());
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             if (isset($request->terima)) {
                 $pembimbing1 = $pengajuanSkripsi->dospem_id;
                 $pembimbing2 = $pengajuanSkripsi->dospem2_id;
@@ -694,27 +753,20 @@ class AdminController extends Controller
                     'required' => 'Silahkan pilih :attribute terlebih dahulu.',
                     'different' => 'Pilihan penguji tidak boleh sama.'
                 ];
-                $validator = Validator::make($data, $rules, $messages)->validate();
+                $validated = Validator::make($data, $rules, $messages)->validate();
 
                 if (
-                    $validator['penguji1_id'] == $pembimbing1 || $validator['penguji2_id'] == $pembimbing1 || $validator['penguji3_id'] == $pembimbing1
-                    || $validator['penguji1_id'] == $pembimbing2 || $validator['penguji2_id'] == $pembimbing2 || $validator['penguji3_id'] == $pembimbing2
+                    $validated['penguji1_id'] == $pembimbing1 || $validated['penguji2_id'] == $pembimbing1 || $validated['penguji3_id'] == $pembimbing1
+                    || $validated['penguji1_id'] == $pembimbing2 || $validated['penguji2_id'] == $pembimbing2 || $validated['penguji3_id'] == $pembimbing2
                 ) {
                     return redirect('/admin/pengajuan/skripsi/' . $pengajuanSkripsi->id)->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
                 }
 
-                $tanggal = Carbon::createFromFormat('Y-m-d', $data['tanggal']);
-                $validator['tanggal'] = $tanggal->translatedFormat('d F Y');
-
-                $validator['status'] = 'Menunggu sidang';
-
-                $pengajuanSkripsi->update($validator);
-                $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Sidang Skripsi']);
-                return redirect('/admin/pengajuan/skripsi');
+                $this->adminService->terimaPengajuanSkripsi($pengajuanSkripsi, $validated);
             } else {
                 $pengajuanSkripsi->update(['status' => 'Ditolak']);
-                return redirect('/admin/pengajuan/skripsi');
             }
+            return redirect('/admin/pengajuan/skripsi');
         }
         abort(404);
     }
@@ -722,7 +774,10 @@ class AdminController extends Controller
     //pengajuan alat
     public function PengajuanAlat(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
             $query = PengajuanAlat::query()->where('status', '=', 'Menunggu persetujuan');
 
             if ($request->filled('cari_nama')) {
@@ -734,19 +789,30 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
             $data = $query->paginate(30);
 
-            return view('admin.pengajuan.alat.index', ['title' => 'pengajuan', 'data' => $data]);
+            return view('admin.pengajuan.alat.index', [
+                'title' => 'pengajuan',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
 
     public function getPengajuanAlat(PengajuanAlat $pengajuanAlat)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             return view('admin.pengajuan.alat.detail', ['title' => 'pengajuan', 'pengajuanAlat' => $pengajuanAlat]);
         }
         abort(404);
@@ -754,23 +820,18 @@ class AdminController extends Controller
 
     public function terimaPengajuanAlat(Request $request, PengajuanAlat $pengajuanAlat)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             if ($request->terima) {
-                $pengajuanAlat->update(['status' => 'Diterima']);
-                $pengajuanAlat->user->mahasiswa->update(['status' => 'Lulus']);
-
-                return redirect('/admin/pengajuan/alat');
+                $this->adminService->terimaPengajuanAlat($pengajuanAlat);
             } else {
                 $data = $request->all();
                 $rules = ['keterangan' => 'required'];
                 $messages = ['required' => 'Keternagan tidak boleh kosong.'];
                 $validated = Validator::make($data, $rules, $messages)->validate();
 
-                $validated['status'] = 'Ditolak';
-                $pengajuanAlat->update($validated);
-
-                return redirect('/admin/pengajuan/alat');
+                $this->adminService->tolakPengajuanAlat($pengajuanAlat, $validated);
             }
+            return redirect('/admin/pengajuan/alat');
         }
         abort(404);
     }
@@ -778,7 +839,10 @@ class AdminController extends Controller
     //pelaksanaan sidang
     public function getSempro(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
             $query = PengajuanSempro::query();
 
             if ($request->filled('cari_nama')) {
@@ -790,23 +854,36 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
                 });
             }
             if ($request->filled('cari_status')) {
                 $cari_status = $request->input('cari_status');
                 $query->where('status', 'like', '%' . $cari_status . '%');
             }
-
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
+                });
+            }
             $data = $query->paginate(30);
 
-            return view('admin.sidang.sempro', ['title' => 'sidang', 'data' => $data]);
+            return view('admin.sidang.sempro', [
+                'title' => 'sidang',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
     public function getSkripsi(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
             $query = PengajuanSkripsi::query();
 
             if ($request->filled('cari_nama')) {
@@ -818,17 +895,27 @@ class AdminController extends Controller
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
                 $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                    $query->where('prodi_id', $cari_prodi);
                 });
             }
             if ($request->filled('cari_status')) {
                 $cari_status = $request->input('cari_status');
-                $query->where('status', 'like', '%' . $cari_status . '%');
+                $query->where('status', $cari_status);
             }
-
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
+                });
+            }
             $data = $query->paginate(30);
 
-            return view('admin.sidang.skripsi', ['title' => 'sidang', 'data' => $data]);
+            return view('admin.sidang.skripsi', [
+                'title' => 'sidang',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
@@ -836,67 +923,64 @@ class AdminController extends Controller
     //revisi
     public function getAllRevisi(Request $request)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite'])) {
-            // Query pertama untuk kondisi terima_pembimbing2 == null
-            $query1 = PengajuanRevisi::query()->where('terima_penguji1', '!=', null)
+        if (Gate::any(['admin', 'komite'])) {
+            if (Gate::allows('komite') && Auth::user()->dosen->tanda_tangan == null) {
+                return redirect('/admin/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+            }
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
+
+            $query = PengajuanRevisi::query()
+                ->where('terima_penguji1', '!=', null)
                 ->where('terima_penguji2', '!=', null)
                 ->where('terima_penguji3', '!=', null)
                 ->where('terima_pembimbing', '!=', null)
-                ->where('terima_pembimbing2', '=', null)
                 ->where('status', '!=', 'Diterima');
 
-            $query2 = PengajuanRevisi::query()->where('terima_penguji1', '!=', null)
-                ->where('terima_penguji2', '!=', null)
-                ->where('terima_penguji3', '!=', null)
-                ->where('terima_pembimbing', '!=', null)
-                ->where('terima_pembimbing2', '!=', null)
-                ->where('status', '!=', 'Diterima')
-                ->whereHas('pengajuanSkripsi', function (Builder $query) {
-                    $query->where('dospem2_id', '!=', null);
+            $query->whereHas('pengajuanSkripsi', function ($query) {
+                $query->where(function ($query) {
+                    $query->whereNull('dospem2_id')
+                        ->orWhere(function ($query) {
+                            $query->whereNotNull('dospem2_id')
+                                ->where('terima_pembimbing2', '!=', null);
+                        });
                 });
+            });
 
             if ($request->filled('cari_nama')) {
                 $cari_nama = $request->input('cari_nama');
-                $query1->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
-                    $query->where('nama', 'like', '%' . $cari_nama . '%');
-                });
-                $query2->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                $query->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
                     $query->where('nama', 'like', '%' . $cari_nama . '%');
                 });
             }
             if ($request->filled('cari_prodi')) {
                 $cari_prodi = $request->input('cari_prodi');
-                $query1->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
-                });
-                $query2->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
-                    $query->where('prodi', 'like', '%' . $cari_prodi . '%');
+                $query->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi_id', $cari_prodi);
                 });
             }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('pengajuanSkripsi.pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
+                });
+            }
+            $data = $query->paginate(30);
 
-            $data1 = $query1->get();
-            $data2 = $query2->get();
-            $combined = $data1->merge($data2);
-
-            $page = $request->input('page', 1);
-            $perPage = 30;
-            $offset = ($page - 1) * $perPage;
-            $paginatedData = new LengthAwarePaginator(
-                $combined->slice($offset, $perPage)->values(),
-                $combined->count(),
-                $perPage,
-                $page,
-                ['path' => $request->url(), 'query' => $request->query()]
-            );
-
-            return view('admin.revisi.index', ['title' => 'revisi', 'data' => $paginatedData]);
+            return view('admin.revisi.index', [
+                'title' => 'revisi',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
         }
         abort(404);
     }
 
     public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'komite', 'ketua_komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             return view('admin.revisi.detail', ['title' => 'revisi', 'pengajuanRevisi' => $pengajuanRevisi]);
         }
         abort(404);
@@ -904,67 +988,350 @@ class AdminController extends Controller
 
     public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
     {
-        if (Gate::forUser(Auth::user())->any(['admin', 'ketua_komite'])) {
+        if (Gate::any(['admin', 'komite'])) {
             if (isset($request->tolak)) {
-                $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Ditolak']);
-                $pengajuanRevisi->update(['status' => 'Tidak lulus']);
-                $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Bimbingan Skripsi']);
-
-                return redirect('/admin/revisi');
+                $this->adminService->keputusanRevisiTolak($pengajuanRevisi);
             } elseif (isset($request->revisi)) {
-                if ($pengajuanRevisi->terima_penguji1 == 'Tidak') {
-                    $pengajuanRevisi->update([
-                        'terima_penguji1' => null,
-                        'status' => 'Revisi'
-                    ]);
-                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
-                }
-                if ($pengajuanRevisi->terima_penguji2 == 'Tidak') {
-                    $pengajuanRevisi->update([
-                        'terima_penguji2' => null,
-                        'status' => 'Revisi'
-                    ]);
-                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
-                }
-                if ($pengajuanRevisi->terima_penguji3 == 'Tidak') {
-                    $pengajuanRevisi->update([
-                        'terima_penguji3' => null,
-                        'status' => 'Revisi'
-                    ]);
-                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
-                }
-                if ($pengajuanRevisi->terima_pembimbing == 'Tidak') {
-                    $pengajuanRevisi->update([
-                        'terima_pembimbing' => null,
-                        'status' => 'Revisi'
-                    ]);
-                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
-                }
-                if ($pengajuanRevisi->terima_pembimbing2 == 'Tidak') {
-                    $pengajuanRevisi->update([
-                        'terima_pembimbing2' => null,
-                        'status' => 'Revisi'
-                    ]);
-                    $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Revisi']);
-                }
-
-                return redirect('/admin/revisi');
+                $this->adminService->keputusanRevisiUlang($pengajuanRevisi);
             } elseif (isset($request->terima)) {
                 if (Auth::user()->dosen->tanda_tangan == null) {
                     return redirect('/admin/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
                 }
-
-                $tanggal = Carbon::now()->translatedFormat('d F Y');
-                $pengajuanRevisi->update([
-                    'status' => 'Diterima',
-                    'terima_ketua_komite' => Auth::user()->id,
-                    'tanggal_revisi' => $tanggal,
-                ]);
-                $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Lulus']);
-                $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);
-
-                return redirect('/admin/revisi');
+                $this->adminService->keputusanRevisiTerima($pengajuanRevisi);
             }
+
+            return redirect('/admin/revisi');
+        }
+        abort(404);
+    }
+
+    //database
+    public function getAllTahunAjaran()
+    {
+        if (Gate::allows('admin')) {
+            $data = TahunAjaran::get();
+            return view('admin.database.tahunAjaran.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createTahunAjaran()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.tahunAjaran.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storeTahunAjaran(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:tahun_ajarans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            TahunAjaran::create($validated);
+            return redirect('admin/database/tahun')->with('success', 'Berhasil menambahkan tahun ajaran.');
+        }
+        abort(404);
+    }
+    public function editTahunAjaran(TahunAjaran $tahunAjaran)
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.tahunAjaran.edit', ['title' => 'database', 'data' => $tahunAjaran]);
+        }
+        abort(404);
+    }
+    public function updateTahunAjaran(Request $request, TahunAjaran $tahunAjaran)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:tahun_ajarans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $tahunAjaran->update($validated);
+            return redirect('admin/database/tahun')->with('success', 'Berhasil mengubah tahun ajaran.');
+        }
+        abort(404);
+    }
+
+    public function getAllKelas()
+    {
+        if (Gate::allows('admin')) {
+            $data = Kelas::get();
+            return view('admin.database.kelas.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createKelas()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.kelas.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storeKelas(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:kelas,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            Kelas::create($validated);
+            return redirect('admin/database/kelas')->with('success', 'Berhasil menambahkan kelas.');
+        }
+        abort(404);
+    }
+    public function editKelas(Kelas $kelas)
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.kelas.edit', ['title' => 'database', 'data' => $kelas]);
+        }
+        abort(404);
+    }
+    public function updateKelas(Request $request, Kelas $kelas)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:kelas,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $kelas->update($validated);
+            return redirect('admin/database/kelas')->with('success', 'Berhasil mengubah kelas.');
+        }
+        abort(404);
+    }
+
+    public function getAllProgramStudi()
+    {
+        if (Gate::allows('admin')) {
+            $data = ProgramStudi::get();
+            return view('admin.database.prodi.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createProgramStudi()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.prodi.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storeProgramStudi(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:program_studis,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            ProgramStudi::create($validated);
+            return redirect('admin/database/prodi')->with('success', 'Berhasil menambahkan prodi.');
+        }
+        abort(404);
+    }
+    public function editProgramStudi(ProgramStudi $programStudi)
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.prodi.edit', ['title' => 'database', 'data' => $programStudi]);
+        }
+        abort(404);
+    }
+    public function updateProgramStudi(Request $request, ProgramStudi $programStudi)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:program_studis,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $programStudi->update($validated);
+            return redirect('admin/database/prodi')->with('success', 'Berhasil mengubah prodi.');
+        }
+        abort(404);
+    }
+
+    public function getAllJabatan()
+    {
+        if (Gate::allows('admin')) {
+            $data = Jabatan::get();
+            return view('admin.database.jabatan.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createJabatan()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.jabatan.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storeJabatan(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:jabatans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            Jabatan::create($validated);
+            return redirect('admin/database/jabatan')->with('success', 'Berhasil menambahkan jabatan.');
+        }
+        abort(404);
+    }
+    public function editJabatan(Jabatan $jabatan)
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.jabatan.edit', ['title' => 'database', 'data' => $jabatan]);
+        }
+        abort(404);
+    }
+    public function updateJabatan(Request $request, Jabatan $jabatan)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:jabatans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $jabatan->update($validated);
+            return redirect('admin/database/jabatan')->with('success', 'Berhasil mengubah jabatan.');
+        }
+        abort(404);
+    }
+
+    public function getAllJabatanFungsional()
+    {
+        if (Gate::allows('admin')) {
+            $data = JabatanFungsional::get();
+            return view('admin.database.fungsional.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createJabatanFungsional()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.fungsional.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storeJabatanFungsional(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:jabatan_fungsionals,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            JabatanFungsional::create($validated);
+            return redirect('admin/database/fungsional')->with('success', 'Berhasil menambahkan jabatan fungsional.');
+        }
+        abort(404);
+    }
+    public function editJabatanFungsional(JabatanFungsional $jabatanFungsional)
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.fungsional.edit', ['title' => 'database', 'data' => $jabatanFungsional]);
+        }
+        abort(404);
+    }
+    public function updateJabatanFungsional(Request $request, JabatanFungsional $jabatanFungsional)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:jabatan_fungsionals,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $jabatanFungsional->update($validated);
+            return redirect('admin/database/fungsional')->with('success', 'Berhasil mengubah jabatan fungsional.');
+        }
+        abort(404);
+    }
+
+    public function getAllPangkatGolongan()
+    {
+        if (Gate::allows('admin')) {
+            $data = PangkatGolongan::get();
+            return view('admin.database.golongan.index', ['title' => 'database', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function createPangkatGolongan()
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.golongan.create', ['title' => 'database']);
+        }
+        abort(404);
+    }
+    public function storePangkatGolongan(Request $request)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:pangkat_golongans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            PangkatGolongan::create($validated);
+            return redirect('admin/database/golongan')->with('success', 'Berhasil menambahkan jabatan golongan.');
+        }
+        abort(404);
+    }
+    public function editPangkatGolongan(PangkatGolongan $pangkatGolongan, )
+    {
+        if (Gate::allows('admin')) {
+            return view('admin.database.golongan.edit', ['title' => 'database', 'data' => $pangkatGolongan]);
+        }
+        abort(404);
+    }
+    public function updatePangkatGolongan(Request $request, PangkatGolongan $pangkatGolongan)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = ['nama' => 'required|unique:pangkat_golongans,nama'];
+            $messages = [
+                'required' => 'Silahkan isi data terlebih dahulu.',
+                'unique' => 'Data sudah ada sebelumnya.'
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $pangkatGolongan->update($validated);
+            return redirect('admin/database/golongan')->with('success', 'Berhasil mengubah jabatan pangkat golongan.');
         }
         abort(404);
     }

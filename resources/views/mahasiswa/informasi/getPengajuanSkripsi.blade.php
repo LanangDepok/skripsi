@@ -17,9 +17,9 @@
             <div class="h-1 bg-primary mx-auto"></div>
             <P>Email: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P><br>
             <P>NIM: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas }}</P><br>
-            <P>Prodi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun_ajaran }}</P><br>
+            <P>Kelas: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P>Prodi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P>Tahun Ajaran: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</P><br>
             <P>Status: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->status }}</P><br>
             <P>No. Kontak Mahasiswa: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->no_kontak }}</P><br>
             <P>Nama Orang Tua/Wali: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nama_ortu }}</P><br>
