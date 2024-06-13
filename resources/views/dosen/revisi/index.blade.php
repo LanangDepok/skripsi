@@ -61,9 +61,10 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji2->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($terima_penguji2->dospem2_id) ? $terima_penguji2->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $terima_penguji2->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($terima_penguji2->dospem2_id) ? $terima_penguji2->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji2->pengajuanSkripsiPenguji1->nama }}</p>
@@ -89,9 +90,10 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_penguji3->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_penguji3->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($terima_penguji3->dospem2_id) ? $terima_penguji3->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $terima_penguji3->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($terima_penguji3->dospem2_id) ? $terima_penguji3->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_penguji3->pengajuanSkripsiPenguji1->nama }}</p>
@@ -117,9 +119,10 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_pembimbing->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($terima_pembimbing->dospem2_id) ? $terima_pembimbing->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $terima_pembimbing->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($terima_pembimbing->dospem2_id) ? $terima_pembimbing->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_pembimbing->pengajuanSkripsiPenguji1->nama }}</p>
@@ -145,9 +148,11 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $terima_pembimbing2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $terima_pembimbing2->pengajuanSkripsiDospem->nama }}</td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ isset($terima_pembimbing2) ? $terima_pembimbing2->pengajuanSkripsiDospem2->nama : '-' }}
+                            <p>1. {{ $terima_pembimbing2->pengajuanSkripsiDospem->nama }}</p>
+                            <p>2.
+                                {{ isset($terima_pembimbing2->dospem2_id) ? $terima_pembimbing2->pengajuanSkripsiDospem2->nama : '-' }}
+                            </p>
+                        </td>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             <p>1. {{ $terima_pembimbing2->pengajuanSkripsiPenguji1->nama }}</p>

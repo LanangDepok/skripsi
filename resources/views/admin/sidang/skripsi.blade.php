@@ -4,53 +4,65 @@
     <p class="text-center font-semibold text-2xl text-primary">Pelaksanaan Sidang Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <div class="flex justify-evenly items-center">
-            <div>
-                <label for="cari_nama">Nama:</label>
-                <input type="text" id="cari_nama" name="cari_nama" class="w-56" value="{{ request()->input('cari_nama') }}">
+        <form method="GET">
+            <div class="flex justify-evenly items-center">
+                <div>
+                    <label for="cari_nama">Nama:</label>
+                    <input type="text" id="cari_nama" name="cari_nama" class="w-56"
+                        value="{{ request()->input('cari_nama') }}">
+                </div>
+                <div>
+                    <label for="cari_prodi">Program Studi:</label>
+                    <select name="cari_prodi" id="cari_prodi" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($prodi as $prd)
+                            <option value="{{ $prd->id }}"
+                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
+                                {{ $prd->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_tahun">Tahun Ajaran:</label>
+                    <select name="cari_tahun" id="cari_tahun" class="w-72">
+                        <option value="">(Tanpa filter)</option>
+                        @foreach ($tahun as $thn)
+                            <option value="{{ $thn->id }}"
+                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
+                                {{ $thn->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="cari_status">Status:</label>
+                    <select name="cari_status" id="cari_status" class="w-56">
+                        <option value="">(Tanpa filter)</option>
+                        <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>
+                            Lulus</option>
+                        <option value="Tidak Lulus"
+                            {{ request()->input('cari_status') == 'Tidak Lulus' ? 'selected' : '' }}>
+                            Tidak Lulus</option>
+                        <option value="Menunggu persetujuan pembimbing"
+                            {{ request()->input('cari_status') == 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
+                            Menunggu persetujuan pembimbing
+                        </option>
+                        <option value="Menunggu pembagian jadwal"
+                            {{ request()->input('cari_status') == 'Menunggu pembagian jadwal' ? 'selected' : '' }}>
+                            Menunggu
+                            pembagian jadwal
+                        </option>
+                        <option value="Menunggu sidang"
+                            {{ request()->input('cari_status') == 'Menunggu sidang' ? 'selected' : '' }}>
+                            Menunggu sidang
+                        </option>
+                        <option value="Revisi" {{ request()->input('cari_status') == 'Revisi' ? 'selected' : '' }}>
+                            Revisi
+                        </option>
+                    </select>
+                </div>
+                <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
             </div>
-            <div>
-                <label for="cari_prodi">Program Studi:</label>
-                <select name="cari_prodi" id="cari_prodi" class="w-72">
-                    <option value="">(Tanpa filter)</option>
-                    @foreach ($prodi as $prd)
-                        <option value="{{ $prd->id }}"
-                            {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
-                            {{ $prd->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="cari_tahun">Tahun Ajaran:</label>
-                <select name="cari_tahun" id="cari_tahun" class="w-72">
-                    <option value="">(Tanpa filter)</option>
-                    @foreach ($tahun as $thn)
-                        <option value="{{ $thn->id }}"
-                            {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
-                            {{ $thn->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="cari_status">Status:</label>
-                <select name="cari_status" id="cari_status" class="w-56">
-                    <option value="">(Tanpa filter)</option>
-                    <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>
-                        Lulus</option>
-                    <option value="Tidak Lulus" {{ request()->input('cari_status') == 'Tidak Lulus' ? 'selected' : '' }}>
-                        Tidak Lulus</option>
-                    <option value="Menunggu persetujuan pembimbing"
-                        {{ request()->input('cari_status') == 'Menunggu persetujuan pembimbing' ? 'selected' : '' }}>
-                        Menunggu persetujuan pembimbing
-                    </option>
-                    <option value="Menunggu pembagian jadwal"
-                        {{ request()->input('cari_status') == 'Menunggu pembagian jadwal' ? 'selected' : '' }}>Menunggu
-                        pembagian jadwal
-                    </option>
-                </select>
-            </div>
-            <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
-        </div>
+        </form>
     </div>
     <div class="container mx-auto mt-6">
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">

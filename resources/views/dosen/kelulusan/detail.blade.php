@@ -109,7 +109,7 @@
                     <p class="text-center mb-5 font-semibold text-xl">Apakah anda yakin untuk meluluskan?</p>
                     <p>Nama : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p><br>
                     <p>NIM : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p><br>
-                    <p>Program studi : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi }}</p><br>
+                    <p>Program studi : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</p><br>
                     <p>Judul : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</p><br>
                     <p>Nilai akhir : {{ $pengajuanSkripsi->nilai_total }}</p>
                     <div class="w-full h-8 mx-auto mt-10 flex justify-evenly">

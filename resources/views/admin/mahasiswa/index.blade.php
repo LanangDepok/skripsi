@@ -52,6 +52,9 @@
                         <option value="Sidang skripsi"
                             {{ request()->input('cari_status') == 'Sidang skripsi' ? 'selected' : '' }}>Sidang skripsi
                         </option>
+                        <option value="Revisi" {{ request()->input('cari_status') == 'Revisi' ? 'selected' : '' }}>
+                            Revisi
+                        </option>
                         <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>Lulus
                         </option>
                     </select>

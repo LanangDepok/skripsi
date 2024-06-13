@@ -220,26 +220,33 @@
             sidangDropdownContent.classList.toggle('hidden');
         });
 
-        const databaseDropdownButton = document.getElementById('databaseDropdownButton');
-        const databaseDropdownContent = document.getElementById('databaseDropdownContent');
-        databaseDropdownButton.addEventListener('click', function() {
-            databaseDropdownContent.classList.toggle('hidden');
-        });
-
         const userDropdownButton = document.getElementById('userDropdownButton');
         const userDropdownContent = document.getElementById('userDropdownContent');
         userDropdownButton.addEventListener('click', function() {
             userDropdownContent.classList.toggle('hidden');
         });
-
-        //pindah role
-        function redirectToPage(select) {
-            var selectedOption = select.options[select.selectedIndex];
-            var url = selectedOption.value;
-            window.location.href = url;
-        }
     </script>
 
+    @can('admin')
+        <script>
+            const databaseDropdownButton = document.getElementById('databaseDropdownButton');
+            const databaseDropdownContent = document.getElementById('databaseDropdownContent');
+            databaseDropdownButton.addEventListener('click', function() {
+                databaseDropdownContent.classList.toggle('hidden');
+            });
+        </script>
+    @endcan
+
+    @can('komite')
+        <script>
+            //pindah role
+            function redirectToPage(select) {
+                var selectedOption = select.options[select.selectedIndex];
+                var url = selectedOption.value;
+                window.location.href = url;
+            }
+        </script>
+    @endcan
 </body>
 
 </html>

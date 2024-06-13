@@ -236,7 +236,7 @@ class MahasiswaController extends Controller
                 return redirect('/mahasiswa/informasi')->with('messages', 'Pastikan sudah menyelesaikan seminar proposal terlebih dahulu.');
             } elseif (Auth::user()->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status != 'Lulus') {
                 return redirect('/mahasiswa/logbook')->with('messages', 'Pastikan sudah menyelesaikan seminar proposal terlebih dahulu.');
-            } elseif (count(Auth::user()->bimbinganMahasiswa->logbook->where('status', '=', 'Diterima')) < 10) {
+            } elseif (count(Auth::user()->bimbinganMahasiswa->logbook->where('status', '=', 'Diterima')->where('jenis_bimbingan', 'Skripsi')) < 10) {
                 return redirect('/mahasiswa/logbook')->with('messages', 'Minimal jumlah bimbingan adalah 10x sebelum mengajukan Sidang Skripsi');
             } elseif (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
                 return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
