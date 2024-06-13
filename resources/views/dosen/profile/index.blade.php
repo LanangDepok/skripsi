@@ -32,7 +32,7 @@
 
     {{-- Modal --}}
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
-        <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
+        <div class="fixed bg-white top-36 bottom-36 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
                 <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
@@ -47,6 +47,11 @@
                     <div class="mt-4">
                         <label>Tanda Tangan (PNG, JPG, JPEG)</label>
                         <input name="tanda_tangan" type="file" class="w-full rounded-md border border-primary">
+                    </div>
+                    <div class="mt-4">
+                        <label for="password">Password (Jika ingin mengganti password)</label>
+                        <input type="password" id="password" name="password"
+                            class="border-primary border block w-full rounded-md">
                     </div>
                     <div class="w-24 h-8 mx-auto mt-10">
                         @method('PUT')

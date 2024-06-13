@@ -10,23 +10,21 @@ use Illuminate\Support\Facades\Storage;
 class AdminService
 {
     //profile
-    public function updateProfile($user, $photo_profil, $tanda_tangan)
+    public function updateProfile($user, $validated)
     {
-        if (isset($photo_profil)) {
+        if (isset($validated['photo_profil'])) {
             Storage::delete('public/' . $user->dosen->photo_profil);
-            $user->dosen->updateOrCreate(
-                ['nip' => $user->dosen->nip],
-                ['photo_profil' => $photo_profil->store('photo_profil', 'public')]
-            );
+            $photo_profil = $validated['photo_profil']->store('photo_profil', 'public');
+            $validated['photo_profil'] = $photo_profil;
         }
 
-        if (isset($tanda_tangan)) {
+        if (isset($validated['tanda_tangan'])) {
             Storage::delete('public/' . $user->dosen->tanda_tangan);
-            $user->dosen->updateOrCreate(
-                ['nip' => $user->dosen->nip],
-                ['tanda_tangan' => $tanda_tangan->store('tanda_tangan', 'public')]
-            );
+            $tanda_tangan = $validated['tanda_tangan']->store('tanda_tangan', 'public');
+            $validated['tanda_tangan'] = $tanda_tangan;
         }
+
+        $user->dosen->update($validated);
     }
 
     //konten

@@ -56,7 +56,7 @@ class MahasiswaController extends Controller
             $data = $request->all();
             $rules = [
                 'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
-                'tanda_tangan' => 'required|mimes:jpg,jpeg,png',
+                'tanda_tangan' => 'nullable|mimes:jpg,jpeg,png',
                 'no_kontak' => 'required|regex:/^\d+$/',
                 'nama_ortu' => 'required',
                 'no_kontak_ortu' => 'required|regex:/^\d+$/',
@@ -67,6 +67,10 @@ class MahasiswaController extends Controller
                 'required' => ':attribute tidak boleh kosong.'
             ];
             $validated = Validator::make($data, $rules, $messages)->validate();
+
+            if ($request->password) {
+                $user->update(['password' => $request->password]);
+            }
 
             $this->mahasiswaService->updateProfile($user, $validated);
 

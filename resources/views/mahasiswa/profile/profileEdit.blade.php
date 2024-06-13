@@ -30,6 +30,16 @@
                 </div>
             @enderror
             <div class="mt-4">
+                <label for="password">Password (Jika ingin mengganti password)</label>
+                <input type="password" id="password" name="password" class="border-primary border block w-full rounded-md">
+            </div>
+            @error('password')
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <span class="font-medium">Error!</span> {{ $message }}
+                </div>
+            @enderror
+            <div class="mt-4">
                 <label for="no_kontak">No. Kontak</label>
                 <input type="text" id="no_kontak" name="no_kontak" class="border-primary border block w-full rounded-md"
                     value="{{ Auth::user()->mahasiswa->no_kontak }}">

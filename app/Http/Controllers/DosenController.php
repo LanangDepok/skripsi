@@ -45,10 +45,22 @@ class DosenController extends Controller
     public function updateProfile(Request $request, User $user)
     {
         if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing']) && Auth::user()->id == $user->id) {
-            $photo_profil = $request->photo_profil;
-            $tanda_tangan = $request->tanda_tangan;
+            $data = $request->all();
+            $rules = [
+                'photo_profil' => 'nullable|mimes:jpg,jpeg,png',
+                'tanda_tangan' => 'nullable|mimes:jpg,jpeg,png',
+            ];
+            $messages = [
+                'regex' => ':attribute harus berupa angka.',
+                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
 
-            $this->dosenService->updateProfile($user, $photo_profil, $tanda_tangan);
+            if ($request->password) {
+                $user->update(['password' => $request->password]);
+            }
+
+            $this->dosenService->updateProfile($user, $validated);
 
             return back();
         }

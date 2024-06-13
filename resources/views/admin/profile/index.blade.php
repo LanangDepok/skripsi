@@ -48,6 +48,11 @@
                         <label>Tanda Tangan (PNG, JPG, JPEG)</label>
                         <input name="tanda_tangan" type="file" class="w-full rounded-md border border-primary">
                     </div>
+                    <div class="mt-4">
+                        <label for="password">Password (Jika ingin mengganti password)</label>
+                        <input type="password" id="password" name="password"
+                            class="border-primary border block w-full rounded-md">
+                    </div>
                     <div class="w-24 h-8 mx-auto mt-10">
                         @method('PUT')
                         <button type="submit"
