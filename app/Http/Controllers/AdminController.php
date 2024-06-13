@@ -197,6 +197,10 @@ class AdminController extends Controller
     public function storeStudentExcel(Request $request)
     {
         if (Gate::allows('admin')) {
+            $kelasCheck = Kelas::pluck('id')->toArray();
+            $prodiCheck = ProgramStudi::pluck('id')->toArray();
+            $tahunAjaranCheck = TahunAjaran::pluck('id')->toArray();
+
             if ($request->file('excel')) {
                 $file = $request->file('excel');
                 $path = $file->getRealPath();
@@ -215,18 +219,33 @@ class AdminController extends Controller
                         $password = $worksheet->getCell('B' . $row)->getValue();
                         $nama = $worksheet->getCell('C' . $row)->getValue();
                         $nim = $worksheet->getCell('D' . $row)->getValue();
-                        $kelas = $worksheet->getCell('E' . $row)->getValue();
-                        $prodi = $worksheet->getCell('F' . $row)->getValue();
-                        $tahunAjaran = $worksheet->getCell('G' . $row)->getValue();
+                        $kelas_id = $worksheet->getCell('E' . $row)->getValue();
+                        $prodi_id = $worksheet->getCell('F' . $row)->getValue();
+                        $tahunAjaran_id = $worksheet->getCell('G' . $row)->getValue();
+
+                        if (!in_array($kelas_id, $kelasCheck)) {
+                            DB::rollBack();
+                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Kelas pada baris ' . $row . ' tidak tersedia di database.');
+                        }
+
+                        if (!in_array($prodi_id, $prodiCheck)) {
+                            DB::rollBack();
+                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Prodi pada baris ' . $row . ' tidak tersedia di database.');
+                        }
+
+                        if (!in_array($tahunAjaran_id, $tahunAjaranCheck)) {
+                            DB::rollBack();
+                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Tahun Ajaran pada baris ' . $row . ' tidak tersedia di database.');
+                        }
 
                         $data = [
                             'email' => $email,
                             'password' => $password,
                             'nama' => $nama,
                             'nim' => $nim,
-                            'kelas_id' => $kelas,
-                            'prodi_id' => $prodi,
-                            'tahun_ajaran_id' => $tahunAjaran,
+                            'kelas_id' => $kelas_id,
+                            'prodi_id' => $prodi_id,
+                            'tahun_ajaran_id' => $tahunAjaran_id,
                         ];
 
                         $rules = [
@@ -263,9 +282,9 @@ class AdminController extends Controller
 
                         $mahasiswa = new Mahasiswa;
                         $mahasiswa->nim = $nim;
-                        $mahasiswa->kelas_id = $kelas;
-                        $mahasiswa->prodi_id = $prodi;
-                        $mahasiswa->tahun_ajaran_id = $tahunAjaran;
+                        $mahasiswa->kelas_id = $kelas_id;
+                        $mahasiswa->prodi_id = $prodi_id;
+                        $mahasiswa->tahun_ajaran_id = $tahunAjaran_id;
                         $mahasiswa->status = 'Belum mengajukan judul';
                         $mahasiswa->user_id = $user->id;
                         $mahasiswa->save();

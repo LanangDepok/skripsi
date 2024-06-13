@@ -15,20 +15,17 @@
         <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">ID</th>
                     <th class="border-b border-slate-500 py-2">Kelas</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $i = 1;
-                @endphp
                 @foreach ($data as $kelas)
                     <tr class="even:bg-slate-300">
                         <form method="POST" action="/admin/dosen/{{ $kelas->id }}">
                             @csrf
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">{{ $kelas->id }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $kelas->nama }}</td>
                             <td class="text-center  border-b border-slate-500">
                                 <a href="/admin/database/kelas/{{ $kelas->id }}/edit"
