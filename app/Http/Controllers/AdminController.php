@@ -44,6 +44,38 @@ class AdminController extends Controller
         abort(404);
     }
 
+    public function updateKonten(Request $request)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            $data = $request->all();
+            $rules = [
+                'timeline_skripsi' => 'nullable|mimes:jpg,jpeg,png',
+                'alur_skripsi' => 'nullable|mimes:jpg,jpeg,png',
+            ];
+            $messages = [
+                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
+            ];
+            $validator = Validator::make($data, $rules, $messages)->validate();
+
+            if ($request->timeline_skripsi) {
+                $timeline_skripsi = $validator['timeline_skripsi'];
+            } else {
+                $timeline_skripsi = null;
+            }
+
+            if ($request->alur_skripsi) {
+                $alur_skripsi = $validator['alur_skripsi'];
+            } else {
+                $alur_skripsi = null;
+            }
+
+            $this->adminService->updateKonten($timeline_skripsi, $alur_skripsi);
+
+            return redirect('/');
+        }
+        abort(404);
+    }
+
     //profile
     public function getProfile()
     {
@@ -74,38 +106,6 @@ class AdminController extends Controller
             $this->adminService->updateProfile($user, $validated);
 
             return back();
-        }
-        abort(404);
-    }
-
-    public function updateKonten(Request $request)
-    {
-        if (Gate::any(['admin', 'komite'])) {
-            $data = $request->all();
-            $rules = [
-                'timeline_skripsi' => 'nullable|mimes:jpg,jpeg,png',
-                'alur_skripsi' => 'nullable|mimes:jpg,jpeg,png',
-            ];
-            $messages = [
-                'mimes' => ':attribute harus berupa gambar dengan format (jpg, jpeg, png).',
-            ];
-            $validator = Validator::make($data, $rules, $messages)->validate();
-
-            if ($request->timeline_skripsi) {
-                $timeline_skripsi = $validator['timeline_skripsi'];
-            } else {
-                $timeline_skripsi = null;
-            }
-
-            if ($request->alur_skripsi) {
-                $alur_skripsi = $validator['alur_skripsi'];
-            } else {
-                $alur_skripsi = null;
-            }
-
-            $this->adminService->updateKonten($timeline_skripsi, $alur_skripsi);
-
-            return redirect('/');
         }
         abort(404);
     }
@@ -259,7 +259,6 @@ class AdminController extends Controller
                             'prodi_id' => $prodi_id,
                             'tahun_ajaran_id' => $tahunAjaran_id,
                         ];
-
                         $rules = [
                             'email' => 'required|email|unique:users,email',
                             'password' => 'required',
@@ -269,7 +268,6 @@ class AdminController extends Controller
                             'prodi_id' => 'required',
                             'tahun_ajaran_id' => 'required',
                         ];
-
                         $messages = [
                             'required' => ':attribute tidak boleh kosong.',
                             'unique' => ':attribute sudah tersedia.',
@@ -371,6 +369,9 @@ class AdminController extends Controller
     public function deleteStudent(Mahasiswa $mahasiswa)
     {
         if (Gate::allows('admin')) {
+            if ($mahasiswa->user->pengajuanAlat->isNotEmpty()) {
+                return redirect('/admin/mahasiswa')->with('error', 'Tidak dapat meghapus data mahasiswa yang sudah melakukan pengajuan.');
+            }
             $mahasiswa->delete();
             $mahasiswa->user->roles()->detach();
             $mahasiswa->user->delete();
@@ -873,8 +874,11 @@ class AdminController extends Controller
         if (Gate::any(['admin', 'komite'])) {
             $prodi = ProgramStudi::get();
             $tahun = TahunAjaran::get();
+            $latestPengajuanSemproIds = DB::table('pengajuan_sempros')
+                ->select(DB::raw('MAX(id) as id'))
+                ->groupBy('mahasiswa_id');
 
-            $query = PengajuanSempro::query();
+            $query = PengajuanSempro::whereIn('id', $latestPengajuanSemproIds);
 
             if ($request->filled('cari_nama')) {
                 $cari_nama = $request->input('cari_nama');
@@ -898,6 +902,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
+
             $data = $query->paginate(30);
 
             return view('admin.sidang.sempro', [
@@ -915,7 +920,11 @@ class AdminController extends Controller
             $prodi = ProgramStudi::get();
             $tahun = TahunAjaran::get();
 
-            $query = PengajuanSkripsi::query();
+            $latestPengajuanSkripsiIds = DB::table('pengajuan_skripsis')
+                ->select(DB::raw('MAX(id) as id'))
+                ->groupBy('mahasiswa_id');
+
+            $query = PengajuanSkripsi::whereIn('id', $latestPengajuanSkripsiIds);
 
             if ($request->filled('cari_nama')) {
                 $cari_nama = $request->input('cari_nama');
@@ -939,6 +948,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
+
             $data = $query->paginate(30);
 
             return view('admin.sidang.skripsi', [
@@ -960,8 +970,6 @@ class AdminController extends Controller
             }
             $prodi = ProgramStudi::get();
             $tahun = TahunAjaran::get();
-
-
             $query = PengajuanRevisi::query()
                 ->where('terima_penguji1', '!=', null)
                 ->where('terima_penguji2', '!=', null)
@@ -1008,7 +1016,6 @@ class AdminController extends Controller
         }
         abort(404);
     }
-
     public function getRevisi(PengajuanRevisi $pengajuanRevisi)
     {
         if (Gate::any(['admin', 'komite'])) {
@@ -1016,7 +1023,6 @@ class AdminController extends Controller
         }
         abort(404);
     }
-
     public function keputusanRevisi(Request $request, PengajuanRevisi $pengajuanRevisi)
     {
         if (Gate::any(['admin', 'komite'])) {

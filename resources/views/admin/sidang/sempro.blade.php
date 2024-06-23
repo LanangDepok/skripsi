@@ -37,6 +37,8 @@
                     <label for="cari_status">Status:</label>
                     <select name="cari_status" id="cari_status" class="w-56">
                         <option value="">(Tanpa filter)</option>
+                        <option value="Ditolak" {{ request()->input('cari_status') == 'Ditolak' ? 'selected' : '' }}>
+                            Ditolak</option>
                         <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>
                             Lulus</option>
                         <option value="Tidak Lulus"
@@ -61,8 +63,8 @@
             </div>
         </form>
     </div>
-    <div class="container mx-auto mt-6">
-        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
+    <div class="container mx-auto mt-6 overflow-x-auto">
+        <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">N0.</th>

@@ -287,9 +287,7 @@ class DosenController extends Controller
             if (Auth::user()->dosen->tanda_tangan == null) {
                 return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
-
             $prodi = ProgramStudi::get();
-
             $query = PengajuanSkripsi::where(function ($query) {
                 $query->where('penguji1_id', Auth::user()->id)
                     ->orWhere('penguji2_id', Auth::user()->id)
@@ -329,9 +327,7 @@ class DosenController extends Controller
                     });
                 }
             }
-
             $data = $query->get();
-
             return view('dosen.pengujian.skripsi.index', [
                 'title' => 'pengujian',
                 'data' => $data,
@@ -340,7 +336,6 @@ class DosenController extends Controller
         }
         abort(404);
     }
-
     public function getPengujianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
@@ -353,24 +348,21 @@ class DosenController extends Controller
         ) {
             return view('dosen.pengujian.skripsi.detail', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
-        abort(403);
+        abort(404);
     }
-
     public function penilaianSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing']) && (
-                Auth::user()->id == $pengajuanSkripsi->dospem_id
-                || Auth::user()->id == $pengajuanSkripsi->penguji1_id
+            Gate::any(['ketua_penguji', 'dosen_penguji']) && (
+                Auth::user()->id == $pengajuanSkripsi->penguji1_id
                 || Auth::user()->id == $pengajuanSkripsi->penguji2_id
                 || Auth::user()->id == $pengajuanSkripsi->penguji3_id
-                || Auth::user()->id == $pengajuanSkripsi->dospem2_id)
+            )
         ) {
             return view('dosen.pengujian.skripsi.penilaian', ['title' => 'pengujian', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
-        abort(403);
+        abort(404);
     }
-
     public function nilaiSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
@@ -405,7 +397,6 @@ class DosenController extends Controller
                     'between' => 'Nilai harus bernilai antara :min hingga :max',
                 ];
                 $validated = Validator::make($data, $rules, $messages)->validate();
-
                 $this->dosenService->nilaiSkripsiPenguji($pengajuanSkripsi, $validated);
             } elseif ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id) {
                 $data = $request->all();
@@ -429,14 +420,12 @@ class DosenController extends Controller
                     'between' => 'Nilai harus bernilai antara :min hingga :max',
                 ];
                 $validated = Validator::make($data, $rules, $messages)->validate();
-
                 $this->dosenService->nilaiSkripsiPembimbing($pengajuanSkripsi, $validated);
             }
             return redirect('/dosen/pengujian/skripsi');
         }
         abort(404);
     }
-
     public function penilaianTerbimbing(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::allows('dosen_pembimbing') && (Auth::user()->id == $pengajuanSkripsi->dospem_id || Auth::user()->id == $pengajuanSkripsi->dospem2_id)) {

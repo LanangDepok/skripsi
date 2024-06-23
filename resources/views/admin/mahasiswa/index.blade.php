@@ -81,7 +81,13 @@
             <span class="font-medium">Sukses!</span> {{ session('success') }}
         </div>
     @endif
-    <div class="container mx-auto mt-6">
+    @if (session('error'))
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Error!</span> {{ session('error') }}
+        </div>
+    @endif
+    <div class="container mx-auto mt-6 overflow-x-auto">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
@@ -90,6 +96,7 @@
                     <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Kelas</th>
                     <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
+                    <th class="border-b border-slate-500 py-2">Jumlah Bimbingan</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
@@ -110,6 +117,16 @@
                             <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->kelas->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $mahasiswa->tahun->nama }}</td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                <p>
+                                    Sempro:
+                                    {{ isset($mahasiswa->user->bimbinganMahasiswa->logbook) ? count($mahasiswa->user->bimbinganMahasiswa->logbook->where('status', '=', 'Diterima')->where('jenis_bimbingan', 'Proposal')) : '0' }}
+                                </p>
+                                <p>
+                                    Skripsi:
+                                    {{ isset($mahasiswa->user->bimbinganMahasiswa->logbook) ? count($mahasiswa->user->bimbinganMahasiswa->logbook->where('status', '=', 'Diterima')->where('jenis_bimbingan', 'Skripsi')) : '0' }}
+                                </p>
+                            </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ empty($mahasiswa->status) ? 'Belum mengajukan judul' : $mahasiswa->status }}</td>
                             <td class="text-center  border-b border-slate-500">
