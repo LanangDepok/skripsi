@@ -15,44 +15,46 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $pengajuanAlat->user->email }}</P><br>
-            <P>NIM: {{ $pengajuanAlat->user->mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P><br>
-            <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P><br>
-            <P>Status: {{ $pengajuanAlat->user->mahasiswa->status }}</P><br>
-            <P>No. Kontak Mahasiswa: {{ $pengajuanAlat->user->mahasiswa->no_kontak }}</P><br>
-            <P>Nama Orang Tua/Wali: {{ $pengajuanAlat->user->mahasiswa->nama_ortu }}</P><br>
-            <P>No. Kontak Orang Tua/Wali: {{ $pengajuanAlat->user->mahasiswa->no_kontak_ortu }}</P>
+            <P><span class="font-bold">Email: </span>{{ $pengajuanAlat->user->email }}</P><br>
+            <P><span class="font-bold">NIM: </span>{{ $pengajuanAlat->user->mahasiswa->nim }}</P><br>
+            <P><span class="font-bold">Kelas: </span>{{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P><br>
+            <P><span class="font-bold">Program Studi: </span>{{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P><br>
+            <P><span class="font-bold">Tahun Ajaran: </span>{{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P><br>
+            <P><span class="font-bold">Status: </span>{{ $pengajuanAlat->user->mahasiswa->status }}</P><br>
+            <P><span class="font-bold">No. Kontak Mahasiswa: </span>{{ $pengajuanAlat->user->mahasiswa->no_kontak }}</P><br>
+            <P><span class="font-bold">Nama Orang Tua/Wali: </span>{{ $pengajuanAlat->user->mahasiswa->nama_ortu }}</P><br>
+            <P><span class="font-bold">No. Kontak Orang Tua/Wali:
+                </span>{{ $pengajuanAlat->user->mahasiswa->no_kontak_ortu }}</P>
             <br>
-            <P>Nama Anggota Tim (Jika ada):
+            <P><span class="font-bold">Nama Anggota Tim (Jika ada): </span>:
                 {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->anggota }}
             </P><br>
-            <P>Judul Skripsi: {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->judul }}</P><br>
-            <P>Sub Judul Skripsi (Jika ada):
+            <P><span class="font-bold">Judul Skripsi:
+                </span>{{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->judul }}</P><br>
+            <P><span class="font-bold">Sub Judul Skripsi (Jika ada): </span>
                 {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->sub_judul }}
             </P>
             <br>
-            <p>Abstrak/Ringkasan Skripsi:
+            <p><span class="font-bold">Abstrak/Ringkasan Skripsi: </span>
                 {{ $pengajuanAlat->user->pengajuanJudul->sortByDesc('created_at')->first()->abstrak }}</p>
             <br>
-            <p>Dosen Pembimbing 1:
+            <p><span class="font-bold">Dosen Pembimbing 1: </span>:
                 {{ $bimbingan->bimbinganDosen->nama }}
             </p><br>
-            <p>Dosen Pembimbing 2:
+            <p><span class="font-bold">Dosen Pembimbing 2: </span>
                 {{ isset($bimbingan->dosen2_id) ? $bimbingan->bimbinganDosen2->nama : '-' }}
             </p><br>
-            <p>Link form F12:
+            <p><span class="font-bold">Link form F12: </span>
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f12 }}</a>
             </p><br>
-            <p>Link form F13:
+            <p><span class="font-bold">Link form F13: </span>
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f13 }}</a>
             </p><br>
-            <p>Link form F14:
+            <p><span class="font-bold">Link form F14: </span>
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f14 }}</a>
             </p><br>
-            <p>Status: {{ $pengajuanAlat->status }}</p><br>
-            <p>Keterangan:</p>
+            <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanAlat->status }}</p><br>
+            <p><span class="font-bold">Keterangan: </span></p>
             <textarea class="w-full" rows="5" readonly>{{ $pengajuanAlat->keterangan }}</textarea><br>
         </div>
     </div>

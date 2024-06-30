@@ -100,6 +100,18 @@ class DosenController extends Controller
         }
         abort(404);
     }
+    public function acceptAllLogbook(Request $request)
+    {
+        if (Gate::allows('dosen_pembimbing')) {
+            $data = $request->logbook;
+            foreach ($data as $terima) {
+                Logbook::where('id', '=', $terima)->update(['status' => 'Diterima']);
+            }
+
+            return redirect('/dosen/bimbingan/logbook');
+        }
+        abort(404);
+    }
 
     //persetujuan sidang
     public function getAllPersetujuanSidang()
@@ -264,16 +276,8 @@ class DosenController extends Controller
             $validator = Validator::make($data, $rules, $messages)->validate();
 
             $dospem2_id = $request->dospem2_id;
-            if ($dospem2_id) {
-                $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanSempro->mahasiswa_id)->first();
-                if ($dospem2_id == $bimbingan->dosen_id) {
-                    return redirect('/dosen/pengujian/sempro/' . $pengajuanSempro->id . '/terima')->with('errorDospem', 'Pilihan dosen pembimbing 2 tidak boleh sama');
-                } else {
-                    $bimbingan->update(['dosen2_id' => $dospem2_id]);
-                }
-            }
 
-            $this->dosenService->nilaiSempro($pengajuanSempro, $validator);
+            $this->dosenService->nilaiSempro($pengajuanSempro, $validator, $dospem2_id);
 
             return redirect('/dosen/pengujian/sempro');
         }
@@ -459,14 +463,17 @@ class DosenController extends Controller
         if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
             $data = $request->all();
             $rules = [
-                'nilai_pembimbing' => 'required',
-                'nilai_pembimbing2' => 'nullable',
-                'nilai1' => 'required',
-                'nilai2' => 'required',
-                'nilai3' => 'required',
+                'nilai_pembimbing' => 'required|numeric',
+                'nilai_pembimbing2' => 'nullable|numeric',
+                'nilai1' => 'required|numeric',
+                'nilai2' => 'required|numeric',
+                'nilai3' => 'required|numeric',
                 'nilai_total' => 'required',
             ];
-            $messages = ['required' => 'Nilai tidak boleh kosong'];
+            $messages = [
+                'required' => 'Nilai tidak boleh kosong',
+                'numeric' => 'Nilai harus berupa angka',
+            ];
             $validated = Validator::make($data, $rules, $messages)->validate();
 
             $this->dosenService->rekapNilai($pengajuanSkripsi, $validated);
@@ -538,7 +545,7 @@ class DosenController extends Controller
     //pengajuan revisi
     public function getAllRevisi()
     {
-        if (Gate::forUser(Auth::user())->any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             $terima_penguji1 = PengajuanSkripsi::where('penguji1_id', '=', Auth::user()->id)
                 ->where('status', '=', 'Menunggu persetujuan revisi')->whereHas('pengajuanRevisi', function ($query) {
                     $query->where('terima_penguji1', '=', null);
@@ -609,6 +616,161 @@ class DosenController extends Controller
                 $this->dosenService->revisiUlang($pengajuanRevisi, $validated);
             }
             return redirect('/dosen/revisi');
+        }
+        abort(404);
+    }
+
+    //history
+    public function historySempro(Request $request)
+    {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            $prodi = ProgramStudi::get();
+
+            $query = PengajuanSempro::where(function ($query) {
+                $query->where('penguji1_id', Auth::user()->id)
+                    ->orWhere('penguji2_id', Auth::user()->id)
+                    ->orWhere('penguji3_id', Auth::user()->id)
+                    ->orWhere('dospem_id', Auth::user()->id);
+            })
+                ->whereIn('status', ['Ditolak', 'Lulus', 'Tidak Lulus']);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSemproMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSemproMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_bimbingan')) {
+                $cari_bimbingan = $request->input('cari_bimbingan');
+                if ($cari_bimbingan == 'mahasiswa_bimbingan') {
+                    $query->where('dospem_id', '=', Auth::user()->id);
+                } elseif ($cari_bimbingan == 'mahasiswa_teruji') {
+                    $query->where('dospem_id', '!=', Auth::user()->id);
+                }
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', 'like', '%' . $cari_status . '%');
+            }
+
+            $data = $query->latest()->paginate(30);
+
+            return view('dosen.history.sempro', [
+                'title' => 'history',
+                'data' => $data,
+                'prodi' => $prodi,
+            ]);
+        }
+        abort(404);
+    }
+    public function historySemproDetail(PengajuanSempro $pengajuanSempro)
+    {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            return view('dosen.history.detailSempro', ['title' => 'history', 'pengajuanSempro' => $pengajuanSempro]);
+        }
+        abort(404);
+    }
+    public function historySkripsi(Request $request)
+    {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            if (Auth::user()->dosen->tanda_tangan == null) {
+                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+            }
+            $prodi = ProgramStudi::get();
+            $query = PengajuanSkripsi::where(function ($query) {
+                $query->where('penguji1_id', Auth::user()->id)
+                    ->orWhere('penguji2_id', Auth::user()->id)
+                    ->orWhere('penguji3_id', Auth::user()->id)
+                    ->orWhere('dospem_id', Auth::user()->id)
+                    ->orWhere('dospem2_id', Auth::user()->id);
+            })
+                ->whereIn('status', ['Ditolak', 'Lulus', 'Tidak Lulus', 'Revisi']);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('pengajuanSkripsiMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('pengajuanSkripsiMahasiswa.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_bimbingan')) {
+                $cari_bimbingan = $request->input('cari_bimbingan');
+                if ($cari_bimbingan == 'mahasiswa_bimbingan') {
+                    $query->where(function ($query) {
+                        $query->where('dospem_id', '=', Auth::user()->id)
+                            ->orWhere('dospem2_id', '=', Auth::user()->id);
+                    });
+                } elseif ($cari_bimbingan == 'mahasiswa_teruji') {
+                    $query->where(function ($query) {
+                        $query->whereNotNull('dospem2_id')
+                            ->where('dospem_id', '!=', Auth::user()->id)
+                            ->where('dospem2_id', '!=', Auth::user()->id);
+                    })->orWhere(function ($query) {
+                        $query->where('dospem2_id', '=', null)
+                            ->where('dospem_id', '!=', Auth::user()->id);
+                    });
+                }
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', 'like', '%' . $cari_status . '%');
+            }
+
+            $data = $query->latest()->paginate(30);
+
+            return view('dosen.history.skripsi', [
+                'title' => 'history',
+                'data' => $data,
+                'prodi' => $prodi,
+            ]);
+        }
+        abort(404);
+    }
+    public function historySkripsiDetail(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
+            return view('dosen.history.detailSkripsi', ['title' => 'history', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function historyLogbook(Request $request)
+    {
+        if (Gate::allows('dosen_pembimbing')) {
+            if (Auth::user()->dosen->tanda_tangan == null) {
+                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+            }
+
+            $query = Logbook::query();
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('bimbingan.bimbinganMahasiswa', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', '=', $cari_status);
+            }
+            $logbook = $query->latest()->paginate(30);
+            return view('dosen.history.logbook', ['title' => 'history', 'data' => $logbook]);
+        }
+        abort(404);
+    }
+    public function historyLogbookDetail(Logbook $logbook)
+    {
+        if (Gate::allows('dosen_pembimbing') && (Auth::user()->id == $logbook->bimbingan->dosen_id || Auth::user()->id == $logbook->bimbingan->dosen2_id)) {
+            return view('dosen.history.detailLogbook', ['title' => 'history', 'logbook' => $logbook]);
         }
         abort(404);
     }

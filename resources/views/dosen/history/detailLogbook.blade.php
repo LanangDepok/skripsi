@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/logbook"
+            <a href="/dosen/history/logbook"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md block">Back</a>
         </div>
         <div class="flex justify-center">
@@ -40,16 +40,5 @@
                 <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/logbook/{{ $logbook->id }}">
-            @csrf
-            <div class="container mx-auto w-1/2 mt-6 flex justify-around">
-                <button type="submit" name="terima" value="terima"
-                    onclick="return confirm('Terima pengajuan logbook atas nama {{ $logbook->bimbingan->bimbinganMahasiswa->nama }}?')"
-                    class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Terima</button>
-                <button type="submit"
-                    onclick="return confirm('Tolak pengajuan logbook atas nama {{ $logbook->bimbingan->bimbinganMahasiswa->nama }}?')"
-                    class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Tolak</button>
-            </div>
-        </form>
     </div>
 @endsection

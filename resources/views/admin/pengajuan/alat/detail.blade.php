@@ -24,40 +24,43 @@
             </div>
             <div class="container w-1/2 mx-auto mt-6">
                 <div class="h-1 bg-primary mx-auto"></div>
-                <P>Email: {{ $pengajuanAlat->user->email }}</P>
+                <P><span class="font-bold">Email: </span>{{ $pengajuanAlat->user->email }}</P>
                 <br>
-                <P>Kelas: {{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P>
+                <P><span class="font-bold">Kelas: </span>{{ $pengajuanAlat->user->mahasiswa->kelas->nama }}</P>
                 <br>
-                <P>Prodi: {{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P>
+                <P><span class="font-bold">Program Studi: </span>{{ $pengajuanAlat->user->mahasiswa->prodi->nama }}</P>
                 <br>
-                <P>Tahun Ajaran: {{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P>
+                <P><span class="font-bold">Tahun Ajaran: </span>{{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P>
                 <br>
-                <P>Nama Anggota Tim (Jika ada): {{ $pengajuanAlat->user->skripsi->anggota }}</P>
+                <P><span class="font-bold">Nama Anggota Tim (Jika ada): </span>{{ $pengajuanAlat->user->skripsi->anggota }}
+                </P>
                 <br>
-                <P>Judul Skripsi: {{ $pengajuanAlat->user->skripsi->judul }}</P>
+                <P><span class="font-bold">Judul Skripsi: </span>{{ $pengajuanAlat->user->skripsi->judul }}</P>
                 <br>
-                <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanAlat->user->skripsi->sub_judul }}</P>
+                <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
+                    </span>{{ $pengajuanAlat->user->skripsi->sub_judul }}</P>
                 <br>
-                <p>Dosen Pembimbing 1: {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</p>
+                <p><span class="font-bold">Dosen Pembimbing 1:
+                    </span>{{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</p>
                 <br>
-                <p>Dosen Pembimbing 2:
+                <p><span class="font-bold">Dosen Pembimbing 2: </span>
                     {{ isset($pengajuanAlat->user->bimbinganMahasiswa->dosen2_id) ? $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-' }}
                 </p>
                 <br>
                 <P>
-                    Form F12:
+                    <span class="font-bold">Form F12: </span>
                     <a class="italic text-blue-400" href="{{ $pengajuanAlat->f12 }}">
                         {{ $pengajuanAlat->f12 }}
                     </a>
                 </P><br>
                 <P>
-                    Form F13:
+                    <span class="font-bold">Form F13: </span>
                     <a class="italic text-blue-400" href="{{ $pengajuanAlat->f13 }}">
                         {{ $pengajuanAlat->f13 }}
                     </a>
                 </P><br>
                 <P>
-                    Form F14:
+                    <span class="font-bold">Form F14: </span>
                     <a class="italic text-blue-400" href="{{ $pengajuanAlat->f14 }}">
                         {{ $pengajuanAlat->f14 }}
                     </a>

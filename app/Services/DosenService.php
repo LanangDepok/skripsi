@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Bimbingan;
 use App\Models\PengajuanRevisi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -74,9 +75,19 @@ class DosenService
     }
 
     //pengujian sempro
-    public function nilaiSempro($pengajuanSempro, $validator)
+    public function nilaiSempro($pengajuanSempro, $validator, $dospem2_id)
     {
         if ($validator['nilai'] >= 400) {
+            if ($dospem2_id) {
+                $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanSempro->mahasiswa_id)->first();
+                if ($dospem2_id == $bimbingan->dosen_id) {
+                    return redirect('/dosen/pengujian/sempro/' . $pengajuanSempro->id . '/terima')->with('errorDospem', 'Pilihan dosen pembimbing 2 tidak boleh sama');
+                } else {
+                    $bimbingan->update(['dosen2_id' => $dospem2_id]);
+                    $validator['dospem2_id'] = $dospem2_id;
+                }
+            }
+
             $validator['status'] = 'Lulus';
             $pengajuanSempro->update($validator);
         } else {

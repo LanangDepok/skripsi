@@ -15,28 +15,30 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $pengajuanJudul->user->email }}</P><br>
-            <P>NIM: {{ $pengajuanJudul->user->mahasiswa->nim }}</P><br>
-            <P>Kelas: {{ $pengajuanJudul->user->mahasiswa->kelas->nama }}</P><br>
-            <P>Prodi: {{ $pengajuanJudul->user->mahasiswa->prodi->nama }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanJudul->user->mahasiswa->tahun->nama }}</P><br>
-            <P>Status: {{ $pengajuanJudul->user->mahasiswa->status }}</P><br>
-            <P>No. Kontak Mahasiswa: {{ $pengajuanJudul->user->mahasiswa->no_kontak }}</P><br>
-            <P>Nama Orang Tua/Wali: {{ $pengajuanJudul->user->mahasiswa->nama_ortu }}</P><br>
-            <P>No. Kontak Orang Tua/Wali: {{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
-            <P>Nama Anggota Tim (Jika ada): {{ isset($pengajuanJudul->anggota) ? $pengajuanJudul->anggota : '' }}</P><br>
-            <P>Judul Skripsi: {{ $pengajuanJudul->judul }}</P><br>
-            <p>Apakah judul dari dosen? {{ $pengajuanJudul->judul_dosen }}</p><br>
-            <P>Sub Judul Skripsi (Jika ada): {{ isset($pengajuanJudul->sub_judul) ? $pengajuanJudul->sub_judul : '' }}</P>
+            <P><span class="font-bold">Email: </span>{{ $pengajuanJudul->user->email }}</P><br>
+            <P><span class="font-bold">NIM: </span>{{ $pengajuanJudul->user->mahasiswa->nim }}</P><br>
+            <P><span class="font-bold">Kelas: </span>{{ $pengajuanJudul->user->mahasiswa->kelas->nama }}</P><br>
+            <P><span class="font-bold">Program Studi: </span>{{ $pengajuanJudul->user->mahasiswa->prodi->nama }}</P><br>
+            <P><span class="font-bold">Tahun Ajaran: </span>{{ $pengajuanJudul->user->mahasiswa->tahun->nama }}</P><br>
+            <P><span class="font-bold">Status: </span>{{ $pengajuanJudul->user->mahasiswa->status }}</P><br>
+            <P><span class="font-bold">No. Kontak Mahasiswa: </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak }}</P>
             <br>
-            <p>Abstrak/Ringkasan Skripsi: {{ $pengajuanJudul->abstrak }}</p><br>
-            <p>Studi kasus: {{ $pengajuanJudul->studi_kasus }}</p><br>
-            <p>Sumber referensi: {{ $pengajuanJudul->sumber_referensi }}</p><br>
-            <p>Dosen Pembimbing:
+            <P><span class="font-bold">Nama Orang Tua/Wali: </span>{{ $pengajuanJudul->user->mahasiswa->nama_ortu }}</P><br>
+            <P><span class="font-bold">No. Kontak Orang Tua/Wali:
+                </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
+            <P><span class="font-bold">Nama Anggota Tim (Jika ada):
+                </span>{{ isset($pengajuanJudul->anggota) ? $pengajuanJudul->anggota : '' }}</P><br>
+            <P><span class="font-bold">Judul Skripsi: </span>{{ $pengajuanJudul->judul }}</P><br>
+            <p><span class="font-bold">Apakah judul dari dosen? </span>{{ $pengajuanJudul->judul_dosen }}</p><br>
+            <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
+                </span>{{ isset($pengajuanJudul->sub_judul) ? $pengajuanJudul->sub_judul : '' }}</P>
+            <br>
+            <p><span class="font-bold">Abstrak/Ringkasan Skripsi: </span>{{ $pengajuanJudul->abstrak }}</p><br>
+            <p><span class="font-bold">Studi Kasus: </span>{{ $pengajuanJudul->studi_kasus }}</p><br>
+            <p><span class="font-bold">Sumber Referensi: </span>{{ $pengajuanJudul->sumber_referensi }}</p><br>
+            <p><span class="font-bold">Dosen Pembimbing: </span>
                 {{ isset($bimbingan->dosen_id) ? $bimbingan->bimbinganDosen->nama : 'menunggu' }}</p><br>
-            {{-- <p>Dosen Pembimbing 2:
-                {{ isset($pengajuanJudul->dosen_terpilih2) ? $pengajuanJudul->dosen_terpilih2 : 'menunggu' }}</p><br> --}}
-            <p>Status: {{ $pengajuanJudul->status }}</p>
+            <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanJudul->status }}</p>
         </div>
     </div>
 @endsection

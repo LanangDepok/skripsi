@@ -16,32 +16,38 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P>
+            <P><span class="font-bold">Email: </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P>
             <br>
-            <P>Kelas: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P>
+            <P><span class="font-bold">Kelas:
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P>
             <br>
-            <P>Prodi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P>
+            <P><span class="font-bold">Program Studi:
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P>
             <br>
-            <P>Tahun Ajaran: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</P>
+            <P><span class="font-bold">Tahun Ajaran:
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</P>
             <br>
-            <P>Nama Anggota Tim (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->anggota }}</P>
+            <P><span class="font-bold">Nama Anggota Tim (Jika ada):
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->anggota }}</P>
             <br>
-            <P>Judul Skripsi: {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P>
+            <P><span class="font-bold">Judul Skripsi:
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P>
             <br>
-            <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
+            <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
+                </span>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Tanggal pengajuan: {{ $pengajuanSkripsi->created_at->format('d F Y') }}</p>
+            <p><span class="font-bold">Tanggal Pengajuan: </span>{{ $pengajuanSkripsi->created_at->format('d F Y') }}</p>
             <br>
-            <p>Dosen Pembimbing: {{ Auth::user()->nama }}</p>
+            <p><span class="font-bold">Dosen Pembimbing: </span>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
             <br>
             <P>
-                Link presentasi:
+                <span class="font-bold">Link Presentasi: </span>
                 <a class="italic text-blue-400" href="{{ $pengajuanSkripsi->link_presentasi }}">
                     {{ $pengajuanSkripsi->link_presentasi }}
                 </a>
             </P><br>
             <P>
-                Sertifikat lomba:
+                <span class="font-bold">Sertifikat Lomba: </span>
                 <a class="italic text-blue-400" href="{{ $pengajuanSkripsi->sertifikat_lomba }}">
                     {{ $pengajuanSkripsi->sertifikat_lomba }}
                 </a>

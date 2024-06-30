@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AdminController extends Controller
 {
@@ -141,7 +143,7 @@ class AdminController extends Controller
                 $query->where('tahun_ajaran_id', $cari_tahun);
             }
 
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.mahasiswa.index', ['title' => 'mahasiswa', 'data' => $data, 'tahun' => $tahun, 'prodi' => $prodi]);
         }
@@ -370,7 +372,7 @@ class AdminController extends Controller
     {
         if (Gate::allows('admin')) {
             if ($mahasiswa->user->pengajuanAlat->isNotEmpty()) {
-                return redirect('/admin/mahasiswa')->with('error', 'Tidak dapat meghapus data mahasiswa yang sudah melakukan pengajuan.');
+                return redirect('/admin/mahasiswa')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah melakukan pengajuan.');
             }
             $mahasiswa->delete();
             $mahasiswa->user->roles()->detach();
@@ -400,7 +402,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.dosen.index', ['title' => 'dosen', 'data' => $data]);
         }
@@ -457,15 +459,8 @@ class AdminController extends Controller
 
             $validator = Validator::make($data, $rules, $messages);
             $validated_user = $validator->safe()->only(['email', 'password', 'nama']);
-            $validated_dosen = $validator->safe()->only(['nip', 'jabatan_id', 'fungsional_id', 'gol_pangkat_id', 'role']);
+            $validated_dosen = $validator->safe()->only(['nip', 'jabatan_id', 'fungsional_id', 'gol_pangkat_id']);
             $validated_role = $validator->safe()->only(['role']);
-
-            if (in_array(7, $validated_role['role'])) {
-                $KetuaKomiteCheck = DB::table('role_user')->where('role_id', 7)->exists();
-                if ($KetuaKomiteCheck) {
-                    return redirect('/admin/dosen/create')->with(['error' => 'Role Ketua Komite sudah dimiliki oleh dosen lain.']);
-                }
-            }
 
             $this->adminService->storeLecturer($validated_user, $validated_dosen, $validated_role, $user, $dosen);
 
@@ -541,6 +536,24 @@ class AdminController extends Controller
     public function deleteLecturer(Dosen $dosen)
     {
         if (Gate::allows('admin')) {
+            if ($dosen->user->bimbinganDosen->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
+            } elseif ($dosen->user->bimbinganDosen2->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
+            } elseif ($dosen->user->pengajuanSemproPenguji1->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            } elseif ($dosen->user->pengajuanSemproPenguji2->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            } elseif ($dosen->user->pengajuanSemproPenguji3->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            } elseif ($dosen->user->pengajuanSkripsiPenguji1->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            } elseif ($dosen->user->pengajuanSkripsiPenguji2->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            } elseif ($dosen->user->pengajuanSkripsiPenguji3->isNotEmpty()) {
+                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+            }
+
             $dosen->delete();
             $dosen->user->roles()->detach();
             $dosen->user->delete();
@@ -577,7 +590,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
-            $pengajuanJudul = $query->paginate(30);
+            $pengajuanJudul = $query->latest()->paginate(30);
 
             return view('admin.pengajuan.judul.index', [
                 'title' => 'pengajuan',
@@ -660,7 +673,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view(
                 'admin.pengajuan.sempro.index',
@@ -747,7 +760,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.pengajuan.skripsi.index', [
                 'title' => 'pengajuan',
@@ -830,7 +843,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.pengajuan.alat.index', [
                 'title' => 'pengajuan',
@@ -903,7 +916,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.sidang.sempro', [
                 'title' => 'sidang',
@@ -949,7 +962,7 @@ class AdminController extends Controller
                 });
             }
 
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.sidang.skripsi', [
                 'title' => 'sidang',
@@ -1005,7 +1018,7 @@ class AdminController extends Controller
                     $query->where('tahun_ajaran_id', $cari_tahun);
                 });
             }
-            $data = $query->paginate(30);
+            $data = $query->latest()->paginate(30);
 
             return view('admin.revisi.index', [
                 'title' => 'revisi',
@@ -1369,6 +1382,62 @@ class AdminController extends Controller
 
             $pangkatGolongan->update($validated);
             return redirect('admin/database/golongan')->with('success', 'Berhasil mengubah jabatan pangkat golongan.');
+        }
+        abort(404);
+    }
+
+    //report akhir
+    public function reportAkhir()
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            $data = Mahasiswa::latest()->paginate(30);
+
+            return view('admin.report.index', ['title' => 'report', 'data' => $data]);
+        }
+        abort(404);
+    }
+    public function exportReport()
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            $data = Mahasiswa::with(['user', 'kelas', 'prodi', 'tahun', 'user.pengajuanJudul', 'user.pengajuanSemproMahasiswa', 'user.pengajuanSkripsiMahasiswa', 'user.pengajuanAlat'])->get();
+
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            // Set header
+            $sheet->setCellValue('A1', 'No');
+            $sheet->setCellValue('B1', 'Nama (NIM)');
+            $sheet->setCellValue('C1', 'Kelas');
+            $sheet->setCellValue('D1', 'Program Studi');
+            $sheet->setCellValue('E1', 'Tahun Ajaran');
+            $sheet->setCellValue('F1', 'Judul & Pembimbing');
+            $sheet->setCellValue('G1', 'Seminar Proposal');
+            $sheet->setCellValue('H1', 'Sidang Skripsi');
+            $sheet->setCellValue('I1', 'Revisi');
+            $sheet->setCellValue('J1', 'Berkas');
+
+            // Fill data
+            $row = 2;
+            foreach ($data as $index => $mhsw) {
+                $sheet->setCellValue('A' . $row, $index + 1);
+                $sheet->setCellValue('B' . $row, $mhsw->user->nama . ' (' . $mhsw->nim . ')');
+                $sheet->setCellValue('C' . $row, $mhsw->kelas->nama);
+                $sheet->setCellValue('D' . $row, $mhsw->prodi->nama);
+                $sheet->setCellValue('E' . $row, $mhsw->tahun->nama);
+                $sheet->setCellValue('F' . $row, $mhsw->user->pengajuanJudul->count() > 0 && $mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0');
+                $sheet->setCellValue('G' . $row, $mhsw->user->pengajuanSemproMahasiswa->count() > 0 && $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0');
+                $sheet->setCellValue('H' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 && ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' || $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Revisi') ? '1' : '0');
+                $sheet->setCellValue('I' . $row, $mhsw->user->pengajuanSemproMahasiswa->count() > 0 && $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0');
+                $sheet->setCellValue('J' . $row, $mhsw->user->pengajuanAlat->count() > 0 && $mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0');
+                $row++;
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            $fileName = 'Report Akhir.xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+            $writer->save($temp_file);
+
+            return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
         }
         abort(404);
     }

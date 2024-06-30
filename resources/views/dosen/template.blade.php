@@ -44,7 +44,7 @@
         </div>
         <div class="px-8">
             <div class="container mx-auto flex justify-between items-center">
-                <div class="w-3/5">
+                <div class="w-4/5">
                     <ul class="flex justify-between">
                         <li>
                             <a href="/dosen/index"
@@ -95,13 +95,6 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/dosen/pengujian/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
-                                {{-- @can('dosen_pembimbing')
-                                    <div class="container h-[1px] w-full bg-slate-500"></div>
-                                    <a href="/dosen/pengujian/terbimbing"
-                                        class="block px-4 py-2 hover:bg-slate-300">Penilaian
-                                        Mahasiswa Bimbingan</a>
-                                    <div class="container h-[1px] w-full bg-slate-500"></div>
-                                @endcan --}}
                             </div>
                         </li>
                         @can('ketua_penguji')
@@ -135,6 +128,26 @@
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
+                        </li>
+                        <li class="relative">
+                            <button type="button" id="sidangDropdownButton"
+                                class="hover:bg-slate-300 {{ $title == 'history' ? 'bg-red-200' : '' }}">
+                                History
+                                <span>
+                                    <img src="/storage/icons/history.png"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </button>
+                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                                id="sidangDropdownContent">
+                                <a href="/dosen/history/sempro" class="block px-4 py-2 hover:bg-slate-300">Seminar
+                                    Proposal</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/dosen/history/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
+                                    Skripsi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/dosen/history/logbook" class="block px-4 py-2 hover:bg-slate-300">Logbook</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -195,6 +208,13 @@
     const pengajuanDropdownContent = document.getElementById('pengajuanDropdownContent');
     pengajuanDropdownButton.addEventListener('click', function() {
         pengajuanDropdownContent.classList.toggle('hidden');
+    });
+</script>
+<script>
+    const sidangDropdownButton = document.getElementById('sidangDropdownButton');
+    const sidangDropdownContent = document.getElementById('sidangDropdownContent');
+    sidangDropdownButton.addEventListener('click', function() {
+        sidangDropdownContent.classList.toggle('hidden');
     });
 </script>
 <script>

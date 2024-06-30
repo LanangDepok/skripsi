@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/pengujian/skripsi"
+            <a href="/dosen/history/skripsi"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center">Back</a>
         </div>
         <div class="flex justify-center">
@@ -42,6 +42,24 @@
             </p><br>
             <P><span class="font-bold">Tanggal Sidang: </span>{{ $pengajuanSkripsi->tanggal }}</P><br>
             <P><span class="font-bold">Status: </span>{{ $pengajuanSkripsi->status }}</P><br>
+            <P><span class="font-bold">Nilai: </span>{{ $pengajuanSkripsi->nilai_total }}</P><br>
+            @if ($pengajuanSkripsi->pengajuanRevisi)
+                {{-- <div class="container w-1/2 mx-auto mt-6"> --}}
+                <p class="font-bold text-xl text-center mt-5">Revisi</p>
+                <p class="font-semibold text-lg mt-5">A. Revisi Alat/Program Aplikasi Skripsi</p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="10">
+                    {{ $pengajuanSkripsi->pengajuanRevisi->revisi_alat }}
+               </textarea>
+                <p class="font-bold mt-1">Link revisi alat:
+                    <a href="{{ $pengajuanSkripsi->pengajuanRevisi->link_revisi_alat }}" target="_blank"
+                        class="text-blue-600 italic">{{ $pengajuanSkripsi->pengajuanRevisi->link_revisi_alat }}</a>
+                </p>
+                <p class="font-semibold text-lg mt-5">B. Revisi Laporan Skripsi</p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="10">
+                    {{ $pengajuanSkripsi->pengajuanRevisi->revisi_laporan }}
+               </textarea>
+                {{-- </div> --}}
+            @endif
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">

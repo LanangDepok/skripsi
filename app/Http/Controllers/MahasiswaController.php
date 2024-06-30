@@ -425,7 +425,7 @@ class MahasiswaController extends Controller
     {
         if (
             (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
-            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+            (Gate::allows('dosen_pembimbing') && ($pengajuanSempro->dospem_id == Auth::user()->id || $pengajuanSempro->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f1', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
@@ -435,7 +435,7 @@ class MahasiswaController extends Controller
     {
         if (
             (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
-            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+            (Gate::allows('dosen_pembimbing') && ($pengajuanSempro->dospem_id == Auth::user()->id || $pengajuanSempro->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f2', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }
@@ -445,7 +445,7 @@ class MahasiswaController extends Controller
     {
         if (
             (Gate::allows('mahasiswa') && $pengajuanSempro->mahasiswa_id == Auth::user()->id) ||
-            (Gate::allows('dosen_pembimbing') && $pengajuanSempro->dospem_id == Auth::user()->id)
+            (Gate::allows('dosen_pembimbing') && ($pengajuanSempro->dospem_id == Auth::user()->id || $pengajuanSempro->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f3', ['title' => 'informasi', 'pengajuanSempro' => $pengajuanSempro]);
         }

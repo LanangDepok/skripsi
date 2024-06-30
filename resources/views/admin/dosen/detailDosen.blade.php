@@ -15,18 +15,18 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $dosen->user->email }}</P><br>
-            <P>NIP: {{ $dosen->nip }}</P><br>
-            <P>Jabatan: {{ $dosen->jabatan->nama }}</P><br>
-            <P>Fungsional: {{ $dosen->fungsional->nama }}</P><br>
-            <P>Gol & Pangkat: {{ $dosen->gol_pangkat->nama }}</P><br>
+            <P><span class="font-bold">Email: </span>{{ $dosen->user->email }}</P><br>
+            <P><span class="font-bold">NIP: </span>{{ $dosen->nip }}</P><br>
+            <P><span class="font-bold">Jabatan: </span>{{ $dosen->jabatan->nama }}</P><br>
+            <P><span class="font-bold">Fungsional: </span>{{ $dosen->fungsional->nama }}</P><br>
+            <P><span class="font-bold">Gol & Pangkat: </span>{{ $dosen->gol_pangkat->nama }}</P><br>
             <P>
                 @php
                     $roles = $dosen->user->roles->pluck('nama')->implode(', ');
                 @endphp
-                Role: {{ $roles }}
+                <span class="font-bold">Role: </span>{{ $roles }}
             </P><br>
-            <P>Mahasiswa Bimbingan:
+            <P><span class="font-bold">Mahasiswa Bimbingan: </span>
                 @php
                     $i = 1;
                 @endphp

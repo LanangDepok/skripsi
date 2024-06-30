@@ -1,80 +1,86 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pengajuan Sidang Skripsi</p>
-    <div class="container mx-auto px-10 bg-slate-200 mt-2">
-        <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/pengajuan/skripsi">
-            @csrf
-            <div class="flex justify-evenly items-center">
-                <div>
-                    <label for="cari_nama">Nama:</label>
-                    <input type="text" id="cari_nama" name="cari_nama" class="w-56"
-                        value="{{ request()->input('cari_nama') }}">
-                </div>
-                <div>
-                    <label for="cari_prodi">Program Studi:</label>
-                    <select name="cari_prodi" id="cari_prodi" class="w-72">
-                        <option value="">(Tanpa filter)</option>
-                        @foreach ($prodi as $prd)
-                            <option value="{{ $prd->id }}"
-                                {{ request()->input('cari_prodi') == $prd->id ? 'selected' : '' }}>
-                                {{ $prd->nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label for="cari_tahun">Tahun Ajaran:</label>
-                    <select name="cari_tahun" id="cari_tahun" class="w-72">
-                        <option value="">(Tanpa filter)</option>
-                        @foreach ($tahun as $thn)
-                            <option value="{{ $thn->id }}"
-                                {{ request()->input('cari_tahun') == $thn->id ? 'selected' : '' }}>
-                                {{ $thn->nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
-            </div>
-        </form>
-    </div>
+    <p class="text-center font-semibold text-2xl text-primary">Report akhir</p>
+    <form action="/admin/report/excel" method="POST">
+        @csrf
+        <button type="submit"
+            class="mt-5 bg-primary border rounded-md w-36 h-10 text-white text-lg hover:text-black hover:bg-red-300 block mx-auto">Export
+            to
+            excel</button>
+    </form>
     <div class="container mx-auto mt-6 overflow-x-auto">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">No</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
-                    <th class="border-b border-slate-500 py-2">Prodi</th>
-                    <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Action</th>
+                    <th class="border-b border-slate-500 py-2">Kelas</th>
+                    <th class="border-b border-slate-500 py-2">Program Studi</th>
+                    <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
+                    <th class="border-b border-slate-500 py-2">Judul & Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Seminar Proposal</th>
+                    <th class="border-b border-slate-500 py-2">Sidang Skripsi</th>
+                    <th class="border-b border-slate-500 py-2">Revisi</th>
+                    <th class="border-b border-slate-500 py-2">Berkas</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $index => $pengajuanSkripsi)
+                @foreach ($data as $index => $mhsw)
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
-                            <p>({{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
+                            <p>{{ $mhsw->user->nama }}</p>
+                            <p>({{ $mhsw->nim }})</p>
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
+                            {{ $mhsw->kelas->nama }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
+                            {{ $mhsw->prodi->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>1. {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
-                            <p>2.
-                                {{ isset($pengajuanSkripsi->dospem2_id) ? $pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
-                            </p>
+                            {{ $mhsw->tahun->nama }}
                         </td>
                         <td class="text-center  border-b border-slate-500">
-                            <a href="/admin/pengajuan/skripsi/{{ $pengajuanSkripsi->id }}"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
+                            @if ($mhsw->user->pengajuanJudul->count() > 0)
+                                {{ $mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0' }}
+                            @else
+                                0
+                            @endif
+                        </td>
+                        <td class="text-center  border-b border-slate-500">
+                            @if ($mhsw->user->pengajuanSemproMahasiswa->count() > 0)
+                                {{ $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0' }}
+                            @else
+                                0
+                            @endif
+                        </td>
+                        <td class="text-center  border-b border-slate-500">
+                            @if ($mhsw->user->pengajuanSkripsiMahasiswa->count() > 0)
+                                {{ $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ||
+                                $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Revisi'
+                                    ? '1'
+                                    : '0' }}
+                            @else
+                                0
+                            @endif
+                        </td>
+                        <td class="text-center  border-b border-slate-500">
+                            @if ($mhsw->user->pengajuanSkripsiMahasiswa->count() > 0)
+                                {{ $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0' }}
+                            @else
+                                0
+                            @endif
+                        </td>
+                        <td class="text-center  border-b border-slate-500">
+                            @if ($mhsw->user->pengajuanAlat->count() > 0)
+                                {{ $mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0' }}
+                            @else
+                                0
+                            @endif
                         </td>
                     </tr>
                 @endforeach

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('mahasiswa_id');
             $table->bigInteger('dospem_id');
-            // $table->bigInteger('dospem2_id')->nullable();
+            $table->bigInteger('dospem2_id')->nullable();
             $table->bigInteger('penguji1_id')->nullable();
             $table->bigInteger('penguji2_id')->nullable();
             $table->bigInteger('penguji3_id')->nullable();

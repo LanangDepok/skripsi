@@ -16,18 +16,24 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $bimbingan->bimbinganMahasiswa->email }}</P><br>
-            <P>Kelas: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->kelas->nama }}</P><br>
-            <P>Prodi: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->prodi->nama }}</P><br>
-            <P>Tahun Ajaran: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->tahun->nama }}</P><br>
-            <P>Status: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->status }}</P><br>
-            <P>No. Kontak: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->no_kontak }}</P><br>
-            <P>Nama Orang Tua/Wali: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->nama_ortu }}</P><br>
-            <P>No. Kontak Orang Tua/Wali: {{ $bimbingan->bimbinganMahasiswa->mahasiswa->no_kontak_ortu }}</P><br>
-            <P>Nama Anggota Tim (Jika ada): {{ $bimbingan->bimbinganMahasiswa->skripsi->anggota }}</P><br>
-            <P>Judul Skripsi: {{ $bimbingan->bimbinganMahasiswa->skripsi->judul }}</P><br>
-            <P>Sub Judul Skripsi (Jika ada): {{ $bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</P><br>
-            <p>Dosen Pembimbing: {{ $bimbingan->bimbinganDosen->nama }}</p>
+            <P><span class="font-bold">Email: </span>{{ $bimbingan->bimbinganMahasiswa->email }}</P><br>
+            <P><span class="font-bold">Kelas: </span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P><span class="font-bold">Program Studi: </span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->prodi->nama }}
+            </P><br>
+            <P><span class="font-bold">Tahun Ajaran: </span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->tahun->nama }}</P>
+            <br>
+            <P><span class="font-bold">Status: </span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->status }}</P><br>
+            <P><span class="font-bold">No. Kontak</span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->no_kontak }}</P><br>
+            <P><span class="font-bold">Nama Orang Tua/Wali</span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->nama_ortu }}
+            </P><br>
+            <P><span class="font-bold">No. Kontak Orang
+                    Tua/Wali</span>{{ $bimbingan->bimbinganMahasiswa->mahasiswa->no_kontak_ortu }}</P><br>
+            <P><span class="font-bold">Nama Anggota Tim (Jika ada):
+                </span>{{ $bimbingan->bimbinganMahasiswa->skripsi->anggota }}</P><br>
+            <P><span class="font-bold">Judul Skripsi: </span>{{ $bimbingan->bimbinganMahasiswa->skripsi->judul }}</P><br>
+            <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
+                </span>{{ $bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</P><br>
+            <p><span class="font-bold">Dosen Pembimbing</span>{{ $bimbingan->bimbinganDosen->nama }}</p>
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">

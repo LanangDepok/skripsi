@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/pengujian/sempro"
+            <a href="/dosen/history/sempro"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center">Back</a>
         </div>
         <div class="flex justify-center">
@@ -38,6 +38,9 @@
             </p><br>
             <P><span class="font-bold">Tanggal Sidang: </span>{{ $pengajuanSempro->tanggal }}</P><br>
             <P><span class="font-bold">Status: </span>{{ $pengajuanSempro->status }}</P><br>
+            <P><span class="font-bold">Nilai: </span>{{ $pengajuanSempro->nilai }}</P><br>
+            <P><span class="font-bold">Keterangan: </span></P><br>
+            <textarea cols="50" rows="5" readonly>{{ $pengajuanSempro->keterangan }}</textarea>
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">

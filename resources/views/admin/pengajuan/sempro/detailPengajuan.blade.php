@@ -52,18 +52,25 @@
             </div>
             <div class="container w-1/2 mx-auto mt-6">
                 <div class="h-1 bg-primary mx-auto"></div>
-                <P>Email: {{ $pengajuanSempro->pengajuanSemproMahasiswa->email }}</P><br>
-                <P>Kelas: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas->nama }}</P><br>
-                <P>Prodi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</P><br>
-                <P>Tahun Ajaran: {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun->nama }}</P><br>
-                <P>Nama Anggota Tim (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->anggota }}</P><br>
-                <P>Judul Skripsi: {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->judul }}</P><br>
-                <P>Sub Judul Skripsi (Jika ada): {{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->sub_judul }}</P>
+                <P><span class="font-bold">Email: </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->email }}</P><br>
+                <P><span class="font-bold">Kelas:
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->kelas->nama }}</P><br>
+                <P><span class="font-bold">Program Studi:
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</P><br>
+                <P><span class="font-bold">Tahun Ajaran:
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tahun->nama }}</P><br>
+                <P><span class="font-bold">Nama Anggota Tim (Jika ada):
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->anggota }}</P><br>
+                <P><span class="font-bold">Judul Skripsi:
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->judul }}</P><br>
+                <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
+                    </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->sub_judul }}</P>
                 <br>
-                <p>Dosen Pembimbing: {{ $pengajuanSempro->pengajuanSemproDospem->nama }}</p><br>
-                <P>Status: {{ $pengajuanSempro->status }}</P><br>
+                <p><span class="font-bold">Dosen Pembimbing: </span>{{ $pengajuanSempro->pengajuanSemproDospem->nama }}</p>
+                <br>
+                <P><span class="font-bold">Status: </span>{{ $pengajuanSempro->status }}</P><br>
                 <P>
-                    Bukti Registrasi:
+                    <span class="font-bold">Bukti Registrasi: </span>
                     <a class="italic text-blue-400" href="{{ $pengajuanSempro->bukti_registrasi }}" target="_blank">
                         {{ $pengajuanSempro->bukti_registrasi }}</a>
                 </P><br>

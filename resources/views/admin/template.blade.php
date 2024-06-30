@@ -88,8 +88,8 @@
                                 <a href="/admin/pengajuan/judul" class="block px-4 py-2 hover:bg-slate-300">Judul &
                                     pembimbing</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/admin/pengajuan/sempro" class="block px-4 py-2 hover:bg-slate-300">Sidang
-                                    sempro</a>
+                                <a href="/admin/pengajuan/sempro" class="block px-4 py-2 hover:bg-slate-300">Seminar
+                                    proposal</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/admin/pengajuan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     skripsi</a>
@@ -109,23 +109,13 @@
                             </button>
                             <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
                                 id="sidangDropdownContent">
-                                <a href="/admin/pelaksanaan/sempro" class="block px-4 py-2 hover:bg-slate-300">Sidang
-                                    Sempro</a>
+                                <a href="/admin/pelaksanaan/sempro" class="block px-4 py-2 hover:bg-slate-300">Seminar
+                                    Proposal</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/admin/pelaksanaan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
                             </div>
                         </li>
-                        {{-- <li>
-                            <a href="/admin/skripsi"
-                                class="hover:bg-slate-300  {{ $title == 'skripsi' ? 'bg-red-200' : '' }}">
-                                Pelaksanaan Sidang
-                                <span>
-                                    <img src="/storage/icons/meeting.png"
-                                        class="w-3 h-3 inline-block -translate-y-[10%]">
-                                </span>
-                            </a>
-                        </li> --}}
                         <li>
                             <a href="/admin/revisi"
                                 class="hover:bg-slate-300  {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
@@ -133,6 +123,15 @@
                                 <span>
                                     <img src="/storage/icons/revision.png"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/report"
+                                class="hover:bg-slate-300  {{ $title == 'report' ? 'bg-red-200' : '' }}">
+                                Report akhir
+                                <span>
+                                    <img src="/storage/icons/excel.png" class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -158,7 +157,8 @@
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
                                     <a href="/admin/database/jabatan" class="block px-4 py-2 hover:bg-slate-300">Jabatan</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
-                                    <a href="/admin/database/fungsional" class="block px-4 py-2 hover:bg-slate-300">Jabatan
+                                    <a href="/admin/database/fungsional"
+                                        class="block px-4 py-2 hover:bg-slate-300">Jabatan
                                         Fungsional</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
                                     <a href="/admin/database/golongan" class="block px-4 py-2 hover:bg-slate-300">Pangkat

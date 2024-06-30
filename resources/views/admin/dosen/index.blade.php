@@ -43,6 +43,12 @@
             <span class="font-medium">Sukses!</span> {{ session('success') }}
         </div>
     @endif
+    @if (session('error'))
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+            role="alert">
+            <span class="font-medium">Sukses!</span> {{ session('error') }}
+        </div>
+    @endif
     <div class="container mx-auto mt-6 overflow-x-auto">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">

@@ -16,25 +16,28 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto mb-3"></div>
-            <P>Tanggal bimbingan: {{ $logbook->tanggal }}</P>
-            <P>Tempat bimbingan: {{ $logbook->tempat }}</P>
-            <p>Jenis bimbingan: {{ $logbook->jenis_bimbingan }}</p>
-            <p>Status: {{ $logbook->status }}</p>
+            <P><span class="font-bold">Tanggal Bimbingan: </span>{{ $logbook->tanggal }}</P>
+            <P><span class="font-bold">Tempat Bimbingan: </span>{{ $logbook->tempat }}</P>
+            <p><span class="font-bold">Jenis Bimbingan: </span>{{ $logbook->jenis_bimbingan }}</p>
+            <p><span class="font-bold">Status: </span>{{ $logbook->status }}</p>
             @if ($logbook->status == 'Diterima')
                 <p>Diterima oleh: {{ $penerima->nama }}</p><br>
             @elseif ($logbook->status == 'Ditolak')
                 <p>Ditolak oleh: {{ $penerima->nama }}</p><br>
             @endif
-            <p>Uraian:</p>
+            <p><span class="font-bold">Uraian: </span></p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->uraian }}</textarea><br><br>
-            <p>Rencana Pencapaian:</p>
+            <p><span class="font-bold">Rencana Pencapaian: </span></p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->rencana_pencapaian }}</textarea>
             <div class="h-1 bg-primary mt-3"></div>
         </div>
         <div class="container mx-auto w-1/2 mt-6">
-            <p>Judul Skripsi: {{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->judul }}</p>
-            <p>Sub judul (jika ada): {{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</p>
-            <p>Anggota tim(jika ada): {{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->anggota }}</p><br>
+            <p><span class="font-bold">Judul Skripsi: </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->judul }}
+            </p>
+            <p><span class="font-bold">Sub Judul (Jika ada):
+                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</p>
+            <p><span class="font-bold">Anggota Tim (Jika ada):
+                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->anggota }}</p><br>
             @if ($logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi != null)
                 <iframe src="/storage/{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi }}"
                     class="w-full h-[600px]"></iframe>

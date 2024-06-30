@@ -136,11 +136,14 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::post('/admin/database/golongan', 'storePangkatGolongan');
     Route::get('/admin/database/golongan/{pangkatGolongan}/edit', 'editPangkatGolongan');
     Route::put('/admin/database/golongan/{pangkatGolongan}', 'updatePangkatGolongan');
+    Route::get('/admin/report', 'reportAkhir');
+    Route::post('/admin/report/excel', 'exportReport');
 });
 
 Route::middleware('auth')->controller(DosenController::class)->group(function () {
     Route::get('/dosen/index', 'index');
     Route::get('/dosen/bimbingan/logbook', 'getLogbooks');
+    Route::post('/dosen/bimbingan/logbook', 'acceptAllLogbook');
     Route::get('/dosen/bimbingan/logbook/{logbook}', 'getLogbook');
     Route::post('/dosen/bimbingan/logbook/{logbook}', 'acceptLogbook');
     Route::get('/dosen/bimbingan/persetujuanSidang', 'getAllPersetujuanSidang');
@@ -172,4 +175,10 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/revisi/{pengajuanRevisi}', 'keputusanRevisi');
     Route::get('/dosen/profile', 'getProfile');
     Route::put('/dosen/profile/{user}', 'updateProfile');
+    Route::get('/dosen/history/sempro', 'historySempro');
+    Route::get('/dosen/history/sempro/{pengajuanSempro}', 'historySemproDetail');
+    Route::get('/dosen/history/skripsi', 'historySkripsi');
+    Route::get('/dosen/history/skripsi/{pengajuanSkripsi}', 'historySkripsiDetail');
+    Route::get('/dosen/history/logbook', 'historyLogbook');
+    Route::get('/dosen/history/logbook/{logbook}', 'historyLogbookDetail');
 });

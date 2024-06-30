@@ -23,28 +23,34 @@
         </div>
         <div class="container w-1/2 mx-auto mt-6">
             <div class="h-1 bg-primary mx-auto"></div>
-            <P>Email: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P><br>
-            <P>Kelas: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P><br>
-            <P>Prodi: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P><br>
-            <P>Tahun Ajaran: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}
+            <P><span class="font-bold">Email:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->email }}</P><br>
+            <P><span class="font-bold">Kelas:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->kelas->nama }}</P><br>
+            <P><span class="font-bold">Program Studi:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</P><br>
+            <P><span class="font-bold">Tahun Ajaran:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}
             </P><br>
-            <P>Nama Anggota Tim (Jika ada):
+            <P><span class="font-bold">Nama Anggota Tim (Jika ada): </span>
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->anggota }}</P><br>
-            <P>Judul Skripsi: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P><br>
-            <P>Sub Judul Skripsi (Jika ada):
+            <P><span class="font-bold">Judul Skripsi:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}</P><br>
+            <P><span class="font-bold">Sub Judul Skripsi (Jika ada): </span>
                 {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p>Dosen Pembimbing 1: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
-            <p>Dosen Pembimbing 2:
+            <p><span class="font-bold">Dosen Pembimbing 1:
+                </span>{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p><br>
+            <p><span class="font-bold">Dosen Pembimbing 2: </span>
                 {{ isset($pengajuanRevisi->pengajuanSkripsi->dospem2_id) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama : '-' }}
             </p><br>
-            <p>Penguji:
+            <p><span class="font-bold">Penguji: </span>
                 <br>1. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}
                 <br>2. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}
                 <br>3. {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}
             </p><br>
-            <P>Tanggal sidang: {{ $pengajuanRevisi->pengajuanSkripsi->tanggal }}</P><br>
-            <P>Status: {{ $pengajuanRevisi->pengajuanSkripsi->status }}</P><br>
+            <P><span class="font-bold">Tanggal Sidang: </span>{{ $pengajuanRevisi->pengajuanSkripsi->tanggal }}</P><br>
+            <P><span class="font-bold">Status: </span>{{ $pengajuanRevisi->pengajuanSkripsi->status }}</P><br>
             <div class="h-1 bg-primary"></div>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
