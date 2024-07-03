@@ -29,12 +29,14 @@
                 <P><span class="font-bold">Program Studi: </span>{{ $pengajuanJudul->user->mahasiswa->prodi->nama }}</P><br>
                 <P><span class="font-bold">Tahun Ajaran: </span>{{ $pengajuanJudul->user->mahasiswa->tahun->nama }}</P><br>
                 <P><span class="font-bold">Status: </span>{{ $pengajuanJudul->user->mahasiswa->status }}</P><br>
-                <P><span class="font-bold">No. Kontak Mahasiswa</span>{{ $pengajuanJudul->user->mahasiswa->no_kontak }}</P>
+                <P><span class="font-bold">No. Kontak Mahasiswa: </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak }}
+                </P>
                 <br>
-                <P><span class="font-bold">Nama Orang Tua/Wali</span>{{ $pengajuanJudul->user->mahasiswa->nama_ortu }}</P>
+                <P><span class="font-bold">Nama Orang Tua/Wali: </span>{{ $pengajuanJudul->user->mahasiswa->nama_ortu }}
+                </P>
                 <br>
                 <P><span class="font-bold">No. Kontak Orang
-                        Tua/Wali</span>{{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
+                        Tua/Wali: </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
                 <P><span class="font-bold">Nama Anggota Tim (Jika ada):
                     </span>{{ isset($pengajuanJudul->anggota) ? $pengajuanJudul->anggota : '' }}</P>
                 <br>
@@ -44,9 +46,9 @@
                     </span>{{ isset($pengajuanJudul->sub_judul) ? $pengajuanJudul->sub_judul : '' }}
                 </P>
                 <br>
-                <p><span class="font-bold">Abstrak/Ringkasan Skripsi</span>{{ $pengajuanJudul->abstrak }}</p><br>
-                <p><span class="font-bold">Studi Kasus</span>{{ $pengajuanJudul->studi_kasus }}</p><br>
-                <p><span class="font-bold">Sumber Referensi</span>{{ $pengajuanJudul->sumber_referensi }}</p><br>
+                <p><span class="font-bold">Abstrak/Ringkasan Skripsi: </span>{{ $pengajuanJudul->abstrak }}</p><br>
+                <p><span class="font-bold">Studi Kasus: </span>{{ $pengajuanJudul->studi_kasus }}</p><br>
+                <p><span class="font-bold">Sumber Referensi: </span>{{ $pengajuanJudul->sumber_referensi }}</p><br>
                 <p><span class="font-bold">Status: </span>{{ $pengajuanJudul->status }}</p>
                 <div class="mt-7 flex justify-evenly">
                     <button id="terimaButton" type="button"

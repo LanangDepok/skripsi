@@ -776,7 +776,14 @@ class AdminController extends Controller
         if (Gate::any(['admin', 'komite'])) {
             $role_ketua = Role::with('users')->find(3);
             $role_penguji = Role::with('users')->find(4);
-            return view('admin.pengajuan.skripsi.detailPengajuan', ['title' => 'pengajuan', 'pengajuanSkripsi' => $pengajuanSkripsi, 'role_ketua' => $role_ketua, 'role_penguji' => $role_penguji]);
+            $penguji_sebelumnya = PengajuanSempro::where('mahasiswa_id', '=', $pengajuanSkripsi->mahasiswa_id)->latest()->first();
+            return view('admin.pengajuan.skripsi.detailPengajuan', [
+                'title' => 'pengajuan',
+                'pengajuanSkripsi' => $pengajuanSkripsi,
+                'role_ketua' => $role_ketua,
+                'role_penguji' => $role_penguji,
+                'penguji_sebelumnya' => $penguji_sebelumnya
+            ]);
         }
         abort(404);
     }
@@ -871,7 +878,7 @@ class AdminController extends Controller
             } else {
                 $data = $request->all();
                 $rules = ['keterangan' => 'required'];
-                $messages = ['required' => 'Keternagan tidak boleh kosong.'];
+                $messages = ['required' => 'Keterangan tidak boleh kosong.'];
                 $validated = Validator::make($data, $rules, $messages)->validate();
 
                 $this->adminService->tolakPengajuanAlat($pengajuanAlat, $validated);
@@ -881,8 +888,8 @@ class AdminController extends Controller
         abort(404);
     }
 
-    //pelaksanaan sidang
-    public function getSempro(Request $request)
+    //monitoring pengajuan
+    public function getAllSempro(Request $request)
     {
         if (Gate::any(['admin', 'komite'])) {
             $prodi = ProgramStudi::get();
@@ -927,7 +934,14 @@ class AdminController extends Controller
         }
         abort(404);
     }
-    public function getSkripsi(Request $request)
+    public function getSempro(PengajuanSempro $pengajuanSempro)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            return view('admin.sidang.detailSempro', ['title' => 'sidang', 'pengajuanSempro' => $pengajuanSempro]);
+        }
+        abort(404);
+    }
+    public function getAllSkripsi(Request $request)
     {
         if (Gate::any(['admin', 'komite'])) {
             $prodi = ProgramStudi::get();
@@ -970,6 +984,66 @@ class AdminController extends Controller
                 'prodi' => $prodi,
                 'tahun' => $tahun
             ]);
+        }
+        abort(404);
+    }
+    public function getSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            return view('admin.sidang.detailSkripsi', ['title' => 'sidang', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+        }
+        abort(404);
+    }
+    public function getAllAlat(Request $request)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+
+            $latestPengajuanAlatIds = DB::table('pengajuan_skripsis')
+                ->select(DB::raw('MAX(id) as id'))
+                ->groupBy('mahasiswa_id');
+
+            $query = PengajuanAlat::whereIn('id', $latestPengajuanAlatIds);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('user', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', $cari_status);
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
+                });
+            }
+
+            $data = $query->latest()->paginate(30);
+
+            return view('admin.sidang.alat', [
+                'title' => 'sidang',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
+        }
+        abort(404);
+    }
+    public function getAlat(PengajuanAlat $pengajuanAlat)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            return view('admin.sidang.detailAlat', ['title' => 'sidang', 'pengajuanAlat' => $pengajuanAlat]);
         }
         abort(404);
     }
@@ -1406,29 +1480,57 @@ class AdminController extends Controller
 
             // Set header
             $sheet->setCellValue('A1', 'No');
-            $sheet->setCellValue('B1', 'Nama (NIM)');
-            $sheet->setCellValue('C1', 'Kelas');
-            $sheet->setCellValue('D1', 'Program Studi');
-            $sheet->setCellValue('E1', 'Tahun Ajaran');
-            $sheet->setCellValue('F1', 'Judul & Pembimbing');
-            $sheet->setCellValue('G1', 'Seminar Proposal');
-            $sheet->setCellValue('H1', 'Sidang Skripsi');
-            $sheet->setCellValue('I1', 'Revisi');
-            $sheet->setCellValue('J1', 'Berkas');
+            $sheet->setCellValue('B1', 'Nama Mahasiswa');
+            $sheet->setCellValue('C1', 'NIM');
+            $sheet->setCellValue('D1', 'Prodi');
+            $sheet->setCellValue('E1', 'Kelas');
+            $sheet->setCellValue('F1', 'Judul Skripsi');
+            $sheet->setCellValue('G1', 'Sub Judul Skripsi');
+            $sheet->setCellValue('H1', 'Tanggal Sidang/Lulus Sidang');
+            $sheet->setCellValue('I1', 'Nama Dosen Pembimbing 1');
+            $sheet->setCellValue('J1', 'Nama Dosen Pembimbing 2');
+            $sheet->setCellValue('K1', 'Nama Dosen Penguji 1');
+            $sheet->setCellValue('L1', 'Nama Dosen Penguji 2');
+            $sheet->setCellValue('M1', 'Nama Dosen Penguji 3');
+            $sheet->setCellValue('N1', 'Keterangan Revisi Alat');
+            $sheet->setCellValue('O1', 'Keterangan Revisi Laporan');
+            $sheet->setCellValue('P1', 'Tanggal Selesai Revisi');
+            $sheet->setCellValue('Q1', 'Nilai Kelulusan Skripsi');
+            $sheet->setCellValue('R1', 'Nilai Mutu Skripsi');
+            $sheet->setCellValue('S1', 'No HP');
+            $sheet->setCellValue('T1', 'Email');
+            $sheet->setCellValue('U1', 'Sertifikat Lomba');
+            $sheet->setCellValue('V1', 'Sertifikat TOEIC');
+            $sheet->setCellValue('W1', 'Sertifikat Prestasi');
+            $sheet->setCellValue('X1', 'Sertifikat PKKP');
 
             // Fill data
             $row = 2;
             foreach ($data as $index => $mhsw) {
                 $sheet->setCellValue('A' . $row, $index + 1);
-                $sheet->setCellValue('B' . $row, $mhsw->user->nama . ' (' . $mhsw->nim . ')');
-                $sheet->setCellValue('C' . $row, $mhsw->kelas->nama);
+                $sheet->setCellValue('B' . $row, $mhsw->user->nama);
+                $sheet->setCellValue('C' . $row, $mhsw->nim);
                 $sheet->setCellValue('D' . $row, $mhsw->prodi->nama);
-                $sheet->setCellValue('E' . $row, $mhsw->tahun->nama);
-                $sheet->setCellValue('F' . $row, $mhsw->user->pengajuanJudul->count() > 0 && $mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0');
-                $sheet->setCellValue('G' . $row, $mhsw->user->pengajuanSemproMahasiswa->count() > 0 && $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0');
-                $sheet->setCellValue('H' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 && ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' || $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Revisi') ? '1' : '0');
-                $sheet->setCellValue('I' . $row, $mhsw->user->pengajuanSemproMahasiswa->count() > 0 && $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0');
-                $sheet->setCellValue('J' . $row, $mhsw->user->pengajuanAlat->count() > 0 && $mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0');
+                $sheet->setCellValue('E' . $row, $mhsw->kelas->nama);
+                $sheet->setCellValue('F' . $row, $mhsw->user->skripsi ? $mhsw->user->skripsi->judul : '-');
+                $sheet->setCellValue('G' . $row, $mhsw->user->skripsi ? $mhsw->user->skripsi->sub_judul : '-');
+                $sheet->setCellValue('H' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->tanggal : '-');
+                $sheet->setCellValue('I' . $row, $mhsw->user->bimbinganMahasiswa ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen->nama : '-');
+                $sheet->setCellValue('J' . $row, $mhsw->user->bimbinganMahasiswa ? ($mhsw->user->bimbinganMahasiswa->dosen2_id ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-') : '-');
+                $sheet->setCellValue('K' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama : '-');
+                $sheet->setCellValue('L' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama : '-');
+                $sheet->setCellValue('M' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama : '-');
+                $sheet->setCellValue('N' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->revisi_alat : 'Lulus tanpa revisi') : '-');
+                $sheet->setCellValue('O' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->revisi_laporan : 'Lulus tanpa revisi') : '-');
+                $sheet->setCellValue('P' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->tanggal_revisi : 'Lulus tanpa revisi') : '-');
+                $sheet->setCellValue('Q' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->nilai_total : '-');
+                $sheet->setCellValue('R' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->nilai_mutu : '-');
+                $sheet->setCellValue('S' . $row, $mhsw->no_kontak);
+                $sheet->setCellValue('T' . $row, $mhsw->user->email);
+                $sheet->setCellValue('U' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? 'Lengkap' : '-') : '-');
+                $sheet->setCellValue('V' . $row, $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-');
+                $sheet->setCellValue('W' . $row, $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-');
+                $sheet->setCellValue('X' . $row, $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-');
                 $row++;
             }
 

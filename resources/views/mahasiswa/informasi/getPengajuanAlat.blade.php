@@ -48,10 +48,26 @@
                 <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f12 }}</a>
             </p><br>
             <p><span class="font-bold">Link form F13: </span>
-                <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f13 }}</a>
+                <a class="text-blue-500" href="{{ $pengajuanAlat->f13 }}">{{ $pengajuanAlat->f13 }}</a>
             </p><br>
             <p><span class="font-bold">Link form F14: </span>
-                <a class="text-blue-500" href="{{ $pengajuanAlat->f12 }}">{{ $pengajuanAlat->f14 }}</a>
+                <a class="text-blue-500" href="{{ $pengajuanAlat->f14 }}">{{ $pengajuanAlat->f14 }}</a>
+            </p><br>
+            <p><span class="font-bold">Link sertifikat kompetensi Bahasa Inggris TOEIC yang masih berlaku: </span>
+                <a class="text-blue-500"
+                    href="{{ $pengajuanAlat->sertifikat_toeic }}">{{ $pengajuanAlat->sertifikat_toeic }}</a>
+            </p><br>
+            <p><span class="font-bold">Link sertifikat Aktivitas Prestasi dan Penghargaan: </span>
+                <a class="text-blue-500"
+                    href="{{ $pengajuanAlat->sertifikat_prestasi }}">{{ $pengajuanAlat->sertifikat_prestasi }}</a>
+            </p><br>
+            <p><span class="font-bold">Link sertifikat Pendidikan Karakter (ESQ,PKKP,DLL): </span>
+                <a class="text-blue-500"
+                    href="{{ $pengajuanAlat->sertifikat_pkkp }}">{{ $pengajuanAlat->sertifikat_pkkp }}</a>
+            </p><br>
+            <p><span class="font-bold">Link Pengalaman Berorganisasi (Jika ada): </span>
+                <a class="text-blue-500"
+                    href="{{ $pengajuanAlat->sertifikat_organisasi }}">{{ $pengajuanAlat->sertifikat_organisasi }}</a>
             </p><br>
             <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanAlat->status }}</p><br>
             <p><span class="font-bold">Keterangan: </span></p>

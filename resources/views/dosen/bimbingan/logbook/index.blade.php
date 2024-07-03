@@ -8,6 +8,12 @@
             <button
                 class="bg-primary border rounded-md w-56 h-12 text-white hover:text-black hover:bg-red-300 block mx-auto">Terima
                 Logbook</button>
+            @error('logbook')
+                <div class="p-4 mb-4 mt-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
+                    role="alert">
+                    <span class="font-medium">Error!</span>{{ $message }}
+                </div>
+            @enderror
             <div class="container mx-auto mt-6 overflow-x-auto">
                 <table class="table-auto mx-auto border-2 border-slate-500 w-full">
                     <thead class="bg-primary">

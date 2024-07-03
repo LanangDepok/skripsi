@@ -183,6 +183,28 @@ class DosenService
     //rekapitulasi nilai
     public function rekapNilai($pengajuanSkripsi, $validated)
     {
+        $nilai_mutu = "";
+        if ($validated['nilai_total'] >= 81) {
+            $nilai_mutu = 'A';
+        } elseif ($validated['nilai_total'] >= 76) {
+            $nilai_mutu = 'A-';
+        } elseif ($validated['nilai_total'] >= 72) {
+            $nilai_mutu = 'B+';
+        } elseif ($validated['nilai_total'] >= 68) {
+            $nilai_mutu = 'B';
+        } elseif ($validated['nilai_total'] >= 64) {
+            $nilai_mutu = 'B-';
+        } elseif ($validated['nilai_total'] >= 60) {
+            $nilai_mutu = 'C+';
+        } elseif ($validated['nilai_total'] >= 56) {
+            $nilai_mutu = 'C';
+        } elseif ($validated['nilai_total'] >= 41) {
+            $nilai_mutu = 'D';
+        } elseif ($validated['nilai_total'] >= 1) {
+            $nilai_mutu = 'E';
+        }
+
+        $validated['nilai_mutu'] = $nilai_mutu;
         $validated['status'] = 'Menunggu kelulusan';
         $pengajuanSkripsi->update($validated);
     }

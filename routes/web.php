@@ -99,8 +99,12 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/pengajuan/alat', 'PengajuanAlat');
     Route::get('/admin/pengajuan/alat/{pengajuanAlat}', 'getPengajuanAlat');
     Route::post('/admin/pengajuan/alat/{pengajuanAlat}', 'terimaPengajuanAlat');
-    Route::get('/admin/pelaksanaan/sempro', 'getSempro');
-    Route::get('/admin/pelaksanaan/skripsi', 'getSkripsi');
+    Route::get('/admin/pelaksanaan/sempro', 'getAllSempro');
+    Route::get('/admin/pelaksanaan/sempro/{pengajuanSempro}', 'getSempro');
+    Route::get('/admin/pelaksanaan/skripsi', 'getAllSkripsi');
+    Route::get('/admin/pelaksanaan/skripsi/{pengajuanSkripsi}', 'getSkripsi');
+    Route::get('/admin/pelaksanaan/alat', 'getAllalat');
+    Route::get('/admin/pelaksanaan/alat/{pengajuanAlat}', 'getAlat');
     Route::get('/admin/revisi', 'getAllRevisi');
     Route::get('/admin/revisi/{pengajuanRevisi}', 'getRevisi');
     Route::post('/admin/revisi/{pengajuanRevisi}', 'keputusanRevisi');

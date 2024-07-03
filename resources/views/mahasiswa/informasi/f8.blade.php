@@ -106,7 +106,7 @@
                         <td class="border border-slate-500 py-2 text-center">
                             {{ $pengajuanSkripsi->nilai_total }}
                         </td>
-                        <td class="border border-slate-500 py-2 text-center">{{ $huruf_mutu }}</td>
+                        <td class="border border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->nilai_mutu }}</td>
                     </tr>
                 </tbody>
             </table>

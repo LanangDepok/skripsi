@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pelaksanaan Sidang Skripsi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Monitoring Sidang Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
         <form method="GET">
@@ -73,12 +73,13 @@
                     <th class="border-b border-slate-500 py-2">N0.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
+                    <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Pembimbing</th>
                     <th class="border-b border-slate-500 py-2">Penguji</th>
-                    {{-- <th class="border-b border-slate-500 py-2">Jenis</th> --}}
                     <th class="border-b border-slate-500 py-2">Pelaksanaan</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
+                    <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,6 +96,8 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $skripsi->pengajuanSkripsiMahasiswa->mahasiswa->tahun->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($skripsi->pengajuanSkripsiMahasiswa->skripsi->judul) ? $skripsi->pengajuanSkripsiMahasiswa->skripsi->judul : 'Mahasiswa belum mengajukan judul.' }}
                         </td>
@@ -113,6 +116,10 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($skripsi->tanggal) ? $skripsi->tanggal : '-' }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $skripsi->status }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <a href="/admin/pelaksanaan/skripsi/{{ $skripsi->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

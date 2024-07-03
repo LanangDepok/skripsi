@@ -117,33 +117,6 @@ class MahasiswaService
     }
 
     //form
-    public function f8($pengajuanSkripsi)
-    {
-        $huruf_mutu = "";
-
-        if ($pengajuanSkripsi->nilai_total >= 81) {
-            $huruf_mutu = 'A';
-        } elseif ($pengajuanSkripsi->nilai_total >= 76) {
-            $huruf_mutu = 'A-';
-        } elseif ($pengajuanSkripsi->nilai_total >= 72) {
-            $huruf_mutu = 'B+';
-        } elseif ($pengajuanSkripsi->nilai_total >= 68) {
-            $huruf_mutu = 'B';
-        } elseif ($pengajuanSkripsi->nilai_total >= 64) {
-            $huruf_mutu = 'B-';
-        } elseif ($pengajuanSkripsi->nilai_total >= 60) {
-            $huruf_mutu = 'C+';
-        } elseif ($pengajuanSkripsi->nilai_total >= 56) {
-            $huruf_mutu = 'C';
-        } elseif ($pengajuanSkripsi->nilai_total >= 41) {
-            $huruf_mutu = 'D';
-        } elseif ($pengajuanSkripsi->nilai_total >= 1) {
-            $huruf_mutu = 'E';
-        }
-
-        return $huruf_mutu;
-    }
-
     public function f9($pengajuanSkripsi)
     {
         $numberFormatter = new NumberFormatter('id', NumberFormatter::SPELLOUT);

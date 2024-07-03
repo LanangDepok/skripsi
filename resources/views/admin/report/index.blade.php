@@ -14,15 +14,29 @@
             <thead class="bg-primary">
                 <tr>
                     <th class="border-b border-slate-500 py-2">No</th>
-                    <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
+                    <th class="border-b border-slate-500 py-2">Nama Mahasiswa</th>
+                    <th class="border-b border-slate-500 py-2">NIM</th>
+                    <th class="border-b border-slate-500 py-2">Prodi</th>
                     <th class="border-b border-slate-500 py-2">Kelas</th>
-                    <th class="border-b border-slate-500 py-2">Program Studi</th>
-                    <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
-                    <th class="border-b border-slate-500 py-2">Judul & Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Seminar Proposal</th>
-                    <th class="border-b border-slate-500 py-2">Sidang Skripsi</th>
-                    <th class="border-b border-slate-500 py-2">Revisi</th>
-                    <th class="border-b border-slate-500 py-2">Berkas</th>
+                    <th class="border-b border-slate-500 py-2">Judul Skripsi</th>
+                    <th class="border-b border-slate-500 py-2">Sub Judul Skripsi</th>
+                    <th class="border-b border-slate-500 py-2">Tanggal Sidang/Lulus Sidang</th>
+                    <th class="border-b border-slate-500 py-2">Nama Dosen Pembimbing 1</th>
+                    <th class="border-b border-slate-500 py-2">Nama Dosen Pembimbing 2</th>
+                    <th class="border-b border-slate-500 py-2">Nama Dosen Penguji 1</th>
+                    <th class="border-b border-slate-500 py-2">Nama Dosen Penguji 2</th>
+                    <th class="border-b border-slate-500 py-2">Nama Dosen Penguji 3</th>
+                    <th class="border-b border-slate-500 py-2">Keterangan Revisi Alat</th>
+                    <th class="border-b border-slate-500 py-2">Keterangan Revisi Laporan</th>
+                    <th class="border-b border-slate-500 py-2">Tanggal Selesai Revisi</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Kelulusan Skripsi</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Mutu Skripsi</th>
+                    <th class="border-b border-slate-500 py-2">No HP</th>
+                    <th class="border-b border-slate-500 py-2">Email</th>
+                    <th class="border-b border-slate-500 py-2">Sertifikat Lomba</th>
+                    <th class="border-b border-slate-500 py-2">Sertifikat TOEIC</th>
+                    <th class="border-b border-slate-500 py-2">Sertifikat Prestasi</th>
+                    <th class="border-b border-slate-500 py-2">Sertifikat PKKP</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,54 +47,73 @@
                     <tr class="even:bg-slate-300">
                         <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>{{ $mhsw->user->nama }}</p>
-                            <p>({{ $mhsw->nim }})</p>
+                            {{ $mhsw->user->nama }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->nim }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->prodi->nama }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $mhsw->kelas->nama }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $mhsw->prodi->nama }}</td>
+                            {{ $mhsw->user->skripsi ? $mhsw->user->skripsi->judul : '-' }}
+                        </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $mhsw->tahun->nama }}
+                            {{ $mhsw->user->skripsi ? $mhsw->user->skripsi->sub_judul : '-' }}
                         </td>
-                        <td class="text-center  border-b border-slate-500">
-                            @if ($mhsw->user->pengajuanJudul->count() > 0)
-                                {{ $mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0' }}
-                            @else
-                                0
-                            @endif
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->tanggal : '-' }}
                         </td>
-                        <td class="text-center  border-b border-slate-500">
-                            @if ($mhsw->user->pengajuanSemproMahasiswa->count() > 0)
-                                {{ $mhsw->user->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0' }}
-                            @else
-                                0
-                            @endif
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->bimbinganMahasiswa ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen->nama : '-' }}
                         </td>
-                        <td class="text-center  border-b border-slate-500">
-                            @if ($mhsw->user->pengajuanSkripsiMahasiswa->count() > 0)
-                                {{ $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ||
-                                $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Revisi'
-                                    ? '1'
-                                    : '0' }}
-                            @else
-                                0
-                            @endif
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->bimbinganMahasiswa ? ($mhsw->user->bimbinganMahasiswa->dosen2_id ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-') : '-' }}
                         </td>
-                        <td class="text-center  border-b border-slate-500">
-                            @if ($mhsw->user->pengajuanSkripsiMahasiswa->count() > 0)
-                                {{ $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? '1' : '0' }}
-                            @else
-                                0
-                            @endif
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama : '-' }}
                         </td>
-                        <td class="text-center  border-b border-slate-500">
-                            @if ($mhsw->user->pengajuanAlat->count() > 0)
-                                {{ $mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? '1' : '0' }}
-                            @else
-                                0
-                            @endif
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->revisi_alat : 'Lulus tanpa revisi') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->revisi_laporan : 'Lulus tanpa revisi') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanRevisi->tanggal_revisi : 'Lulus tanpa revisi') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->nilai_total : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->nilai_mutu : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->no_kontak }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->email }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? 'Lengkap' : '-') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-' }}
+                        </td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $mhsw->user->pengajuanAlat->count() > 0 ? ($mhsw->user->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Diterima' ? 'Lengkap' : '-') : '-' }}
                         </td>
                     </tr>
                 @endforeach

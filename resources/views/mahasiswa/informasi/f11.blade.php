@@ -136,7 +136,7 @@
             </table>
         </div>
         <div class="mt-3 ml-auto w-1/4">
-            <p>Depok, {{ $pengajuanSkripsi->tanggal }}</p>
+            <p>Depok, {{ $pengajuanSkripsi->pengajuanRevisi->tanggal_revisi }}</p>
             <p>Ketua Komite Skripsi,</p>
             <img class="max-w-32 max-h-24" src="/storage/{{ $ttd->dosen->tanda_tangan }}">
             <p>{{ $ttd->nama }}</p>

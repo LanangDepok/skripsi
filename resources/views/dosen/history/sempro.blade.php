@@ -96,10 +96,10 @@
                         <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_skripsi->status }}</td>
                         <td class="text-center  border-b border-slate-500">
                             <a href="/dosen/history/sempro/{{ $dosen_skripsi->id }}"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a></button>
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                             @if (Auth::user()->id == $dosen_skripsi->penguji1_id)
                                 <a href="/dosen/pengujian/sempro/{{ $dosen_skripsi->id }}/terima"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a></button>
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
                             @endif
                         </td>
                     </tr>

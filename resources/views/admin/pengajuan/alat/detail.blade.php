@@ -65,6 +65,30 @@
                         {{ $pengajuanAlat->f14 }}
                     </a>
                 </P><br>
+                <P>
+                    <span class="font-bold">Sertifikat kompetensi Bahasa Inggris TOEIC yang masih berlaku: </span>
+                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_toeic }}">
+                        {{ $pengajuanAlat->sertifikat_toeic }}
+                    </a>
+                </P><br>
+                <P>
+                    <span class="font-bold">Sertifikat Aktivitas Prestasi dan Penghargaan: </span>
+                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_prestasi }}">
+                        {{ $pengajuanAlat->sertifikat_prestasi }}
+                    </a>
+                </P><br>
+                <P>
+                    <span class="font-bold">Sertifikat Pendidikan Karakter (ESQ,PKKP,DLL): </span>
+                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_pkkp }}">
+                        {{ $pengajuanAlat->sertifikat_pkkp }}
+                    </a>
+                </P><br>
+                <P>
+                    <span class="font-bold">Sertifikat Pengalaman Berorganisasi: </span>
+                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_organisasi }}">
+                        {{ $pengajuanAlat->sertifikat_organisasi }}
+                    </a>
+                </P><br>
                 <div class="h-1 bg-primary"></div>
             </div>
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">

@@ -260,7 +260,6 @@ class MahasiswaController extends Controller
             $rules = [
                 'sertifikat_lomba' => 'required',
                 'link_presentasi' => 'required',
-                // 'membuat_alat' => 'required'
             ];
             $messages = ['required' => 'silahkan isi :attribute terlebih dahulu.'];
 
@@ -303,6 +302,10 @@ class MahasiswaController extends Controller
                 'f12' => 'required',
                 'f13' => 'required',
                 'f14' => 'required',
+                'sertifikat_toeic' => 'required',
+                'sertifikat_prestasi' => 'required',
+                'sertifikat_pkkp' => 'required',
+                'sertifikat_organiasi' => 'nullable',
             ];
             $messages = ['required' => 'Silahkan isi terlebih dahulu'];
             $validated = Validator::make($data, $rules, $messages)->validate();
@@ -527,9 +530,7 @@ class MahasiswaController extends Controller
             (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
-            $huruf_mutu = $this->mahasiswaService->f8($pengajuanSkripsi);
-
-            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi, 'huruf_mutu' => $huruf_mutu]);
+            return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
         }
         abort(404);
     }

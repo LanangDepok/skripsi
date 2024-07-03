@@ -101,7 +101,7 @@
                         <li class="relative">
                             <button type="button" id="sidangDropdownButton"
                                 class="hover:bg-slate-300 {{ $title == 'sidang' ? 'bg-red-200' : '' }}">
-                                Pelaksanaan sidang
+                                Monitoring Pengajuan
                                 <span>
                                     <img src="/storage/icons/meeting.png"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
@@ -114,6 +114,9 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="/admin/pelaksanaan/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="/admin/pelaksanaan/alat" class="block px-4 py-2 hover:bg-slate-300">Serah
+                                    terima alat & skripsi</a>
                             </div>
                         </li>
                         <li>
@@ -155,7 +158,8 @@
                                     <a href="/admin/database/prodi" class="block px-4 py-2 hover:bg-slate-300">Program
                                         Studi</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
-                                    <a href="/admin/database/jabatan" class="block px-4 py-2 hover:bg-slate-300">Jabatan</a>
+                                    <a href="/admin/database/jabatan"
+                                        class="block px-4 py-2 hover:bg-slate-300">Jabatan</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
                                     <a href="/admin/database/fungsional"
                                         class="block px-4 py-2 hover:bg-slate-300">Jabatan

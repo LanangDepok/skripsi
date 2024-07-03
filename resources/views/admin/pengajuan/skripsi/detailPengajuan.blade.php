@@ -75,8 +75,6 @@
                 <p><span class="font-bold">Tanggal Pengajuan: </span>{{ $pengajuanSkripsi->created_at->format('d F Y') }}
                 </p>
                 <br>
-                {{-- <p>Apakah skripsinya membuat alat? {{ $pengajuanSkripsi->membuat_alat }}</p>
-                <br> --}}
                 <p><span class="font-bold">Dosen Pembimbing 1: </span>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}
                 </p>
                 <br>
@@ -116,13 +114,17 @@
 
             {{-- Modal --}}
             <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
-                <div class="fixed bg-white top-28 bottom-28 left-96 right-96 z-10 rounded-lg">
+                <div class="fixed bg-white top-16 bottom-16 left-96 right-96 z-10 rounded-lg">
                     <div class="w-7 ml-auto">
                         <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
                     </div>
                     <div class="container w-1/2 mx-auto">
                         <p class="text-center mb-5 font-semibold text-xl">Pilih Dosen Penguji</p>
-                        <div>
+                        <p>Dosen penguji seminar proposal sebelumnya:</p>
+                        <p>1. {{ $penguji_sebelumnya->pengajuanSemproPenguji1->nama }}</p>
+                        <p>2. {{ $penguji_sebelumnya->pengajuanSemproPenguji2->nama }}</p>
+                        <p>3. {{ $penguji_sebelumnya->pengajuanSemproPenguji3->nama }}</p>
+                        <div class="mt-3">
                             <label for="penguji1_id">Dosen Pilihan 1 (Ketua Penguji)</label>
                             <select name="penguji1_id" id="dosen_pembimbing"
                                 class="w-full rounded-md border border-primary">
@@ -160,7 +162,7 @@
                             <input id="tanggal" name="tanggal" type="date"
                                 class="w-full rounded-md border border-primary">
                         </div>
-                        <div class="w-24 h-8 mx-auto mt-10">
+                        <div class="w-24 h-8 mx-auto mt-5">
                             <button type="submit" name="terima" value="terima"
                                 class="bg-primary text-white w-full h-full rounded-md hover:text-black hover:bg-red-300"
                                 onclick="return confirm('Apakah yakin ingin menerima pengajuan skripsi?')">Terima</button>

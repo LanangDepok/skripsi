@@ -24,7 +24,6 @@ return new class extends Migration {
             $table->text('keterangan')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('acc_dospem')->nullable();
-            $table->string('acc_dospem2')->nullable();
             $table->double('nilai')->nullable();
             $table->double('kriteria1')->nullable();
             $table->double('kriteria2')->nullable();

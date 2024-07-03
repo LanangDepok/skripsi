@@ -103,8 +103,11 @@ class DosenController extends Controller
     public function acceptAllLogbook(Request $request)
     {
         if (Gate::allows('dosen_pembimbing')) {
-            $data = $request->logbook;
-            foreach ($data as $terima) {
+            $data = $request->all();
+            $rules = ['logbook' => 'required'];
+            $messages = ['required' => 'Silahkan pilih logbook yang ingin diterima terlebih dahulu.'];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+            foreach ($validated['logbook'] as $terima) {
                 Logbook::where('id', '=', $terima)->update(['status' => 'Diterima']);
             }
 

@@ -1,11 +1,10 @@
 @extends('admin.template')
 
 @section('content')
-    <p class="text-center font-semibold text-2xl text-primary">Pengajuan Penyerahan Alat & Skripsi</p>
+    <p class="text-center font-semibold text-2xl text-primary">Monitoring Serah Terima Alat & Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/pengajuan/alat">
-            @csrf
+        <form method="GET">
             <div class="flex justify-evenly items-center">
                 <div>
                     <label for="cari_nama">Nama:</label>
@@ -34,6 +33,19 @@
                         @endforeach
                     </select>
                 </div>
+                <div>
+                    <label for="cari_status">Status:</label>
+                    <select name="cari_status" id="cari_status" class="w-56">
+                        <option value="">(Tanpa filter)</option>
+                        <option value="Diterima" {{ request()->input('cari_status') == 'Diterima' ? 'selected' : '' }}>
+                            Diterima</option>
+                        <option value="Ditolak" {{ request()->input('cari_status') == 'Ditolak' ? 'selected' : '' }}>
+                            Ditolak</option>
+                        <option value="Menunggu persetujuan"
+                            {{ request()->input('cari_status') == 'Menunggu persetujuan' ? 'selected' : '' }}>
+                            Menunggu persetujuan</option>
+                    </select>
+                </div>
                 <button class="bg-primary rounded-lg w-20 h-7 text-white hover:text-black hover:bg-red-300">Cari</button>
             </div>
         </form>
@@ -42,11 +54,11 @@
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>
-                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">N0.</th>
                     <th class="border-b border-slate-500 py-2">Nama (NIM)</th>
                     <th class="border-b border-slate-500 py-2">Prodi</th>
-                    <th class="border-b border-slate-500 py-2">Judul</th>
-                    <th class="border-b border-slate-500 py-2">Pembimbing</th>
+                    <th class="border-b border-slate-500 py-2">Tahun Ajaran</th>
+                    <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Action</th>
                 </tr>
             </thead>
@@ -54,27 +66,22 @@
                 @php
                     $startNumber = ($data->currentPage() - 1) * $data->perPage() + 1;
                 @endphp
-                @foreach ($data as $index => $pengajuanAlat)
+                @foreach ($data as $index => $alat)
                     <tr class="even:bg-slate-300">
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
+
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>{{ $pengajuanAlat->user->nama }}</p>
-                            <p>({{ $pengajuanAlat->user->mahasiswa->nim }})</p>
-                        </td>
-                        <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $pengajuanAlat->user->mahasiswa->prodi->nama }}
-                        </td>
-                        <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanAlat->user->skripsi->judul }}
+                            {{ $alat->user->nama }} <br>
+                            ({{ $alat->user->mahasiswa->nim }})
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <p>1. {{ $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen->nama }}</p>
-                            <p>2.
-                                {{ isset($pengajuanAlat->user->bimbinganMahasiswa->dosen2_id) ? $pengajuanAlat->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-' }}
-                            </p>
-                        </td>
-                        <td class="text-center  border-b border-slate-500">
-                            <a href="/admin/pengajuan/alat/{{ $pengajuanAlat->id }}"
-                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
+                            {{ $alat->user->mahasiswa->prodi->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ $alat->user->mahasiswa->tahun->nama }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $alat->status }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            <a href="/admin/pelaksanaan/alat/{{ $alat->id }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                         </td>
                     </tr>
                 @endforeach

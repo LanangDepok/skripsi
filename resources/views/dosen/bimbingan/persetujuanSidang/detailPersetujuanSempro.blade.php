@@ -36,11 +36,11 @@
             <P><span class="font-bold">Sub Judul Skripsi (Jika ada):
                 </span>{{ $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->sub_judul }}</P>
             <br>
-            <p><span class="font-bold">Metode </span>{{ $pengajuanSempro->metode }}</p>
+            <p><span class="font-bold">Metode: </span>{{ $pengajuanSempro->metode }}</p>
             <br>
-            <p><span class="font-bold">Tanggal Pengajuan</span>{{ $pengajuanSempro->created_at->format('d F Y') }}</p>
+            <p><span class="font-bold">Tanggal Pengajuan: </span>{{ $pengajuanSempro->created_at->format('d F Y') }}</p>
             <br>
-            <p><span class="font-bold">Dosen Pembimbing</span>{{ Auth::user()->nama }}</p>
+            <p><span class="font-bold">Dosen Pembimbing: </span>{{ Auth::user()->nama }}</p>
             <br>
             <P>
                 <span class="font-bold">Bukti Registrasi: </span>
