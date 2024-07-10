@@ -8,11 +8,11 @@
                 <span class="font-medium">Error!</span> {{ $message }}
             </div>
         @enderror
-        <form method="POST" action="/admin/pengajuan/alat/{{ $pengajuanAlat->id }}">
+        <form method="POST" action="{{ route('adm.terimaPengajuanAlat', ['pengajuanAlat' => $pengajuanAlat->id]) }}">
             @csrf
             <div class="flex w-1/2 mx-auto">
-                <a href="/admin/pengajuan/alat"
-                    class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
+                <a href="route('adm.pengajuanAlat')"
+                    class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a>
             </div>
             <div class="flex justify-center">
                 <img src="/storage/{{ isset($pengajuanAlat->user->mahasiswa->photo_profil) ? $pengajuanAlat->user->mahasiswa->photo_profil : 'icons/user.png' }}"
@@ -32,7 +32,8 @@
                 <br>
                 <P><span class="font-bold">Tahun Ajaran: </span>{{ $pengajuanAlat->user->mahasiswa->tahun->nama }}</P>
                 <br>
-                <P><span class="font-bold">Nama Anggota Tim (Jika ada): </span>{{ $pengajuanAlat->user->skripsi->anggota }}
+                <P><span class="font-bold">Nama Anggota Tim (Jika ada):
+                    </span>{{ $pengajuanAlat->user->skripsi->anggota }}
                 </P>
                 <br>
                 <P><span class="font-bold">Judul Skripsi: </span>{{ $pengajuanAlat->user->skripsi->judul }}</P>

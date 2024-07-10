@@ -4,7 +4,7 @@
     <p class="text-center font-semibold text-2xl text-primary">Pengajuan Sidang Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/pengajuan/skripsi">
+        <form method="GET" action="{{ route('adm.pengajuanSkripsi') }}">
             @csrf
             <div class="flex justify-evenly items-center">
                 <div>
@@ -73,7 +73,7 @@
                             </p>
                         </td>
                         <td class="text-center  border-b border-slate-500">
-                            <a href="/admin/pengajuan/skripsi/{{ $pengajuanSkripsi->id }}"
+                            <a href="{{ route('adm.getPengajuanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>

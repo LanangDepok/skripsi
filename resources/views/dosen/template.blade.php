@@ -35,8 +35,8 @@
                         <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
                         <select name="program_studi" id="program_studi" class="w-30 rounded-md"
                             onchange="redirectToPage(this)">
-                            <option value="/dosen/index" selected>Dosen</option>
-                            <option value="/admin/index">Komite</option>
+                            <option value="{{ route('dsn.index') }}" selected>Dosen</option>
+                            <option value="{{ route('adm.index') }}">Komite</option>
                         </select>
                     </div>
                 @endcan
@@ -47,7 +47,7 @@
                 <div class="w-4/5">
                     <ul class="flex justify-between">
                         <li>
-                            <a href="/dosen/index"
+                            <a href="{{ route('dsn.index') }}"
                                 class="hover:bg-slate-300 {{ $title == 'index' ? 'bg-red-200' : '' }}">
                                 Home
                                 <span>
@@ -65,16 +65,18 @@
                                             class="w-3 h-3 inline-block -translate-y-[10%]">
                                     </span>
                                 </button>
-                                <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                                <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden dropdown-content"
                                     id="bimbinganDropdownContent">
-                                    <a href="/dosen/bimbingan/logbook" class="block px-4 py-2 hover:bg-slate-300">Pengajuan
+                                    <a href="{{ route('dsn.getLogbooks') }}"
+                                        class="block px-4 py-2 hover:bg-slate-300">Pengajuan
                                         Logbook</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
-                                    <a href="/dosen/bimbingan/persetujuanSidang"
+                                    <a href="{{ route('dsn.getAllPersetujuanSidang') }}"
                                         class="block px-4 py-2 hover:bg-slate-300">Persetujuan
                                         Sidang</a>
                                     <div class="container h-[1px] w-full bg-slate-500"></div>
-                                    <a href="/dosen/bimbingan/listMahasiswa" class="block px-4 py-2 hover:bg-slate-300">List
+                                    <a href="{{ route('dsn.getAllListMahasiswa') }}"
+                                        class="block px-4 py-2 hover:bg-slate-300">List
                                         Mahasiswa</a>
                                 </div>
                             </li>
@@ -88,18 +90,20 @@
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
-                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden dropdown-content"
                                 id="pengujianDropdownContent">
-                                <a href="/dosen/pengujian/sempro" class="block px-4 py-2 hover:bg-slate-300">Seminar
+                                <a href="{{ route('dsn.getAllPengujianSempro') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Seminar
                                     Proposal</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/dosen/pengujian/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
+                                <a href="{{ route('dsn.getAllPengujianSkripsi') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
                             </div>
                         </li>
                         @can('ketua_penguji')
                             <li>
-                                <a href="/dosen/rekapitulasi"
+                                <a href="{{ route('dsn.getAllRekapitulasi') }}"
                                     class="hover:bg-slate-300 {{ $title == 'rekapitulasi' ? 'bg-red-200' : '' }}">
                                     Rekapitulasi Nilai
                                     <span>
@@ -109,7 +113,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/dosen/kelulusan"
+                                <a href="{{ route('dsn.getAllKelulusan') }}"
                                     class="hover:bg-slate-300 {{ $title == 'kelulusan' ? 'bg-red-200' : '' }}">
                                     Kelulusan
                                     <span>
@@ -120,7 +124,7 @@
                             </li>
                         @endcan
                         <li>
-                            <a href="/dosen/revisi"
+                            <a href="{{ route('dsn.getAllRevisi') }}"
                                 class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
                                 Pengajuan Revisi
                                 <span>
@@ -130,7 +134,7 @@
                             </a>
                         </li>
                         <li class="relative">
-                            <button type="button" id="sidangDropdownButton"
+                            <button id="sidangDropdownButton"
                                 class="hover:bg-slate-300 {{ $title == 'history' ? 'bg-red-200' : '' }}">
                                 History
                                 <span>
@@ -138,15 +142,20 @@
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
-                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden"
+                            <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden dropdown-content"
                                 id="sidangDropdownContent">
-                                <a href="/dosen/history/sempro" class="block px-4 py-2 hover:bg-slate-300">Seminar
+                                <a href="{{ route('dsn.historySempro') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Seminar
                                     Proposal</a>
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/dosen/history/skripsi" class="block px-4 py-2 hover:bg-slate-300">Sidang
+                                <a href="{{ route('dsn.historySkripsi') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Sidang
                                     Skripsi</a>
-                                <div class="container h-[1px] w-full bg-slate-500"></div>
-                                <a href="/dosen/history/logbook" class="block px-4 py-2 hover:bg-slate-300">Logbook</a>
+                                @can('dosen_pembimbing')
+                                    <div class="container h-[1px] w-full bg-slate-500"></div>
+                                    <a href="{{ route('dsn.historyLogbook') }}"
+                                        class="block px-4 py-2 hover:bg-slate-300">Logbook</a>
+                                @endcan
                             </div>
                         </li>
                     </ul>
@@ -160,11 +169,12 @@
                                 class="w-7 h-7 rounded-full">
                         </span>
                     </button>
-                    <div class="absolute bg-slate-100 rounded-md shadow-md w-32 mt-2 right-0 hidden"
+                    <div class="absolute bg-slate-100 rounded-md shadow-md w-32 mt-2 right-0 hidden dropdown-content"
                         id="userDropdownContent">
-                        <a href="/dosen/profile" class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
+                        <a href="{{ route('dsn.getProfile') }}"
+                            class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
                         <div class="container h-[1px] w-full bg-slate-500"></div>
-                        <form method="POST" action="/logout">
+                        <form method="POST" action="{{ route('keluar') }}">
                             @csrf
                             <button type="submit" class="hover:bg-slate-300 w-full py-2">Logout</button>
                         </form>
@@ -190,47 +200,50 @@
 </body>
 
 <script>
+    function closeAllDropdowns(except = null) {
+        const dropdownContents = document.querySelectorAll('.dropdown-content');
+        dropdownContents.forEach(content => {
+            if (content !== except) {
+                content.classList.add('hidden');
+            }
+        });
+    }
+
+    function toggleDropdown(button, content) {
+        closeAllDropdowns(content);
+        content.classList.toggle('hidden');
+    }
+
     const userDropdownButton = document.getElementById('userDropdownButton');
     const userDropdownContent = document.getElementById('userDropdownContent');
     userDropdownButton.addEventListener('click', function() {
-        userDropdownContent.classList.toggle('hidden');
+        toggleDropdown(userDropdownButton, userDropdownContent);
     });
-</script>
-<script>
+
     const pengujianDropdownButton = document.getElementById('pengujianDropdownButton');
     const pengujianDropdownContent = document.getElementById('pengujianDropdownContent');
     pengujianDropdownButton.addEventListener('click', function() {
-        pengujianDropdownContent.classList.toggle('hidden');
+        toggleDropdown(pengujianDropdownButton, pengujianDropdownContent);
     });
-</script>
-<script>
-    const pengajuanDropdownButton = document.getElementById('pengajuanDropdownButton');
-    const pengajuanDropdownContent = document.getElementById('pengajuanDropdownContent');
-    pengajuanDropdownButton.addEventListener('click', function() {
-        pengajuanDropdownContent.classList.toggle('hidden');
-    });
-</script>
-<script>
+
     const sidangDropdownButton = document.getElementById('sidangDropdownButton');
     const sidangDropdownContent = document.getElementById('sidangDropdownContent');
     sidangDropdownButton.addEventListener('click', function() {
-        sidangDropdownContent.classList.toggle('hidden');
+        toggleDropdown(sidangDropdownButton, sidangDropdownContent);
     });
-</script>
-<script>
+
+    const bimbinganDropdownButton = document.getElementById('bimbinganDropdownButton');
+    const bimbinganDropdownContent = document.getElementById('bimbinganDropdownContent');
+    bimbinganDropdownButton.addEventListener('click', function() {
+        toggleDropdown(bimbinganDropdownButton, bimbinganDropdownContent);
+    });
+
     //pindah role
     function redirectToPage(select) {
         var selectedOption = select.options[select.selectedIndex];
         var url = selectedOption.value;
         window.location.href = url;
     }
-</script>
-<script>
-    const bimbinganDropdownButton = document.getElementById('bimbinganDropdownButton');
-    const bimbinganDropdownContent = document.getElementById('bimbinganDropdownContent');
-    bimbinganDropdownButton.addEventListener('click', function() {
-        bimbinganDropdownContent.classList.toggle('hidden');
-    });
 </script>
 
 </html>

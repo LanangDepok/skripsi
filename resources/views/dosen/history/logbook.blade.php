@@ -5,7 +5,7 @@
         <p class="text-center text-2xl font-semibold mb-6">Pengajuan Logbook</p>
         <div class="container mx-auto px-10 bg-slate-200 mt-2">
             <p class="font-semibold text-lg">Filter by:</p>
-            <form method="GET" action="/dosen/history/logbook">
+            <form method="GET" action="{{ route('dsn.historyLogbook') }}">
                 @csrf
                 <div class="flex justify-evenly items-center">
                     <div>
@@ -57,7 +57,7 @@
                                     <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->tempat }}</td>
                                     <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->status }}</td>
                                     <td class="text-center  border-b border-slate-500">
-                                        <a href="/dosen/history/logbook/{{ $logbook->id }}"
+                                        <a href="{{ route('dsn.historyLogbookDetail', ['logbook' => $logbook->id]) }}"
                                             class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
                                     </td>
                                 </tr>

@@ -80,7 +80,7 @@
                             {{ $alat->user->mahasiswa->tahun->nama }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $alat->status }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <a href="/admin/pelaksanaan/alat/{{ $alat->id }}"
+                            <a href="{{ route('adm.getAlat', ['pengajuanAlat' => $alat->id]) }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                         </td>
                     </tr>

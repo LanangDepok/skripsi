@@ -36,10 +36,11 @@
                 <span class="font-medium">Error!</span> {{ $message }}
             </div>
         @enderror
-        <form method="POST" action="/admin/pengajuan/sempro/{{ $pengajuanSempro->id }}">
+        <form method="POST"
+            action="{{ route('adm.terimaPengajuanSempro', ['pengajuanSempro' => $pengajuanSempro->id]) }}}}">
             @csrf
             <div class="flex w-1/2 mx-auto">
-                <a href="/admin/pengajuan/sempro"
+                <a href="{{ route('adm.pengajuanSempro') }}"
                     class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
             </div>
             <div class="flex justify-center">

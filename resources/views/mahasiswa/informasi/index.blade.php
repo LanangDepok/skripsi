@@ -44,7 +44,7 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
                             <td class="text-center border-b border-slate-500">
-                                <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanJudul"
+                                <a href="{{ route('mhs.getPengajuanJudul', ['pengajuanJudul' => $data->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">
                                     Detail
                                 </a>
@@ -89,25 +89,25 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
                             <td class="text-center border-b border-slate-500">
-                                <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanSempro"
+                                <a href="{{ route('mhs.getPengajuanSempro', ['pengajuanSempro' => $data->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
                                 <div>
                                     @if ($data->status != 'Menunggu persetujuan pembimbing' && $data->status != 'Ditolak')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f1"
+                                        <a href="{{ route('mhs.f1', ['pengajuanSempro' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F1
                                         </a>
                                     @endif
                                     @if ($data->status == 'Lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f2"
+                                        <a href="{{ route('mhs.f2', ['pengajuanSempro' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F2
                                         </a>
                                     @endif
                                     @if ($data->status == 'Lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f3"
+                                        <a href="{{ route('mhs.f3', ['pengajuanSempro' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F3
                                         </a>
@@ -164,28 +164,28 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
                             <td class="text-center border-b border-slate-500">
-                                <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanSkripsi"
+                                <a href="{{ route('mhs.getPengajuanSkripsi', ['pengajuanSkripsi' => $data->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                     Detail
                                 </a>
                                 <div>
                                     @if ($data->status != 'Menunggu persetujuan pembimbing' && $data->status != 'Ditolak')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f4"
+                                        <a href="{{ route('mhs.f4', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F4
                                         </a>
                                     @endif
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f5"
+                                        <a href="{{ route('mhs.f5', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F5
                                         </a>
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f6a"
+                                        <a href="{{ route('mhs.f6a', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F6
                                         </a>
                                         @if ($data->dospem2_id != null)
-                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f6b"
+                                            <a href="{{ route('mhs.f6b', ['pengajuanSkripsi' => $data->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
@@ -194,19 +194,19 @@
                                 </div>
                                 <div>
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7a"
+                                        <a href="{{ route('mhs.f7a', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F7a
                                         </a>
                                     @endif
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7b"
+                                        <a href="{{ route('mhs.f7b', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F7b
                                         </a>
                                     @endif
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f7c"
+                                        <a href="{{ route('mhs.f7c', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F7c
                                         </a>
@@ -214,24 +214,24 @@
                                 </div>
                                 <div>
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f8"
+                                        <a href="{{ route('mhs.f8', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F8
                                         </a>
-                                        <a href="/mahasiswa/informasi/{{ $data->id }}/f9"
+                                        <a href="{{ route('mhs.f9', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F9
                                         </a>
                                     @endif
                                     @if ($data->pengajuanRevisi)
                                         @if ($data->status == 'Lulus' || $data->status == 'Revisi' || $data->status == 'Menunggu persetujuan revisi')
-                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f10"
+                                            <a href="{{ route('mhs.f10', ['pengajuanSkripsi' => $data->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F10
                                             </a>
                                         @endif
                                         @if ($data->status == 'Lulus')
-                                            <a href="/mahasiswa/informasi/{{ $data->id }}/f11"
+                                            <a href="{{ route('mhs.f11', ['pengajuanSkripsi' => $data->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F11
                                             </a>
@@ -271,7 +271,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ isset($data->keterangan) ? $data->keterangan : '-' }}</td>
                         <td class="text-center  border-b border-slate-500">
-                            <a href="/mahasiswa/informasi/{{ $data->id }}/pengajuanAlat"
+                            <a href="{{ route('mhs.getPengajuanAlat', ['pengajuanAlat' => $data->id]) }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">
                                 Detail
                             </a>

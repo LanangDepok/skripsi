@@ -4,7 +4,7 @@
     <p class="text-center font-semibold text-2xl text-primary">Pengajuan Judul & Dosen Pembimbing</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/pengajuan/judul">
+        <form method="GET" action="{{ route('adm.pengajuanJudul') }}">
             @csrf
             <div class="flex justify-evenly items-center">
                 <div>
@@ -76,7 +76,7 @@
                                 @endforeach
                             </td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/admin/pengajuan/judul/{{ $data->id }}"
+                                <a href="{{ route('adm.getPengajuanJudul', ['pengajuanJudul' => $data->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                             </td>
                         </form>

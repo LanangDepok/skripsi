@@ -6,7 +6,7 @@
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Tambah Kelas</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
-                <form method="POST" action="/admin/database/kelas">
+                <form method="POST" action="{{ route('adm.storeKelas') }}">
                     @csrf
                     <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                         <div class="text-left mb-4">
@@ -23,7 +23,7 @@
                         @enderror
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <a href="/admin/database/kelas"
+                                <a href="{{ route('adm.getAllKelas') }}"
                                     class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white block items-center">Back</a></button>
                             </div>
                             <div class="text-center mt-12">

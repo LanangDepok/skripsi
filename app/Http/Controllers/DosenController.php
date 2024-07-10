@@ -72,7 +72,7 @@ class DosenController extends Controller
     {
         if (Gate::allows('dosen_pembimbing')) {
             if (Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('dsn.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
             $bimbingan = Auth::user()->bimbinganDosen;
             $bimbingan2 = Auth::user()->bimbinganDosen2;
@@ -96,7 +96,7 @@ class DosenController extends Controller
 
             $this->dosenService->acceptLogbook($logbook, $cekTerima);
 
-            return redirect('/dosen/bimbingan/logbook');
+            return redirect()->route('dsn.getLogbooks');
         }
         abort(404);
     }
@@ -108,10 +108,13 @@ class DosenController extends Controller
             $messages = ['required' => 'Silahkan pilih logbook yang ingin diterima terlebih dahulu.'];
             $validated = Validator::make($data, $rules, $messages)->validate();
             foreach ($validated['logbook'] as $terima) {
-                Logbook::where('id', '=', $terima)->update(['status' => 'Diterima']);
+                Logbook::where('id', '=', $terima)->update([
+                    'status' => 'Diterima',
+                    'pengizin' => Auth::user()->id,
+                ]);
             }
 
-            return redirect('/dosen/bimbingan/logbook');
+            return redirect()->route('dsn.getLogbooks');
         }
         abort(404);
     }
@@ -140,7 +143,7 @@ class DosenController extends Controller
 
             $this->dosenService->acceptPersetujuanSidangSempro($pengajuanSempro, $cekTerima);
 
-            return redirect('/dosen/bimbingan/persetujuanSidang');
+            return redirect()->route('dsn.getAllPersetujuanSidang');
         }
         abort(404);
     }
@@ -158,7 +161,7 @@ class DosenController extends Controller
 
             $this->dosenService->acceptPersetujuanSidangSkripsi($pengajuanSkripsi, $cekTerima);
 
-            return redirect('/dosen/bimbingan/persetujuanSidang');
+            return redirect()->route('dsn.getAllPersetujuanSidang');
         }
         abort(404);
     }
@@ -185,7 +188,7 @@ class DosenController extends Controller
     {
         if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('dsn.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
 
             $prodi = ProgramStudi::get();
@@ -282,7 +285,7 @@ class DosenController extends Controller
 
             $this->dosenService->nilaiSempro($pengajuanSempro, $validator, $dospem2_id);
 
-            return redirect('/dosen/pengujian/sempro');
+            return redirect()->route('dsn.getAllPengujianSempro');
         }
         abort(404);
     }
@@ -292,7 +295,7 @@ class DosenController extends Controller
     {
         if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('dsn.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
             $prodi = ProgramStudi::get();
             $query = PengajuanSkripsi::where(function ($query) {
@@ -429,7 +432,7 @@ class DosenController extends Controller
                 $validated = Validator::make($data, $rules, $messages)->validate();
                 $this->dosenService->nilaiSkripsiPembimbing($pengajuanSkripsi, $validated);
             }
-            return redirect('/dosen/pengujian/skripsi');
+            return redirect()->route('dsn.getAllPengujianSkripsi');
         }
         abort(404);
     }
@@ -481,7 +484,7 @@ class DosenController extends Controller
 
             $this->dosenService->rekapNilai($pengajuanSkripsi, $validated);
 
-            return redirect('/dosen/rekapitulasi');
+            return redirect()->route('dsn.getAllRekapitulasi');
         }
         abort(404);
     }
@@ -510,7 +513,7 @@ class DosenController extends Controller
             $pengajuanSkripsi->update(['status' => 'Lulus']);
             $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->update(['status' => 'Lulus']);
 
-            return redirect('/dosen/kelulusan');
+            return redirect()->route('dsn.getAllKelulusan');
         }
         abort(404);
     }
@@ -519,7 +522,7 @@ class DosenController extends Controller
         if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
             $pengajuanSkripsi->update(['status' => 'Tidak lulus']);
 
-            return redirect('/dosen/kelulusan');
+            return redirect()->route('dsn.getAllKelulusan');
         }
         abort(404);
     }
@@ -540,7 +543,7 @@ class DosenController extends Controller
 
             $this->dosenService->revisiSkripsi($pengajuanSkripsi, $validated);
 
-            return redirect('/dosen/kelulusan');
+            return redirect()->route('dsn.getAllKelulusan');
         }
         abort(404);
     }
@@ -618,7 +621,7 @@ class DosenController extends Controller
 
                 $this->dosenService->revisiUlang($pengajuanRevisi, $validated);
             }
-            return redirect('/dosen/revisi');
+            return redirect()->route('dsn.getAllRevisi');
         }
         abort(404);
     }
@@ -683,7 +686,7 @@ class DosenController extends Controller
     {
         if (Gate::any(['ketua_penguji', 'dosen_penguji', 'dosen_pembimbing'])) {
             if (Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('dsn.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
             $prodi = ProgramStudi::get();
             $query = PengajuanSkripsi::where(function ($query) {
@@ -751,7 +754,7 @@ class DosenController extends Controller
     {
         if (Gate::allows('dosen_pembimbing')) {
             if (Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/dosen/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('dsn.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
 
             $query = Logbook::query();

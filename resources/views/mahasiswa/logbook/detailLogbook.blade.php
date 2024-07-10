@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/mahasiswa/logbook"
+            <a href="{{ route('mhs.getLogbooks') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md block">Back</a>
         </div>
         <div class="flex justify-center">
@@ -42,7 +42,7 @@
                 <iframe src="/storage/{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi }}"
                     class="w-full h-[600px]"></iframe>
             @else
-                <p class="text-center text-xl font-semibold">Anda belum <a href="/mahasiswa/skripsi"
+                <p class="text-center text-xl font-semibold">Anda belum <a href="{{ route('mhs.getSkripsi') }}"
                         class="text-blue-500 underline">upload file skripsi.</a></p>
             @endif
         </div>

@@ -3,8 +3,8 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/persetujuanSidang"
-                class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
+            <a href="{{ route('dsn.getAllPersetujuanSidang') }}"
+                class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a>
         </div>
         <div class="flex justify-center">
             <img src="/storage/{{ isset($pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
@@ -62,7 +62,8 @@
                 <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi->id }}">
+        <form method="POST"
+            action="{{ route('dsn.acceptPersetujuanSidangSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"

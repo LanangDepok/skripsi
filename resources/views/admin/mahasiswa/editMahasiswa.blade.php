@@ -7,7 +7,7 @@
                 <h2 class="text-primary text-2xl font-semibold text-center">Edit Biodata Mahasiswa</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
                 <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                    <form method="POST" action="/admin/mahasiswa/{{ $mahasiswa->id }}">
+                    <form method="POST" action="{{ route('adm.updateStudent', ['mahasiswa' => $mahasiswa->id]) }}">
                         @csrf
                         <div class="text-left mb-4">
                             <label for="email">Email<span class="text-red-700">*</span></label>
@@ -79,7 +79,7 @@
                         </div>
                         <div class="text-left mb-4">
                             <label for="tahun_ajaran_id">Tahun Ajaran<span class="text-red-700">*</span></label>
-                            <select name="tahun_ajaran" id="tahun_ajaran"
+                            <select name="tahun_ajaran_id" id="tahun_ajaran_id"
                                 class="block border border-primary rounded-md w-full">
                                 @foreach ($tahun as $data)
                                     <option value="{{ $data->id }}"
@@ -93,7 +93,7 @@
                             <div class="text-center mt-12">
                                 <button type="button"
                                     class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 text-white hover:text-black"><a
-                                        href="/admin/mahasiswa">Back</a></button>
+                                        href="{{ route('adm.getStudents') }}">Back</a></button>
                             </div>
                             <div class="text-center mt-12">
                                 @method('PUT')

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/rekapitulasi"
+            <a href="{{ route('dsn.getAllRekapitulasi') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center">Back</a>
         </div>
         <div class="flex justify-center">
@@ -97,7 +97,7 @@
                 <p class="text-2xl font-semibold text-center">F8</p>
             </div>
             <div class="container w-3/4 mx-auto">
-                <form method="POST" action="/dosen/rekapitulasi/{{ $pengajuanSkripsi->id }}">
+                <form method="POST" action="{{ route('dsn.rekapNilai', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
                     @csrf
                     <p class="text-center mb-5 font-semibold text-xl">Nilai Akhir</p>
                     <p>1. Nilai pembimbing ({{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }})</p>

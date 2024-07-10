@@ -12,7 +12,8 @@
                 </div>
             @endif
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                <form method="POST" action="/mahasiswa/pengajuan/judul/{{ Auth::user()->id }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('mhs.ajukanJudul', ['user' => Auth::user()->id]) }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="text-left mb-4">
                         <label for="no_kontak">No. Kontak Mahasiswa<span class="text-red-700">*</span></label>

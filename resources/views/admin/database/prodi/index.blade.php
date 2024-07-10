@@ -8,7 +8,8 @@
         </div>
     @endif
     <div class="container mx-auto flex justify-center">
-        <a href="/admin/database/prodi/create" class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">
+        <a href="{{ route('adm.createProgramStudi') }}"
+            class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">
             Tambah Program Studi</a>
     </div>
     <div class="container mx-auto mt-6 overflow-x-auto">
@@ -23,15 +24,12 @@
             <tbody>
                 @foreach ($data as $prodi)
                     <tr class="even:bg-slate-300">
-                        <form method="POST" action="/admin/dosen/{{ $prodi->id }}">
-                            @csrf
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $prodi->id }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $prodi->nama }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/admin/database/prodi/{{ $prodi->id }}/edit"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
-                            </td>
-                        </form>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $prodi->id }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $prodi->nama }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="{{ route('adm.editProgramStudi', ['programStudi' => $prodi->id]) }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

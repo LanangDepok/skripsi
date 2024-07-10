@@ -9,7 +9,7 @@
             </div>
         @enderror
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/kelulusan"
+            <a href="{{ route('dsn.getAllKelulusan') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center">Back</a>
         </div>
         <div class="flex justify-center">
@@ -63,7 +63,7 @@
         <div class="flex mt-10 w-1/2 mx-auto justify-evenly">
             <button id="lulusButton"
                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Luluskan</button>
-            <form method="POST" action="/dosen/kelulusan/tolak/{{ $pengajuanSkripsi->id }}">
+            <form method="POST" action="{{ route('dsn.tolakSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
                 @csrf
                 <button type="submit"
                     class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300"
@@ -82,7 +82,8 @@
             </div>
             <div class="w-12 font-semibold text-2xl border-4 text-center border-black ml-auto mr-20">F10</div>
             <div class="container w-3/4 mx-auto">
-                <form method="POST" action="/dosen/kelulusan/revisi/{{ $pengajuanSkripsi->id }}">
+                <form method="POST"
+                    action="{{ route('dsn.revisiSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
                     @csrf
                     <p>Nama (NIM): {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}
                         ({{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
@@ -112,7 +113,8 @@
                 <p class="font-semibold text-2xl text-center">F9</p>
             </div>
             <div class="container w-3/4 mx-auto">
-                <form method="POST" action="/dosen/kelulusan/lulus/{{ $pengajuanSkripsi->id }}">
+                <form method="POST"
+                    action="{{ route('dsn.luluskanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
                     @csrf
                     <p class="text-center mb-5 font-semibold text-xl">Apakah anda yakin untuk meluluskan?</p>
                     <p>Nama : {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p><br>

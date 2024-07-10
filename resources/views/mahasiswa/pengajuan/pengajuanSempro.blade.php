@@ -3,14 +3,15 @@
 @section('content')
     <div class="flex justify-center">
         <div class="container w-2/5">
-            <form method="POST" action="/mahasiswa/pengajuan/sempro/{{ Auth::user()->id }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('mhs.ajukanSempro', ['user' => Auth::user()->id]) }}"
+                enctype="multipart/form-data">
                 @csrf
                 <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Seminar Proposal</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
                 <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                     <div class="text-left mb-4">
                         <p>
-                            Pastikan skripsi anda sudah benar <a href="/mahasiswa/skripsi"
+                            Pastikan skripsi anda sudah benar <a href="{{ route('mhs.getSkripsi') }}"
                                 class="underline text-blue-500 font-semibold">di
                                 sini</a>
                         </p>

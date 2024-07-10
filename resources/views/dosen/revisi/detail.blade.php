@@ -9,7 +9,7 @@
             </div>
         @enderror
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/revisi"
+            <a href="{{ route('dsn.getAllRevisi') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md">Back</a>
         </div>
         <div class="flex justify-center">
@@ -71,7 +71,7 @@
                 src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi }}"
                 class="w-full h-[600px] mt-3"></iframe>
         </div>
-        <form method="POST" action="/dosen/revisi/{{ $pengajuanRevisi->id }}">
+        <form method="POST" action="{{ route('dsn.keputusanRevisi', ['pengajuanRevisi' => $pengajuanRevisi->id]) }}">
             @csrf
             <div class="container w-1/2 mx-auto mt-10 flex justify-around">
                 <button type="submit" name="terima" value="terima"

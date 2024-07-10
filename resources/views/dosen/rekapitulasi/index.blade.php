@@ -52,7 +52,7 @@
                                 {{ isset($pengajuanSkripsi->nilai3) ? $pengajuanSkripsi->nilai3 : '(Menunggu)' }}
                             </td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/rekapitulasi/{{ $pengajuanSkripsi->id }}"
+                                <a href="{{ route('dsn.getRekapitulasi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}"
                                     class="bg-primary border rounded-md w-16 block text-white hover:text-black hover:bg-red-300 mx-auto">Detail</a>
                             </td>
                         </tr>

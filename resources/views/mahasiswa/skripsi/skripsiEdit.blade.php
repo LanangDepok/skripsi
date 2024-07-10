@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container mx-auto w-1/4 border-2 p-8 border-primary rounded-xl shadow-lg shadow-slate-400 mt-8">
-        <form method="POST" action="/mahasiswa/skripsi/{{ Auth::user()->id }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('mhs.updateSkripsi', ['user' => Auth::user()->id]) }}"
+            enctype="multipart/form-data">
             @csrf
             <div>
                 <h2 class="text-xl font-semibold text-center underline">Edit Skripsi</h2>
@@ -57,7 +58,7 @@
             <div class="mt-8 flex justify-around">
                 <button type="button"
                     class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black"><a
-                        href="/mahasiswa/skripsi">Kembali</a></button>
+                        href="{{ route('mhs.getSkripsi') }}">Kembali</a></button>
                 @method('PUT')
                 <button type="submit"
                     class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black">Simpan</button>

@@ -12,17 +12,17 @@ class LoginController extends Controller
     {
         if (Auth::check()) {
             if (Auth::user()->roles->pluck('nama')->contains('Admin')) {
-                return redirect('/admin/index');
+                return redirect()->route('adm.index');
             } else if (Auth::user()->roles->pluck('nama')->contains('Komite')) {
-                return redirect('/admin/index');
+                return redirect()->route('adm.index');
             } else if (Auth::user()->roles->pluck('nama')->contains('Ketua Penguji')) {
-                return redirect('/dosen/index');
+                return redirect()->route('dsn.index');
             } else if (Auth::user()->roles->pluck('nama')->contains('Dosen Penguji')) {
-                return redirect('/dosen/index');
+                return redirect()->route('dsn.index');
             } else if (Auth::user()->roles->pluck('nama')->contains('Dosen Pembimbing')) {
-                return redirect('/dosen/index');
+                return redirect()->route('dsn.index');
             } else if (Auth::user()->roles->pluck('nama')->contains('Mahasiswa')) {
-                return redirect('/mahasiswa/index');
+                return redirect()->route('mhs.index');
             }
         } else {
             return view('login');
@@ -39,17 +39,17 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             if (Auth::user()->roles->pluck('nama')->contains('Admin')) {
-                return redirect()->intended('/admin/index');
+                return redirect()->intended(route('adm.index'));
             } else if (Auth::user()->roles->pluck('nama')->contains('Komite')) {
-                return redirect()->intended('/admin/index');
+                return redirect()->intended(route('adm.index'));
             } else if (Auth::user()->roles->pluck('nama')->contains('Ketua Penguji')) {
-                return redirect()->intended('/dosen/index');
+                return redirect()->intended(route('dsn.index'));
             } else if (Auth::user()->roles->pluck('nama')->contains('Dosen Penguji')) {
-                return redirect()->intended('/dosen/index');
+                return redirect()->intended(route('dsn.index'));
             } else if (Auth::user()->roles->pluck('nama')->contains('Dosen Pembimbing')) {
-                return redirect()->intended('/dosen/index');
+                return redirect()->intended(route('dsn.index'));
             } else if (Auth::user()->roles->pluck('nama')->contains('Mahasiswa')) {
-                return redirect()->intended('/mahasiswa/index');
+                return redirect()->intended(route('mhs.index'));
             }
         }
 

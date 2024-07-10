@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="container text-center mx-auto">
-        <a href="/mahasiswa/skripsi/edit"
+        <a href="{{ route('mhs.editSkripsi') }}"
             class="rounded-md border border-slate-300 shadow-md shadow-slate-400 bg-primary text-white w-56 p-3 hover:text-black hover:bg-red-300">Tambah
             atau Edit
             Skripsi</a>
@@ -26,7 +26,7 @@
                 </span>{{ isset(Auth::user()->skripsi->anggota) ? Auth::user()->skripsi->anggota : '-' }}</p>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
-            <iframe src="/storage/{{ Auth::user()->skripsi->file_skripsi }}" class="w-full h-[500px]"
+            <iframe src="{{ asset('storage/' . Auth::user()->skripsi->file_skripsi) }}" class="w-full h-[500px]"
                 title="Skripsi"></iframe>
         </div>
     @endif

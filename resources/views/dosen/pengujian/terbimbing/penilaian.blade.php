@@ -7,7 +7,8 @@
                 <h2 class="text-primary text-2xl font-semibold text-center">Nilai Sidang Skripsi</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
                 <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                    <form method="POST" action="/dosen/pengujian/skripsi/{{ $pengajuanSkripsi->id }}">
+                    <form method="POST"
+                        action="{{ route('dsn.nilaiskripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
                         @csrf
                         <div class="w-10 ml-auto border-4 border-black">
                             <p class="text-2xl font-semibold text-center">F6</p>
@@ -198,7 +199,7 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <a href="/dosen/pengujian/skripsi"
+                                <a href="{{ route('dsn.getAllPengujianSkripsi') }}"
                                     class="bg-primary w-24 block rounded-2xl hover:bg-red-300 text-white">Back</a>
                             </div>
                             <div class="text-center mt-12">

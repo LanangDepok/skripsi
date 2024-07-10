@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/admin/dosen"
+            <a href="{{ route('adm.getLecturers') }}"
                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block text-center">Back</a>
         </div>
         <div class="flex justify-center">

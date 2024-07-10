@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/logbook"
+            <a href="{{ route('dsn.getLogbooks') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md block">Back</a>
         </div>
         <div class="flex justify-center">
@@ -40,7 +40,7 @@
                 <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/logbook/{{ $logbook->id }}">
+        <form method="POST" action="{{ route('dsn.acceptLogbook', ['logbook' => $logbook->id]) }}">
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"

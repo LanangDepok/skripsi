@@ -9,7 +9,7 @@
             </div>
         @enderror
         <div class="flex w-1/2 mx-auto">
-            <a href="/admin/revisi"
+            <a href="{{ route('adm.getAllRevisi') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md">Back</a>
         </div>
         <div class="flex justify-center">
@@ -101,7 +101,7 @@
         </div>
 
         @can('komite')
-            <form method="POST" action="/admin/revisi/{{ $pengajuanRevisi->id }}">
+            <form method="POST" action="{{ route('adm.keputusanRevisi') }}">
                 @csrf
                 <div class="container w-1/2 mx-auto mt-10 flex justify-around">
                     <button type="button" id="terimaButton"
@@ -133,7 +133,8 @@
                             <p>Nama (NIM): {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}
                                 ({{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }})</p>
                             <p>Program Studi:
-                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</p>
+                                {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}
+                            </p>
                             <p>Judul: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->judul }}
                             </p>
                             <p>Tanggal sidang: {{ $pengajuanRevisi->pengajuanSkripsi->tanggal }}</p>
@@ -175,7 +176,8 @@
                             </div>
                             @if ($pengajuanRevisi->pengajuanSkripsi->dospem2_id)
                                 <div class="flex justify-between mt-5 items-center">
-                                    <p>Pembimbing 2: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}
+                                    <p>Pembimbing 2:
+                                        {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}
                                     </p>
                                     @if ($pengajuanRevisi->terima_pembimbing2 == 'Ya')
                                         <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}"

@@ -47,7 +47,7 @@
                             {{ $pengajuanSkripsi->nilai_total }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $pengajuanSkripsi->status }}</td>
                         <td class="border-b border-slate-500">
-                            <a href="/dosen/kelulusan/{{ $pengajuanSkripsi->id }}"
+                            <a href="{{ route('dsn.getKelulusan', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 mx-auto block text-center">Detail</a>
                             {{-- <button id="revisiButton"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 mx-auto">Revisi</button>

@@ -36,7 +36,8 @@
             <div class="w-7 ml-auto">
                 <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
-            <form method="POST" action="/dosen/profile/{{ Auth::user()->id }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('dsn.updateProfile', ['user' => Auth::user()->id]) }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="container w-1/2 mx-auto">
                     <p class="text-center mb-5 font-semibold text-xl">Edit Profil</p>

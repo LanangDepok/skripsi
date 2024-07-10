@@ -82,7 +82,7 @@
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $pengajuanRevisi->pengajuanSkripsi->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/admin/revisi/{{ $pengajuanRevisi->id }}"
+                            <a href="{{ route('adm.getRevisi') }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>

@@ -3,14 +3,14 @@
 @section('content')
     @can('admin')
         <div class="container mx-auto flex justify-center">
-            <a href="/admin/mahasiswa/create"
+            <a href="{{ route('adm.createStudent') }}"
                 class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">Tambah
                 Mahasiswa</a>
         </div>
     @endcan
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/mahasiswa">
+        <form method="GET" action="{{ route('adm.getStudents') }}">
             @csrf
             <div class="flex justify-evenly items-center">
                 <div>
@@ -47,7 +47,8 @@
                             {{ request()->input('cari_status') == 'Sidang sempro' ? 'selected' : '' }}>Sidang sempro
                         </option>
                         <option value="Bimbingan skripsi"
-                            {{ request()->input('cari_status') == 'Bimbingan skripsi' ? 'selected' : '' }}>Bimbingan skripsi
+                            {{ request()->input('cari_status') == 'Bimbingan skripsi' ? 'selected' : '' }}>Bimbingan
+                            skripsi
                         </option>
                         <option value="Sidang skripsi"
                             {{ request()->input('cari_status') == 'Sidang skripsi' ? 'selected' : '' }}>Sidang skripsi
@@ -107,7 +108,7 @@
                 @endphp
                 @foreach ($data as $index => $mahasiswa)
                     <tr class="even:bg-slate-300">
-                        <form method="POST" action="/admin/mahasiswa/{{ $mahasiswa->id }}">
+                        <form method="POST" action="{{ route('adm.deleteStudent', ['mahasiswa' => $mahasiswa->id]) }}">
                             @csrf
                             <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">
@@ -130,10 +131,10 @@
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ empty($mahasiswa->status) ? 'Belum mengajukan judul' : $mahasiswa->status }}</td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/admin/mahasiswa/{{ $mahasiswa->id }}"
+                                <a href="{{ route('adm.getStudent', ['mahasiswa' => $mahasiswa->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                                 @can('admin')
-                                    <a href="/admin/mahasiswa/{{ $mahasiswa->id }}/edit"
+                                    <a href="{{ route('adm.editStudent', ['mahasiswa' => $mahasiswa->id]) }}"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
                                     @method('DELETE')
                                     <button type="submit"

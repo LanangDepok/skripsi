@@ -30,7 +30,7 @@
 
     <div class="flex justify-center h-screen items-center">
         <div class="border-2 border-primary w-1/4 rounded-lg shadow-lg shadow-slate-400 p-10">
-            <form method="POST" action="/login">
+            <form method="POST" action="{{ route('masuk') }}">
                 @csrf
                 <div>
                     <label for="email">Email</label>

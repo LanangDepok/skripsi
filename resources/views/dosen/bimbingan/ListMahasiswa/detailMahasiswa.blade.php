@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/listMahasiswa"
+            <a href="{{ route('dsn.getAllListMahasiswa') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center p-[1px]">Back</a></button>
         </div>
         <div class="flex justify-center">

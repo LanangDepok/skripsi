@@ -19,7 +19,8 @@
                 <p class="text-red-600 font-bold underline text-xl mb-3">Perhatian!!</p>
                 <ul>
                     <li>1. Setiap perubahan skripsi, pastikan upload di page <span
-                            class="text-blue-500 underline font-semibold"><a href="/mahasiswa/skripsi">Skripsi</a></span>
+                            class="text-blue-500 underline font-semibold"><a
+                                href="{{ route('mhs.getSkripsi') }}">Skripsi</a></span>
                         yang
                         tertera pada navbar</li>
                     <li>2. Untuk mengajukan seminar proposal, minimal melakukan <span class="text-red-600">3x
@@ -40,7 +41,7 @@
             </div>
         </div>
         <div class="mt-5 text-center">
-            <a href="/mahasiswa/logbook/create"
+            <a href="{{ route('mhs.createLogbook') }}"
                 class="bg-primary rounded-md p-1 px-3 text-white h-1/6 mt-auto hover:text-black hover:bg-red-300">+Tambah
                 Logbook</a>
         </div>
@@ -83,7 +84,7 @@
                                 {{ $logbook->jenis_bimbingan }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $logbook->status }}</td>
                             <td class="text-center  border-b border-slate-500"><a
-                                    href="/mahasiswa/logbook/{{ $logbook->id }}"
+                                    href="{{ route('mhsw.getLogbook', ['logbook' => $logbook->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                             </td>
                         </tr>

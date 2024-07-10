@@ -2,7 +2,7 @@
 
 @section('content')
     <p class="text-center font-semibold text-2xl text-primary">Report akhir</p>
-    <form action="/admin/report/excel" method="POST">
+    <form action="{{ route('adm.exportReport') }}" method="POST">
         @csrf
         <button type="submit"
             class="mt-5 bg-primary border rounded-md w-36 h-10 text-white text-lg hover:text-black hover:bg-red-300 block mx-auto">Export

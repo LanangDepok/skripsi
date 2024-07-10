@@ -44,7 +44,7 @@
                                 {{ $listMahasiswa->bimbinganMahasiswa->mahasiswa->status }}
                             </td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/bimbingan/listMahasiswa/{{ $listMahasiswa->id }}"
+                                <a href="{{ route('dsn.getListMahasiswa', ['bimbingan' => $listMahasiswa->id]) }}"
                                     class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Detail</a>
                                 <div>
                                     @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->isNotEmpty())
@@ -54,17 +54,17 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSempro->status != 'Ditolak' && $latestSempro->status != 'Menunggu persetujuan pembimbing')
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f1"
+                                            <a href="{{ route('mhs.f1', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F1
                                             </a>
                                         @endif
                                         @if ($latestSempro->status == 'Lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f2"
+                                            <a href="{{ route('mhs.f2', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F2
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f3"
+                                            <a href="{{ route('mhs.f3', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F3
                                             </a>
@@ -79,21 +79,21 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status != 'Menunggu persetujuan pembimbing' && $latestSkripsi->status != 'Ditolak')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f4"
+                                            <a href="{{ route('mhs.f4', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F4
                                             </a>
                                         @endif
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f5"
+                                            <a href="{{ route('mhs.f5', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F5
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f6a"
+                                            <a href="{{ route('mhs.f6a', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f6b"
+                                            <a href="{{ route('mhs.f6b', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
@@ -108,17 +108,17 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7a"
+                                            <a href="{{ route('mhs.f7a', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7a
                                             </a>
                                         @endif
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7b"
+                                            <a href="{{ route('mhs.f7b', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7b
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7c"
+                                            <a href="{{ route('mhs.f7c', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7c
                                             </a>
@@ -133,11 +133,11 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f8"
+                                            <a href="{{ route('mhs.f8', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F8
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f9"
+                                            <a href="{{ route('mhs.f9', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F9
                                             </a>
@@ -147,13 +147,13 @@
                                                 $latestSkripsi->status == 'Lulus' ||
                                                     $latestSkripsi->status == 'Revisi' ||
                                                     $latestSkripsi->status == 'Menunggu persetujuan revisi')
-                                                <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f10"
+                                                <a href="{{ route('mhs.f10', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                     class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                     F10
                                                 </a>
                                             @endif
                                             @if ($latestSkripsi->status == 'Lulus')
-                                                <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f11"
+                                                <a href="{{ route('mhs.f11', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                     class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                     F11
                                                 </a>
@@ -187,7 +187,7 @@
                                 {{ $listMahasiswa->bimbinganMahasiswa->mahasiswa->status }}
                             </td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/bimbingan/listMahasiswa/{{ $listMahasiswa->id }}"
+                                <a href="{{ route('dsn.getListMahasiswa', ['bimbingan' => $listMahasiswa->id]) }}"
                                     class="bg-primary border rounded-md w-16 block mx-auto text-white hover:text-black hover:bg-red-300">Detail</a>
                                 <div>
                                     @if ($listMahasiswa->bimbinganMahasiswa->pengajuanSemproMahasiswa->isNotEmpty())
@@ -197,17 +197,17 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSempro->status != 'Ditolak' && $latestSempro->status != 'Menunggu persetujuan pembimbing')
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f1"
+                                            <a href="{{ route('mhs.f1', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F1
                                             </a>
                                         @endif
                                         @if ($latestSempro->status == 'Lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f2"
+                                            <a href="{{ route('mhs.f2', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F2
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSempro->id }}/f3"
+                                            <a href="{{ route('mhs.f3', ['pengajuanSempro' => $latestSempro->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F3
                                             </a>
@@ -222,21 +222,21 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status != 'Menunggu persetujuan pembimbing' && $latestSkripsi->status != 'Ditolak')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f4"
+                                            <a href="{{ route('mhs.f4', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F4
                                             </a>
                                         @endif
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f5"
+                                            <a href="{{ route('mhs.f5', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F5
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f6a"
+                                            <a href="{{ route('mhs.f6a', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f6b"
+                                            <a href="{{ route('mhs.f6b', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
@@ -251,17 +251,17 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7a"
+                                            <a href="{{ route('mhs.f7a', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7a
                                             </a>
                                         @endif
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7b"
+                                            <a href="{{ route('mhs.f7b', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7b
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f7c"
+                                            <a href="{{ route('mhs.f7c', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F7c
                                             </a>
@@ -276,11 +276,11 @@
                                                 ->first();
                                         @endphp
                                         @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f8"
+                                            <a href="{{ route('mhs.f8', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F8
                                             </a>
-                                            <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f9"
+                                            <a href="{{ route('mhs.f9', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F9
                                             </a>
@@ -290,13 +290,13 @@
                                                 $latestSkripsi->status == 'Lulus' ||
                                                     $latestSkripsi->status == 'Revisi' ||
                                                     $latestSkripsi->status == 'Menunggu persetujuan revisi')
-                                                <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f10"
+                                                <a href="{{ route('mhs.f10', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                     class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                     F10
                                                 </a>
                                             @endif
                                             @if ($latestSkripsi->status == 'Lulus')
-                                                <a href="/mahasiswa/informasi/{{ $latestSkripsi->id }}/f11"
+                                                <a href="{{ route('mhs.f11', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                     class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                     F11
                                                 </a>

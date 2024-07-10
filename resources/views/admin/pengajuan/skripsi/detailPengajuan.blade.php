@@ -36,11 +36,12 @@
                 <span class="font-medium">Error!</span> {{ $message }}
             </div>
         @enderror
-        <form method="POST" action="/admin/pengajuan/skripsi/{{ $pengajuanSkripsi->id }}">
+        <form method="POST"
+            action="{{ route('adm.terimaPengajuanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
             @csrf
             <div class="flex w-1/2 mx-auto">
-                <a href="/admin/pengajuan/skripsi"
-                    class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
+                <a href="{{ route('adm.pengajuanSkripsi') }}"
+                    class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a>
             </div>
             <div class="flex justify-center">
                 <img src="/storage/{{ isset($pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"

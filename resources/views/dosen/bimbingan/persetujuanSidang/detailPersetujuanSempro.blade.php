@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/bimbingan/persetujuanSidang"
+            <a href="{{ route('dsn.getAllPersetujuanSidang') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a></button>
         </div>
         <div class="flex justify-center">
@@ -58,7 +58,8 @@
                 <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
             @endif
         </div>
-        <form method="POST" action="/dosen/bimbingan/persetujuanSempro/{{ $pengajuanSempro->id }}">
+        <form method="POST"
+            action="{{ route('dsn.acceptPersetujuanSidangSempro', ['pengajuanSempro' => $pengajuanSempro->id]) }}">
             @csrf
             <div class="container mx-auto w-1/2 mt-6 flex justify-around">
                 <button type="submit" name="terima" value="terima"

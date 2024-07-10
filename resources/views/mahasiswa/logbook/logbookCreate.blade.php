@@ -6,11 +6,11 @@
             <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Logbook</h2>
             <div class="bg-primary container h-1 mb-5 mt-2"></div>
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                <form method="POST" action="/mahasiswa/logbook">
+                <form method="POST" action="{{ route('mhs.storeLogbook') }}">
                     @csrf
                     <div class="text-left mb-4">
                         <p>
-                            Pastikan skripsi anda sudah benar <a href="/mahasiswa/skripsi"
+                            Pastikan skripsi anda sudah benar <a href="{{ route('mhs.getSkripsi') }}"
                                 class="underline text-blue-500 font-semibold">di
                                 sini</a>
                         </p>

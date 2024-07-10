@@ -44,7 +44,7 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_penguji1->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/dosen/revisi/{{ $terima_penguji1->pengajuanRevisi->id }}"
+                            <a href="{{ route('dsn.getRevisi', ['pengajuanRevisi' => $terima_penguji1->pengajuanRevisi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>
@@ -73,7 +73,7 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_penguji2->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/dosen/revisi/{{ $terima_penguji2->pengajuanRevisi->id }}"
+                            <a href="{{ route('dsn.getRevisi', ['pengajuanRevisi' => $terima_penguji2->pengajuanRevisi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>
@@ -102,7 +102,7 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_penguji3->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/dosen/revisi/{{ $terima_penguji3->pengajuanRevisi->id }}"
+                            <a href="{{ route('dsn.getRevisi', ['pengajuanRevisi' => $terima_penguji3->pengajuanRevisi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>
@@ -131,7 +131,7 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_pembimbing->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/dosen/revisi/{{ $terima_pembimbing->pengajuanRevisi->id }}"
+                            <a href="{{ route('dsn.getRevisi', ['pengajuanRevisi' => $terima_pembimbing->pengajuanRevisi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>
@@ -161,7 +161,7 @@
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $terima_pembimbing2->nilai_total }}</td>
                         <td class="border-b border-slate-500 text-center">
-                            <a href="/dosen/revisi/{{ $terima_pembimbing2->pengajuanRevisi->id }}"
+                            <a href="{{ route('dsn.getRevisi', ['pengajuanRevisi' => $terima_pembimbing2->pengajuanRevisi->id]) }}"
                                 class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                         </td>
                     </tr>

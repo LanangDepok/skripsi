@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/mahasiswa/informasi"
+            <a href="{{ route('mhs.getInformations') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center py-[1px]">Back</a>
         </div>
         <div class="flex justify-center">
@@ -23,7 +23,8 @@
             <P><span class="font-bold">Status: </span>{{ $pengajuanJudul->user->mahasiswa->status }}</P><br>
             <P><span class="font-bold">No. Kontak Mahasiswa: </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak }}</P>
             <br>
-            <P><span class="font-bold">Nama Orang Tua/Wali: </span>{{ $pengajuanJudul->user->mahasiswa->nama_ortu }}</P><br>
+            <P><span class="font-bold">Nama Orang Tua/Wali: </span>{{ $pengajuanJudul->user->mahasiswa->nama_ortu }}</P>
+            <br>
             <P><span class="font-bold">No. Kontak Orang Tua/Wali:
                 </span>{{ $pengajuanJudul->user->mahasiswa->no_kontak_ortu }}</P><br>
             <P><span class="font-bold">Nama Anggota Tim (Jika ada):

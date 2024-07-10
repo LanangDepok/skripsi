@@ -6,7 +6,7 @@
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Edit Jabatan Fungsional</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
-                <form method="POST" action="/admin/database/fungsional/{{ $data->id }}">
+                <form method="POST" action="{{ route('adm.updateJabatanFungsional', ['jabatanFungsional' => $data->id]) }}">
                     @csrf
                     @method('PUT')
                     <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
@@ -24,8 +24,8 @@
                         @enderror
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <a href="/admin/database/fungsional"
-                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white block items-center">Back</a></button>
+                                <a href="{{ route('adm.getAllJabatanFungsional') }}"
+                                    class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white block items-center">Back</a>
                             </div>
                             <div class="text-center mt-12">
                                 <button type="submit" class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white"

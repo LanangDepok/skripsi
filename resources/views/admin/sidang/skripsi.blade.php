@@ -117,7 +117,7 @@
                             {{ isset($skripsi->tanggal) ? $skripsi->tanggal : '-' }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">{{ $skripsi->status }}</td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            <a href="/admin/pelaksanaan/skripsi/{{ $skripsi->id }}"
+                            <a href="{{ route('adm.getSkripsi', ['pengajuanSkripsi' => $skripsi->id]) }}"
                                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                         </td>
                     </tr>

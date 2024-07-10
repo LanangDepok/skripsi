@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="container mx-auto flex justify-center">
-        <a href="/admin/database/fungsional/create"
+        <a href="{{ route('adm.createJabatanFungsional') }}"
             class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">
             Tambah Jabatan Fungsional</a>
     </div>
@@ -24,15 +24,12 @@
             <tbody>
                 @foreach ($data as $fungsional)
                     <tr class="even:bg-slate-300">
-                        <form method="POST" action="/admin/dosen/{{ $fungsional->id }}">
-                            @csrf
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $fungsional->id }}</td>
-                            <td class="border-b border-slate-500 py-2 text-center">{{ $fungsional->nama }}</td>
-                            <td class="text-center  border-b border-slate-500">
-                                <a href="/admin/database/fungsional/{{ $fungsional->id }}/edit"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
-                            </td>
-                        </form>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $fungsional->id }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $fungsional->nama }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="{{ route('adm.editJabatanFungsional', ['jabatanFungsional' => $fungsional->id]) }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

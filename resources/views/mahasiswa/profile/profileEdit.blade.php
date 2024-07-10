@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="container mx-auto w-1/4 border-2 p-8 border-primary rounded-xl shadow-lg shadow-slate-400 mt-8">
-        <form method="POST" action="/mahasiswa/profile/{{ Auth::user()->id }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('mhs.updateProfile', ['user' => Auth::user()->id]) }}"
+            enctype="multipart/form-data">
             @csrf
             <div>
                 <h2 class="text-xl font-semibold text-center underline">Edit Profil</h2>
@@ -74,7 +75,7 @@
                 </div>
             @enderror
             <div class="mt-8 flex justify-around">
-                <a href="/mahasiswa/profile"
+                <a href="{{ route('mhs.getProfile') }}"
                     class="bg-primary text-white w-20 rounded-xl p-1 hover:bg-red-300 hover:text-black text-center">Kembali</a></button>
                 @method('PUT')
                 <button type="submit"

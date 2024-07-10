@@ -38,8 +38,8 @@
                                 {{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">Seminar Proposal</td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/bimbingan/persetujuanSempro/{{ $pengajuanSempro->id }}"
-                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
+                                <a href="{{ route('dsn.getPersetujuanSempro', ['pengajuanSempro' => $pengajuanSempro->id]) }}"
+                                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a>
                             </td>
                         </tr>
                     @endforeach
@@ -58,7 +58,7 @@
                                 {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi->id }}"
+                                <a href="{{ route('dsn.getPersetujuanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
                             </td>
                         </tr>
@@ -78,7 +78,7 @@
                                 {{ $pengajuanSkripsi2->pengajuanSkripsiMahasiswa->mahasiswa->prodi->nama }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">Sidang Skripsi</td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/bimbingan/persetujuanSkripsi/{{ $pengajuanSkripsi2->id }}"
+                                <a href="{{ route('dsn.getPersetujuanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi2->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">Detail</a></button>
                             </td>
                         </tr>

@@ -15,7 +15,7 @@
             </div>
         @endif
         <div class="border-2 border-primary rounded-md w-1/2 mx-auto">
-            <form method="POST" action="/admin/mahasiswa/excel" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('adm.storeStudentExcel') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="text-center">
                     <p class="text-xl font-semibold">Masukkan Excel</p>
@@ -37,7 +37,7 @@
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Isi Biodata Mahasiswa</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
-                <form method="POST" action="/admin/mahasiswa">
+                <form method="POST" action="{{ route('adm.storeStudent') }}">
                     @csrf
                     <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                         <div class="text-left mb-4">
@@ -121,7 +121,7 @@
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
                                 <button class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"
-                                    type="button"><a href="/admin/mahasiswa">Back</a></button>
+                                    type="button"><a href="{{ route('adm.getStudents') }}">Back</a></button>
                             </div>
                             <div class="text-center mt-12">
                                 <button

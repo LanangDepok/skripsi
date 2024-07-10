@@ -4,7 +4,7 @@
     <p class="text-center font-semibold text-2xl text-primary">Pengujian Skripsi</p>
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/dosen/pengujian/skripsi">
+        <form method="GET" action="{{ route('dsn.getAllPengujianSkripsi') }}">
             @csrf
             <div class="flex justify-evenly items-center">
                 <div>
@@ -98,17 +98,17 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen_skripsi->tanggal }}</td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}"
+                                <a href="{{ route('dsn.getPengujianSkripsi', ['pengajuanSkripsi' => $dosen_skripsi->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                                 @if (
                                     $dosen_skripsi->penguji1_id == Auth::user()->id ||
                                         $dosen_skripsi->penguji2_id == Auth::user()->id ||
                                         $dosen_skripsi->penguji3_id == Auth::user()->id)
-                                    <a href="/dosen/pengujian/skripsi/{{ $dosen_skripsi->id }}/terima"
+                                    <a href="{{ route('dsn.penilaianSkripsi', ['pengajuanSkripsi' => $dosen_skripsi->id]) }}"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
                                 @endif
                                 @if ($dosen_skripsi->dospem_id == Auth::user()->id || $dosen_skripsi->dospem2_id == Auth::user()->id)
-                                    <a href="/dosen/pengujian/terbimbing/{{ $dosen_skripsi->id }}/terima"
+                                    <a href="{{ route('dsn.penilaianTerbimbing', ['pengajuanSkripsi' => $dosen_skripsi->id]) }}"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Nilai</a>
                                 @endif
                             </td>

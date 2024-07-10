@@ -203,7 +203,7 @@ class AdminController extends Controller
 
             $this->adminService->storeStudent($validated_user, $validated_mahasiswa, $user, $mahasiswa);
 
-            return redirect('/admin/mahasiswa/create')->with('success', 'Data berhasil ditambahkan.');
+            return redirect()->route('adm.createStudent')->with('success', 'Data berhasil ditambahkan.');
         }
         abort(404);
     }
@@ -211,23 +211,19 @@ class AdminController extends Controller
     public function storeStudentExcel(Request $request)
     {
         if (Gate::allows('admin')) {
+            ini_set('max_execution_time', 300);
             $kelasCheck = Kelas::pluck('id')->toArray();
             $prodiCheck = ProgramStudi::pluck('id')->toArray();
             $tahunAjaranCheck = TahunAjaran::pluck('id')->toArray();
-
             if ($request->file('excel')) {
                 $file = $request->file('excel');
                 $path = $file->getRealPath();
                 $extension = $file->getClientOriginalExtension();
-
                 $reader = IOFactory::createReader(ucfirst($extension));
                 $spreadsheet = $reader->load($path);
-
                 DB::beginTransaction();
-
                 foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
                     $highestRow = $worksheet->getHighestRow();
-
                     for ($row = 2; $row <= $highestRow; $row++) {
                         $email = $worksheet->getCell('A' . $row)->getValue();
                         $password = $worksheet->getCell('B' . $row)->getValue();
@@ -236,22 +232,18 @@ class AdminController extends Controller
                         $kelas_id = $worksheet->getCell('E' . $row)->getValue();
                         $prodi_id = $worksheet->getCell('F' . $row)->getValue();
                         $tahunAjaran_id = $worksheet->getCell('G' . $row)->getValue();
-
                         if (!in_array($kelas_id, $kelasCheck)) {
                             DB::rollBack();
-                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Kelas pada baris ' . $row . ' tidak tersedia di database.');
+                            return redirect()->route('adm.createStudent')->with('error', 'ID Kelas pada baris ' . $row . ' tidak tersedia di database.');
                         }
-
                         if (!in_array($prodi_id, $prodiCheck)) {
                             DB::rollBack();
-                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Prodi pada baris ' . $row . ' tidak tersedia di database.');
+                            return redirect()->route('adm.createStudent')->with('error', 'ID Prodi pada baris ' . $row . ' tidak tersedia di database.');
                         }
-
                         if (!in_array($tahunAjaran_id, $tahunAjaranCheck)) {
                             DB::rollBack();
-                            return redirect('/admin/mahasiswa/create')->with('error', 'ID Tahun Ajaran pada baris ' . $row . ' tidak tersedia di database.');
+                            return redirect()->route('adm.createStudent')->with('error', 'ID Tahun Ajaran pada baris ' . $row . ' tidak tersedia di database.');
                         }
-
                         $data = [
                             'email' => $email,
                             'password' => $password,
@@ -276,22 +268,18 @@ class AdminController extends Controller
                             'email' => ':attribute tidak valid.',
                             'integer' => ':attribute harus berupa angka.'
                         ];
-
                         $validator = Validator::make($data, $rules, $messages);
-
                         if ($validator->fails()) {
                             DB::rollBack();
                             $errorMessage = 'Validasi data pada baris ' . $row . ': ' . $validator->errors()->first();
-                            return redirect('/admin/mahasiswa/create')->with('error', $errorMessage);
+                            return redirect()->route('adm.createStudent')->with('error', $errorMessage);
                         }
-
                         $user = new User;
                         $user->email = $email;
                         $user->password = $password;
                         $user->nama = $nama;
                         $user->save();
                         $user->roles()->sync([6]);
-
                         $mahasiswa = new Mahasiswa;
                         $mahasiswa->nim = $nim;
                         $mahasiswa->kelas_id = $kelas_id;
@@ -303,10 +291,10 @@ class AdminController extends Controller
                     }
                 }
                 DB::commit();
-                return redirect('/admin/mahasiswa/create')->with('success', 'Data berhasil ditambahkan.');
+                return redirect()->route('adm.createStudent')->with('success', 'Data berhasil ditambahkan.');
 
             } else {
-                return redirect('/admin/mahasiswa/create')->with('error', 'Pastikan sudah memasukkan file yang benar');
+                return redirect()->route('adm.createStudent')->with('error', 'Pastikan sudah memasukkan file yang benar');
             }
         }
         abort(404);
@@ -363,7 +351,7 @@ class AdminController extends Controller
 
             $this->adminService->updateStudent($validated_user, $validated_mahasiswa, $user, $mahasiswa);
 
-            return redirect('/admin/mahasiswa')->with('success', 'Data berhasil diubah.');
+            return redirect()->route('adm.getStudents')->with('success', 'Data berhasil diubah.');
         }
         abort(404);
     }
@@ -372,13 +360,13 @@ class AdminController extends Controller
     {
         if (Gate::allows('admin')) {
             if ($mahasiswa->user->pengajuanAlat->isNotEmpty()) {
-                return redirect('/admin/mahasiswa')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah melakukan pengajuan.');
+                return redirect()->route('adm.getStudents')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah melakukan pengajuan.');
             }
             $mahasiswa->delete();
             $mahasiswa->user->roles()->detach();
             $mahasiswa->user->delete();
 
-            return redirect('/admin/mahasiswa')->with('success', 'Data berhasil dihapus.');
+            return redirect()->route('adm.getStudents')->with('success', 'Data berhasil dihapus.');
         }
         abort(404);
     }
@@ -464,7 +452,7 @@ class AdminController extends Controller
 
             $this->adminService->storeLecturer($validated_user, $validated_dosen, $validated_role, $user, $dosen);
 
-            return redirect('/admin/dosen/create')->with('success', 'Data berhasil ditambahkan.');
+            return redirect()->route('adm.createLecturer')->with('success', 'Data berhasil ditambahkan.');
         }
         abort(404);
     }
@@ -521,14 +509,14 @@ class AdminController extends Controller
             if (in_array(7, $validated_role['role'])) {
                 $KetuaKomiteCheck = DB::table('role_user')->where('role_id', 7)->exists();
                 if ($KetuaKomiteCheck) {
-                    return redirect('/admin/dosen/' . $dosen->id . '/edit')->with(['error' => 'Role Ketua Komite sudah dimiliki oleh dosen lain.']);
+                    return redirect()->route('adm.editLecturer', ['dosen' => $dosen->id])->with(['error' => 'Role Ketua Komite sudah dimiliki oleh dosen lain.']);
                 }
             }
 
 
             $this->adminService->updateLecturer($validated_user, $validated_dosen, $validated_role, $dosen);
 
-            return redirect('/admin/dosen')->with('success', 'Data berhasil diubah.');
+            return redirect()->route('adm.getLecturers')->with('success', 'Data berhasil diubah.');
         }
         abort(404);
     }
@@ -537,28 +525,28 @@ class AdminController extends Controller
     {
         if (Gate::allows('admin')) {
             if ($dosen->user->bimbinganDosen->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
             } elseif ($dosen->user->bimbinganDosen2->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa bimbingan.');
             } elseif ($dosen->user->pengajuanSemproPenguji1->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             } elseif ($dosen->user->pengajuanSemproPenguji2->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             } elseif ($dosen->user->pengajuanSemproPenguji3->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             } elseif ($dosen->user->pengajuanSkripsiPenguji1->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             } elseif ($dosen->user->pengajuanSkripsiPenguji2->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             } elseif ($dosen->user->pengajuanSkripsiPenguji3->isNotEmpty()) {
-                return redirect('/admin/dosen')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
+                return redirect()->route('adm.getLecturers')->with('error', 'Tidak dapat menghapus data mahasiswa yang sudah memiliki mahasiswa teruji.');
             }
 
             $dosen->delete();
             $dosen->user->roles()->detach();
             $dosen->user->delete();
 
-            return redirect('/admin/dosen')->with('success', 'Data berhasil dihapus.');
+            return redirect()->route('adm.getLecturers')->with('success', 'Data berhasil dihapus.');
         }
         abort(404);
     }
@@ -628,7 +616,7 @@ class AdminController extends Controller
                 ]);
             }
 
-            return redirect('/admin/pengajuan/judul');
+            return redirect()->route('adm.pengajuanJudul');
         }
         abort(404);
     }
@@ -721,14 +709,14 @@ class AdminController extends Controller
                     $validated['penguji1_id'] == $pembimbing1 || $validated['penguji2_id'] == $pembimbing1 || $validated['penguji3_id'] == $pembimbing1
 
                 ) {
-                    return redirect('/admin/pengajuan/sempro/' . $pengajuanSempro->id)->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
+                    return redirect()->route('adm.getPengajuanSempro', ['pengajuanSempro' => $pengajuanSempro->id])->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
                 }
 
                 $this->adminService->terimaPengajuanSempro($pengajuanSempro, $validated);
             } else {
                 $pengajuanSempro->update(['status' => 'Ditolak']);
             }
-            return redirect('/admin/pengajuan/sempro');
+            return redirect()->route('adm.pengajuanSempro');
         }
         abort(404);
     }
@@ -811,14 +799,14 @@ class AdminController extends Controller
                     $validated['penguji1_id'] == $pembimbing1 || $validated['penguji2_id'] == $pembimbing1 || $validated['penguji3_id'] == $pembimbing1
                     || $validated['penguji1_id'] == $pembimbing2 || $validated['penguji2_id'] == $pembimbing2 || $validated['penguji3_id'] == $pembimbing2
                 ) {
-                    return redirect('/admin/pengajuan/skripsi/' . $pengajuanSkripsi->id)->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
+                    return redirect()->route('adm.getPengajuanSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id])->with('error', 'Penguji tidak boleh sama dengan pembimbing.');
                 }
 
                 $this->adminService->terimaPengajuanSkripsi($pengajuanSkripsi, $validated);
             } else {
                 $pengajuanSkripsi->update(['status' => 'Ditolak']);
             }
-            return redirect('/admin/pengajuan/skripsi');
+            return redirect()->route('adm.pengajuanSkripsi');
         }
         abort(404);
     }
@@ -883,7 +871,7 @@ class AdminController extends Controller
 
                 $this->adminService->tolakPengajuanAlat($pengajuanAlat, $validated);
             }
-            return redirect('/admin/pengajuan/alat');
+            return redirect()->route('adm.pengajuanAlat');
         }
         abort(404);
     }
@@ -1053,7 +1041,7 @@ class AdminController extends Controller
     {
         if (Gate::any(['admin', 'komite'])) {
             if (Gate::allows('komite') && Auth::user()->dosen->tanda_tangan == null) {
-                return redirect('/admin/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                return redirect()->route('adm.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
             }
             $prodi = ProgramStudi::get();
             $tahun = TahunAjaran::get();
@@ -1119,12 +1107,12 @@ class AdminController extends Controller
                 $this->adminService->keputusanRevisiUlang($pengajuanRevisi);
             } elseif (isset($request->terima)) {
                 if (Auth::user()->dosen->tanda_tangan == null) {
-                    return redirect('/admin/profile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
+                    return redirect()->route('adm.getProfile')->with('messages', 'Silahkan isi tanda tangan terlebih dahulu.');
                 }
                 $this->adminService->keputusanRevisiTerima($pengajuanRevisi);
             }
 
-            return redirect('/admin/revisi');
+            return redirect()->route('adm.getAllRevisi');
         }
         abort(404);
     }

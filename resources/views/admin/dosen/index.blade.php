@@ -3,13 +3,14 @@
 @section('content')
     @can('admin')
         <div class="container mx-auto flex justify-center">
-            <a href="/admin/dosen/create" class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">Tambah
+            <a href="{{ route('adm.createLecturer') }}"
+                class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">Tambah
                 Dosen</a>
         </div>
     @endcan
     <div class="container mx-auto px-10 bg-slate-200 mt-2">
         <p class="font-semibold text-lg">Filter by:</p>
-        <form method="GET" action="/admin/dosen">
+        <form method="GET" action="{{ route('adm.getLecturers') }}">
             @csrf
             <div class="flex justify-evenly items-center">
                 <div>
@@ -67,7 +68,7 @@
                 @endphp
                 @foreach ($data as $index => $dosen)
                     <tr class="even:bg-slate-300">
-                        <form method="POST" action="/admin/dosen/{{ $dosen->id }}">
+                        <form method="POST" action="{{ route('adm.deleteLecturer', ['dosen' => $dosen->id]) }}">
                             @csrf
                             <td class="border-b border-slate-500 py-2 text-center">{{ $startNumber + $index }}</td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $dosen->user->nama }}</td>
@@ -82,10 +83,10 @@
                                 {{ count($dosen->user->bimbinganDosen) + count($dosen->user->bimbinganDosen2) }}
                             </td>
                             <td class="text-center  border-b border-slate-500">
-                                <a href="/admin/dosen/{{ $dosen->id }}"
+                                <a href="{{ route('adm.getLecturer', ['dosen' => $dosen->id]) }}"
                                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Detail</a>
                                 @can('admin')
-                                    <a href="/admin/dosen/{{ $dosen->id }}/edit"
+                                    <a href="{{ route('adm.editLecturer', ['dosen' => $dosen->id]) }}"
                                         class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block">Edit</a>
                                     @method('DELETE')
                                     <button type="submit"

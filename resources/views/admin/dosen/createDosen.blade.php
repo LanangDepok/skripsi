@@ -6,7 +6,7 @@
             <div class="container w-2/5">
                 <h2 class="text-primary text-2xl font-semibold text-center">Isi Biodata Dosen</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
-                <form method="POST" action="/admin/dosen">
+                <form method="POST" action="{{ route('adm.storeLecturer') }}">
                     @csrf
                     <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                         @if (session('success'))
@@ -112,7 +112,7 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <a href="/admin/dosen"
+                                <a href="{{ route('adm.getLecturers') }}"
                                     class="bg-primary w-24 rounded-2xl hover:bg-red-300 text-white block items-center">Back</a></button>
                             </div>
                             <div class="text-center mt-12">

@@ -6,7 +6,7 @@
             <h2 class="text-primary text-2xl font-semibold text-center">Bukti Penyerahan Alat dan Skripsi</h2>
             <div class="bg-primary container h-1 mb-5 mt-2"></div>
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                <form method="POST" action="/mahasiswa/pengajuan/alat/{{ Auth::user()->id }}">
+                <form method="POST" action="{{ route('mhs.ajukanAlat', ['user' => Auth::user()->id]) }}">
                     @csrf
                     <div class="text-left mb-4">
                         <label for="f12">Berita Acara Serah Terima Sistem_Aplikasi_Video_Berkas Skripsi (F12), <a

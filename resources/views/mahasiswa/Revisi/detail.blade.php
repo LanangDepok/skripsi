@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/mahasiswa/revisi"
+            <a href="{{ route('mhs.getAllRevisi') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-xl block text-center">Back</a>
         </div>
         <div class="flex justify-center">
@@ -88,10 +88,10 @@
                 <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
             <div class="container w-1/2 mx-auto">
-                <form method="POST" action="/mahasiswa/revisi/{{ $pengajuanRevisi->id }}">
+                <form method="POST" action="{{ route('mhs.terimaRevisi', ['pengajuanRevisi' => $pengajuanRevisi->id]) }}">
                     @csrf
                     <p class="text-center font-bold text-lg mb-5">Konfirmasi revisi</p>
-                    <p class="mb-5">1. Pastikan skripsi sudah benar <a href="/mahasiswa/skripsi"
+                    <p class="mb-5">1. Pastikan skripsi sudah benar <a href="{{ route('mhs.getSkripsi') }}"
                             class="text-blue-500 underline">di sini</a>
                     </p>
                     <p class="mb-2">2. Masukkan link bukti revisi alat (Jika revisi)</p>

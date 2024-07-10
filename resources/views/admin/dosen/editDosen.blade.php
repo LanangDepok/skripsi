@@ -7,7 +7,7 @@
                 <h2 class="text-primary text-2xl font-semibold text-center">Edit Biodata Dosen</h2>
                 <div class="bg-primary container h-1 mb-5 mt-2"></div>
                 <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                    <form method="POST" action="/admin/dosen/{{ $dosen->id }}">
+                    <form method="POST" action="{{ route('adm.updateLecturer', ['dosen' => $dosen->id]) }}">
                         @csrf
                         @if (session('error'))
                             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 text-center"
@@ -90,7 +90,8 @@
                                 class="block border border-primary rounded-md w-full">
                                 @foreach ($golongan as $data)
                                     <option value="{{ $data->id }}"
-                                        {{ $data->id == $dosen->gol_pangkat_id ? 'selected' : '' }}>{{ $data->nama }}
+                                        {{ $data->id == $dosen->gol_pangkat_id ? 'selected' : '' }}>
+                                        {{ $data->nama }}
                                     </option>
                                 @endforeach
                             </select>
@@ -120,7 +121,7 @@
                         </div>
                         <div class="flex justify-evenly">
                             <div class="text-center mt-12">
-                                <a href="/admin/dosen"> <button type="button"
+                                <a href="{{ route('adm.getLecturers') }}"> <button type="button"
                                         class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white">Back</button></a>
                             </div>
                             @method('PUT')

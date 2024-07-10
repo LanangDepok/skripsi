@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="flex w-1/2 mx-auto">
-            <a href="/dosen/history/logbook"
+            <a href="{{ route('dsn.historyLogbook') }}"
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md block">Back</a>
         </div>
         <div class="flex justify-center">

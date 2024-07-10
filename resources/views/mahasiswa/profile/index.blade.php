@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto w-2/3 flex justify-end">
-        <a href="/mahasiswa/profile/edit"
+        <a href="{{ route('mhs.editProfile') }}"
             class="rounded-lg bg-primary p-2 px-4 text-white hover:text-black hover:bg-red-300">Edit
             Biodata</a>
     </div>
