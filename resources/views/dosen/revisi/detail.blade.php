@@ -13,7 +13,7 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . (isset($pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png')) }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
@@ -68,7 +68,7 @@
                 {{ $pengajuanRevisi->revisi_laporan }}
            </textarea>
             <iframe
-                src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi }}"
+                src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi) }}"
                 class="w-full h-[600px] mt-3"></iframe>
         </div>
         <form method="POST" action="{{ route('dsn.keputusanRevisi', ['pengajuanRevisi' => $pengajuanRevisi->id]) }}">

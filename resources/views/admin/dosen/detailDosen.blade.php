@@ -7,8 +7,8 @@
                 class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 inline-block text-center">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($dosen->photo_profil) ? $dosen->photo_profil : 'icons/user.png' }}" alt="Foto_profil"
-                class="w-36 h-36 rounded-full">
+            <img src="{{ asset('storage/' . (isset($dosen->photo_profil) ? $dosen->photo_profil : 'icons/user.png')) }}"
+                alt="Foto_profil" class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
             <p class="font-semibold text-lg">{{ $dosen->user->nama }}</p>

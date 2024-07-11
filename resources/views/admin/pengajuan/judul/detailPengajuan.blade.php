@@ -13,14 +13,15 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 p-[1px] rounded-md block text-center">Back</a></button>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($pengajuanJudul->user->mahasiswa->photo_profil) ? $pengajuanJudul->user->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . (isset($pengajuanJudul->user->mahasiswa->photo_profil) ? $pengajuanJudul->user->mahasiswa->photo_profil : 'icons/user.png')) }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
             <p class="font-semibold text-lg">{{ $pengajuanJudul->user->nama }}</p>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
-            <form method="POST" action="{{ route('adm.terimaPengajuanJudul', ['pengajuanJudul' => $pengajuanJudul->id]) }}">
+            <form method="POST"
+                action="{{ route('adm.terimaPengajuanJudul', ['pengajuanJudul' => $pengajuanJudul->id]) }}">
                 @csrf
                 <div class="h-1 bg-primary mx-auto"></div>
                 <P><span class="font-bold">Email: </span>{{ $pengajuanJudul->user->email }}</P><br>

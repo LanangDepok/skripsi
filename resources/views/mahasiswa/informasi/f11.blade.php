@@ -20,7 +20,7 @@
     </div>
     <div class="container flex justify-evenly mt-10 mx-auto">
         <div class="flex items-center">
-            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+            <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-32 h-32">
         </div>
         <div class="text-center">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
@@ -73,7 +73,7 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
-                            <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
+                            <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan) }}"
                                 class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
@@ -86,7 +86,7 @@
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
                             @if ($pengajuanSkripsi->dospem2_id != null)
-                                <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}"
+                                <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan) }}"
                                     class="max-w-32 max-h-24 mx-auto">
                             @else
                                 -
@@ -102,7 +102,7 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
-                            <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}"
+                            <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}"
                                 class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
@@ -114,7 +114,7 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
-                            <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan }}"
+                            <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan) }}"
                                 class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
@@ -126,7 +126,7 @@
                             {{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
-                            <img src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan }}"
+                            <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan) }}"
                                 class="max-w-32 max-h-24 mx-auto">
                         </td>
                         <td class="border border-slate-500 py-2 font-semibold text-center">
@@ -138,7 +138,7 @@
         <div class="mt-3 ml-auto w-1/4">
             <p>Depok, {{ $pengajuanSkripsi->pengajuanRevisi->tanggal_revisi }}</p>
             <p>Ketua Komite Skripsi,</p>
-            <img class="max-w-32 max-h-24" src="/storage/{{ $ttd->dosen->tanda_tangan }}">
+            <img class="max-w-32 max-h-24" src="{{ asset('storage/' . $ttd->dosen->tanda_tangan) }}">
             <p>{{ $ttd->nama }}</p>
             <p>NIP.{{ $ttd->dosen->nip }}</p>
         </div>

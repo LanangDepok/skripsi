@@ -15,7 +15,7 @@
                     class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a>
             </div>
             <div class="flex justify-center">
-                <img src="/storage/{{ isset($pengajuanAlat->user->mahasiswa->photo_profil) ? $pengajuanAlat->user->mahasiswa->photo_profil : 'icons/user.png' }}"
+                <img src="{{ asset('storage/' . (isset($pengajuanAlat->user->mahasiswa->photo_profil) ? $pengajuanAlat->user->mahasiswa->photo_profil : 'icons/user.png')) }}"
                     class="w-36 h-36 rounded-full">
             </div>
             <div class="text-center mt-6">

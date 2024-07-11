@@ -22,7 +22,7 @@
             <div class="container mx-auto flex justify-between">
                 <div class="flex items-center">
                     <div>
-                        <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+                        <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-20 h-20">
                     </div>
                     <div class="ml-3">
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
@@ -51,7 +51,8 @@
                                 class="hover:bg-slate-300 {{ $title == 'index' ? 'bg-red-200' : '' }}">
                                 Home
                                 <span>
-                                    <img src="/storage/icons/home.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/home.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -60,7 +61,8 @@
                                 class="hover:bg-slate-300 {{ $title == 'mahasiswa' ? 'bg-red-200' : '' }}">
                                 Mahasiswa
                                 <span>
-                                    <img src="/storage/icons/group.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/group.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -69,7 +71,7 @@
                                 class="hover:bg-slate-300  {{ $title == 'dosen' ? 'bg-red-200' : '' }}">
                                 Dosen
                                 <span>
-                                    <img src="/storage/icons/presentation.png"
+                                    <img src="{{ asset('storage/icons/presentation.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -79,7 +81,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'pengajuan' ? 'bg-red-200' : '' }}">
                                 Pengajuan
                                 <span>
-                                    <img src="/storage/icons/contract.png"
+                                    <img src="{{ asset('storage/icons/contract.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
@@ -107,7 +109,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'sidang' ? 'bg-red-200' : '' }}">
                                 Monitoring Pengajuan
                                 <span>
-                                    <img src="/storage/icons/meeting.png"
+                                    <img src="{{ asset('storage/icons/meeting.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
@@ -131,7 +133,7 @@
                                 class="hover:bg-slate-300  {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
                                 Penerimaan Revisi
                                 <span>
-                                    <img src="/storage/icons/revision.png"
+                                    <img src="{{ asset('storage/icons/revision.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -141,7 +143,8 @@
                                 class="hover:bg-slate-300  {{ $title == 'report' ? 'bg-red-200' : '' }}">
                                 Report akhir
                                 <span>
-                                    <img src="/storage/icons/excel.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/excel.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -151,7 +154,7 @@
                                     class="hover:bg-slate-300 {{ $title == 'database' ? 'bg-red-200' : '' }}">
                                     Database
                                     <span>
-                                        <img src="/storage/icons/database.png"
+                                        <img src="{{ asset('storage/icons/database.png') }}"
                                             class="w-3 h-3 inline-block -translate-y-[10%]">
                                     </span>
                                 </button>
@@ -189,14 +192,14 @@
                         id="userDropdownButton">
                         <p class="truncate text-nowrap inline-block max-w-64">{{ Auth::user()->nama }}</p>
                         <span class="ml-3">
-                            <img src="/storage/{{ isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png' }}"
+                            <img src="{{ asset('storage/' . (isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png')) }}"
                                 class="w-7 h-7 rounded-full">
                         </span>
                     </button>
                     <div class="absolute bg-slate-100 rounded-md shadow-md w-32 mt-2 right-0 hidden dropdown-content"
                         id="userDropdownContent">
                         @can('komite')
-                            <a href="{{ redirect()->route('adm.getProfile') }}"
+                            <a href="{{ route('adm.getProfile') }}"
                                 class="block px-4 py-2 hover:bg-slate-300 text-center">Profile</a>
                             <div class="container h-[1px] w-full bg-slate-500"></div>
                         @endcan

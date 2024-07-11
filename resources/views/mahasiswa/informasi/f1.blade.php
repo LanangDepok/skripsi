@@ -20,7 +20,7 @@
     </div>
     <div class="container flex justify-evenly mt-10 mx-auto">
         <div class="flex items-center">
-            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+            <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-32 h-32">
         </div>
         <div class="text-center">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
@@ -62,7 +62,7 @@
             <p>Depok, {{ $pengajuanSempro->acc_dospem }}</p>
             <p>Pembimbing,</p>
             <img class="max-w-32 max-h-24"
-                src="/storage/{{ $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan }}">
+                src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan) }}">
             <p>{{ $pengajuanSempro->pengajuanSemproDospem->nama }}</p>
             <p>NIP.{{ $pengajuanSempro->pengajuanSemproDospem->dosen->nip }}</p>
         </div>

@@ -7,7 +7,7 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md block text-center p-[1px]">Back</a></button>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($bimbingan->bimbinganMahasiswa->mahasiswa->photo_profil) ? $bimbingan->bimbinganMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . (isset($bimbingan->bimbinganMahasiswa->mahasiswa->photo_profil) ? $bimbingan->bimbinganMahasiswa->mahasiswa->photo_profil : 'icons/user.png')) }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
@@ -38,7 +38,7 @@
         </div>
         <div class="container mx-auto w-1/2 mt-6">
             @if ($bimbingan->bimbinganMahasiswa->skripsi->file_skripsi != null)
-                <iframe src="/storage/{{ $bimbingan->bimbinganMahasiswa->skripsi->file_skripsi }}"
+                <iframe src="{{ asset('storage/' . $bimbingan->bimbinganMahasiswa->skripsi->file_skripsi) }}"
                     class="w-full h-[600px]"></iframe>
             @else
                 <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>

@@ -20,7 +20,7 @@
     </div>
     <div class="container flex justify-evenly mt-10 mx-auto">
         <div class="flex items-center">
-            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+            <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-32 h-32">
         </div>
         <div class="text-center">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
@@ -104,14 +104,14 @@
             <div>
                 <p>Persetujuan Teruji,</p>
                 <img class="max-w-32 max-h-24"
-                    src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tanda_tangan }}">
+                    src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tanda_tangan) }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
                 <p>NIM.{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p>Ketua Sidang,</p>
                 <img class="max-w-32 max-h-24"
-                    src="/storage/{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}">
+                    src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                 <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
             </div>

@@ -20,7 +20,7 @@
     </div>
     <div class="container flex justify-evenly mt-10 mx-auto">
         <div class="flex items-center">
-            <img src="/storage/assets/logo_pnj.png" class="w-32 h-32">
+            <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-32 h-32">
         </div>
         <div class="text-center">
             <p>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</p>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="/storage/{{ $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan : '-' }}">
+                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan : '-') }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="/storage/{{ $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji2->dosen->tanda_tangan : '-' }}">
+                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji2->dosen->tanda_tangan : '-') }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="/storage/{{ $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji3->dosen->tanda_tangan : '-' }}">
+                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji3->dosen->tanda_tangan : '-') }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="/storage/{{ $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan : '-' }}">
+                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan : '-') }}">
                 </div>
             </div>
         </div>
@@ -103,13 +103,15 @@
         <div class="flex justify-between mt-10">
             <div>
                 <p class="text-center">Mahasiswa Ybs,</p>
-                <img src="/storage/assets/signature.png" class="max-w-60 mx-auto">
+                <img src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tanda_tangan) }}"
+                    class="max-w-60 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}</p>
                 <p class="text-center">NIM.{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p class="text-center">Ketua Sidang,</p>
-                <img src="/storage/assets/signature.png" class="max-w-60 mx-auto">
+                <img src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan) }}"
+                    class="max-w-60 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSempro->pengajuanSemproPenguji1->nama }}</p>
                 <p class="text-center">NIP.{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->nip }}</p>
             </div>

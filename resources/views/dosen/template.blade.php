@@ -24,7 +24,7 @@
             <div class="container mx-auto flex justify-between">
                 <div class="flex items-center">
                     <div>
-                        <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+                        <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-20 h-20">
                     </div>
                     <div class="ml-3">
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
@@ -51,7 +51,8 @@
                                 class="hover:bg-slate-300 {{ $title == 'index' ? 'bg-red-200' : '' }}">
                                 Home
                                 <span>
-                                    <img src="/storage/icons/home.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/home.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -61,7 +62,7 @@
                                     class="hover:bg-slate-300 {{ $title == 'bimbingan' ? 'bg-red-200' : '' }}">
                                     Bimbingan
                                     <span>
-                                        <img src="/storage/icons/presentation.png"
+                                        <img src="{{ asset('storage/icons/presentation.png') }}"
                                             class="w-3 h-3 inline-block -translate-y-[10%]">
                                     </span>
                                 </button>
@@ -86,7 +87,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'pengujian' ? 'bg-red-200' : '' }}">
                                 Pengujian
                                 <span>
-                                    <img src="/storage/icons/contract.png"
+                                    <img src="{{ asset('storage/icons/contract.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
@@ -107,7 +108,7 @@
                                     class="hover:bg-slate-300 {{ $title == 'rekapitulasi' ? 'bg-red-200' : '' }}">
                                     Rekapitulasi Nilai
                                     <span>
-                                        <img src="/storage/icons/open-book.png"
+                                        <img src="{{ asset('storage/icons/open-book.png') }}"
                                             class="w-3 h-3 inline-block -translate-y-[10%]">
                                     </span>
                                 </a>
@@ -117,7 +118,7 @@
                                     class="hover:bg-slate-300 {{ $title == 'kelulusan' ? 'bg-red-200' : '' }}">
                                     Kelulusan
                                     <span>
-                                        <img src="/storage/icons/mortarboard.png"
+                                        <img src="{{ asset('storage/icons/mortarboard.png') }}"
                                             class="w-3 h-3 inline-block -translate-y-[10%]">
                                     </span>
                                 </a>
@@ -128,7 +129,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
                                 Pengajuan Revisi
                                 <span>
-                                    <img src="/storage/icons/logbook.png"
+                                    <img src="{{ asset('storage/icons/logbook.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -138,7 +139,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'history' ? 'bg-red-200' : '' }}">
                                 History
                                 <span>
-                                    <img src="/storage/icons/history.png"
+                                    <img src="{{ asset('storage/icons/history.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
@@ -165,7 +166,7 @@
                         id="userDropdownButton">
                         <p class="truncate text-nowrap inline-block max-w-64">{{ Auth::user()->nama }}</p>
                         <span class="ml-3">
-                            <img src="/storage/{{ isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png' }}"
+                            <img src="{{ asset('storage/' . (isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png')) }}"
                                 class="w-7 h-7 rounded-full">
                         </span>
                     </button>

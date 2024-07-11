@@ -14,7 +14,7 @@
     </div>
     <div
         class="container mx-auto w-2/3 mt-2 flex rounded-lg border-2 border-primary p-6 shadow-slate-400 shadow-lg justify-around">
-        <img src="/storage/{{ isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png' }}"
+        <img src="{{ asset('storage/' . (isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png')) }}"
             class="w-40 h-40 rounded-full my-auto">
         <div>
             <p>Email : {{ Auth::user()->email }}</p>
@@ -25,7 +25,7 @@
             <p>Fungsioanl: {{ Auth::user()->dosen->gol_pangkat->nama }}</p>
             <p>Role: {{ Auth::user()->roles->pluck('nama')->implode(', ') }}</p>
         </div>
-        <img src="/storage/{{ Auth::user()->dosen->tanda_tangan }}" class="max-h-24 max-w-56 my-auto"
+        <img src="{{ asset('storage/' . Auth::user()->dosen->tanda_tangan) }}" class="max-h-24 max-w-56 my-auto"
             alt="(Belum ada tanda tangan)">
     </div>
 

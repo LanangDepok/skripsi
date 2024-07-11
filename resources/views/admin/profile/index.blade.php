@@ -14,7 +14,7 @@
     </div>
     <div
         class="container mx-auto w-2/3 mt-2 flex rounded-lg border-2 border-primary p-6 shadow-slate-400 shadow-lg justify-around">
-        <img src="/storage/{{ isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png' }}"
+        <img src="{{ asset('storage/' . (isset(Auth::user()->dosen->photo_profil) ? Auth::user()->dosen->photo_profil : 'icons/user.png')) }}"
             class="w-40 h-40 rounded-full my-auto">
         <div>
             <p>Email : {{ Auth::user()->email }}</p>
@@ -25,18 +25,18 @@
             <p>Fungsioanl: {{ Auth::user()->dosen->gol_pangkat->nama }}</p>
             <p>Role: {{ Auth::user()->roles->pluck('nama')->implode(', ') }}</p>
         </div>
-        <img src="/storage/{{ Auth::user()->dosen->tanda_tangan }}" class="max-h-24 max-w-56 my-auto"
+        <img src="{{ asset('storage/' . Auth::user()->dosen->tanda_tangan) }}" class="max-h-24 max-w-56 my-auto"
             alt="(Belum ada tanda tangan)">
     </div>
 
 
     {{-- Modal --}}
     <div id="modal" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
-        <div class="fixed bg-white top-48 bottom-48 left-96 right-96 z-10 rounded-lg">
+        <div class="fixed bg-white top-36 bottom-36 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
                 <button type="button" id="exitModal" class="text-3xl font-extrabold text-slate-800">X</button>
             </div>
-            <form method="POST" action="{{ redirect()->route('adm.updateProfile', ['user' => Auth::user()->id]) }}"
+            <form method="POST" action="{{ route('adm.updateProfile', ['user' => Auth::user()->id]) }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="container w-1/2 mx-auto">

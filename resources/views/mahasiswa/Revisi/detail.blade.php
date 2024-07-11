@@ -7,7 +7,7 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-xl block text-center">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png') }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
@@ -70,7 +70,7 @@
 
         <div class="container mx-auto w-1/2 mt-6">
             <iframe
-                src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi }}"
+                src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi) }}"
                 class="w-full h-[600px]"></iframe>
         </div>
         <div class="container mx-auto w-1/2 mt-10 flex">

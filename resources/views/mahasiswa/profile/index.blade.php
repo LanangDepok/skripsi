@@ -9,7 +9,7 @@
     <div
         class="container mx-auto w-2/3 mt-2 flex rounded-lg border-2 border-primary p-6 shadow-slate-400 shadow-lg justify-around">
         {{-- <div class=""> --}}
-        <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
+        <img src="{{ asset('storage/' . (isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png')) }}"
             class="w-40 h-40 rounded-full my-auto">
         {{-- </div> --}}
         <div>
@@ -22,7 +22,7 @@
             <p>Nama Orang Tua/Wali : {{ Auth::user()->mahasiswa->nama_ortu }}</p>
             <p>No. Kontak Orang Tua/Wali : {{ Auth::user()->mahasiswa->no_kontak_ortu }}</p>
         </div>
-        <img src="/storage/{{ Auth::user()->mahasiswa->tanda_tangan }}" class="max-h-24 max-w-56 my-auto">
+        <img src="{{ asset('storage/' . Auth::user()->mahasiswa->tanda_tangan) }}" class="max-h-24 max-w-56 my-auto">
     </div>
     {{-- <div class="container mx-auto w-2/3 mt-12">
         <p class="text-center text-xl font-semibold">Progress</p>

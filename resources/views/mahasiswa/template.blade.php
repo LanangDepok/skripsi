@@ -22,7 +22,7 @@
         <div class="bg-primary px-8">
             <div class="container mx-auto flex items-center">
                 <div>
-                    <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+                    <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-20 h-20">
                 </div>
                 <div class="ml-3">
                     <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
@@ -38,7 +38,8 @@
                                 class="hover:bg-slate-300 {{ $title == 'index' ? 'bg-red-200' : '' }}">
                                 Home
                                 <span>
-                                    <img src="/storage/icons/home.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/home.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -47,7 +48,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'logbook' ? 'bg-red-200' : '' }}">
                                 Logbook
                                 <span>
-                                    <img src="/storage/icons/logbook.png"
+                                    <img src="{{ asset('storage/icons/logbook.png') }}"
                                         class="w-4 h-4 inline-block -translate-y-[5%]">
                                 </span>
                             </a>
@@ -57,7 +58,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'pengajuan' ? 'bg-red-200' : '' }}">
                                 Pengajuan
                                 <span>
-                                    <img src="/storage/icons/contract.png"
+                                    <img src="{{ asset('storage/icons/contract.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </button>
@@ -86,7 +87,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'informasi' ? 'bg-red-200' : '' }}">
                                 Informasi
                                 <span>
-                                    <img src="/storage/icons/information-button.png"
+                                    <img src="{{ asset('storage/icons/information-button.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -96,7 +97,8 @@
                                 class="hover:bg-slate-300 {{ $title == 'skripsi' ? 'bg-red-200' : '' }}">
                                 Skripsi
                                 <span>
-                                    <img src="/storage/icons/pdf.png" class="w-3 h-3 inline-block -translate-y-[10%]">
+                                    <img src="{{ asset('storage/icons/pdf.png') }}"
+                                        class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
                         </li>
@@ -105,7 +107,7 @@
                                 class="hover:bg-slate-300 {{ $title == 'revisi' ? 'bg-red-200' : '' }}">
                                 Revisi Sidang
                                 <span>
-                                    <img src="/storage/icons/logbook.png"
+                                    <img src="{{ asset('storage/icons/logbook.png') }}"
                                         class="w-3 h-3 inline-block -translate-y-[10%]">
                                 </span>
                             </a>
@@ -118,7 +120,7 @@
                         id="userDropdownButton">
                         <p class="truncate text-nowrap inline-block max-w-64">{{ Auth::user()->nama }}</p>
                         <span class="ml-3">
-                            <img src="/storage/{{ isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png' }}"
+                            <img src="{{ asset('storage/' . (isset(Auth::user()->mahasiswa->photo_profil) ? Auth::user()->mahasiswa->photo_profil : 'icons/user.png')) }}"
                                 class="w-7 h-7 rounded-full">
                         </span>
                     </button>

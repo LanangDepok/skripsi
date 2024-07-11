@@ -9,7 +9,7 @@
         <div class="flex justify-between px-20">
             <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md">
                 <p class="text-center">Dosen Pembimbing 1</p>
-                <img src="/storage/{{ isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png' }}"
+                <img src="{{ asset('storage/' . (isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png')) }}"
                     class="w-28 h-28 rounded-full mt-2 mx-auto">
                 <p class="text-center">{{ $bimbingan->bimbinganDosen->nama }}</p>
                 <p class="text-center">
@@ -32,7 +32,7 @@
             </div>
             <div class="border-2 border-slate-400 shadow-lg shadow-slate-200 p-4 rounded-md">
                 <p class="text-center">Dosen Pembimbing 2</p>
-                <img src="/storage/{{ isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png' }}"
+                <img src="{{ asset('storage/' . (isset($bimbingan->bimbinganDosen->photo_profil) ? $bimbingan->bimbinganDosen->photo_profil : 'icons/user.png')) }}"
                     class="w-28 h-28 rounded-full mt-2 mx-auto">
                 <p class="text-center">
                     {{ isset($bimbingan->bimbinganDosen2) ? $bimbingan->bimbinganDosen2->nama : '(Tidak ada)' }}</p>

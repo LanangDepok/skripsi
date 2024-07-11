@@ -19,7 +19,7 @@
         <div class="bg-primary px-8">
             <div class="container mx-auto flex items-center">
                 <div>
-                    <img src="/storage/assets/logo_pnj.png" class="w-20 h-20">
+                    <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-20 h-20">
                 </div>
                 <div class="ml-3">
                     <h3 class="text-4xl font-semibold text-white">Politeknik Negeri Jakarta</h3>

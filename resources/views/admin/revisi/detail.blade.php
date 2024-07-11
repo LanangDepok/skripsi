@@ -13,7 +13,7 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 text-center rounded-md">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . (isset($pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil) ? $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->photo_profil : 'icons/user.png')) }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
@@ -65,7 +65,7 @@
                 {{ $pengajuanRevisi->revisi_laporan }}
            </textarea>
             <iframe
-                src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi }}"
+                src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi) }}"
                 class="w-full h-[600px] mt-3"></iframe>
         </div>
         <div class="container w-1/2 mx-auto mt-6">
@@ -141,7 +141,7 @@
                             <div class="flex justify-between mt-5 items-center">
                                 <p>Penguji 1 : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji1 == 'Ya')
-                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan }}"
+                                    <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}"
                                         class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
@@ -150,7 +150,7 @@
                             <div class="flex justify-between mt-5 items-center">
                                 <p>Penguji 2 : {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji2 == 'Ya')
-                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan }}"
+                                    <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan) }}"
                                         class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
@@ -159,7 +159,7 @@
                             <div class="flex justify-between mt-5 items-center">
                                 <p>Penguji 3: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->nama }}</p>
                                 @if ($pengajuanRevisi->terima_penguji3 == 'Ya')
-                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan }}"
+                                    <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan) }}"
                                         class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
@@ -168,7 +168,7 @@
                             <div class="flex justify-between mt-5 items-center">
                                 <p>Pembimbing 1: {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
                                 @if ($pengajuanRevisi->terima_pembimbing == 'Ya')
-                                    <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan }}"
+                                    <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan) }}"
                                         class="max-w-16 max-h-12">
                                 @else
                                     <p>(Revisi lagi)</p>
@@ -180,7 +180,7 @@
                                         {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->nama }}
                                     </p>
                                     @if ($pengajuanRevisi->terima_pembimbing2 == 'Ya')
-                                        <img src="/storage/{{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan }}"
+                                        <img src="{{ asset('storage/' . $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiDospem2->dosen->tanda_tangan) }}"
                                             class="max-w-16 max-h-12">
                                     @else
                                         <p>(Revisi lagi)</p>

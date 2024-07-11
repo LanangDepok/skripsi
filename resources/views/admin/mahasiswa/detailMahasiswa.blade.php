@@ -7,7 +7,7 @@
                 class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 p-[1px] rounded-xl block text-center">Back</a>
         </div>
         <div class="flex justify-center">
-            <img src="/storage/{{ isset($mahasiswa->photo_profil) ? $mahasiswa->photo_profil : 'icons/user.png' }}"
+            <img src="{{ asset('storage/' . (isset($mahasiswa->photo_profil) ? $mahasiswa->photo_profil : 'icons/user.png')) }}"
                 class="w-36 h-36 rounded-full">
         </div>
         <div class="text-center mt-6">
