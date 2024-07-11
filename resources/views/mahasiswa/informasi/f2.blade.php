@@ -138,7 +138,7 @@
             <div>
                 <p>Depok, {{ $pengajuanSempro->tanggal }}</p>
                 <p>Ketua Sidang</p>
-                <img class="max-w-32 max-h-24"
+                <img class="max-w-36 max-h-28"
                     src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan) }}">
                 <p>{{ $pengajuanSempro->pengajuanSemproPenguji1->nama }}</p>
                 <p>NIP.{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->nip }}</p>

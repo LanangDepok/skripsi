@@ -101,7 +101,7 @@
         </div>
 
         @can('komite')
-            <form method="POST" action="{{ route('adm.keputusanRevisi') }}">
+            <form method="POST" action="{{ route('adm.keputusanRevisi', ['pengajuanRevisi' => $pengajuanRevisi->id]) }}">
                 @csrf
                 <div class="container w-1/2 mx-auto mt-10 flex justify-around">
                     <button type="button" id="terimaButton"

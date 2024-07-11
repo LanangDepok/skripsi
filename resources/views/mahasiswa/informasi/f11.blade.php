@@ -138,7 +138,7 @@
         <div class="mt-3 ml-auto w-1/4">
             <p>Depok, {{ $pengajuanSkripsi->pengajuanRevisi->tanggal_revisi }}</p>
             <p>Ketua Komite Skripsi,</p>
-            <img class="max-w-32 max-h-24" src="{{ asset('storage/' . $ttd->dosen->tanda_tangan) }}">
+            <img class="max-w-36 max-h-28" src="{{ asset('storage/' . $ttd->dosen->tanda_tangan) }}">
             <p>{{ $ttd->nama }}</p>
             <p>NIP.{{ $ttd->dosen->nip }}</p>
         </div>

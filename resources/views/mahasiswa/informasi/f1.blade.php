@@ -61,7 +61,7 @@
         <div class="mt-3">
             <p>Depok, {{ $pengajuanSempro->acc_dospem }}</p>
             <p>Pembimbing,</p>
-            <img class="max-w-32 max-h-24"
+            <img class="max-w-36 max-h-28"
                 src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan) }}">
             <p>{{ $pengajuanSempro->pengajuanSemproDospem->nama }}</p>
             <p>NIP.{{ $pengajuanSempro->pengajuanSemproDospem->dosen->nip }}</p>

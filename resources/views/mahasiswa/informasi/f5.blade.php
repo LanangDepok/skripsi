@@ -62,7 +62,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -119,14 +119,14 @@
             <div>
                 <p class="text-center">Mahasiswa Ybs,</p>
                 <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tanda_tangan) }}"
-                    class="max-w-60 mx-auto">
+                    class="max-w-36 max-h-28 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
                 <p class="text-center">NIM.{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p class="text-center">Ketua Sidang,</p>
                 <img src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}"
-                    class="max-w-60 mx-auto">
+                    class="max-w-36 max-h-28 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                 <p class="text-center">NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
             </div>

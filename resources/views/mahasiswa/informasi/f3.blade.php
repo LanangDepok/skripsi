@@ -62,7 +62,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji2->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji2->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji3->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproPenguji3->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . $pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan : '-') }}">
+                        src="{{ asset('storage/' . ($pengajuanSempro->status == 'Lulus' ? $pengajuanSempro->pengajuanSemproDospem->dosen->tanda_tangan : '-')) }}">
                 </div>
             </div>
         </div>
@@ -104,14 +104,14 @@
             <div>
                 <p class="text-center">Mahasiswa Ybs,</p>
                 <img src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->tanda_tangan) }}"
-                    class="max-w-60 mx-auto">
+                    class="max-w-36 max-h-28 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}</p>
                 <p class="text-center">NIM.{{ $pengajuanSempro->pengajuanSemproMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p class="text-center">Ketua Sidang,</p>
                 <img src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproPenguji1->dosen->tanda_tangan) }}"
-                    class="max-w-60 mx-auto">
+                    class="max-w-36 max-h-28 mx-auto">
                 <p class="text-center underline">{{ $pengajuanSempro->pengajuanSemproPenguji1->nama }}</p>
                 <p class="text-center">NIP.{{ $pengajuanSempro->pengajuanSemproPenguji1->dosen->nip }}</p>
             </div>

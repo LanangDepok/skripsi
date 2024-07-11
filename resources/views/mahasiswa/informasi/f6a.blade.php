@@ -169,7 +169,7 @@
         <div class="mt-3">
             <p>Depok, {{ $pengajuanSkripsi->tanggal }}</p>
             <p>Pembimbing 1</p>
-            <img class="max-w-32 max-h-24"
+            <img class="max-w-36 max-h-28"
                 src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan) }}">
             <p>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>
             <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->nip }}</p>

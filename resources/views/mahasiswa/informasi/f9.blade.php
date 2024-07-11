@@ -103,14 +103,14 @@
         <div class="mt-3 flex justify-between">
             <div>
                 <p>Persetujuan Teruji,</p>
-                <img class="max-w-32 max-h-24"
+                <img class="max-w-36 max-h-28"
                     src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->tanda_tangan) }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}</p>
                 <p>NIM.{{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->nim }}</p>
             </div>
             <div>
                 <p>Ketua Sidang,</p>
-                <img class="max-w-32 max-h-24"
+                <img class="max-w-36 max-h-28"
                     src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}">
                 <p>{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }}</p>
                 <p>NIP.{{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->nip }}</p>
