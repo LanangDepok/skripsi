@@ -129,6 +129,18 @@ class AdminService
         $pengajuanAlat->update($validated);
     }
 
+    //pengajuan kompetensi
+    public function terimaPengajuanKompetensi($pengajuanKompetensi)
+    {
+        $pengajuanKompetensi->update(['status' => 'Diterima']);
+        $pengajuanKompetensi->user->mahasiswa->update(['status' => 'Lulus']);
+    }
+    public function tolakPengajuanKompetensi($pengajuanKompetensi, $validated)
+    {
+        $validated['status'] = 'Ditolak';
+        $pengajuanKompetensi->update($validated);
+    }
+
     //revisi
     public function keputusanRevisiTolak($pengajuanRevisi)
     {

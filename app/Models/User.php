@@ -126,4 +126,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PengajuanAlat::class);
     }
+    public function pengajuanKompetensi(): HasMany
+    {
+        return $this->hasMany(PengajuanKompetensi::class);
+    }
 }

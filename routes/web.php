@@ -34,6 +34,8 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::post('/mahasiswa/pengajuan/skripsi/{user}', 'ajukanSkripsi')->name('mhs.ajukanSkripsi');
     Route::get('/mahasiswa/pengajuan/alat', 'pengajuanAlat')->name('mhs.pengajuanAlat');
     Route::post('/mahasiswa/pengajuan/alat/{user}', 'ajukanAlat')->name('mhs.ajukanAlat');
+    Route::get('/mahasiswa/pengajuan/kompetensi', 'pengajuanKompetensi')->name('mhs.pengajuanKompetensi');
+    Route::post('/mahasiswa/pengajuan/kompetensi/{user}', 'ajukanKompetensi')->name('mhs.ajukanKompetensi');
     Route::get('/mahasiswa/logbook', 'getLogbooks')->name('mhs.getLogbooks');
     Route::get('/mahasiswa/logbook/create', 'createLogbook')->name('mhs.createLogbook');
     Route::get('/mahasiswa/logbook/{logbook}', 'getLogbook')->name('mhsw.getLogbook');
@@ -46,6 +48,7 @@ Route::middleware('auth')->controller(MahasiswaController::class)->group(functio
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/pengajuanSempro', 'getPengajuanSempro')->name('mhs.getPengajuanSempro');
     Route::get('/mahasiswa/informasi/{pengajuanSkripsi}/pengajuanSkripsi', 'getPengajuanSkripsi')->name('mhs.getPengajuanSkripsi');
     Route::get('/mahasiswa/informasi/{pengajuanAlat}/pengajuanAlat', 'getPengajuanAlat')->name('mhs.getPengajuanAlat');
+    Route::get('/mahasiswa/informasi/{pengajuanKompetensi}/pengajuanKompetensi', 'getPengajuanKompetensi')->name('mhs.getPengajuanKompetensi');
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/f1', 'f1')->name('mhs.f1');
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/f2', 'f2')->name('mhs.f2');
     Route::get('/mahasiswa/informasi/{pengajuanSempro}/f3', 'f3')->name('mhs.f3');
@@ -99,12 +102,17 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/pengajuan/alat', 'PengajuanAlat')->name('adm.pengajuanAlat');
     Route::get('/admin/pengajuan/alat/{pengajuanAlat}', 'getPengajuanAlat')->name('adm.getPengajuanAlat');
     Route::post('/admin/pengajuan/alat/{pengajuanAlat}', 'terimaPengajuanAlat')->name('adm.terimaPengajuanAlat');
+    Route::get('/admin/pengajuan/kompetensi', 'PengajuanKompetensi')->name('adm.pengajuanKompetensi');
+    Route::get('/admin/pengajuan/kompetensi/{pengajuanKompetensi}', 'getPengajuanKompetensi')->name('adm.getPengajuanKompetensi');
+    Route::post('/admin/pengajuan/kompetensi/{pengajuanKompetensi}', 'terimaPengajuanKompetensi')->name('adm.terimaPengajuanKompetensi');
     Route::get('/admin/pelaksanaan/sempro', 'getAllSempro')->name('adm.getAllSempro');
     Route::get('/admin/pelaksanaan/sempro/{pengajuanSempro}', 'getSempro')->name('adm.getSempro');
     Route::get('/admin/pelaksanaan/skripsi', 'getAllSkripsi')->name('adm.getAllSkripsi');
     Route::get('/admin/pelaksanaan/skripsi/{pengajuanSkripsi}', 'getSkripsi')->name('adm.getSkripsi');
-    Route::get('/admin/pelaksanaan/alat', 'getAllalat')->name('adm.getAllAlat');
+    Route::get('/admin/pelaksanaan/alat', 'getAllAlat')->name('adm.getAllAlat');
     Route::get('/admin/pelaksanaan/alat/{pengajuanAlat}', 'getAlat')->name('adm.getAlat');
+    Route::get('/admin/pelaksanaan/kompetensi', 'getAllKompetensi')->name('adm.getAllKompetensi');
+    Route::get('/admin/pelaksanaan/kompetensi/{pengajuanKompetensi}', 'getKompetensi')->name('adm.getKompetensi');
     Route::get('/admin/revisi', 'getAllRevisi')->name('adm.getAllRevisi');
     Route::get('/admin/revisi/{pengajuanRevisi}', 'getRevisi')->name('adm.getRevisi');
     Route::post('/admin/revisi/{pengajuanRevisi}', 'keputusanRevisi')->name('adm.keputusanRevisi');
@@ -142,6 +150,8 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::put('/admin/database/golongan/{pangkatGolongan}', 'updatePangkatGolongan')->name('adm.updatePangkatGolongan');
     Route::get('/admin/report', 'reportAkhir')->name('adm.reportAkhir');
     Route::post('/admin/report/excel', 'exportReport')->name('adm.exportReport');
+    Route::get('/admin/kompetensi', 'kompetensiAkhir')->name('adm.kompetensiAkhir');
+    Route::post('/admin/kompetensi/excel', 'exportKompetensi')->name('adm.exportKompetensi');
 });
 
 Route::middleware('auth')->controller(DosenController::class)->group(function () {

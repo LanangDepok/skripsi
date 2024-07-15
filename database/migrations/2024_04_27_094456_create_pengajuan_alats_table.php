@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->text('f12');
             $table->text('f13');
             $table->text('f14');
+            $table->text('bebas_perpustakaan');
             $table->text('sertifikat_toeic');
             $table->text('sertifikat_prestasi');
             $table->text('sertifikat_pkkp');

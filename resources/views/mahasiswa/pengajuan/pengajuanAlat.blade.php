@@ -46,6 +46,19 @@
                         </div>
                     @enderror
                     <div class="text-left mb-4">
+                        <label for="bebas_perpustakaan">Tanda Bukti Bebas Perpustakaan, <a
+                                href="/storage/assets/bebas_perpustakaan.pdf" target="_blank" class="text-blue-500">unduh
+                                sini</a></label>
+                        <input type="text" id="bebas_perpustakaan" name="bebas_perpustakaan" placeholder="Masukkan link"
+                            class="w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100">
+                    </div>
+                    @error('bebas_perpustakaan')
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <span class="font-medium">Error!</span> {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="text-left mb-4">
                         <label for="sertifikat_toeic">Link sertifikat kompetensi Bahasa Inggris TOEIC yang masih berlaku:
                         </label>
                         <input type="text" id="sertifikat_toeic" name="sertifikat_toeic" placeholder="Masukkan link"

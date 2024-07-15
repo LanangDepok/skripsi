@@ -80,6 +80,9 @@
                                 <a href="{{ route('mhs.pengajuanAlat') }}"
                                     class="block px-4 py-2 hover:bg-slate-300">Serah
                                     terima alat & skripsi</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
+                                <a href="{{ route('mhs.pengajuanKompetensi') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Kompetensi</a>
                             </div>
                         </li>
                         <li>
@@ -147,7 +150,7 @@
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 print:hidden">
-        <div class="bg-slate-400 container text-center">
+        <div class="bg-slate-400 text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
         </div>
     </footer>

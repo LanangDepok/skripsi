@@ -11,7 +11,7 @@
         <form method="POST" action="{{ route('adm.terimaPengajuanAlat', ['pengajuanAlat' => $pengajuanAlat->id]) }}">
             @csrf
             <div class="flex w-1/2 mx-auto">
-                <a href="route('adm.pengajuanAlat')"
+                <a href="{{ route('adm.pengajuanAlat') }}"
                     class="bg-primary text-white hover:text-black hover:bg-red-300 w-20 rounded-md text-center">Back</a>
             </div>
             <div class="flex justify-center">
@@ -64,6 +64,12 @@
                     <span class="font-bold">Form F14: </span>
                     <a class="italic text-blue-400" href="{{ $pengajuanAlat->f14 }}">
                         {{ $pengajuanAlat->f14 }}
+                    </a>
+                </P><br>
+                <P>
+                    <span class="font-bold">Surat bebas perpustakaan </span>
+                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->bebas_perpustakaan }}">
+                        {{ $pengajuanAlat->bebas_perpustakaan }}
                     </a>
                 </P><br>
                 <P>

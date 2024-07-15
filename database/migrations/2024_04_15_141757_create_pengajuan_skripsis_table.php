@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->text('sertifikat_lomba');
             $table->string('status');
             $table->string('tanggal')->nullable();
+            $table->string('tanggal_lulus')->nullable();
             $table->string('acc_dospem')->nullable();
             $table->double('nilai1')->nullable();
             $table->double('nilai2')->nullable();

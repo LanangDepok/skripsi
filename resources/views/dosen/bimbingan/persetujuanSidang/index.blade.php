@@ -8,7 +8,7 @@
             <p class="ml-10">1. Persetujuan Seminar Proposal merupakan <span class="font-bold">form F1</span></p>
             <p class="ml-10">2. Persetujuan Sidang Skripsi merupakan <span class="font-bold">form F4</span></p>
         </div>
-        <div class="container mx-auto mt-6 overflow-x-auto">
+        <div class="mx-auto mt-6 overflow-x-auto">
             <table class="table-auto mx-auto border-2 border-slate-500 w-full">
                 <thead class="bg-primary">
                     <tr>

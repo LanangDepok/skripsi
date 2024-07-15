@@ -6,34 +6,42 @@
             <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Sidang Skripsi</h2>
             <div class="bg-primary container h-1 mb-5 mt-2"></div>
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
-                <form method="POST" action="{{ route('mhs.ajukanSkripsi', ['user' => Auth::user()->id]) }}">
+                <form method="POST" action="{{ route('mhs.ajukanKompetensi', ['user' => Auth::user()->id]) }}">
                     @csrf
                     <div class="text-left mb-4">
-                        <p>
-                            Pastikan skripsi anda sudah benar <a href="{{ route('mhs.getSkripsi') }}"
-                                class="underline text-blue-500 font-semibold">di
-                                sini</a>
-                        </p>
-                    </div>
-                    <div class="text-left mb-4">
-                        <label for="sertifikat_lomba">Link Sertifikat Lomba</label>
+                        <label for="judul_skripsi_inggris">Judul Skripsi (Bahasa Inggris)</label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
-                            name="sertifikat_lomba" id="sertifikat_lomba">
+                            name="judul_skripsi_inggris" id="judul_skripsi_inggris">
                     </div>
-                    @error('sertifikat_lomba')
+                    @error('judul_skripsi_inggris')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                             role="alert">
                             <span class="font-medium">Error!</span> {{ $message }}
                         </div>
                     @enderror
                     <div class="text-left mb-4">
-                        <label for="link_presentasi">Link video Presentasi</label>
+                        <label for="kompetensi">Tuliskan kompetensi apa saja yg dimilki dan penghargaan juara lomba yang
+                            pernah diraih (jika ada), nantinya isian ini dituliskan di Surat Keterangan Pendamping
+                            Ijazah/SKPI (dibuktikan dengan lampiran file pdf sertifikatnya)</label>
+                        <textarea id="kompetensi" name="kompetensi" rows="5"
+                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"></textarea>
+                    </div>
+                    @error('kompetensi')
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <span class="font-medium">Error!</span> {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="text-left mb-4">
+                        <label for="bukti_kompetensi">Masukkan link bukti sertikat kompetensi yang dimiliki dan
+                            sertifikat penghargaan/juara lomba, (semua file sertifikat dijadikan satu file PDF).<span
+                                class="text-red-700">*</span></label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
-                            name="link_presentasi" id="link_presentasi">
+                            name="bukti_kompetensi" id="bukti_kompetensi">
                     </div>
-                    @error('link_presentasi')
+                    @error('bukti_kompetensi')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                             role="alert">
                             <span class="font-medium">Error!</span> {{ $message }}

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Logbook;
 use App\Models\PengajuanAlat;
 use App\Models\PengajuanJudul;
+use App\Models\PengajuanKompetensi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
 use App\Models\Skripsi;
@@ -101,6 +102,11 @@ class MahasiswaService
     public function ajukanAlat($validated)
     {
         PengajuanAlat::create($validated);
+    }
+
+    public function ajukanKompetensi($validated)
+    {
+        PengajuanKompetensi::create($validated);
     }
 
     //logbook

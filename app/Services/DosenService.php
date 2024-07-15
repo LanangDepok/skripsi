@@ -217,7 +217,10 @@ class DosenService
         $validated['deadline'] = $deadline_timestamp;
 
         PengajuanRevisi::create($validated);
-        $pengajuanSkripsi->update(['status' => 'Revisi']);
+        $pengajuanSkripsi->update([
+            'status' => 'Revisi',
+            'tanggal_lulus' => Carbon::now()->translatedFormat('d F Y')
+        ]);
         $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Revisi']);
     }
 

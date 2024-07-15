@@ -7,6 +7,7 @@ use App\Models\Konten;
 use App\Models\Logbook;
 use App\Models\PengajuanAlat;
 use App\Models\PengajuanJudul;
+use App\Models\PengajuanKompetensi;
 use App\Models\PengajuanRevisi;
 use App\Models\PengajuanSempro;
 use App\Models\PengajuanSkripsi;
@@ -239,7 +240,7 @@ class MahasiswaController extends Controller
             if (Auth::user()->pengajuanSemproMahasiswa->isEmpty()) {
                 return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah menyelesaikan seminar proposal terlebih dahulu.');
             } elseif (Auth::user()->pengajuanSemproMahasiswa->sortByDesc('created_at')->first()->status != 'Lulus') {
-                return redirect()->route('mhs.getLogbooks')->with('messages', 'Pastikan sudah menyelesaikan seminar proposal terlebih dahulu.');
+                return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah menyelesaikan seminar proposal terlebih dahulu.');
             } elseif (count(Auth::user()->bimbinganMahasiswa->logbook->where('status', '=', 'Diterima')->where('jenis_bimbingan', 'Skripsi')) < 10) {
                 return redirect()->route('mhs.getLogbooks')->with('messages', 'Minimal jumlah bimbingan adalah 10x sebelum mengajukan Sidang Skripsi');
             } elseif (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
@@ -282,7 +283,7 @@ class MahasiswaController extends Controller
             if (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
                 return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah menyelesaikan sidang skripsi terlebih dahulu.');
             } elseif (Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status != 'Lulus') {
-                return redirect()->route('mhs.getLogbooks')->with('messages', 'Pastikan sudah menyelesaikan sidang skripsi terlebih dahulu.');
+                return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah menyelesaikan sidang skripsi terlebih dahulu.');
             } elseif (Auth::user()->pengajuanAlat->isEmpty()) {
                 return view('mahasiswa.pengajuan.pengajuanAlat', ['title' => 'pengajuan']);
             } elseif (Auth::user()->pengajuanAlat && Auth::user()->pengajuanAlat->sortByDesc('created_at')->first()->status == 'Ditolak') {
@@ -305,7 +306,8 @@ class MahasiswaController extends Controller
                 'sertifikat_toeic' => 'required',
                 'sertifikat_prestasi' => 'required',
                 'sertifikat_pkkp' => 'required',
-                'sertifikat_organiasi' => 'nullable',
+                'sertifikat_organisasi' => 'nullable',
+                'bebas_perpustakaan' => 'nullable',
             ];
             $messages = ['required' => 'Silahkan isi terlebih dahulu'];
             $validated = Validator::make($data, $rules, $messages)->validate();
@@ -315,6 +317,44 @@ class MahasiswaController extends Controller
             $this->mahasiswaService->ajukanAlat($validated);
 
             return redirect()->route('mhs.getInformations')->with('success', 'Pengajuan serah terima alat dan skripsi berhasil, mohon cek info secara berkala');
+        }
+        abort(404);
+    }
+    public function pengajuanKompetensi()
+    {
+        if (Gate::allows('mahasiswa')) {
+            if (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
+                return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah melakukan penyerahan alat & skripsi terlebih dahulu.');
+            } elseif (Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status != 'Lulus') {
+                return redirect()->route('mhs.getInformations')->with('messages', 'Pastikan sudah melakukan penyerahan alat & skripsi terlebih dahulu.');
+            } elseif (Auth::user()->pengajuanKompetensi->isEmpty()) {
+                return view('mahasiswa.pengajuan.pengajuanKompetensi', ['title' => 'pengajuan']);
+            } elseif (Auth::user()->pengajuanKompetensi && Auth::user()->pengajuanKompetensi->sortByDesc('created_at')->first()->status == 'Ditolak') {
+                return view('mahasiswa.pengajuan.pengajuanKompetensi', ['title' => 'pengajuan']);
+            } else {
+                return redirect()->route('mhs.getInformations')->with('messages', 'Anda sudah mengajukan pengajuan kompetensi.');
+            }
+        }
+        abort(404);
+    }
+
+    public function ajukanKompetensi(Request $request, User $user)
+    {
+        if (Gate::allows('mahasiswa') && Auth::user()->id == $user->id) {
+            $data = $request->all();
+            $rules = [
+                'judul_skripsi_inggris' => 'required',
+                'kompetensi' => 'required',
+                'bukti_kompetensi' => 'required',
+            ];
+            $messages = ['required' => 'Silahkan isi terlebih dahulu'];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+            $validated['user_id'] = $user->id;
+            $validated['status'] = 'Menunggu persetujuan';
+
+            $this->mahasiswaService->ajukanKompetensi($validated);
+
+            return redirect()->route('mhs.getInformations')->with('success', 'Pengajuan serah kompetensi, mohon cek info secara berkala');
         }
         abort(404);
     }
@@ -418,6 +458,15 @@ class MahasiswaController extends Controller
         if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanAlat->user_id) {
             $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanAlat->user_id)->first();
             return view('mahasiswa.informasi.getPengajuanAlat', ['title' => 'informasi', 'pengajuanAlat' => $pengajuanAlat, 'bimbingan' => $bimbingan]);
+        }
+        abort(404);
+    }
+
+    public function getPengajuanKompetensi(PengajuanKompetensi $pengajuanKompetensi)
+    {
+        if (Gate::allows('mahasiswa') && Auth::user()->id == $pengajuanKompetensi->user_id) {
+            $bimbingan = Bimbingan::where('mahasiswa_id', '=', $pengajuanKompetensi->user_id)->first();
+            return view('mahasiswa.informasi.getPengajuanKompetensi', ['title' => 'informasi', 'pengajuanKompetensi' => $pengajuanKompetensi, 'bimbingan' => $bimbingan]);
         }
         abort(404);
     }

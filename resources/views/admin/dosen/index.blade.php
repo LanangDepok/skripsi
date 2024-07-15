@@ -50,7 +50,7 @@
             <span class="font-medium">Sukses!</span> {{ session('error') }}
         </div>
     @endif
-    <div class="container mx-auto mt-6 overflow-x-auto">
+    <div class="mx-auto mt-6 overflow-x-auto">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>

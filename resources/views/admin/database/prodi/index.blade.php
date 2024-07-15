@@ -12,7 +12,7 @@
             class="bg-primary text-white p-2 rounded-xl hover:text-black hover:bg-red-300">
             Tambah Program Studi</a>
     </div>
-    <div class="container mx-auto mt-6 overflow-x-auto">
+    <div class="mx-auto mt-6 overflow-x-auto">
         <table class="table-auto mx-auto border-2 border-slate-500 w-full">
             <thead class="bg-primary">
                 <tr>

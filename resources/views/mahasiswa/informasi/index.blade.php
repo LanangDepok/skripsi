@@ -281,4 +281,41 @@
             </tbody>
         </table>
     </div>
+    <div class="container mx-auto w-full mt-10">
+        <p class=" text-2xl font-semibold text-center">Kompetensi</p>
+        <div class="bg-primary h-1 mb-3 mx-auto"></div>
+        <table class="table-auto mx-auto border-2 border-collapse border-slate-500 w-full">
+            <thead>
+                <tr>
+                    <th class="border-b border-slate-500 py-2">No.</th>
+                    <th class="border-b border-slate-500 py-2">Judul</th>
+                    <th class="border-b border-slate-500 py-2">Judul (Bahasa Inggris)</th>
+                    <th class="border-b border-slate-500 py-2">Status</th>
+                    <th class="border-b border-slate-500 py-2">Keterangan</th>
+                    <th class="border-b border-slate-500 py-2">Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach (Auth::user()->pengajuanKompetensi as $data)
+                    <tr>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $i++ }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $data->user->skripsi->judul }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $data->judul_skripsi_inggris }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }}</td>
+                        <td class="border-b border-slate-500 py-2 text-center">
+                            {{ isset($data->keterangan) ? $data->keterangan : '-' }}</td>
+                        <td class="text-center  border-b border-slate-500">
+                            <a href="{{ route('mhs.getPengajuanKompetensi', ['pengajuanKompetensi' => $data->id]) }}"
+                                class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300 block mx-auto">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection

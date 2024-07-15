@@ -12,6 +12,7 @@ use App\Models\ProgramStudi;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\DosenService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -510,7 +511,10 @@ class DosenController extends Controller
     public function luluskanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
-            $pengajuanSkripsi->update(['status' => 'Lulus']);
+            $pengajuanSkripsi->update([
+                'status' => 'Lulus',
+                'tanggal_lulus' => Carbon::now()->translatedFormat('d F Y')
+            ]);
             $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->update(['status' => 'Lulus']);
 
             return redirect()->route('dsn.getAllKelulusan');
