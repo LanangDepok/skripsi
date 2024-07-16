@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex justify-center">
         <div class="container w-2/5">
-            <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Sidang Skripsi</h2>
+            <h2 class="text-primary text-2xl font-semibold text-center">Pengajuan Kompetensi</h2>
             <div class="bg-primary container h-1 mb-5 mt-2"></div>
             <div class="container border-2 border-primary p-12 rounded-lg shadow-slate-400 shadow-lg">
                 <form method="POST" action="{{ route('mhs.ajukanKompetensi', ['user' => Auth::user()->id]) }}">

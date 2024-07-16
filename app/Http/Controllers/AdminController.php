@@ -942,6 +942,58 @@ class AdminController extends Controller
     }
 
     //monitoring pengajuan
+    public function getAllJudul(Request $request)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            $prodi = ProgramStudi::get();
+            $tahun = TahunAjaran::get();
+            $latestPengajuanJudulIds = DB::table('pengajuan_juduls')
+                ->select(DB::raw('MAX(id) as id'))
+                ->groupBy('user_id');
+
+            $query = PengajuanJudul::whereIn('id', $latestPengajuanJudulIds);
+
+            if ($request->filled('cari_nama')) {
+                $cari_nama = $request->input('cari_nama');
+                $query->whereHas('user', function ($query) use ($cari_nama) {
+                    $query->where('nama', 'like', '%' . $cari_nama . '%');
+                });
+            }
+            if ($request->filled('cari_prodi')) {
+                $cari_prodi = $request->input('cari_prodi');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_prodi) {
+                    $query->where('prodi_id', $cari_prodi);
+                });
+            }
+            if ($request->filled('cari_status')) {
+                $cari_status = $request->input('cari_status');
+                $query->where('status', 'like', '%' . $cari_status . '%');
+            }
+            if ($request->filled('cari_tahun')) {
+                $cari_tahun = $request->input('cari_tahun');
+                $query->whereHas('user.mahasiswa', function ($query) use ($cari_tahun) {
+                    $query->where('tahun_ajaran_id', $cari_tahun);
+                });
+            }
+
+            $data = $query->latest()->paginate(30);
+
+            return view('admin.sidang.judul', [
+                'title' => 'sidang',
+                'data' => $data,
+                'prodi' => $prodi,
+                'tahun' => $tahun
+            ]);
+        }
+        abort(404);
+    }
+    public function getJudul(PengajuanJudul $pengajuanJudul)
+    {
+        if (Gate::any(['admin', 'komite'])) {
+            return view('admin.sidang.detailJudul', ['title' => 'sidang', 'pengajuanJudul' => $pengajuanJudul]);
+        }
+        abort(404);
+    }
     public function getAllSempro(Request $request)
     {
         if (Gate::any(['admin', 'komite'])) {
@@ -1053,9 +1105,9 @@ class AdminController extends Controller
             $prodi = ProgramStudi::get();
             $tahun = TahunAjaran::get();
 
-            $latestPengajuanAlatIds = DB::table('pengajuan_skripsis')
+            $latestPengajuanAlatIds = DB::table('pengajuan_alats')
                 ->select(DB::raw('MAX(id) as id'))
-                ->groupBy('mahasiswa_id');
+                ->groupBy('user_id');
 
             $query = PengajuanAlat::whereIn('id', $latestPengajuanAlatIds);
 

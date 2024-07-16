@@ -515,7 +515,7 @@ class DosenController extends Controller
                 'status' => 'Lulus',
                 'tanggal_lulus' => Carbon::now()->translatedFormat('d F Y')
             ]);
-            $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->update(['status' => 'Lulus']);
+            $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);
 
             return redirect()->route('dsn.getAllKelulusan');
         }

@@ -118,6 +118,9 @@
                             </button>
                             <div class="absolute bg-slate-100 rounded-md shadow-md w-48 mt-2 hidden dropdown-content"
                                 id="sidangDropdownContent">
+                                <a href="{{ route('adm.getAllJudul') }}"
+                                    class="block px-4 py-2 hover:bg-slate-300">Judul & Pembimbing</a>
+                                <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="{{ route('adm.getAllSempro') }}"
                                     class="block px-4 py-2 hover:bg-slate-300">Seminar
                                     Proposal</a>
@@ -160,10 +163,6 @@
                                 <div class="container h-[1px] w-full bg-slate-500"></div>
                                 <a href="{{ route('adm.kompetensiAkhir') }}"
                                     class="block px-4 py-2 hover:bg-slate-300">Data kompetensi</a>
-                                {{-- <div class="container h-[1px] w-full bg-slate-500"></div> --}}
-                                {{-- <a href="{{ route('adm.getAllProgramStudi') }}"
-                                    class="block px-4 py-2 hover:bg-slate-300">Program
-                                    Studi</a> --}}
                             </div>
                         </li>
                         @can('admin')

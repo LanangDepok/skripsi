@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->text('kompetensi');
             $table->text('bukti_kompetensi');
             $table->string('status');
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

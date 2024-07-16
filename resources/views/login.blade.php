@@ -63,7 +63,7 @@
     </div>
 
     <footer class="fixed w-full bottom-0">
-        <div class="bg-slate-400 container text-center">
+        <div class="bg-slate-400 text-center">
             <p class="text-sm">Copyright &copy; - Designed & Developed by Politeknik Negeri Jakarta</p>
         </div>
     </footer>

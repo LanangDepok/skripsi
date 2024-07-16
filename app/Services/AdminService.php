@@ -121,7 +121,7 @@ class AdminService
     public function terimaPengajuanAlat($pengajuanAlat)
     {
         $pengajuanAlat->update(['status' => 'Diterima']);
-        $pengajuanAlat->user->mahasiswa->update(['status' => 'Lulus']);
+        $pengajuanAlat->user->mahasiswa->update(['status' => 'Kompetensi']);
     }
     public function tolakPengajuanAlat($pengajuanAlat, $validated)
     {

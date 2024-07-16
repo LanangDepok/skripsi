@@ -56,6 +56,13 @@
                         <option value="Revisi" {{ request()->input('cari_status') == 'Revisi' ? 'selected' : '' }}>
                             Revisi
                         </option>
+                        <option value="Serah terima alat"
+                            {{ request()->input('cari_status') == 'Serah terima alat' ? 'selected' : '' }}>
+                            Serah terima alat
+                        </option>
+                        <option value="Kompetensi" {{ request()->input('cari_status') == 'Kompetensi' ? 'selected' : '' }}>
+                            Kompetensi
+                        </option>
                         <option value="Lulus" {{ request()->input('cari_status') == 'Lulus' ? 'selected' : '' }}>Lulus
                         </option>
                     </select>

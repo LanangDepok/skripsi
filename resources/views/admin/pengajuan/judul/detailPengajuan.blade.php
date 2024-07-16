@@ -50,6 +50,15 @@
                 <p><span class="font-bold">Abstrak/Ringkasan Skripsi: </span>{{ $pengajuanJudul->abstrak }}</p><br>
                 <p><span class="font-bold">Studi Kasus: </span>{{ $pengajuanJudul->studi_kasus }}</p><br>
                 <p><span class="font-bold">Sumber Referensi: </span>{{ $pengajuanJudul->sumber_referensi }}</p><br>
+                <p><span class="font-bold">Dosen Pilihan: </span>
+                    @php
+                        $no = 1;
+                        $dosen_pilihan = explode('- ', $pengajuanJudul->dosen_pilihan);
+                    @endphp
+                    @foreach ($dosen_pilihan as $dospil)
+                        <br>{{ $no++ }}. {{ $dospil }}
+                    @endforeach
+                </p><br>
                 <p><span class="font-bold">Status: </span>{{ $pengajuanJudul->status }}</p>
                 <div class="mt-7 flex justify-evenly">
                     <button id="terimaButton" type="button"
@@ -96,9 +105,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
-
     </div>
 
     <script>

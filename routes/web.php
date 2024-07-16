@@ -105,6 +105,8 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::get('/admin/pengajuan/kompetensi', 'PengajuanKompetensi')->name('adm.pengajuanKompetensi');
     Route::get('/admin/pengajuan/kompetensi/{pengajuanKompetensi}', 'getPengajuanKompetensi')->name('adm.getPengajuanKompetensi');
     Route::post('/admin/pengajuan/kompetensi/{pengajuanKompetensi}', 'terimaPengajuanKompetensi')->name('adm.terimaPengajuanKompetensi');
+    Route::get('/admin/pelaksanaan/judul', 'getAllJudul')->name('adm.getAllJudul');
+    Route::get('/admin/pelaksanaan/judul/{pengajuanJudul}', 'getJudul')->name('adm.getJudul');
     Route::get('/admin/pelaksanaan/sempro', 'getAllSempro')->name('adm.getAllSempro');
     Route::get('/admin/pelaksanaan/sempro/{pengajuanSempro}', 'getSempro')->name('adm.getSempro');
     Route::get('/admin/pelaksanaan/skripsi', 'getAllSkripsi')->name('adm.getAllSkripsi');
