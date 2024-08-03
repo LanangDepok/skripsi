@@ -21,7 +21,6 @@ return new class extends Migration {
             $table->text('metode');
             $table->text('bukti_registrasi');
             $table->string('status');
-            $table->text('keterangan')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('acc_dospem')->nullable();
             $table->double('nilai')->nullable();
@@ -30,6 +29,7 @@ return new class extends Migration {
             $table->double('kriteria3')->nullable();
             $table->double('kriteria4')->nullable();
             $table->double('kriteria5')->nullable();
+            $table->text('keterangan_ditolak')->nullable();
             $table->timestamps();
         });
     }

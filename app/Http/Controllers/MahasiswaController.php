@@ -245,7 +245,7 @@ class MahasiswaController extends Controller
                 return redirect()->route('mhs.getLogbooks')->with('messages', 'Minimal jumlah bimbingan adalah 10x sebelum mengajukan Sidang Skripsi');
             } elseif (Auth::user()->pengajuanSkripsiMahasiswa->isEmpty()) {
                 return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
-            } elseif (Auth::user()->pengajuanSkripsiMahasiswa && (Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak' || Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak')) {
+            } elseif (Auth::user()->pengajuanSkripsiMahasiswa && (Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Ditolak' || Auth::user()->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Tidak lulus')) {
                 return view('mahasiswa.pengajuan.pengajuanSkripsi', ['title' => 'pengajuan']);
             } else {
                 return redirect()->route('mhs.getInformations')->with('messages', 'Anda sudah mengajukan sidang skripsi.');
@@ -261,6 +261,7 @@ class MahasiswaController extends Controller
             $rules = [
                 'sertifikat_lomba' => 'required',
                 'link_presentasi' => 'required',
+                'turnitin' => 'required',
             ];
             $messages = ['required' => 'silahkan isi :attribute terlebih dahulu.'];
 
@@ -402,6 +403,7 @@ class MahasiswaController extends Controller
                 'tempat' => 'required',
                 'uraian' => 'required',
                 'rencana_pencapaian' => 'required',
+                'bukti' => 'required'
             ];
             $messages = ['required' => 'silahkan isi :attribute terlebih dahulu!'];
             $validator = Validator::make($data, $rules, $messages)->validate();
@@ -526,7 +528,7 @@ class MahasiswaController extends Controller
     public function f6a(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f6a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -536,7 +538,7 @@ class MahasiswaController extends Controller
     public function f6b(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f6b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -546,7 +548,7 @@ class MahasiswaController extends Controller
     public function f7a(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f7a', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -556,7 +558,7 @@ class MahasiswaController extends Controller
     public function f7b(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f7b', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -566,7 +568,7 @@ class MahasiswaController extends Controller
     public function f7c(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f7c', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);
@@ -576,7 +578,7 @@ class MahasiswaController extends Controller
     public function f8(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (
-            (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
+                // (Gate::allows('mahasiswa') && $pengajuanSkripsi->mahasiswa_id == Auth::user()->id) ||
             ((Gate::allows('dosen_pembimbing')) && ($pengajuanSkripsi->dospem_id == Auth::user()->id || $pengajuanSkripsi->dospem2_id == Auth::user()->id))
         ) {
             return view('mahasiswa.informasi.f8', ['title' => 'informasi', 'pengajuanSkripsi' => $pengajuanSkripsi]);

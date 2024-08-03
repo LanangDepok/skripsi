@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->bigInteger('penguji3_id')->nullable();
             $table->text('link_presentasi');
             $table->text('sertifikat_lomba');
+            $table->text('turnitin');
             $table->string('status');
             $table->string('tanggal')->nullable();
             $table->string('tanggal_lulus')->nullable();
@@ -78,6 +79,7 @@ return new class extends Migration {
             $table->double('3b4')->nullable();
             $table->double('3b5')->nullable();
             $table->bigInteger('pengizin')->nullable();
+            $table->text('keterangan_ditolak')->nullable();
             $table->timestamps();
         });
     }

@@ -44,19 +44,11 @@
             <br>
             <P>
                 <span class="font-bold">Bukti Registrasi: </span>
-                <a class="italic text-blue-400" href="{{ $pengajuanSempro->bukti_registrasi }}">
+                <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanSempro->bukti_registrasi }}">
                     {{ $pengajuanSempro->bukti_registrasi }}
                 </a>
             </P><br>
             <div class="h-1 bg-primary"></div>
-        </div>
-        <div class="container mx-auto w-1/2 mt-6">
-            @if ($pengajuanSempro->pengajuanSemproMahasiswa->skripsi->file_skripsi != null)
-                <iframe src="{{ asset('storage/' . $pengajuanSempro->pengajuanSemproMahasiswa->skripsi->file_skripsi) }}"
-                    class="w-full h-[600px]"></iframe>
-            @else
-                <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
-            @endif
         </div>
         <form method="POST"
             action="{{ route('dsn.acceptPersetujuanSidangSempro', ['pengajuanSempro' => $pengajuanSempro->id]) }}">
@@ -65,10 +57,51 @@
                 <button type="submit" name="terima" value="terima"
                     class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
                     onclick="return confirm('Terima persetujuan seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')">Terima</button>
-                <button type="submit" name="tolak"
-                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300"
-                    onclick="return confirm('Tolak persetujuan seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')">Tolak</button>
+                <button id="tolakButton" type="button"
+                    class="bg-primary border rounded-md w-16 text-white hover:text-black hover:bg-red-300">Tolak</button>
+            </div>
+        </form>
+        {{-- Modal Tolak --}}
+        <form method="POST"
+            action="{{ route('dsn.acceptPersetujuanSidangSempro', ['pengajuanSempro' => $pengajuanSempro->id]) }}">
+            @csrf
+            <div id="modalTolak" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 hidden z-[1]">
+                <div class="fixed bg-white top-40 bottom-40 left-96 right-96 z-10 rounded-lg">
+                    <div class="w-7 ml-auto">
+                        <button type="button" id="exitModalTolak" class="text-3xl font-extrabold text-slate-800">X</button>
+                    </div>
+                    <div class="container w-1/2 mx-auto">
+                        <div>
+                            <p class="font-bold text-lg text-center mb-3">Penolakan Mengikuti Seminar Proposal</p>
+                            <label for="keterangan_ditolak">Masukkan keterangan ditolak</label>
+                            <textarea name="keterangan_ditolak" id="keterangan_ditolak" rows="3" class="w-full" required></textarea>
+                        </div>
+                        <div class="w-24 h-8 mx-auto mt-5">
+                            <button type="submit" name="tolak"
+                                onclick="return confirm('Tolak persetujuan seminar proposal atas nama {{ $pengajuanSempro->pengajuanSemproMahasiswa->nama }}?')"
+                                class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Tolak</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
+
+    <script>
+        const tolakButton = document.getElementById('tolakButton');
+        const exitModalTolak = document.getElementById('exitModalTolak');
+        const modalTolak = document.getElementById('modalTolak');
+
+        tolakButton.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+        exitModalTolak.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+        window.onclick = function(event) {
+            if (event.target == modalTolak) {
+                modalTolak.classList.toggle('hidden');
+            }
+        }
+    </script>
 @endsection

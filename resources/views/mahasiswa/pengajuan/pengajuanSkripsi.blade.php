@@ -39,6 +39,18 @@
                             <span class="font-medium">Error!</span> {{ $message }}
                         </div>
                     @enderror
+                    <div class="text-left mb-4">
+                        <label for="turnitin">Pengecekan turnitin</label>
+                        <input type="text"
+                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
+                            name="turnitin" id="turnitin">
+                    </div>
+                    @error('turnitin')
+                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <span class="font-medium">Error!</span> {{ $message }}
+                        </div>
+                    @enderror
                     <div class="text-center mt-12">
                         <button type="submit"
                             class="bg-primary w-24 h-8 rounded-2xl hover:bg-red-300 hover:text-black text-white"

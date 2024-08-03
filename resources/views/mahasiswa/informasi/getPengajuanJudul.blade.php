@@ -39,7 +39,13 @@
             <p><span class="font-bold">Sumber Referensi: </span>{{ $pengajuanJudul->sumber_referensi }}</p><br>
             <p><span class="font-bold">Dosen Pembimbing: </span>
                 {{ isset($bimbingan->dosen_id) ? $bimbingan->bimbinganDosen->nama : 'menunggu' }}</p><br>
-            <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanJudul->status }}</p>
+            <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanJudul->status }}</p><br>
+            @isset($pengajuanJudul->keterangan_ditolak)
+                <p><span class="font-bold">Keterangan ditolak: </span></p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="7">
+                    {{ $pengajuanJudul->keterangan_ditolak }}
+                </textarea>
+            @endisset
         </div>
     </div>
 @endsection

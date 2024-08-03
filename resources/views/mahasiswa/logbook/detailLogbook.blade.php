@@ -20,6 +20,11 @@
             <P><span class="font-bold">Tempat Bimbingan: </span>{{ $logbook->tempat }}</P>
             <p><span class="font-bold">Jenis Bimbingan: </span>{{ $logbook->jenis_bimbingan }}</p>
             <p><span class="font-bold">Status: </span>{{ $logbook->status }}</p>
+            <p><span class="font-bold">Bukti mengikuti bimbingan: </span>
+                <a class="italic text-blue-400" href="{{ $logbook->bukti }}" target="_blank">
+                    {{ $logbook->bukti }}
+                </a>
+            </p><br>
             @if ($logbook->status == 'Diterima')
                 <p>Diterima oleh: {{ $penerima->nama }}</p><br>
             @elseif ($logbook->status == 'Ditolak')
@@ -29,22 +34,13 @@
             <textarea readonly rows="5" class="w-full">{{ $logbook->uraian }}</textarea><br><br>
             <p><span class="font-bold">Rencana Pencapaian: </span></p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->rencana_pencapaian }}</textarea>
+            @isset($logbook->keterangan_ditolak)
+                <p><span class="font-bold">Keterangan ditolak: </span></p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="7">
+                {{ $logbook->keterangan_ditolak }}
+            </textarea>
+            @endisset
             <div class="h-1 bg-primary mt-3"></div>
-        </div>
-        <div class="container mx-auto w-1/2 mt-6">
-            <p><span class="font-bold">Judul Skripsi: </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->judul }}
-            </p>
-            <p><span class="font-bold">Sub Judul (Jika ada):
-                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</p>
-            <p><span class="font-bold">Anggota Tim (Jika ada):
-                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->anggota }}</p><br>
-            @if ($logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi != null)
-                <iframe src="{{ asset('storage/' . $logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi) }}"
-                    class="w-full h-[600px]"></iframe>
-            @else
-                <p class="text-center text-xl font-semibold">Anda belum <a href="{{ route('mhs.getSkripsi') }}"
-                        class="text-blue-500 underline">upload file skripsi.</a></p>
-            @endif
         </div>
     </div>
 @endsection

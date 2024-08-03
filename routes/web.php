@@ -159,7 +159,7 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
 Route::middleware('auth')->controller(DosenController::class)->group(function () {
     Route::get('/dosen/index', 'index')->name('dsn.index');
     Route::get('/dosen/bimbingan/logbook', 'getLogbooks')->name('dsn.getLogbooks');
-    Route::post('/dosen/bimbingan/logbook', 'acceptAllLogbook')->name('dsn.acceptAllLogbook');
+    // Route::post('/dosen/bimbingan/logbook', 'acceptAllLogbook')->name('dsn.acceptAllLogbook');
     Route::get('/dosen/bimbingan/logbook/{logbook}', 'getLogbook')->name('dsn.getLogbook');
     Route::post('/dosen/bimbingan/logbook/{logbook}', 'acceptLogbook')->name('dsn.acceptLogbook');
     Route::get('/dosen/bimbingan/persetujuanSidang', 'getAllPersetujuanSidang')->name('dsn.getAllPersetujuanSidang');
@@ -183,7 +183,7 @@ Route::middleware('auth')->controller(DosenController::class)->group(function ()
     Route::post('/dosen/rekapitulasi/{pengajuanSkripsi}', 'rekapNilai')->name('dsn.rekapNilai');
     Route::get('/dosen/kelulusan', 'getAllKelulusan')->name('dsn.getAllKelulusan');
     Route::get('/dosen/kelulusan/{pengajuanSkripsi}', 'getKelulusan')->name('dsn.getKelulusan');
-    Route::post('/dosen/kelulusan/lulus/{pengajuanSkripsi}', 'luluskanSkripsi')->name('dsn.luluskanSkripsi');
+    // Route::post('/dosen/kelulusan/lulus/{pengajuanSkripsi}', 'luluskanSkripsi')->name('dsn.luluskanSkripsi');
     Route::post('/dosen/kelulusan/tolak/{pengajuanSkripsi}', 'tolakSkripsi')->name('dsn.tolakSkripsi');
     Route::post('/dosen/kelulusan/revisi/{pengajuanSkripsi}', 'revisiSkripsi')->name('dsn.revisiSkripsi');
     Route::get('/dosen/revisi', 'getAllRevisi')->name('dsn.getAllRevisi');

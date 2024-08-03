@@ -142,18 +142,4 @@
             }
         }
     </script>
-
-    {{-- <script>
-        function checkKomite() {
-            var ketuaKomiteCheckbox = document.getElementById('ketua_komite');
-            var komiteCheckbox = document.getElementById('komite');
-
-            if (ketuaKomiteCheckbox.checked) {
-                komiteCheckbox.checked = true;
-                komiteCheckbox.disabled = true;
-            } else {
-                komiteCheckbox.disabled = false;
-            }
-        }
-    </script> --}}
 @endsection

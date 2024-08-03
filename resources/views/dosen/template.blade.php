@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="icon" type="image/x-icon" href="{{ asset('storage/assets/logo_pnj.png') }}">
     <title>Skripsi PNJ</title>
     <style>
         @media print {

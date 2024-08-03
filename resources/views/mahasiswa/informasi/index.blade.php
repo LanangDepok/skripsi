@@ -129,9 +129,10 @@
                     <th class="border-b border-slate-500 py-2">No</th>
                     <th class="border-b border-slate-500 py-2">Judul</th>
                     <th class="border-b border-slate-500 py-2">Tanggal sidang</th>
-                    <th class="border-b border-slate-500 py-2">Nilai Pembimbing</th>
-                    <th class="border-b border-slate-500 py-2">Nilai Penguji</th>
+                    {{-- <th class="border-b border-slate-500 py-2">Nilai Pembimbing</th> --}}
+                    {{-- <th class="border-b border-slate-500 py-2">Nilai Penguji</th> --}}
                     <th class="border-b border-slate-500 py-2">Total Nilai</th>
+                    <th class="border-b border-slate-500 py-2">Nilai Mutu</th>
                     <th class="border-b border-slate-500 py-2">Status</th>
                     <th class="border-b border-slate-500 py-2">Detail</th>
                 </tr>
@@ -149,7 +150,7 @@
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ isset($data->tanggal) ? $data->tanggal : '-' }}
                             </td>
-                            <td class="border-b border-slate-500 py-2 text-center">
+                            {{-- <td class="border-b border-slate-500 py-2 text-center">
                                 @if ($data->nilai_pembimbing2)
                                     {{ isset($data->nilai_pembimbing, $data->nilai_pembimbing2) ? number_format(($data->nilai_pembimbing + $data->nilai_pembimbing2) / 2, 1) : '-' }}
                                 @else
@@ -158,9 +159,12 @@
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ isset($data->nilai1, $data->nilai2, $data->nilai3) ? number_format(($data->nilai1 + $data->nilai2 + $data->nilai3) / 3, 1) : '-' }}
-                            </td>
+                            </td> --}}
                             <td class="border-b border-slate-500 py-2 text-center">
                                 {{ isset($data->nilai_total) ? $data->nilai_total : '-' }}
+                            </td>
+                            <td class="border-b border-slate-500 py-2 text-center">
+                                {{ isset($data->nilai_mutu) ? $data->nilai_mutu : '-' }}
                             </td>
                             <td class="border-b border-slate-500 py-2 text-center">{{ $data->status }} </td>
                             <td class="text-center border-b border-slate-500">
@@ -180,7 +184,7 @@
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F5
                                         </a>
-                                        <a href="{{ route('mhs.f6a', ['pengajuanSkripsi' => $data->id]) }}"
+                                        {{-- <a href="{{ route('mhs.f6a', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F6
                                         </a>
@@ -189,10 +193,10 @@
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F6
                                             </a>
-                                        @endif
+                                        @endif --}}
                                     @endif
                                 </div>
-                                <div>
+                                {{-- <div>
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
                                         <a href="{{ route('mhs.f7a', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
@@ -211,13 +215,13 @@
                                             F7c
                                         </a>
                                     @endif
-                                </div>
+                                </div> --}}
                                 <div>
                                     @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
-                                        <a href="{{ route('mhs.f8', ['pengajuanSkripsi' => $data->id]) }}"
+                                        {{-- <a href="{{ route('mhs.f8', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F8
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ route('mhs.f9', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F9

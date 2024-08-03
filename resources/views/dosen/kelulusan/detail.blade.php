@@ -52,25 +52,15 @@
             </p>
             <div class="h-1 bg-primary"></div>
         </div>
-        <div class="container mx-auto w-1/2 mt-6">
-            @if ($pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi)
-                <iframe src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi) }}"
-                    class="w-full h-[600px]"></iframe>
-            @else
-                <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
-            @endif
-        </div>
         <div class="flex mt-10 w-1/2 mx-auto justify-evenly">
-            <button id="lulusButton"
-                class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Luluskan</button>
-            <form method="POST" action="{{ route('dsn.tolakSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
-                @csrf
-                <button type="submit"
-                    class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300"
-                    onclick="return confirm('Tolak sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Tolak</button>
-            </form>
+            {{-- <button id="lulusButton"
+                class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Luluskan</button> --}}
+            <button type="button" id="tolakButton"
+                class="bg-primary border rounded-md w-40 text-white hover:text-black hover:bg-red-300">Tidak
+                lulus</button>
             <button id="revisiButton"
-                class="bg-primary border rounded-md w-20 text-white hover:text-black hover:bg-red-300">Revisi</button>
+                class="bg-primary border rounded-md w-40 text-white hover:text-black hover:bg-red-300">Lulus dengan
+                revisi</button>
         </div>
     </div>
 
@@ -104,7 +94,7 @@
         </div>
     </div>
 
-    <div id="modal2" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
+    {{-- <div id="modal2" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 z-[1] hidden">
         <div class="fixed bg-white top-10 bottom-10 left-96 right-96 z-10 rounded-lg">
             <div class="w-7 ml-auto">
                 <button type="button" id="exitModal2" class="text-3xl font-extrabold text-slate-800">X</button>
@@ -130,9 +120,65 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
+
+    {{-- Modal Tidak lulus --}}
+    <form method="POST" action="{{ route('dsn.tolakSkripsi', ['pengajuanSkripsi' => $pengajuanSkripsi->id]) }}">
+        @csrf
+        <div id="modalTolak" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 hidden z-[1]">
+            <div class="fixed bg-white top-40 bottom-40 left-96 right-96 z-10 rounded-lg">
+                <div class="w-7 ml-auto">
+                    <button type="button" id="exitModalTolak" class="text-3xl font-extrabold text-slate-800">X</button>
+                </div>
+                <div class="container w-1/2 mx-auto">
+                    <div>
+                        <p class="font-bold text-lg text-center mb-3">Penolakan Pengajuan Sidang Skripsi</p>
+                        <label for="keterangan_ditolak">Masukkan keterangan ditolak</label>
+                        <textarea name="keterangan_ditolak" id="keterangan_ditolak" rows="3" class="w-full" required></textarea>
+                    </div>
+                    <div class="w-24 h-8 mx-auto mt-5">
+                        <button type="submit"
+                            onclick="return confirm('Tolak sidang skripsi atas nama {{ $pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')"
+                            class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Tolak</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <script>
+        const revisiButton = document.getElementById('revisiButton');
+        const exitModal = document.getElementById('exitModal');
+        const modal = document.getElementById('modal');
+
+        revisiButton.addEventListener('click', function() {
+            modal.classList.toggle('hidden');
+        });
+        exitModal.addEventListener('click', function() {
+            modal.classList.toggle('hidden');
+        });
+        const tolakButton = document.getElementById('tolakButton');
+        const exitModalTolak = document.getElementById('exitModalTolak');
+        const modalTolak = document.getElementById('modalTolak');
+
+        tolakButton.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+        exitModalTolak.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+
+        // Ubah penanganan klik di luar modal
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                modal.classList.add('hidden');
+            }
+            if (event.target == modalTolak) {
+                modalTolak.classList.add('hidden');
+            }
+        });
+    </script>
+    {{-- <script>
         const revisiButton = document.getElementById('revisiButton');
         const exitModal = document.getElementById('exitModal');
         const modal = document.getElementById('modal');
@@ -164,5 +210,5 @@
                 modal2.classList.add('hidden');
             }
         });
-    </script>
+    </script> --}}
 @endsection

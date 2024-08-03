@@ -94,8 +94,9 @@ class DosenController extends Controller
     {
         if (Gate::allows('dosen_pembimbing') && (Auth::user()->id == $logbook->bimbingan->dosen_id || Auth::user()->id == $logbook->bimbingan->dosen2_id)) {
             $cekTerima = $request->terima;
+            $keterangan_ditolak = $request->keterangan_ditolak;
 
-            $this->dosenService->acceptLogbook($logbook, $cekTerima);
+            $this->dosenService->acceptLogbook($logbook, $cekTerima, $keterangan_ditolak);
 
             return redirect()->route('dsn.getLogbooks');
         }
@@ -141,8 +142,9 @@ class DosenController extends Controller
     {
         if (Gate::allows('dosen_pembimbing') && Auth::user()->id == $pengajuanSempro->dospem_id) {
             $cekTerima = $request->terima;
+            $keterangan_ditolak = $request->keterangan_ditolak;
 
-            $this->dosenService->acceptPersetujuanSidangSempro($pengajuanSempro, $cekTerima);
+            $this->dosenService->acceptPersetujuanSidangSempro($pengajuanSempro, $cekTerima, $keterangan_ditolak);
 
             return redirect()->route('dsn.getAllPersetujuanSidang');
         }
@@ -159,8 +161,9 @@ class DosenController extends Controller
     {
         if (Gate::allows('dosen_pembimbing') && (Auth::user()->id == $pengajuanSkripsi->dospem_id || Auth::user()->id == $pengajuanSkripsi->dospem2_id)) {
             $cekTerima = $request->terima;
+            $keterangan_ditolak = $request->keterangan_ditolak;
 
-            $this->dosenService->acceptPersetujuanSidangSkripsi($pengajuanSkripsi, $cekTerima);
+            $this->dosenService->acceptPersetujuanSidangSkripsi($pengajuanSkripsi, $cekTerima, $keterangan_ditolak);
 
             return redirect()->route('dsn.getAllPersetujuanSidang');
         }
@@ -521,10 +524,13 @@ class DosenController extends Controller
         }
         abort(404);
     }
-    public function tolakSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    public function tolakSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
-            $pengajuanSkripsi->update(['status' => 'Tidak lulus']);
+            $pengajuanSkripsi->update([
+                'status' => 'Tidak lulus',
+                'keterangan_ditolak' => $request->keterangan_ditolak
+            ]);
 
             return redirect()->route('dsn.getAllKelulusan');
         }

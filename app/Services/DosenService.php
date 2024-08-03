@@ -29,7 +29,7 @@ class DosenService
     }
 
     //logbook
-    public function acceptLogbook($logbook, $cekTerima)
+    public function acceptLogbook($logbook, $cekTerima, $keterangan_ditolak)
     {
         if ($cekTerima) {
             $logbook->update([
@@ -40,12 +40,13 @@ class DosenService
             $logbook->update([
                 'status' => 'Ditolak',
                 'pengizin' => Auth::user()->id,
+                'keterangan_ditolak' => $keterangan_ditolak
             ]);
         }
     }
 
     //persetujuan sidang
-    public function acceptPersetujuanSidangSempro($pengajuanSempro, $cekTerima)
+    public function acceptPersetujuanSidangSempro($pengajuanSempro, $cekTerima, $keterangan_ditolak)
     {
         if ($cekTerima) {
             $tanggal = Carbon::now()->translatedFormat('d F Y');
@@ -55,11 +56,14 @@ class DosenService
                 'acc_dospem' => $tanggal,
             ]);
         } else {
-            $pengajuanSempro->update(['status' => 'Ditolak']);
+            $pengajuanSempro->update([
+                'status' => 'Ditolak',
+                'keterangan_ditolak' => $keterangan_ditolak
+            ]);
         }
     }
 
-    public function acceptPersetujuanSidangSkripsi($pengajuanSkripsi, $cekTerima)
+    public function acceptPersetujuanSidangSkripsi($pengajuanSkripsi, $cekTerima, $keterangan_ditolak)
     {
         if ($cekTerima) {
             $tanggal = Carbon::now()->translatedFormat('d F Y');
@@ -70,7 +74,10 @@ class DosenService
                 'pengizin' => Auth::user()->id
             ]);
         } else {
-            $pengajuanSkripsi->update(['status' => 'Ditolak']);
+            $pengajuanSkripsi->update([
+                'status' => 'Ditolak',
+                'keterangan_ditolak' => $keterangan_ditolak
+            ]);
         }
     }
 
@@ -213,7 +220,7 @@ class DosenService
     {
         $validated['pengajuan_skripsi_id'] = $pengajuanSkripsi->id;
         $validated['status'] = 'Revisi';
-        $deadline_timestamp = Carbon::now()->addDays(10)->translatedFormat('d F Y');
+        $deadline_timestamp = Carbon::now()->addDays(14)->translatedFormat('d F Y');
         $validated['deadline'] = $deadline_timestamp;
 
         PengajuanRevisi::create($validated);

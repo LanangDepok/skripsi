@@ -44,16 +44,7 @@
             <P><span class="font-bold">Status: </span>{{ $pengajuanSkripsi->status }}</P><br>
             <div class="h-1 bg-primary"></div>
         </div>
-        <div class="container mx-auto w-1/2 mt-6">
-            @if ($pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi)
-                <iframe src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiMahasiswa->skripsi->file_skripsi) }}"
-                    class="w-full h-[600px]"></iframe>
-            @else
-                <p class="text-center text-xl font-semibold">Mahasiswa belum mengupload file skripsi</p>
-            @endif
-        </div>
         <div class="container w-1/2 mx-auto mt-6">
-            <div class="h-1 bg-primary mx-auto"></div>
             <p class="text-center text-lg font-bold mt-3 underline">Penilaian</p>
             <p>1. Nilai pembimbing 1 ({{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}):
                 <span
@@ -103,29 +94,34 @@
                     <p>1. Nilai pembimbing ({{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }})</p>
                     <input type="number" id="nilaiPembimbing" name="nilai_pembimbing"
                         value="{{ isset($pengajuanSkripsi->nilai_pembimbing) ? $pengajuanSkripsi->nilai_pembimbing : 0 }}"
-                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2">
+                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2"
+                        readonly>
                     @if ($pengajuanSkripsi->dospem2_id)
                         <p>2. Nilai pembimbing 2({{ $pengajuanSkripsi->pengajuanSkripsiDospem2->nama }})</p>
                         <input type="number" id="nilaiPembimbing2" name="nilai_pembimbing2"
                             value="{{ isset($pengajuanSkripsi->nilai_pembimbing2) ? $pengajuanSkripsi->nilai_pembimbing2 : 0 }}"
-                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2">
+                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2"
+                            readonly>
                     @else
                         <p class="text-red-600">2. Tidak ada pembimbing 2</p>
                         <input type="text" id="nilaiPembimbing2" name="nilai_pembimbing2" value="-" disabled
-                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2">
+                            class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2"
+                            readonly>
                     @endif
                     <p>3. Nilai penguji 1 ({{ $pengajuanSkripsi->pengajuanSkripsiPenguji1->nama }})</p>
                     <input type="number" id="nilaiPenguji1" name="nilai1"
                         value="{{ isset($pengajuanSkripsi->nilai1) ? $pengajuanSkripsi->nilai1 : 0 }}"
-                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2">
+                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2"
+                        readonly>
                     <p>4. Nilai penguji 2 ({{ $pengajuanSkripsi->pengajuanSkripsiPenguji2->nama }})</p>
                     <input type="number" id="nilaiPenguji2" name="nilai2"
                         value="{{ isset($pengajuanSkripsi->nilai2) ? $pengajuanSkripsi->nilai2 : 0 }}"
-                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2">
+                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100 mb-2"
+                        readonly>
                     <p>5. Nilai penguji 3 ({{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }})</p>
                     <input type="number" id="nilaiPenguji3" name="nilai3"
                         value="{{ isset($pengajuanSkripsi->nilai3) ? $pengajuanSkripsi->nilai3 : 0 }}"
-                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100">
+                        class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100" readonly>
                     <p class="mt-5 text-center mb-1 font-semibold text-sm underline underline-offset-8">(Nilai rata-rata
                         penguji
                         &times; 2) + Nilai rata-rata

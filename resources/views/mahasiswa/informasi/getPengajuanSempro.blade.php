@@ -66,6 +66,12 @@
                 <br>
                 <p><span class="font-bold">Metode: </span>{{ $pengajuanSempro->metode }}</p><br>
                 <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanSempro->status }}</p><br>
+                @isset($pengajuanSempro->keterangan_ditolak)
+                    <p><span class="font-bold">Keterangan ditolak: </span></p>
+                    <textarea readonly class="w-full border border-primary rounded-md" rows="7">
+                    {{ $pengajuanSempro->keterangan_ditolak }}
+                </textarea>
+                @endisset
                 <p><span class="font-bold">Nilai: </span>{{ $pengajuanSempro->nilai }}</p><br>
                 <p><span class="font-bold">Tanggal Sidang: </span>{{ $pengajuanSempro->tanggal }}</p><br>
                 <p><span class="font-bold">Keterangan: </span></p>

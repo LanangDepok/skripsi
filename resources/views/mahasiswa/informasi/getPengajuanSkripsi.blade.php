@@ -75,8 +75,17 @@
                 <a class="text-blue-500"
                     href="{{ $pengajuanSkripsi->sertifikat_lomba }}">{{ $pengajuanSkripsi->sertifikat_lomba }}</a>
             </p><br>
+            <p><span class="font-bold">Pengecekan turnitin: </span>
+                <a class="text-blue-500" href="{{ $pengajuanSkripsi->turnitin }}">{{ $pengajuanSkripsi->turnitin }}</a>
+            </p><br>
             <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanSkripsi->status }}</p><br>
-            <p><span class="font-bold">Nilai Dosen Pembimbing: </span>
+            @isset($pengajuanSkripsi->keterangan_ditolak)
+                <p><span class="font-bold">Keterangan ditolak: </span></p>
+                <textarea readonly class="w-full border border-primary rounded-md" rows="7">
+                  {{ $pengajuanSkripsi->keterangan_ditolak }}
+                 </textarea>
+            @endisset
+            {{-- <p><span class="font-bold">Nilai Dosen Pembimbing: </span>
                 @if ($pengajuanSkripsi->nilai_pembimbing2)
                     {{ ($pengajuanSkripsi->nilai_pembimbing + $pengajuanSkripsi->nilai_pembimbing2) / 2 }}
                 @else
@@ -85,11 +94,10 @@
             </p><br>
             <p><span class="font-bold">Nilai Dosen Penguji: </span>
                 {{ ($pengajuanSkripsi->nilai1 + $pengajuanSkripsi->nilai2 + $pengajuanSkripsi->nilai3) / 3 }}
-            </p><br>
-            <p><span class="font-bold">Nilai Total: </span>{{ $pengajuanSkripsi->nilai }}</p><br>
+            </p><br> --}}
+            <p><span class="font-bold">Nilai Total: </span>{{ $pengajuanSkripsi->nilai_total }}</p><br>
+            <p><span class="font-bold">Nilai Mutu: </span>{{ $pengajuanSkripsi->nilai_mutu }}</p><br>
             <p><span class="font-bold">Tanggal Sidang: </span>{{ $pengajuanSkripsi->tanggal }}</p><br>
-            <P><span class="font-bold">Keterangan: </span></P>
-            <textarea class="w-full" rows="5" readonly>{{ $pengajuanSkripsi->keterangan }}</textarea><br>
         </div>
     </div>
 @endsection

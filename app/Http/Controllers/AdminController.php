@@ -613,7 +613,8 @@ class AdminController extends Controller
             }
             if ($request->input('action') == 'tolak') {
                 $pengajuanJudul->update([
-                    'status' => 'Ditolak'
+                    'status' => 'Ditolak',
+                    'keterangan_ditolak' => $request->keterangan_ditolak
                 ]);
             }
 
@@ -715,7 +716,10 @@ class AdminController extends Controller
 
                 $this->adminService->terimaPengajuanSempro($pengajuanSempro, $validated);
             } else {
-                $pengajuanSempro->update(['status' => 'Ditolak']);
+                $pengajuanSempro->update([
+                    'status' => 'Ditolak',
+                    'keterangan_ditolak' => $request->keterangan_ditolak
+                ]);
             }
             return redirect()->route('adm.pengajuanSempro');
         }
@@ -805,7 +809,10 @@ class AdminController extends Controller
 
                 $this->adminService->terimaPengajuanSkripsi($pengajuanSkripsi, $validated);
             } else {
-                $pengajuanSkripsi->update(['status' => 'Ditolak']);
+                $pengajuanSkripsi->update([
+                    'status' => 'Ditolak',
+                    'keterangan_ditolak' => $request->keterangan_ditolak
+                ]);
             }
             return redirect()->route('adm.pengajuanSkripsi');
         }
@@ -1042,7 +1049,14 @@ class AdminController extends Controller
     public function getSempro(PengajuanSempro $pengajuanSempro)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.sidang.detailSempro', ['title' => 'sidang', 'pengajuanSempro' => $pengajuanSempro]);
+            $role_ketua = Role::with('users')->find(3);
+            $role_penguji = Role::with('users')->find(4);
+            return view('admin.sidang.detailSempro', [
+                'title' => 'sidang',
+                'pengajuanSempro' => $pengajuanSempro,
+                'role_ketua' => $role_ketua,
+                'role_penguji' => $role_penguji,
+            ]);
         }
         abort(404);
     }
@@ -1095,7 +1109,16 @@ class AdminController extends Controller
     public function getSkripsi(PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::any(['admin', 'komite'])) {
-            return view('admin.sidang.detailSkripsi', ['title' => 'sidang', 'pengajuanSkripsi' => $pengajuanSkripsi]);
+            $role_ketua = Role::with('users')->find(3);
+            $role_penguji = Role::with('users')->find(4);
+            $penguji_sebelumnya = PengajuanSempro::where('mahasiswa_id', '=', $pengajuanSkripsi->mahasiswa_id)->latest()->first();
+            return view('admin.sidang.detailSkripsi', [
+                'title' => 'sidang',
+                'pengajuanSkripsi' => $pengajuanSkripsi,
+                'role_ketua' => $role_ketua,
+                'role_penguji' => $role_penguji,
+                'penguji_sebelumnya' => $penguji_sebelumnya
+            ]);
         }
         abort(404);
     }
@@ -1272,7 +1295,8 @@ class AdminController extends Controller
     {
         if (Gate::any(['admin', 'komite'])) {
             if (isset($request->tolak)) {
-                $this->adminService->keputusanRevisiTolak($pengajuanRevisi);
+                $keterangan_ditolak = $request->keterangan_ditolak;
+                $this->adminService->keputusanRevisiTolak($pengajuanRevisi, $keterangan_ditolak);
             } elseif (isset($request->revisi)) {
                 $this->adminService->keputusanRevisiUlang($pengajuanRevisi);
             } elseif (isset($request->terima)) {

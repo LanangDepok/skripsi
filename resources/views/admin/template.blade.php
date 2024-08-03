@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="icon" type="image/x-icon" href="{{ asset('storage/assets/logo_pnj.png') }}">
     <title>Skripsi PNJ</title>
     <style>
         /* * {
@@ -28,7 +29,7 @@
                         <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
                     </div>
                 </div>
-                @can('komite')
+                @canany(['dosen_penguji', 'dosen_pembimbing'])
                     <div class="flex items-center">
                         <label for="program_studi" class="mr-3 text-white font-semibold">Role Saat ini:</label>
                         <select name="program_studi" id="program_studi" class="w-30 rounded-md"
@@ -39,7 +40,7 @@
                             <option value="{{ route('adm.index') }}" selected>Komite</option>
                         </select>
                     </div>
-                @endcan
+                @endcanany
             </div>
         </div>
         <div class="px-8">

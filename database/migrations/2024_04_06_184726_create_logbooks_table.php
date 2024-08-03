@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->text('rencana_pencapaian')->nullable();
             $table->enum('jenis_bimbingan', ['Proposal', 'Skripsi'])->nullable();
             $table->string('status')->nullable();
+            $table->text('bukti')->nullable();
+            $table->text('keterangan_ditolak')->nullable();
             $table->timestamps();
         });
     }

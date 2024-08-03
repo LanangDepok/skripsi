@@ -178,6 +178,9 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="text-left mb-4">
+                        <p class="text-red-800 font-semibold">Catatan: Pilihan dosen Pembimbing tidak boleh sama</p>
+                    </div>
                     @error('pilihan3_dospem')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                             role="alert">

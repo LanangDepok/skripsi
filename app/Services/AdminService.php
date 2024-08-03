@@ -142,9 +142,12 @@ class AdminService
     }
 
     //revisi
-    public function keputusanRevisiTolak($pengajuanRevisi)
+    public function keputusanRevisiTolak($pengajuanRevisi, $keterangan_ditolak)
     {
-        $pengajuanRevisi->pengajuanSkripsi->update(['status' => 'Ditolak']);
+        $pengajuanRevisi->pengajuanSkripsi->update([
+            'status' => 'Ditolak',
+            'keterangan_ditolak' => $keterangan_ditolak
+        ]);
         $pengajuanRevisi->update(['status' => 'Tidak lulus']);
         $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Bimbingan Skripsi']);
     }

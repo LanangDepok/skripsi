@@ -116,9 +116,8 @@
                             class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300"
                             onclick="return confirm('Yakin ingin merevisi ulang skripsi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Revisi
                             ulang</button>
-                        <button type="button" name="tolak" value="tolak"
-                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300"
-                            onclick="return confirm('Yakin ingin menolak skripsi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')">Tolak</button>
+                        <button type="button" id="tolakButton"
+                            class="bg-primary text-white w-32 h-full rounded-md hover:text-black hover:bg-red-300">Tolak</button>
                     @endif
                 </div>
 
@@ -197,6 +196,31 @@
                     </div>
                 </div>
             </form>
+
+            {{-- Modal Tolak --}}
+            <form method="POST" action="{{ route('adm.keputusanRevisi', ['pengajuanRevisi' => $pengajuanRevisi->id]) }}">
+                @csrf
+                <div id="modalTolak" class="fixed bg-slate-800 top-0 bottom-0 right-0 left-0 bg-opacity-75 hidden z-[1]">
+                    <div class="fixed bg-white top-40 bottom-40 left-96 right-96 z-10 rounded-lg">
+                        <div class="w-7 ml-auto">
+                            <button type="button" id="exitModalTolak"
+                                class="text-3xl font-extrabold text-slate-800">X</button>
+                        </div>
+                        <div class="container w-1/2 mx-auto">
+                            <div>
+                                <p class="font-bold text-lg text-center mb-3">Penolakan Pengajuan Sidang Skripsi</p>
+                                <label for="keterangan_ditolak">Masukkan keterangan ditolak</label>
+                                <textarea name="keterangan_ditolak" id="keterangan_ditolak" rows="3" class="w-full" required></textarea>
+                            </div>
+                            <div class="w-24 h-8 mx-auto mt-5">
+                                <button type="submit" name="tolak" value="tolak"
+                                    onclick="return confirm('Yakin ingin menolak skripsi atas nama {{ $pengajuanRevisi->pengajuanSkripsi->pengajuanSkripsiMahasiswa->nama }}?')"
+                                    class="bg-primary border rounded-md w-24 text-white hover:text-black hover:bg-red-300 inline-block">Tolak</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         @endcan
     </div>
 
@@ -211,9 +235,24 @@
         exitModal.addEventListener('click', function() {
             modal.classList.toggle('hidden');
         });
+
+        const tolakButton = document.getElementById('tolakButton');
+        const exitModalTolak = document.getElementById('exitModalTolak');
+        const modalTolak = document.getElementById('modalTolak');
+
+        tolakButton.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+        exitModalTolak.addEventListener('click', function() {
+            modalTolak.classList.toggle('hidden');
+        });
+
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.classList.toggle('hidden');
+            }
+            if (event.target == modalTolak) {
+                modalTolak.classList.toggle('hidden');
             }
         }
     </script>

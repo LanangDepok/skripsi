@@ -50,49 +50,49 @@
                 <br>
                 <P>
                     <span class="font-bold">Form F12: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->f12 }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->f12 }}">
                         {{ $pengajuanAlat->f12 }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Form F13: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->f13 }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->f13 }}">
                         {{ $pengajuanAlat->f13 }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Form F14: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->f14 }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->f14 }}">
                         {{ $pengajuanAlat->f14 }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Surat bebas perpustakaan </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->bebas_perpustakaan }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->bebas_perpustakaan }}">
                         {{ $pengajuanAlat->bebas_perpustakaan }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Sertifikat kompetensi Bahasa Inggris TOEIC yang masih berlaku: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_toeic }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->sertifikat_toeic }}">
                         {{ $pengajuanAlat->sertifikat_toeic }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Sertifikat Aktivitas Prestasi dan Penghargaan: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_prestasi }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->sertifikat_prestasi }}">
                         {{ $pengajuanAlat->sertifikat_prestasi }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Sertifikat Pendidikan Karakter (ESQ,PKKP,DLL): </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_pkkp }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->sertifikat_pkkp }}">
                         {{ $pengajuanAlat->sertifikat_pkkp }}
                     </a>
                 </P><br>
                 <P>
                     <span class="font-bold">Sertifikat Pengalaman Berorganisasi: </span>
-                    <a class="italic text-blue-400" href="{{ $pengajuanAlat->sertifikat_organisasi }}">
+                    <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanAlat->sertifikat_organisasi }}">
                         {{ $pengajuanAlat->sertifikat_organisasi }}
                     </a>
                 </P><br>
