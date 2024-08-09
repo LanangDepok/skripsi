@@ -62,7 +62,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan : '-')) }}">
+                        src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji1->dosen->tanda_tangan) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan : '-')) }}">
+                        src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji2->dosen->tanda_tangan) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan : '-')) }}">
+                        src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiPenguji3->dosen->tanda_tangan) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="basis-1/3">
                     <img class="max-w-32 max-h-24"
-                        src="{{ asset('storage/' . ($pengajuanSkripsi->status == 'Lulus' ? $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan : '-')) }}">
+                        src="{{ asset('storage/' . $pengajuanSkripsi->pengajuanSkripsiDospem->dosen->tanda_tangan) }}">
                 </div>
             </div>
             <div class="container flex justify-between items-center">

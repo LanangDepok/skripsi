@@ -179,7 +179,11 @@
                                             F4
                                         </a>
                                     @endif
-                                    @if ($data->status == 'Lulus' || $data->status == 'Tidak lulus')
+                                    @if (
+                                        $data->status == 'Lulus' ||
+                                            $data->status == 'Tidak lulus' ||
+                                            $data->status == 'Revisi' ||
+                                            $data->status == 'Menunggu persetujuan revisi')
                                         <a href="{{ route('mhs.f5', ['pengajuanSkripsi' => $data->id]) }}"
                                             class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                             F5

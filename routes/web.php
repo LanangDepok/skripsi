@@ -156,6 +156,7 @@ Route::middleware('auth')->controller(AdminController::class)->group(function ()
     Route::post('/admin/kompetensi/excel', 'exportKompetensi')->name('adm.exportKompetensi');
 });
 
+//dosen
 Route::middleware('auth')->controller(DosenController::class)->group(function () {
     Route::get('/dosen/index', 'index')->name('dsn.index');
     Route::get('/dosen/bimbingan/logbook', 'getLogbooks')->name('dsn.getLogbooks');
