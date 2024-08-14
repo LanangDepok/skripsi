@@ -40,7 +40,7 @@
                         </div>
                     @enderror
                     <div class="text-left mb-4">
-                        <label for="turnitin">Pengecekan turnitin</label>
+                        <label for="turnitin">Bukti pengecekan plagiarisme: </label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
                             name="turnitin" id="turnitin">

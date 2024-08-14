@@ -53,7 +53,7 @@
                 </a>
             </P><br>
             <P>
-                <span class="font-bold">Pengecekan turnitin: </span>
+                <span class="font-bold">Bukti pengecekan plagiarisme: </span>
                 <a class="italic text-blue-400" target="_blank" href="{{ $pengajuanSkripsi->turnitin }}">
                     {{ $pengajuanSkripsi->turnitin }}
                 </a>

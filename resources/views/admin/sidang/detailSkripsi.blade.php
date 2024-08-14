@@ -70,7 +70,7 @@
             <P><span class="font-bold">Sertifikat Lomba:
                 </span>{{ $pengajuanSkripsi->sertifikat_lomba }}</P>
             <br>
-            <P><span class="font-bold">Pengecekan turnitin:
+            <P><span class="font-bold">Bukti pengecekan plagiarisme:
                 </span>{{ $pengajuanSkripsi->turnitin }}</P>
             <br>
             <p><span class="font-bold">Dosen Pembimbing 1: </span>{{ $pengajuanSkripsi->pengajuanSkripsiDospem->nama }}</p>

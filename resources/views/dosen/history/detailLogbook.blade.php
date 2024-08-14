@@ -19,26 +19,17 @@
             <P><span class="font-bold">Tanggal Bimbingan: </span>{{ $logbook->tanggal }}</P>
             <P><span class="font-bold">Tempat Bimbingan: </span>{{ $logbook->tempat }}</P>
             <p><span class="font-bold">Jenis Bimbingan: </span>{{ $logbook->jenis_bimbingan }}</p>
-            <p><span class="font-bold">Status: </span>{{ $logbook->status }}</p><br>
+            <p><span class="font-bold">Status: </span>{{ $logbook->status }}</p>
+            <p><span class="font-bold">Link file atau dokumen bimbingan: </span>
+                <a class="italic text-blue-400" href="{{ $logbook->bukti }}" target="_blank">
+                    {{ $logbook->bukti }}
+                </a>
+            </p><br>
             <p><span class="font-bold">Uraian: </span></p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->uraian }}</textarea><br><br>
             <p><span class="font-bold">Rencana Pencapaian: </span></p>
             <textarea readonly rows="5" class="w-full">{{ $logbook->rencana_pencapaian }}</textarea>
             <div class="h-1 bg-primary mt-3"></div>
-        </div>
-        <div class="container mx-auto w-1/2 mt-6">
-            <p><span class="font-bold">Judul Skripsi: </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->judul }}
-            </p>
-            <p><span class="font-bold">Sub Judul (Jika ada):
-                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->sub_judul }}</p>
-            <p><span class="font-bold">Anggota Tim (Jika ada):
-                </span>{{ $logbook->bimbingan->bimbinganMahasiswa->skripsi->anggota }}</p><br>
-            @if ($logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi != null)
-                <iframe src="{{ asset('storage/' . $logbook->bimbingan->bimbinganMahasiswa->skripsi->file_skripsi) }}"
-                    class="w-full h-[600px]"></iframe>
-            @else
-                <p class="text-center text-xl font-semibold">Mahasiswa belum upload file skripsi</p>
-            @endif
         </div>
     </div>
 @endsection

@@ -84,7 +84,11 @@
                                                 F4
                                             </a>
                                         @endif
-                                        @if ($latestSkripsi->status == 'Lulus' || $latestSkripsi->status == 'Tidak lulus')
+                                        @if (
+                                            $latestSkripsi->status == 'Lulus' ||
+                                                $latestSkripsi->status == 'Tidak lulus' ||
+                                                $latestSkripsi->status == 'Revisi' ||
+                                                $latestSkripsi->status == 'Menunggu persetujuan revisi')
                                             <a href="{{ route('mhs.f5', ['pengajuanSkripsi' => $latestSkripsi->id]) }}"
                                                 class="bg-primary border rounded-md w-8 text-white hover:text-black hover:bg-red-300 inline-block mx-auto">
                                                 F5

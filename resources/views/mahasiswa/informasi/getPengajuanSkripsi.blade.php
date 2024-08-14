@@ -75,7 +75,7 @@
                 <a class="text-blue-500"
                     href="{{ $pengajuanSkripsi->sertifikat_lomba }}">{{ $pengajuanSkripsi->sertifikat_lomba }}</a>
             </p><br>
-            <p><span class="font-bold">Pengecekan turnitin: </span>
+            <p><span class="font-bold">Bukti pengecekan plagiarisme: </span>
                 <a class="text-blue-500" href="{{ $pengajuanSkripsi->turnitin }}">{{ $pengajuanSkripsi->turnitin }}</a>
             </p><br>
             <p><span class="font-bold">Status Pengajuan: </span>{{ $pengajuanSkripsi->status }}</p><br>

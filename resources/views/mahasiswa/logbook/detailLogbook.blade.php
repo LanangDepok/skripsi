@@ -20,7 +20,7 @@
             <P><span class="font-bold">Tempat Bimbingan: </span>{{ $logbook->tempat }}</P>
             <p><span class="font-bold">Jenis Bimbingan: </span>{{ $logbook->jenis_bimbingan }}</p>
             <p><span class="font-bold">Status: </span>{{ $logbook->status }}</p>
-            <p><span class="font-bold">Bukti mengikuti bimbingan: </span>
+            <p><span class="font-bold">Link file atau dokumen bimbingan: </span>
                 <a class="italic text-blue-400" href="{{ $logbook->bukti }}" target="_blank">
                     {{ $logbook->bukti }}
                 </a>

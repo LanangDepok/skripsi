@@ -102,24 +102,24 @@ class DosenController extends Controller
         }
         abort(404);
     }
-    public function acceptAllLogbook(Request $request)
-    {
-        if (Gate::allows('dosen_pembimbing')) {
-            $data = $request->all();
-            $rules = ['logbook' => 'required'];
-            $messages = ['required' => 'Silahkan pilih logbook yang ingin diterima terlebih dahulu.'];
-            $validated = Validator::make($data, $rules, $messages)->validate();
-            foreach ($validated['logbook'] as $terima) {
-                Logbook::where('id', '=', $terima)->update([
-                    'status' => 'Diterima',
-                    'pengizin' => Auth::user()->id,
-                ]);
-            }
+    // public function acceptAllLogbook(Request $request)
+    // {
+    //     if (Gate::allows('dosen_pembimbing')) {
+    //         $data = $request->all();
+    //         $rules = ['logbook' => 'required'];
+    //         $messages = ['required' => 'Silahkan pilih logbook yang ingin diterima terlebih dahulu.'];
+    //         $validated = Validator::make($data, $rules, $messages)->validate();
+    //         foreach ($validated['logbook'] as $terima) {
+    //             Logbook::where('id', '=', $terima)->update([
+    //                 'status' => 'Diterima',
+    //                 'pengizin' => Auth::user()->id,
+    //             ]);
+    //         }
 
-            return redirect()->route('dsn.getLogbooks');
-        }
-        abort(404);
-    }
+    //         return redirect()->route('dsn.getLogbooks');
+    //     }
+    //     abort(404);
+    // }
 
     //persetujuan sidang
     public function getAllPersetujuanSidang()
@@ -511,19 +511,19 @@ class DosenController extends Controller
         abort(404);
     }
 
-    public function luluskanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
-    {
-        if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
-            $pengajuanSkripsi->update([
-                'status' => 'Lulus',
-                'tanggal_lulus' => Carbon::now()->translatedFormat('d F Y')
-            ]);
-            $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);
+    // public function luluskanSkripsi(PengajuanSkripsi $pengajuanSkripsi)
+    // {
+    //     if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {
+    //         $pengajuanSkripsi->update([
+    //             'status' => 'Lulus',
+    //             'tanggal_lulus' => Carbon::now()->translatedFormat('d F Y')
+    //         ]);
+    //         $pengajuanSkripsi->pengajuanSkripsiMahasiswa->mahasiswa->update(['status' => 'Serah terima alat']);
 
-            return redirect()->route('dsn.getAllKelulusan');
-        }
-        abort(404);
-    }
+    //         return redirect()->route('dsn.getAllKelulusan');
+    //     }
+    //     abort(404);
+    // }
     public function tolakSkripsi(Request $request, PengajuanSkripsi $pengajuanSkripsi)
     {
         if (Gate::allows('ketua_penguji') && Auth::user()->id == $pengajuanSkripsi->penguji1_id) {

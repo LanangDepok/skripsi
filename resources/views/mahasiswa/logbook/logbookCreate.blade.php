@@ -61,7 +61,7 @@
                         </div>
                     @enderror
                     <div class="text-left mb-4">
-                        <label for="bukti">Masukkan link bukti mengikuti bimbingan dan hal yang harus diperbaiki</label>
+                        <label for="bukti">Masukkan link file atau dokumen bimbingan</label>
                         <input type="text"
                             class="block w-full border border-primary rounded-md focus:bg-red-100 hover:bg-red-100"
                             name="bukti" id="bukti">
