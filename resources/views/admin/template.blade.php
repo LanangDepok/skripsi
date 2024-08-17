@@ -8,7 +8,7 @@
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="icon" type="image/x-icon" href="{{ asset('storage/assets/logo_pnj.png') }}">
-    <title>Skripsi PNJ</title>
+    <title>scriptSI</title>
     <style>
         /* * {
             border: 1px solid red;
@@ -26,7 +26,7 @@
                         <img src="{{ asset('storage/assets/logo_pnj.png') }}" class="w-20 h-20">
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-4xl font-bold text-white">Politeknik Negeri Jakarta</h3>
+                        <h3 class="text-4xl font-bold text-white">scriptSI</h3>
                     </div>
                 </div>
                 @canany(['dosen_penguji', 'dosen_pembimbing'])

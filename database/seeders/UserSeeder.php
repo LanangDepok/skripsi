@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         User::create([
             'email' => 'admintik',
             'nama' => 'admin',
-            'password' => 'admintik',
+            'password' => '1#4g$5_1@!zl<1y4nT0',
         ]);
         // User::create([
         //     'email' => 'eriya@gmail.com',

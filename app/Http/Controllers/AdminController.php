@@ -1717,9 +1717,18 @@ class AdminController extends Controller
                 $sheet->setCellValue('L' . $row, $mhsw->user->pengajuanJudul->count() > 0 ? ($mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->anggota ? $mhsw->user->pengajuanJudul->sortByDesc('created_at')->first()->anggota : 'individu') : '-');
                 $sheet->setCellValue('M' . $row, $mhsw->user->bimbinganMahasiswa ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen->nama : '-');
                 $sheet->setCellValue('N' . $row, $mhsw->user->bimbinganMahasiswa ? ($mhsw->user->bimbinganMahasiswa->dosen2_id ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-') : '-');
-                $sheet->setCellValue('O' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama : '-');
-                $sheet->setCellValue('P' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama : '-');
-                $sheet->setCellValue('Q' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama : '-');
+                $sheet->setCellValue('O' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ?
+                    ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji1_id
+                        ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama
+                        : '-') : '-');
+                $sheet->setCellValue('P' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ?
+                    ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji2_id
+                        ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama
+                        : '-') : '-');
+                $sheet->setCellValue('Q' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ?
+                    ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji3_id
+                        ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama
+                        : '-') : '-');
                 $sheet->setCellValue('R' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->link_presentasi : '-');
                 $sheet->setCellValue('S' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->status == 'Lulus' ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->sertifikat_lomba : '-') : '-');
                 $sheet->setCellValue('T' . $row, $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->nilai_pembimbing : '-');

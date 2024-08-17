@@ -62,13 +62,25 @@
                             {{ $mhsw->user->bimbinganMahasiswa ? ($mhsw->user->bimbinganMahasiswa->dosen2_id ? $mhsw->user->bimbinganMahasiswa->bimbinganDosen2->nama : '-') : '-' }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama : '-' }}
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0
+                                ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji1_id
+                                    ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji1->nama
+                                    : '-')
+                                : '-' }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama : '-' }}
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0
+                                ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji2_id
+                                    ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji2->nama
+                                    : '-')
+                                : '-' }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
-                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama : '-' }}
+                            {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0
+                                ? ($mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->penguji3_id
+                                    ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->pengajuanSkripsiPenguji3->nama
+                                    : '-')
+                                : '-' }}
                         </td>
                         <td class="border-b border-slate-500 py-2 text-center">
                             {{ $mhsw->user->pengajuanSkripsiMahasiswa->count() > 0 ? $mhsw->user->pengajuanSkripsiMahasiswa->sortByDesc('created_at')->first()->tanggal_lulus : '-' }}
